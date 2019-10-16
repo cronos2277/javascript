@@ -1,0 +1,78 @@
+<html>
+    <head><title>AJAX</title></head>
+<body>
+        <script> 
+            /*
+                Você pode mudar o funcionamento alterando a url abaixo.
+                no caso esse javascript pega um recurso JSON do servidor.
+            */
+                       
+        const configuracao = {url:"dados/estados.json"} //URL
+        let table = document.createElement('table'); //Criando Tabela
+        //Estilizando tabela.
+        table.style="border:2px solid black;font-size:20px";
+        function ajax(configuracao){
+            function tabela(elemento){
+                /*Aqui é criado uma tabela via Js*/
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+                td1.id = elemento.sigla;
+                td2.id = elemento.id;
+                td1.innerText = elemento.nome;
+                td2.innerText = elemento.sigla;            
+                td1.style="border:2px solid black";
+                td2.style="border:2px solid black";
+                let tr = document.createElement('tr');
+                tr.class = elemento.nome;                
+                tr.appendChild(td2);
+                tr.appendChild(td1);
+                table.appendChild(tr);                                
+            }           
+
+            //callback para ajax em caso de sucesso
+            function sucesso(param){
+                dados = JSON.parse(param);                
+                dados.forEach(tabela);                
+                document.body.appendChild(table);
+                console.log('SUCESSO!');
+            }
+            function erros(param){
+                /*Em caso de erros.*/    
+                document.write('Houve um erro, olhe no console para mais informações!');
+                console.log(`CODE: param.codigo, param.mensagem`);
+            }
+            
+            /* É assim que se cria um objeto para lidar com ajax */
+            let xhr = new XMLHttpRequest();
+            /*Aqui a requisição é feita via GET, mas isso pode mudar*/ 
+            xhr.open("GET", configuracao.url, true)
+            //No onload que todo o processo acontece, ela aceita uma callback.
+            xhr.onload = function readyStateChange(){
+                //Aqui é o Código http 200, que significa OK. metodo status devolve o HTTP Status.
+                if(xhr.status === 200){ 
+                    sucesso(xhr.response); //ATENÇAO AQUI
+                    //Aqui caso o HTTP status chega a 400.
+                }else if(xhr.status >= 400){
+                    /*
+                    Em caso de erros dois atributos passam a ser preenchidos
+                    code = informa o codigo do erro, statusText = uma string,
+                    descrevendo o erro.
+                    */
+                    erros({codigo: xhr.code, mensagem: xhr.statusText});
+                }
+            }
+
+            xhr.send(); //Esse méto faz o envio do ajax.
+        }
+
+        ajax(configuracao);
+        /*
+            o atributo response ele retorna uma string, como o conteúdo
+            era um JSON, foi convertido para um objeto e o mesmo é tratado
+            como tal, sendo um atributo a esquerda dos : do JSON e o valor
+            a direita.            
+            
+        */
+    </script>
+</body>
+</html>

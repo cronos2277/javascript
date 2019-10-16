@@ -1,0 +1,88 @@
+<html>
+    <head><title>AJAX XML</title></head>
+<body>
+        <script>
+            /*
+                Você pode mudar o funcionamento alterando a url abaixo.
+                no caso esse javascript pega um recurso XML do servidor.
+            */    
+                
+       const configuracao = {url:"dados/estados.xml"} //URL
+        let table = document.createElement('table'); //Criando Tabela
+        //Estilizando tabela.
+        table.style="border:2px solid black;font-size:20px";
+        function ajax(configuracao){
+            function tabela(elemento){
+                    /*Aqui é criado uma tabela via Js*/
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+                td1.id = elemento.attributes.sigla.value;
+                td2.id = elemento.attributes.id.value;
+                td1.innerText = elemento.attributes.nome.value;
+                td2.innerText = elemento.attributes.sigla.value;            
+                td1.style="border:2px solid black";
+                td2.style="border:2px solid black";
+                let tr = document.createElement('tr');
+                tr.class = elemento.attributes.nome.value;                
+                tr.appendChild(td2);
+                tr.appendChild(td1);
+                table.appendChild(tr);    
+                /*Repare que um elemento pego por responseXML tem diferenças.*/                            
+            }           
+                
+                //callback para ajax em caso de sucesso
+            function sucesso(param){ 
+                const estados = param.getElementsByTagName('estado');
+                let dados = Array.from(estados);
+                console.log(dados);                               
+                dados.forEach(tabela);                
+                document.body.appendChild(table);
+                console.log('SUCESSO!');
+            }
+            function erros(param){
+                /*Em caso de erros.*/    
+                document.write('Houve um erro, olhe no console para mais informações!');
+                console.log(`CODE: param.codigo, param.mensagem`);
+            }
+
+            /* É assim que se cria um objeto para lidar com ajax */
+            let xhr = new XMLHttpRequest();
+            /*Aqui a requisição é feita via GET, mas isso pode mudar*/
+            xhr.open("GET", configuracao.url, true)
+            //No onload que todo o processo acontece, ela aceita uma callback.
+            xhr.onload = function readyStateChange(){
+                if(xhr.status === 200){
+                    sucesso(xhr.responseXML); //ATENÇÃO AQUI;
+                }else if(xhr.status >= 400){
+                        /*
+                    Em caso de erros dois atributos passam a ser preenchidos
+                    code = informa o codigo do erro, statusText = uma string,
+                    descrevendo o erro.
+                    */
+                    erros({codigo: xhr.code, mensagem: xhr.statusText});
+                }
+            }
+
+            xhr.send(); //Esse méto faz o envio do ajax.
+        }
+
+        ajax(configuracao);
+        /*
+                A grande diferença aqui, é que se usa o o responseXML, 
+                o responseXML diferente do response normal ele formata 
+                a resposta AJAX como um DOM HTML, parecido com o html, logo
+                diferente do padrão, você pode trabalhar com XML de maneira
+                semelhante como se trabalho com elementos DOM do HTML
+                pego por seletores como querySelectorAll.
+                A lógica seria essa:
+                const estados = param.getElementsByTagName('estado');
+                aqui pegamos todos as tags do XML, igual ao DOM no html.
+                let dados = Array.from(estados);
+                aqui é convertido para um array normal.
+                A estrutura é a seguinte:
+                dados[indice].attributes.<o atributo que quer>.value; 
+                
+        */
+    </script>
+</body>
+</html>
