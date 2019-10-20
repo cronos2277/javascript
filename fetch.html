@@ -1,0 +1,38 @@
+<html>
+    <head><title>Teste com Fetch</title></head>
+    <body>
+        <script>
+            const url = "https://httpbin.org/get";            
+            const pegandoJson = resposta => resposta.json(); // ATENÇÃO AQUI
+            //Esse método acima transforma o json em um objeto
+            const erros = e => {document.getElementById('resultado').innerHTML = e;}          
+            
+            const criarElemento = function(texto){               
+                let elemento = document.createElement('p');
+                elemento.innerHTML = texto;
+                let id = document.getElementById('resultado');
+                id.appendChild(elemento);
+            }
+            
+            const exibir = function(atributo){
+                criarElemento(atributo.headers['User-Agent'])
+                criarElemento(atributo.origin);
+                criarElemento(atributo.url);
+            }
+            // A Promise fetch sendo executada
+            fetch(url).then(pegandoJson).then(exibir).catch(erros);
+            
+            /*
+                O Fetch é um substituto ao HTTPRequestXML, porém o Fetch é uma promise
+                e o HTTPRequestXML é uma classe e deve ser instanciada.
+                a sintaxe é a seguinte:
+                fetch('uma string para informar a url')
+                    .then('função para tratar json ou xml')
+                    .then('coloca aqui a função de exibição')
+                    .catch('Tratar erros aqui');
+            
+            */
+        </script>
+        <div id='resultado'></div>
+    </body>
+</html>
