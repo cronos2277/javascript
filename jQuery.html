@@ -1,0 +1,125 @@
+<html>
+	<head>
+		<title>JQuery Exemplos</title>
+		<script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+		
+	</head>
+	<body>
+		
+		<div id='id' style='width:100%;height:15%'><span>DIV1</span></div>
+		<div class='classe' style='width:100%;;height:15%'><span>DIV2</span></div>
+		<div atributo style='width:100%;;height:15%'><span>DIV3</span></div>
+		<div id="sel4" style='width:100%;;height:15%'><span id="spanId">DIV4</span></div>
+		<script>
+			/*
+				voce pode criar funcoes adicionando-as em jQuery.fn.suaFunca
+				ou $.fn.suaFuncao, porem para que a mesma possa ser encadeada
+				com outras funcoes, fazendo um chaining eh necessario retornar
+				o this, que no caso eh o proprio JQuery, o mesmo trabalha com
+				o padrao decorator.
+				Os seletores do Jquery segue os mesmos padroes do css,
+				# -> ID, . -> classe, [atributo] -> atributo, 
+				[atributo = valor] -> atributo que tenha determinado valor,
+				<tag> -> pega todos os elementos com a tag. Nao se faz necessario
+				forEach para aplicar mudancas em todos os elementos do array,
+				o JQuery aplica essas mudancas caso o mesmo seja um array e seja
+				pego pelo seletor.
+			*/
+			
+			jQuery.fn.fundoVermelho = function(){
+				this.css('background-color','red');				
+				return this;
+			}
+			
+			jQuery.fn.fundoVerde = function(){
+				this.css('background-color','green'); 				
+				return this;
+			}
+			
+			jQuery.fn.fundoAzul= function(){
+				this.css('background-color','blue'); 				
+				return this;
+			}
+			
+			//Jquery nao precisa de laco para aplicar efeitos em array.
+			$('div').css('border','3px solid black'); 
+			 //hide(tempo de animacao), some com a animacao de encolhimento.
+			 //show(tempo de animacao), aparece expandido ate o tamanho do objeto.
+			jQuery('#id').fundoVermelho().hide(2000).show(2000);
+			//fadeOut(tempo de animacao), efeito de aumento de transparencia
+			//fadeIn(tempo de animacao), efeito de aumento de opacidade.
+			$('.classe').fundoVerde().fadeOut(2000).fadeIn(2000);
+			//slideUp(tempo de animacao), desliza a div para cima ocultando-a.
+			//slideDown(tempo de animacao), expande a div oculta aumentando de tamanho com base no tempo.
+			jQuery('[atributo]').fundoAzul().slideUp(2000).slideDown(2000);
+			//Crindo os atributos atraves de um objeto para usar no metodo css(objeto).
+			let atributos = {background:'yellow',border: '3px solid black'};
+			//Criando um objeto objeto node para ser usado como seletor do jquery.
+			let objeto = document.getElementById('sel4');
+			//O seletor do JQuery pode aceitar um objeto do tipo node ou uma string com o seletor.
+			//o metodo css tambem aceita objeto como parametro e altera as configuracoes com base nos atributos.
+			//O metodo toggle ele alterna, se esta visivel some, se esta invisivel aparece, por padrao o efeito eh hide/show.
+			$(objeto).css(atributos).toggle(2000).toggle(2000);
+			//o metodo find ele busca por determinado elemento qualquer lugar dentro do no.
+			//no caso o find procura dentro do body por span e quando acha muda a fonte pra 40.
+			jQuery('body').find('span').css('font-size','40px');
+			//todos os elementos pais do #id:
+			//Repare que nesse metodo e na proxima eh parents no plural, pois pode retornar mais de um.
+			console.log('Exemplo do parents()');			
+			console.log($('#id').parents());
+			//Todos os elementos pais do #spanId chegando ate o body, mas sem incluir o body, uso parentsUntil(noLimite).
+			console.log('Exemplo do parentsUntil(noLimite)');
+			console.log($('#spanId').parentsUntil('body'));
+			//O metodo parent() retorna o elemento pai, no caso o HTML.
+			console.log('Exemplo do parent()');
+			console.log($('body').parent());
+			//pegando elementos todos os filhos, no caso filho do body.
+			console.log('Exemplo do .children()');
+			console.log($('body').children());
+			//Pegando os elementos irmaos, ou seja que estao ao mesmo nivel na hierarquia.
+			console.log('iblings()'); 
+			console.log($('#id').siblings());
+			//first() seleciona o primeiro filho, no caso o primeiro filho do body, depois procura pela tag span e aplica o css.
+			jQuery('body').children().first().find('span').css('color','yellow');
+			//next() seleciona o elemento do mesmo nivel que vem depois, no caso seleciona o primeiro elemento,
+			//depois de selecionado, vai para o proximo que eh o segundo e por fim procura a tag span e muda a cor
+			//para vermelho.	
+			jQuery('body').children().first().next().find('span').css('color','red');
+			//o metodo last() pega o ultimo elemento, porem quando apos ela voce chama o prev(), voce pega o penultimo.
+			//No caso o penultimo elemento do body eh a div, uma vez que o ultimo eh essa tag script aqui.
+			//prev() => anterior ao selecionado, last() => ultimo.
+			jQuery('body').children().last().prev().find('span').css('color','red');
+			/*
+				append => esse metodo adiciona um novo elemento como ultimo filho.
+				prepend => esse metodo adiciona um novo elemento como o primeiro filho.
+				quando voce usa a seguinte sintaxe <tag> voce esta criando um elemento,
+				assim 'tag' voce seleciona todos os elementos tag, no entando quando usamos
+				essa sintaxe '<tag>' ou '<tag></tag>' estamos criando um novo elemento.
+				Basicamente:
+				tag => document.getElmentsByTagName('tag');
+				<tag> => document.createElement('tag');
+			*/
+			const stilo0 = {background: "gray",width: "100%", height: "15%",border: "3px solid black"};
+			//criando uma div usando a tag curta e aplicando estilo nela, 
+			// depois dando um append de um no span criado pelo proprio metodo,
+			//para por fim aplicar 2 atributos css encadeados nesse no filho criado,
+			//cujo o pai tambem foi criado ainda na mesma linha, tudo isso salvo em uma variavel.
+			let novos = $('<div>').css(stilo0).append('<span>DIV0</span>').css('color','red').css('font-size','40px');
+			//aqui estamos dando um prepend nos nos filho e neto criado na instrucao acima.
+			jQuery('body').prepend(novos);
+			/*
+				A funcao text(), coloca o conteudo literal dentro da tag ou seja se tiver tag html nao processa, a tag precisa ter corpo.
+			*/			
+			jQuery('body').prepend($('<h1>'));
+			jQuery('h1').text('Exemplo jQuery');			
+			/*
+				A funcao html() eh parecida com a text(), porem ela interpreta as tags html.
+			*/
+			jQuery('body').append('<div id="sel7">');
+			jQuery('#sel7').html("<h2>Fim Exemplo</h2>");			
+		</script>
+	</body>
+</html>
