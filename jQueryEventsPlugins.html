@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<title>JQuery avancado</title>
+		<script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+			 <style>
+				 *{
+					 font-size:24px;
+					}
+				div{
+					border: 2px solid black;
+					
+				}
+				.out{					
+					width: 15%;
+				}
+				.in{
+					height:33%;
+				}
+			 </style>
+	</head>
+	<body>
+		<div class='out'>
+			<div id="divMouse" class='in' style="background-color:orange">
+				<span>Movimento Mouse</span>
+				<br>
+				X: <span id='x'>0</span>
+				<br>
+				Y: <span id="y">0</span>
+				<hr>
+				Evento: <span id="isCursor">MOUSELEAVE</span>
+			</div>
+			<div class='in' style="background-color:green">			
+			KeyUP<br><span id='ku'>*</span><hr>
+			KeyDown<br><span id='kd'>*</span><hr>
+			KeyPress<br><span id='kp'>*</span><hr>
+			<input id='keyb' type='text' placeholder='Teste os eventos de teclado' style="width:100%"/>
+			</div>
+			<div class='in' style="background-color:red"></div>
+		</div>
+		<script>
+			/*
+				com relacao a eventos, voce pode usar o metodo 'on' e
+				passar por string o evento a ser alterado, depois a funcao
+				recomendado sempre usar funcao normal e nao arrow para evitar
+				problemas com o this. O this na funcao normal, funciona como
+				no java, enquanto que na funcao arrow ele pega o ultimo contexto
+				no caso o objeto window e como o window nao tem essas funcoes...
+				on('evento javascript sem a palavra on, por exemplo click, mouseover
+				ao inves de onclick ou onmouseover', funcao);
+				o jQuery tem como metodo os eventos do javascript, mas ai novamente,
+				sem o on, apenas click(suaFuncao(evento)), mouseover(suaFuncao(evento)),
+				tambem temos o evento como parametro passado na funcao anonima criada,
+				esse parametro eh passado pelo navegador, o navegador passa um objeto
+				e o primeiro parametro da sua funcao eh esse como voce vai se referir a
+				esse objeto que o navegador vai passar.
+			*/
+			//ao mover mouse, pela funcao mouseover().
+			$('body').mousemove(function(evento){ 
+				let mouse = evento.clientX; //pega a posicao X do mouse.
+				$('#x').text(mouse); //preenche a spam com a posicao x do mouse.
+			});
+			//tambem ao mover mouse, mas dessa vez usando o metodo on().
+			$('body').on('mousemove',function(evento){ 
+				let mouse = evento.clientY; //pega a posicao Y do mouse.
+				$('#y').text(mouse);	//preenche o spam com a posicao Y do mouse.
+			});
+			//mouse leave eh ativada quando o cursor sai do elemento em questao.
+			//repare que aqui nao foi passado o argumento evento, ele nao eh obrigatorio,
+			//mas se quiser usar as suas funcoes precisa passar.
+			$('#divMouse').mouseleave(function(){
+				$('#isCursor').text('MOUSELEAVE');
+			});
+			//mouse over eh ativado quando o cursor esta em cima dele.
+			$('#divMouse').mouseover(function(){
+				$('#isCursor').text('MOUSEOVER');
+			});
+			//Keyup pega o evento ao apertar tecla, esse evento responde na hora.
+			//quando no caso de digitar a palavra 'ar', ao pressionar de cada tecla,
+			//o evento eh ativado.
+			//evento.target.value => informa a tecla digitada.
+			$('body').keyup(function(evento){
+					$('#ku').text(evento.target.value); 
+			});
+			//aciona ao apertar tecla mas tem delay, no caso da palavra ar,
+			// a letra a so aparece depois de digitado a letra r
+			$('body').keydown(function(evento){
+					$('#kd').text(evento.target.value);
+			});
+			//Responde igual ao keydown, porem nao apaga caracteres, execeto
+			//que aconteca de voce digitar um outro caracter, esse evento ele
+			//ignora teclas como ctrl, enter e etc... Repare que quando aperta
+			//o backspace o keyup e keydown respondem, porem esse nao.
+			$('body').keypress(function(evento){
+					$('#kp').text(evento.target.value);
+			});
+		</script>	
+	</body>
+</html>
