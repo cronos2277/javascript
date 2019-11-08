@@ -113,13 +113,35 @@
 			/*
 				A funcao text(), coloca o conteudo literal dentro da tag ou seja se tiver tag html nao processa, a tag precisa ter corpo.
 			*/			
-			jQuery('body').prepend($('<h1>'));
+			jQuery('body').prepend($('<h1 class="wrap">'));
 			jQuery('h1').text('Exemplo jQuery');			
 			/*
 				A funcao html() eh parecida com a text(), porem ela interpreta as tags html.
 			*/
 			jQuery('body').append('<div id="sel7">');
-			jQuery('#sel7').html("<h2>Fim Exemplo</h2>");			
+			jQuery('#sel7').html("<h2>Fim Exemplo</h2>");
+			//a funcao wrap significa empacotar, logo ela cria um elemento pai para ela, 
+			//no caso foi criado uma div como pai do H2 criado anteriormente.
+			jQuery('#sel7').wrap('<div style="background-color:orange"></div>');
+			//o before ele adiciona um elemento antes do selecionado ao mesmo nivel, 
+			//no caso um sibling anterior.
+			jQuery('#sel7').before('<h2>Antes do elemento.</h2>');
+			//no caso a after adiciona um sibling depois do elemento, repare que ambas as funcoes,
+			//tanto a after como a before pegam o fundo do elemento selecionado, ou seja elas
+			//compartilham alguns estilos, isso gracas a funcao wrap que criou um pai a todos.
+			/*
+				o insertAfter assim como o insertBefore, eles funcionam igual ao after e before,
+				porem com uma sintaxe invertida, primeiro o elemento a ser construido e depois a
+				selecao. Com relacao a wrapAll, ele se difere do wrap no sentido de que o wrap
+				ele cria um elemento pai para cada enquanto que o wrap all um elemento pai para todos.
+			*/
+			jQuery('<p class="wrap">depois do cabecario</p>').insertAfter('.wrap');
+			jQuery('<p class="wrap">antes do cabecario</p>').insertBefore('.wrap');
+			jQuery('.wrap').wrapAll('<div style="background-color:pink"></div>');	
+			//No caso foi criado um elemento indesejavel apos o h1, esse metodo, limpa o texto, mas nao exclui o elemento.
+			jQuery('h1.wrap').next().empty();
+			//Essa exclui o elemento de fato, no caso foi excluido o elemento limpado acima com o metodo remove().
+			jQuery('h1.wrap').next().remove();
 		</script>
 	</body>
 </html>
