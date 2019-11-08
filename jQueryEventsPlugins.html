@@ -30,7 +30,9 @@
 				<br>
 				Y: <span id="y">0</span>
 				<hr>
-				Evento: <span id="isCursor">MOUSELEAVE</span>
+				Evento: <span id="isCursor">MOUSELEAVE</span><hr>
+				Cliques: <span id='cliques'>0</span><hr>				
+				<input type='button' value='Desabilitar Click' id='botao'/>
 			</div>
 			<div class='in' style="background-color:green">			
 			KeyUP<br><span id='ku'>*</span><hr>
@@ -77,6 +79,15 @@
 			$('#divMouse').mouseover(function(){
 				$('#isCursor').text('MOUSEOVER');
 			});
+			
+			let click = 0; //contador de cliques.
+			//funcao que se ativa quando da clica no body.
+			const cliques = function cliques(eventos){
+				$('#cliques').text(++click);
+			}
+			//funcao de click, ativado quando da um click com o mouse.
+			$('body').click(cliques);
+			
 			//Keyup pega o evento ao apertar tecla, esse evento responde na hora.
 			//quando no caso de digitar a palavra 'ar', ao pressionar de cada tecla,
 			//o evento eh ativado.
@@ -95,6 +106,17 @@
 			//o backspace o keyup e keydown respondem, porem esse nao.
 			$('body').keypress(function(evento){
 					$('#kp').text(evento.target.value);
+			});
+			//Ao clicar no botao ao desativar.
+			$('#botao').click(function(){
+				/*
+					assim como temos o on, tambem temos o off, o off remove um evento
+					funciona assim, seleciona um elemento e no off voce passa 2 parametros
+					primeiro o evento a ser removido e depois a funcao que quer remover,
+					como se pode ter N eventos cada um N funcoes, logo se faz necessario
+					passar esses 2 parametros para remover com o off().
+				*/
+					$('body').off('click',cliques);
 			});
 		</script>	
 	</body>
