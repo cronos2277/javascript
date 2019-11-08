@@ -142,6 +142,18 @@
 			jQuery('h1.wrap').next().empty();
 			//Essa exclui o elemento de fato, no caso foi excluido o elemento limpado acima com o metodo remove().
 			jQuery('h1.wrap').next().remove();
+			//o comando attr adiciona um atributo quando voce passa dois atributos, quando voce passa apenas
+			//um atributo como string ele retorna o valor. .attr('atributo nome','sem valor para get, ou valor aqui para set').
+			jQuery('div').attr('novoAtributo','valorDeAtributo').attr('atributoQueSeraRemovido',0);
+			//removendo atributo .removeAttr('nome do atributo').
+			jQuery('div').removeAttr('atributoQueSeraRemovido');
+			//addClass('nome das classes separado por espacos');
+			jQuery('div').addClass('classe1').addClass('classe2').addClass('classe3');
+			//toggleClass('classes sepado por espacos') alterna, se estiver com a classe tira a classe, caso contrario coloca.
+			jQuery('div').toggleClass('classe2').toggleClass('classe3');
+			jQuery('div').toggleClass('classe3').toggleClass('classe2');
+			//O metodo abaixo remove a classe.
+			jQuery('div').removeClass('classe3');
 		</script>
 	</body>
 </html>
