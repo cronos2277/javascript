@@ -14,7 +14,7 @@
 					
 				}
 				.out{					
-					width: 15%;
+					width: 30%;										
 				}
 				.in{
 					height:33%;
@@ -47,6 +47,13 @@
 			Resize Y<br><span id='resizeY'></span><hr>
 			</div>
 		</div>
+		<div class='out' style='margin-left:33%;margin-top:-70%'>
+			<div class="in" style="background-color:blue">
+				<span id='target' style='color:white'></span>				
+			</div>
+			<div class="in" style="background-color:yellow"></div>
+			<div class="in" style="background-color:#ff00ff"></div>
+		</div>
 		<script>
 			//Função executada quando todos os elementos do document estão carregados.
 			$(document).ready(function(){
@@ -61,7 +68,9 @@
 				no java, enquanto que na funcao arrow ele pega o ultimo contexto
 				no caso o objeto window e como o window nao tem essas funcoes...
 				on('evento javascript sem a palavra on, por exemplo click, mouseover
-				ao inves de onclick ou onmouseover', funcao);
+				ao inves de onclick ou onmouseover', funcao); Também é possivel registrar
+				uma função para varios eventos no on, como por exemplo: 
+				"$('suaSelecao').on('click dbclick hover',suafuncao);
 				o jQuery tem como metodo os eventos do javascript, mas ai novamente,
 				sem o on, apenas click(suaFuncao(evento)), mouseover(suaFuncao(evento)),
 				tambem temos o evento como parametro passado na funcao anonima criada,
@@ -128,7 +137,9 @@
 					funciona assim, seleciona um elemento e no off voce passa 2 parametros
 					primeiro o evento a ser removido e depois a funcao que quer remover,
 					como se pode ter N eventos cada um N funcoes, logo se faz necessario
-					passar esses 2 parametros para remover com o off().
+					passar esses 2 parametros para remover com o off(). Você pode desligar
+					mais de um evento caso eles tenham a mesma função. Ex: 
+					.off('evento1 evento2',funcaoASerDesligada);
 				*/
 					$('body').off('click',cliques);
 			});
@@ -163,6 +174,29 @@
 			$(window).resize(redimensionar);
 			//A função one registra o evento e depois de executado uma vez a mesma o remove.
 			$('#botao').one('click', () => alert('Será executado apenas uma vez.'));
+			/* A Respeito do objeto Event*/
+			$('body').on('mouseover', function(evento){	
+				/*
+					Quando você programa um evento, você pode passar um 
+					parametro no seu callback, e o primeiro parametro que
+					você passa o navegador escreve ela com o objeto event.
+					O atributo target do objeto event, retorna um node html
+					do elemento que chamou esse evento, abaixo alguns exemplo
+					do uso desse atributo.
+				*/
+				
+				let targets = `event.target = ${evento.target}`+'<hr>';
+				//Aqui um exemplo de como pegar o id, com o class voce pega as classes.
+				targets += `event.target.id = ${evento.target.id}`+'<hr>';					
+				 //retorna o nome do evento que ativou
+				targets += `event.type = ${evento.type}`+'<hr>';
+				//diferent do event.target, esse pega o elemento que estava selecionado antes do atual.
+				targets += `event.relatedTarget = ${evento.relatedTarget}`+'<hr>';
+				//retorna o código da tecla pressionada, como o body não
+				//tem entrada pra teclado, vai ficar undefined.
+				targets += `event.wich = ${evento.wich}`+'<hr>';					
+				$('#target').html(targets);
+			});
 		</script>	
 	</body>
 </html>
