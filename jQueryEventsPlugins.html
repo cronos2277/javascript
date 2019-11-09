@@ -31,7 +31,7 @@
 				Y: <span id="y">0</span>
 				<hr>
 				Evento: <span id="isCursor">MOUSELEAVE</span><hr>
-				Cliques: <span id='cliques'>0</span><hr>				
+				Cliques: <span id='cliques'>0</span><hr>								
 				<input type='button' value='Desabilitar Click' id='botao'/>
 			</div>
 			<div class='in' style="background-color:green">			
@@ -40,9 +40,19 @@
 			KeyPress<br><span id='kp'>*</span><hr>
 			<input id='keyb' type='text' placeholder='Teste os eventos de teclado' style="width:100%"/>
 			</div>
-			<div class='in' style="background-color:red"></div>
+			<div class='in' style="background-color:red">
+			Select<br><span id='select'>*</span><hr>
+			Dbl Clique: <span id='dbl_cliques'>0</span><hr>
+			Resize X<br><span id='resizeX'></span><hr>
+			Resize Y<br><span id='resizeY'></span><hr>
+			</div>
 		</div>
 		<script>
+			//Função executada quando todos os elementos do document estão carregados.
+			$(document).ready(function(){
+				redimensionar();
+			});
+			
 			/*
 				com relacao a eventos, voce pode usar o metodo 'on' e
 				passar por string o evento a ser alterado, depois a funcao
@@ -87,7 +97,11 @@
 			}
 			//funcao de click, ativado quando da um click com o mouse.
 			$('body').click(cliques);
-			
+			//função para cliques duplos, o dblclick é ativada quando no clique duplo sobre o elemento.
+			$('body').dblclick(function(){				
+				let quantity = parseInt($('#dbl_cliques').text());
+				$('#dbl_cliques').text(++quantity);
+			});
 			//Keyup pega o evento ao apertar tecla, esse evento responde na hora.
 			//quando no caso de digitar a palavra 'ar', ao pressionar de cada tecla,
 			//o evento eh ativado.
@@ -118,6 +132,37 @@
 				*/
 					$('body').off('click',cliques);
 			});
+			//a função hover é um pouco diferente das outras, pois pode ou não aceitar
+			//duas funções, uma para quando o evento hover e ativado e outra no desativado.
+			$('#divMouse').hover(function(){
+				//Essa primeira função é quando o hover eh ativado.
+					$('#divMouse').css('background-color','green');
+			},function(){
+				//Aqui quando o hover eh desativado, lembrando que essa funcao eh opcional.
+					$('#divMouse').css('background-color','orange');
+				//Lembrando que essa função eh executada no hover e quando sai do hover, 
+				//caso não tenha uma segunda função do callback, em ambos o caso é executada
+				//a mesma função.
+			});			
+			//A função select ela é ativada quando você seleciona o texto, no caso quando você
+			//digite o texto no input, a parte selecionado aparece na spam com id select.
+			$('#keyb').select(function(evento){
+				const inicio = evento.target.selectionStart; //retorna o primeiro carctere da seleção.
+				const fim = evento.target.selectionEnd; //retorna o ultimo carctere da seleção.
+				//o evento.target.value retorna o valor pego pelo evento, porem a mesma é moldada,
+				//sendo podada pelo metodo substring usando como parametro o caracter de inicio e fim.
+					$('#select').text(evento.target.value.substring(inicio,fim));
+			});
+			const redimensionar = function redimensionar(evento){
+				const largura = $(window).width(); //Pega largura da janela.
+				const altura = $(window).height(); //Pega altura da janela.
+				$('#resizeX').html(largura);
+				$('#resizeY').html(altura);
+			};
+			//A função resize é acionada quando você redimensiona a janela, ela é evento do window.
+			$(window).resize(redimensionar);
+			//A função one registra o evento e depois de executado uma vez a mesma o remove.
+			$('#botao').one('click', () => alert('Será executado apenas uma vez.'));
 		</script>	
 	</body>
 </html>
