@@ -47,12 +47,23 @@
 			Resize Y<br><span id='resizeY'></span><hr>
 			</div>
 		</div>
-		<div class='out' style='margin-left:33%;margin-top:-70%'>
+		<div class='out' style='margin-left:33%;margin-top:-50%'>
 			<div class="in" style="background-color:blue">
 				<span id='target' style='color:white'></span>				
 			</div>
-			<div class="in" style="background-color:yellow"></div>
-			<div class="in" style="background-color:#ff00ff"></div>
+			<div class="in" style="background-color:yellow" id='animate'>
+				<hr>
+				<center><input type='button' value='Hide&Show Toggle' id='hideslow'/></center>
+				<hr>
+				<center><input type='button' value='Slide Toggle' id='slideToggle'/></center>
+				<hr>
+				<center><input type='button' value='Fade Toggle' id='fadeToggle'/></center>
+				<hr>
+				<center><input type='button' value='Reduzir Tamanho' id='less'/></center>
+			</div>
+			<div class="in" style="background-color:#ff00ff">			
+				
+			</div>
 		</div>
 		<script>
 			//Função executada quando todos os elementos do document estão carregados.
@@ -197,6 +208,48 @@
 				targets += `event.wich = ${evento.wich}`+'<hr>';					
 				$('#target').html(targets);
 			});
+			$('#hideslow').click(function(){
+				$('#animate').toggle(1000).toggle(1000);
+			});
+			$('#slideToggle').click(function(){
+				$('#animate').slideToggle(1000).slideToggle(1000);
+			});
+			$('#fadeToggle').click(function(){
+				$('#animate').fadeToggle(1000).fadeToggle(1000);
+			});
+			$('#less').click(function(){
+				/*
+					Uma das formas de você trabalhar com a função animate,
+					é manipulando o css, 2 parametros para o funcionamento
+					dessa função primeiro um objeto contendo os atributos 
+					css com a forma que o objeto deve ficar após a animação,
+					por exemplo, se você quer reduzir em 50% o tamanho,
+					você passa no objeto como width e height com um valor
+					50% reduzidos. Além disso como segundo parametro você
+					passa a duração. 
+					No exemplo .animate({width:`-=${-50}`},1000);
+					Nesse caso o elemento vai ficar com o tamanho de 50px
+					menor dentro do tempo de 1 segundo.
+					Nesse exemplo .animate({color:'red'},2000);
+					o elemento  em questão a cor ficaria vermelhor em 
+					2 segundos.
+				*/
+				const duracao = 1000;
+				const tamanho = 200; 
+				/*
+					o template string abaixo esta reduzindo o valor do 
+					atributo, no caso quando você usa -=${variavel}
+					você subtrai a variável do valor original.
+				*/	
+				const mincss = {width:`-=${tamanho}`};
+				//aqui você tem a soma, no caso o oposto do feito acima. 
+				const morecss = {width:`+=${tamanho}`};
+				//Aqui reduz.
+				$('#animate').animate(mincss,duracao);
+				//Aqui volta ao original.
+				$('#animate').animate(morecss,duracao);
+			});
+			
 		</script>	
 	</body>
 </html>
