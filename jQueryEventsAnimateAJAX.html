@@ -14,10 +14,10 @@
 					
 				}
 				.out{					
-					width: 30%;										
+					width: 33%;										
 				}
 				.in{
-					height:33%;
+					height:35%;
 				}
 			 </style>
 	</head>
@@ -47,7 +47,7 @@
 			Resize Y<br><span id='resizeY'></span><hr>
 			</div>
 		</div>
-		<div class='out' style='margin-left:33%;margin-top:-50%'>
+		<div class='out' style='margin-left:34%;margin-top:-50%'>
 			<div class="in" style="background-color:blue">
 				<span id='target' style='color:white'></span>				
 			</div>
@@ -61,10 +61,16 @@
 				<hr>
 				<center><input type='button' value='Reduzir Tamanho' id='less'/></center>
 			</div>
-			<div class="in" style="background-color:#ff00ff">			
-				
+			<div class="in" style="background-color:#ff00ff">		
+					<hr>$.get()<hr>
+				<span id='get'></span>					
 			</div>
 		</div>
+		<div class='out' style='margin-left:68%;margin-top:-50%'>
+			<div class="in" style="background-color:#00ffff">$.post()<hr><span id='post'></span></div>
+			<div class="in" style="background-color:purple">$.ajax()<hr><span id='ajax'></span></div>
+			<div class="in" style="background-color:gray">$.getJSON()<hr><span id='json'></span></div>
+		</div>	
 		<script>
 			//Função executada quando todos os elementos do document estão carregados.
 			$(document).ready(function(){
@@ -248,6 +254,35 @@
 				$('#animate').animate(mincss,duracao);
 				//Aqui volta ao original.
 				$('#animate').animate(morecss,duracao);
+			});
+			//Essa eh a funcao pra get resumida, voce apenas a url e uma 
+			//callback sendo o primeiro parametro do callback o resultado.
+			//USO: $.get(url,callback(resultado_do_json));
+			$.get("https://httpbin.org/get", function(resultados){
+				let resultado = JSON.stringify(resultados);
+				$("#get").text(resultado);
+			});
+			//Essa eh a funcao pra post resumida, voce apenas a url e uma 
+			//callback sendo o primeiro parametro do callback o resultado.
+			//USO: $.post(url,callback(resultado_do_json));
+			$.post("https://httpbin.org/post", function(resultados){
+				let resultado = JSON.stringify(resultados);
+				$("#post").text(resultado);
+			});
+			//Esse eh o metodo completo usando o $.ajax(). O primeiro parametro
+			//eh um objeto, que pode conter o metodo, a url o que fazer em caso de sucesso.
+			//caso precise de uma requisicao simples $.post() ou $.get() eh melhor, mas
+			//se precisar de algo mais costumizavel essa opcao pode ser melhor.
+			//uso $.ajax(objeto_com_opcoes).
+			$.ajax({method:"POST", url: "https://httpbin.org/post", success: function(resultados){
+				let resultado = JSON.stringify(resultados);
+				$("#ajax").text(resultado);
+			}});
+			//Essa eh a funcao especifica para JSON, mas no exemplo nao retorna JSON,
+			//entao ela funciona como uma $.get().
+			$.getJSON('https://httpbin.org/get',function(dados){
+				let dado = JSON.stringify(dados);
+				$('#json').text(dado);
 			});
 			
 		</script>	
