@@ -1,0 +1,119 @@
+<html>
+	<head>
+		<title>Bootstrap Basico</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">	
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h1 class="display-3">Bootstrap</h1>
+				<p class="lead">Um exemplo basico de como funciona o Bootstrap</p>
+				<!-- 
+					Voce pode manipular o padding e o margin do bootstrap.
+					m = margin -> {mb = margin-button, mt = margin-top, ml = margin-left, mr = margin right, mx = margin horizontal, my = margin vertical}
+					p = padding -> {pb = padding-button, pt = padding-top, pl = padding-left, pr = padding right, px = padding horizontal, my = padding vertical}
+					Os espacamentos tambem variam de 1 ate 5, sendo: 0 -> *0, 1 -> *.25, 2 -> *.50, 3 -> *1, 4 -> *1.5, 5 -> *3; qualquer valor diferente disso sera ignorado.
+					entao, my-4 -> margin top e button de 1.5 da variavel $spacer.
+					link: https://getbootstrap.com/docs/4.3/utilities/spacing/
+				-->
+				<!--
+					com relacao a estilos temos o seguinte:
+					Cores:
+					primary => Azul Escuro,
+					secondary => Cinza Escuro,
+					success => Verde,
+					danger => vermelho,
+					warning => Amarelo,
+					Info => Turquesa,
+					light => cinza claro,
+					dark => preto,
+					link => cinza,
+					*****
+					seguindo as cores acimas, podemos usar na seguinte classe
+					btn btn-[uma das cores acima], ex: class="btn btn-primary"
+					link: https://getbootstrap.com/docs/4.3/components/buttons/
+					*****
+					temos os avisos tambem que segue a mesma logica que acima:
+					alert alert[uma das cores acima], ex: class="alert alert-danger"
+					link: https://getbootstrap.com/docs/4.3/components/alerts/#examples
+					*****
+					temos tambem o mesmo esquema de cores para as bordas.
+					border border-[uma das cores acima], ex: class="border border-dark"
+					link: https://getbootstrap.com/docs/4.3/utilities/borders/
+					*****
+					Por fim podemos usar o esquema de cores para mudar o fundo:
+					bg-[uma das cores acima], ex: class="bg-info";
+					link: https://getbootstrap.com/docs/4.3/utilities/colors/#background-color
+					*****
+					O mesmo se aplica a textos tambem, porem os textos tem algumas opcoes a mais,
+					que pode ser melhor pesquisado aqui: https://getbootstrap.com/docs/4.3/utilities/colors/.
+					text[uma das cores acima], ex: class="text-link";
+				-->
+				<!--
+					Temos a classe "close", essa classe se refere aquele x, desenhado.
+					No caso quando se clica ali, a janela se fecha
+					link: https://getbootstrap.com/docs/4.3/utilities/close-icon/
+				-->
+				<hr class="my-4">
+				<p>O nome desse objeto se chama Jumbotron, clique nos botoes abaixo para ver os esquemas de cores.</p>
+				<button type="button" class="btn btn-primary" id="primary">Primary</button>
+				<button type="button" class="btn btn-secondary" id="secondary">Secondary</button>
+				<button type="button" class="btn btn-success" id="success">Success</button>
+				<button type="button" class="btn btn-danger" id="danger">Danger</button>
+				<button type="button" class="btn btn-warning" id="warning">Warning</button>
+				<button type="button" class="btn btn-info" id="info">Info</button>
+				<button type="button" class="btn btn-light" id="light">Light</button>
+				<button type="button" class="btn btn-dark" id="dark">Dark</button>
+				<button type="button" class="btn btn-link" id="link">Link</button>
+			</div>
+			<div id="alert" class="alert alert-link border border-link"> Exemplo de um alert <button type="button" class="close" aria-label="Close">
+  <span aria-hidden="true">&times;</span></button></div>
+		</div>
+		<script>
+			$("#primary").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-primary text-white");
+				$("#alert").attr("class","alert alert-primary border border-primary");
+			});
+			$("#secondary").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-secondary text-white");
+				$("#alert").attr("class","alert alert-secondary border border-secondary");			
+			});
+			$("#success").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-success");			
+				$("#alert").attr("class","alert alert-success border border-success");
+			});
+			$("#danger").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-danger");			
+				$("#alert").attr("class","alert alert-danger border border-danger");
+			});
+			$("#warning").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-warning");			
+				$("#alert").attr("class","alert alert-warning border border-warning");
+			});
+			$("#info").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-info");
+				$("#alert").attr("class","alert alert-info border border-info");			
+			});
+			$("#light").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-light");
+				$("#alert").attr("class","alert alert-light border border-light");			
+			});
+			$("#dark").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-dark text-white");
+				$("#alert").attr("class","alert alert-dark border border-dark");							
+			});
+			$("#link").click(function primary(){				
+				$(".jumbotron").attr("class","jumbotron bg-link");							
+				$("#alert").attr("class","alert alert-link border border-link");
+			});
+			$(".close").click(function(){
+					$(this).parent().hide('slow');
+			});
+		</script>
+		
+	</body>
+</html>
