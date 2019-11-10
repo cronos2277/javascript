@@ -7,8 +7,10 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<div class="container">
+		<!-- Aqui temos o modo container e o container-fluid, o primeiro deixa margens em dispositivos maiores, o segundo usa todo o espaço.-->
+		<div id="modo" class="container">
 			<div class="jumbotron">
+				<button type="button"><span id="cont">container</span></button>
 				<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h1 class="display-3">Bootstrap</h1>
 				<p class="lead">Um exemplo basico de como funciona o Bootstrap, esse elemento eh o jumbotron</p>
@@ -157,6 +159,19 @@ Proin sem urna, mattis a lacinia sed, bibendum eget odio. Sed posuere purus dui,
 			$(".close").click(function(){
 					$(this).parent().hide('slow');
 			});
+			
+			$("#cont").click(function alternar(){
+				$("#modo").attr("class","container-fluid");
+				$("#cont").text("container-fluid");
+				$("#cont").attr("id","contm");
+				$("#contm").click(function(){
+					$("#modo").attr("class","container");
+					$("#contm").text("container");
+					$("#contm").attr("id","cont");
+					$("#contm").click(alternar);
+				});
+			});
+			
 		</script>
 		
 	</body>
