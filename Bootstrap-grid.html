@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<title>Bootstrap Grid</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">	
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<span>DISTRIBUIÇÃO DE GRID IGUALITÁRIO</span>			
+			<div class="row" id="igual_1"></div>
+			<div class="row" id="igual_2"></div>
+			<div class="row" id="igual_3"></div>
+			<div class="row" id="igual_4"></div>
+			<div class="row" id="igual_6"></div>
+			<hr>
+		</div>
+		<div class="container-fluid">
+			<span>USO DO OFFSET</span>							
+			<div class="row" id="espaco_2"></div>
+			<hr>			
+		</div>
+		<div class="container-fluid">
+			<span>USO DO ORDER</span>
+			<div class="row" id="ordem_4"></div>							
+			<hr>
+		</div>
+		<div class="container-fluid">
+			<span>EXEMPLO DE RESPONSIVIDADE</span>
+			<div class="row" id="responsividade_12"></div>
+			<hr>
+		</div>	
+		<script>
+		$(document).ready(function(){
+			function criandoDiv(id,qts,classe){
+				for(let i = 0; i <= qts;i++){
+					switch(i){
+						/*
+							Sobre o grid do bootstrap, formas de uso col-[dispositivo]-[quantidade de linhas].
+							Um grid no bootstrap tem 12 partes, que pode ser dividido de maneira melhor conviniente.
+							Exemplo: .col-1 => ocupa 1 espaço de 12, .col-2 => ocupa 2 espaços de 12, .col-3 => ocupa 3 espaços de 12.
+							.col-4 => ocupa 4 espaços de 12, .col-12 => ocupa todo o espaço. Nao precisa ser divisivel por 12, pode ser
+							por exemplo .col-7, porem use numeros entre 1 e 12. No caso isso vai nas classes dos elementos.
+							***********************************************************************************************************
+							.col-[quantidade de divisões] => ocupa esse espaço em qualquer dispositivo, ex: col-4
+							.col-sm-[quantidade de divisões] => ocupa esse espaço em dispositivo maior igual 576px, ex: col-sm-8
+							.col-md-[quantidade de divisões] => ocupa esse espaço em dispositivo maior igual 768px, ex: col-md-3
+							.col-lg-[quantidade de divisões] => ocupa esse espaço em dispositivo maior igual 960px, ex: col-lg-5
+							.col-xl-[quantidade de divisões] => ocupa esse espaço em dispositivo maior igual 1140px, ex: col-xl-1
+							***********************************************************************************************************
+							.w-100 = Crie colunas de larguras idênticas que se extendem por várias linhas, colocando .w-100 
+								onde você quer que as colunas quebrem, em uma nova linha. Faça com que as quebras sejam responsivas,
+								misturando .w-100 com algum utilitário de display responsivo.
+							***********************************************************************************************************
+							também a classe .order, essa classe order ela define a ordem dos elementos, um elemento que não esta marcado
+							com essa classe.
+							order-[numero de 1 a 12], exemplo: .order-3;
+							.order[1] ou .order[first]
+							.order[12] ou .order[last]
+							Essa classe permite com que você reordene as divs usando javascript.
+							***********************************************************************************************************
+							Por fim temos a classe .offset, a .offset ela serve para preencher os espaços em brancos. Por exemplo se você
+							quiser, usar 5 divisões e 3 divisões, no caso 5+3 = 11, sendo que sobra 1, esse 1 você pode usar como espaço
+							em qualquer lugar que desejar graças a classe .offset.
+							.offset-[nenhum/sm/md/xg/xl]-[quntidade], ex: .offset-md-7
+							***********************************************************************************************************
+							link: https://getbootstrap.com.br/docs/4.1/layout/grid/
+							Essa função cria até 12 elementos dentro de uma div de uma maneira customizável.
+						*/
+						case 1:{$(id).append('<div class="'+classe+' bg-success">01</div>');break}
+						case 2:{$(id).append('<div class="'+classe+' bg-danger">02</div>');break}
+						case 3:{$(id).append('<div class="'+classe+' bg-warning">03</div>');break}
+						case 4:{$(id).append('<div class="'+classe+' bg-info">04</div>');break}
+						case 5:{$(id).append('<div class="'+classe+' bg-dark text-white">05</div>');break}
+						case 6:{$(id).append('<div class="'+classe+' bg-primary text-white">06</div>');break}
+						case 7:{$(id).append('<div class="'+classe+' bg-success">07</div>');break}
+						case 8:{$(id).append('<div class="'+classe+' bg-danger">08</div>');break}
+						case 9:{$(id).append('<div class="'+classe+' bg-warning">09</div>');break}
+						case 10:{$(id).append('<div class="'+classe+' bg-info">10</div>');break}
+						case 11:{$(id).append('<div class="'+classe+' bg-dark text-white">11</div>');break}
+						case 12:{$(id).append('<div class="'+classe+' bg-primary text-white">12</div>');break}
+					}
+				}
+			}
+			function adicionando(id_seq,qtd,classe){
+				for(let i = 0; i <= qtd; i++){
+					criandoDiv("#"+id_seq+"_"+i,i,classe);
+				}	
+			}			
+			
+			adicionando("igual",6,"col");
+			adicionando("espaco",2,"col offset-3");
+			adicionando("ordem",4,"col-3");
+			$("#ordem_4").children().first().next().addClass("order-1");
+			$("#ordem_4").children().last().prev().addClass("order-2");
+			$("#ordem_4").children().last().addClass("order-3");
+			$("#ordem_4").children().first().addClass("order-4");
+			adicionando("responsividade",12,"col-12 col-sm-6 col-md-3 col-xg-2 col-xl-1");
+		});
+		
+		</script>
+	</body>
+</html>
