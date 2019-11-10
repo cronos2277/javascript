@@ -11,7 +11,7 @@
 			<div class="jumbotron">
 				<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h1 class="display-3">Bootstrap</h1>
-				<p class="lead">Um exemplo basico de como funciona o Bootstrap</p>
+				<p class="lead">Um exemplo basico de como funciona o Bootstrap, esse elemento eh o jumbotron</p>
 				<!-- 
 					Voce pode manipular o padding e o margin do bootstrap.
 					m = margin -> {mb = margin-button, mt = margin-top, ml = margin-left, mr = margin right, mx = margin horizontal, my = margin vertical}
@@ -35,6 +35,8 @@
 					*****
 					seguindo as cores acimas, podemos usar na seguinte classe
 					btn btn-[uma das cores acima], ex: class="btn btn-primary"
+					tambem tem os botoes alternativos: 
+					btn btn-outline-[uma das cores acima], ex: btn btn-outline-warning					
 					link: https://getbootstrap.com/docs/4.3/components/buttons/
 					*****
 					temos os avisos tambem que segue a mesma logica que acima:
@@ -59,7 +61,9 @@
 					link: https://getbootstrap.com/docs/4.3/utilities/close-icon/
 				-->
 				<hr class="my-4">
-				<p>O nome desse objeto se chama Jumbotron, clique nos botoes abaixo para ver os esquemas de cores.</p>
+				<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare purus ac augue pretium pharetra. Phasellus faucibus efficitur risus, quis dictum nisi. Nulla pretium est sit amet tortor facilisis consequat. Mauris id nisl et ligula cursus lacinia. Duis lobortis nisl sed sem bibendum condimentum. Nam eu ultrices lorem. Nulla metus velit, dapibus ac odio a, porta scelerisque tellus. Morbi tempus tellus at lobortis vestibulum. Nunc eget pellentesque ante. Duis vulputate ullamcorper erat, nec faucibus massa accumsan id. Suspendisse et facilisis erat. Mauris nec molestie est.
+
+Proin sem urna, mattis a lacinia sed, bibendum eget odio. Sed posuere purus dui, vitae facilisis ipsum condimentum a. Suspendisse faucibus purus vitae quam tristique euismod. Aenean ultrices egestas sem eget suscipit. Aliquam pulvinar enim mauris, ac porta ligula cursus sed. Fusce a nisl sit amet eros malesuada cursus. Curabitur vulputate viverra ante, ac maximus enim maximus id. Phasellus posuere mattis nulla, nec viverra lectus. </p>
 				<button type="button" class="btn btn-primary" id="primary">Primary</button>
 				<button type="button" class="btn btn-secondary" id="secondary">Secondary</button>
 				<button type="button" class="btn btn-success" id="success">Success</button>
@@ -69,46 +73,92 @@
 				<button type="button" class="btn btn-light" id="light">Light</button>
 				<button type="button" class="btn btn-dark" id="dark">Dark</button>
 				<button type="button" class="btn btn-link" id="link">Link</button>
-			</div>
-			<div id="alert" class="alert alert-link border border-link"> Exemplo de um alert <button type="button" class="close" aria-label="Close">
-  <span aria-hidden="true">&times;</span></button></div>
+			</div>	
+			<div id="alert" class="alert alert-link border border-link"> <b>CLASSE ALERT: </b>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin luctus. <button type="button" class="close" aria-label="Close">
+				<span aria-hidden="true">&times;</span></button></div>		
+			<!--
+				card => essa classe abaixo cria um card, tendo o card-body que eh dividido em titulo e o texto, podendo ou nao ter botao.
+				card-body => corpo do card, aonde se coloca as divs com outros elementos.
+				card-title => Titulo do card.
+				card-text => o texto pronto para descricao. 
+				O bootstrap tem uma classe para float. o float left faz o elementos flutuar para a esquerda e o right a direita.
+				Tambem temos a questao das fontes, o rem equivale ao tamanho da fonte com relacao ao elemento raiz e
+				o em eh com base no tamanho padrao.
+			-->
+				<div class="card float-left" style="width: 18rem;height:10rem">					
+					  <img src="" class="card-img-top" alt="...">
+					  <div class="card-body">
+						<h5 class="card-title">Card Title</h5>
+						<p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id mauris faucibus, malesuada ligula vitae, rutrum sem. Nulla pellentesque, diam quis auctor pretium, orci leo scelerisque metus, vel suscipit nisi tortor a eros. Quisque imperdiet nunc sit amet urna suscipit, ut vestibulum arcu lobortis. Suspendisse potenti. Maecenas mi arcu, sodales auctor enim nec, placerat vulputate sem. Praesent cursus ex est. Curabitur eu nulla a tellus porttitor consequat. </p>
+						<a id="alternativo" href="#" class="btn btn-outline-link">Botao Alternativo</a>						
+					  </div>
+					</div>
+				
+				
+				<div id="cardColor" class="card float-right bg-link mb-3" style="max-width: 18rem;">
+					<div class="card-header">Card Title</div>
+					<div class="card-body">
+						<h5 class="card-title">Card Titulo</h5>
+						<p class="card-text">Phasellus viverra lacinia venenatis. Nullam aliquam semper cursus. Mauris sagittis leo eget risus finibus porta. Nullam lacinia placerat iaculis. Etiam ut luctus ipsum. Nulla lacus neque, fermentum vel elementum id, dignissim et dolor. Ut sit amet ullamcorper magna, id mattis purus. Sed dolor augue, varius sed neque ac, malesuada efficitur sem. Curabitur interdum, purus quis gravida placerat, arcu massa faucibus ligula, id elementum diam urna quis orci. Sed ante neque, congue in libero in, laoreet accumsan felis. </p>
+					</div>
+				</div>		
+			
+			
 		</div>
 		<script>
 			$("#primary").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-primary text-white");
 				$("#alert").attr("class","alert alert-primary border border-primary");
+				$("#cardColor").attr("class","card float-right text-white bg-primary mb-3");
+				$("#alternativo").attr("class","btn btn-outline-primary");
 			});
 			$("#secondary").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-secondary text-white");
 				$("#alert").attr("class","alert alert-secondary border border-secondary");			
+				$("#cardColor").attr("class","card float-right text-white bg-secondary mb-3");
+				$("#alternativo").attr("class","btn btn-outline-secondary");
 			});
 			$("#success").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-success");			
 				$("#alert").attr("class","alert alert-success border border-success");
+				$("#cardColor").attr("class","card float-right bg-success mb-3");
+				$("#alternativo").attr("class","btn btn-outline-success");
 			});
 			$("#danger").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-danger");			
 				$("#alert").attr("class","alert alert-danger border border-danger");
+				$("#cardColor").attr("class","card float-right bg-danger mb-3");
+				$("#alternativo").attr("class","btn btn-outline-danger");
 			});
 			$("#warning").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-warning");			
 				$("#alert").attr("class","alert alert-warning border border-warning");
+				$("#cardColor").attr("class","card float-right bg-warning mb-3");
+				$("#alternativo").attr("class","btn btn-outline-warning");
 			});
 			$("#info").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-info");
 				$("#alert").attr("class","alert alert-info border border-info");			
+				$("#cardColor").attr("class","card float-right bg-info mb-3");
+				$("#alternativo").attr("class","btn btn-outline-info");
 			});
 			$("#light").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-light");
-				$("#alert").attr("class","alert alert-light border border-light");			
+				$("#alert").attr("class","alert alert-light border border-light");
+				$("#cardColor").attr("class","card float-right bg-light mb-3");			
+				$("#alternativo").attr("class","btn btn-outline-light");
 			});
 			$("#dark").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-dark text-white");
 				$("#alert").attr("class","alert alert-dark border border-dark");							
+				$("#cardColor").attr("class","card float-right text-white bg-dark mb-3");
+				$("#alternativo").attr("class","btn btn-outline-dark");
 			});
 			$("#link").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-link");							
 				$("#alert").attr("class","alert alert-link border border-link");
+				$("#cardColor").attr("class","card float-right bg-link mb-3");
+				$("#alternativo").attr("class","btn btn-outline-link");
 			});
 			$(".close").click(function(){
 					$(this).parent().hide('slow');
