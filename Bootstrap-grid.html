@@ -30,7 +30,12 @@
 			<span>EXEMPLO DE RESPONSIVIDADE</span>
 			<div class="row" id="responsividade_12"></div>
 			<hr>
-		</div>	
+		</div>
+		<div class="container-fluid">
+			<span>ALINHAMENTO</span>
+			<div class="row justify-content-end" id="alinhamento_3"></div>
+			<hr>
+		</div>		
 		<script>
 		$(document).ready(function(){
 			function criandoDiv(id,qts,classe){
@@ -60,10 +65,28 @@
 							.order[12] ou .order[last]
 							Essa classe permite com que você reordene as divs usando javascript.
 							***********************************************************************************************************
-							Por fim temos a classe .offset, a .offset ela serve para preencher os espaços em brancos. Por exemplo se você
+							Temos a classe .offset, a .offset ela serve para preencher os espaços em brancos. Por exemplo se você
 							quiser, usar 5 divisões e 3 divisões, no caso 5+3 = 11, sendo que sobra 1, esse 1 você pode usar como espaço
 							em qualquer lugar que desejar graças a classe .offset.
 							.offset-[nenhum/sm/md/xg/xl]-[quntidade], ex: .offset-md-7
+							***********************************************************************************************************
+							Também tem os alinhamentos, os alinhamentos vai na classe row, e esses alinhamentos a classe ajeita os elementos
+							dentro da row de acordo com a classe passada.
+													---- classes para linhas ----
+							.row .align-items-start => Alinha para o topo.
+							.row .align-items-center => alinha ao centro vertical.
+							.row .align-items-end => alinha para baixo.
+							.row .justify-content-start => alinha a esquerda.
+							.row .justify-content-center => alinha ao centro
+							.row .justify-content-end => alinha a direita
+							.row .justify-content-around => "justificado" com espaços ao extremo.
+							.row .justify-content-between => "justificado" sem espaços ao extremo.
+													---- classes para colunas ----
+							 No caso você deve usar essas classes dentro das colunas e não das row como a anterior.
+							.col .align-self-start => alinhamento da coluna a esquerda.
+							.col .align-self-center => alinhamento da coluna ao centro.
+							.col .align-self-end => alinhamento da coluna a direita.
+							
 							***********************************************************************************************************
 							link: https://getbootstrap.com.br/docs/4.1/layout/grid/
 							Essa função cria até 12 elementos dentro de uma div de uma maneira customizável.
@@ -91,12 +114,13 @@
 			
 			adicionando("igual",6,"col");
 			adicionando("espaco",2,"col offset-3");
-			adicionando("ordem",4,"col-3");
+			adicionando("ordem",4,"col-3");			
+			adicionando("responsividade",12,"col-12 col-sm-6 col-md-3 col-xg-2 col-xl-1");
+			adicionando("alinhamento",3,"col-3");
 			$("#ordem_4").children().first().next().addClass("order-1");
 			$("#ordem_4").children().last().prev().addClass("order-2");
 			$("#ordem_4").children().last().addClass("order-3");
-			$("#ordem_4").children().first().addClass("order-4");
-			adicionando("responsividade",12,"col-12 col-sm-6 col-md-3 col-xg-2 col-xl-1");
+			$("#ordem_4").children().first().addClass("order-4");			
 		});
 		
 		</script>
