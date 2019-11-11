@@ -9,6 +9,83 @@
 	<body>
 		<!-- Aqui temos o modo container e o container-fluid, o primeiro deixa margens em dispositivos maiores, o segundo usa todo o espaço.-->
 		<div id="modo" class="container">
+			<nav class="breadcrumb">
+				<!-- Esse é o famoso caminho de pão, o mesmo precisa de uma nav com breadcrumb e ai os itens breadcrumb-item, você pode usar o active para ativar. -->
+				<ol class="breadcrumb">
+					 <li class="breadcrumb-item" aria-current="page">Site</li>
+					<li class="breadcrumb-item active" aria-current="page">Home</li>
+				</ol>
+			</nav>
+			
+			<nav id="idnav" class="breadcrumb navbar navbar-expand-lg navbar-light bg-light">
+				<!--
+					Como funciona
+						Aqui está oquê você precisa saber, antes de começar a usar o navbar:
+							Navbars precisam de um .navbar com .navbar-expand{-sm|-md|-lg|-xl} (para responsividade) e classes do esquema de cores;
+							Navbars e seus conteúdos são fluidos, por padrão;
+								Use containers alternativos para limitar suas larguras.
+							Use nossas classes utilitárias de espaçamento e flex para controlar o espaço e alinhamento, dentro das navbars;
+							Navbars são responsivos, por padrão, mas você pode modificar isso, facilmente;
+								Comportamento responsivo depende do nosso plugin JavaScript Collapse.
+							Navbars são escondidos, por padrão, quando imprimindo. Forçe-os a serem imprimidos, usando a classe .d-print no .navbar;
+								Leia sobre a classe utilitária display.
+							Garanta acessibilidade com o elemento <nav> ou, se estiver usando um elemento mais genérico (como <div>), coloque role="navigation" em cada navbar para identificá-lo como tal, em tecnologias assistivas.
+
+						Continue lendo para ver um exemplo e lista de sub-componentes suportados.						Conteúdo suportado
+
+						Navbars vem com suporte integrado para um punhado de sub-componentes. Escolha entre os seguintes, sempre que precisar:
+
+							.navbar-brand para o nome de seu projeto, produto ou companhia;
+							.navbar-nav para obter uma leve navegação com suporte a dropdowns;
+							.navbar-toggler para usar com nosso plugin collapse e outros comportamentos;
+							.form-inline para qualquer campo de formulário e ações;
+							.navbar-text para adicionar texto centralizado verticalmente;
+							.collapse.navbar-collapse para agrupar e esconder conteúdos navbar, de acordo com o breakpoint do pai.
+							Aqui está um exemplo de todos os sub-componentes incluídos em um navbar light responsivo, o qual colapsa no breakpoint lg (large, em português: grande), automaticamente.
+							A classe .navbar-brand pode ser aplicada na maioria dos elementos, mas uma âncora funciona melhor, já que alguns elementos precisam de classes utilitárias ou estilos customizados.
+							Tematizar o navbar nunca foi tão fácil, graças a combinação de classes temas e utilitários background-color. Escolha de .navbar-light (cores de fundo leves) até .navbar-dark (cores de fundo escuras). Depois, personalize o resto com utilitários .bg-*.
+							Links de navegação navbar são feitos com nossas opções .nav, suas próprias classes modificadoras e precisam usar classes togglers, para estilização responsiva apropriada. Navegação em navbars também vão crescer para ocupar o maior espaço horizontal possível, mantendo os conteúdos do seu navbar alinhados.
+							Estados ativos (classe .active) para indicar a página atual podem ser aplicados, diretamente, no .nav-link ou seus pais imediatos .nav-item.
+
+				-->
+				 
+				  <a class="navbar-brand" href="#">Navbar</a>
+				  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+					<span class="navbar-toggler-icon"></span>
+				  </button>
+
+				  <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+					<ul class="navbar-nav mr-auto">
+					  <li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(página atual)</span></a>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link" href="#">Link</a>
+					  </li>
+					  <li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  Dropdown
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  <a class="dropdown-item" href="#">Ação</a>
+						  <a class="dropdown-item" href="#">Outra ação</a>
+						  <div class="dropdown-divider"></div>
+						  <a class="dropdown-item" href="#">Algo mais aqui</a>
+						</div>
+					  </li>
+					  <li class="nav-item">
+						<a class="nav-link disabled" href="#">Desativado</a>
+					  </li>
+					</ul>
+					<form class="form-inline my-2 my-lg-0">
+					  <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+					  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+					</form>
+				  </div>
+			</nav>
+			
+			
+			
 			<div class="jumbotron">
 				<button type="button"><span id="cont">container</span></button>
 				<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -99,7 +176,19 @@ Proin sem urna, mattis a lacinia sed, bibendum eget odio. Sed posuere purus dui,
 			</div>
 						
 		</div>	
-			
+		<!--
+			Componentes de progresso são feitos com dois elementos HTML, um pouco de CSS para a largura e outros atributos. 
+			Não usamos o elemento HTML5 <progress> para garantir que você possa empilhar barras de progresso e colocar textos 
+			sobre elas.
+			Nós usamos o elemento com .progress como um envolto para indicar o valor máximo da barra de progresso;
+			Nós usamos o elemento interno com .progress-bar para indicar o progresso da barra, até então;
+			A .progress-bar exige um CSS inline, classe utilitária ou CSS personalizado, para definir sua largura;
+			A classe .progress-bar também exige o uso de alguns atributos role e aria para fazê-lo acessível.
+		-->
+		<div class="progress" style="height: 20px;">
+			<div id="prg" class="progress-bar bg-link" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">BARRA DE PROGRESSO</div>
+		</div>
+
 	</div>
 		<script>
 			$("#primary").click(function primary(){				
@@ -107,54 +196,63 @@ Proin sem urna, mattis a lacinia sed, bibendum eget odio. Sed posuere purus dui,
 				$("#alert").attr("class","alert alert-primary border border-primary");
 				$("#cardColor").attr("class","card float-right text-white bg-primary mb-3");
 				$("#alternativo").attr("class","btn btn-outline-primary");
+				$("#prg").attr("class","progress-bar bg-primary");				
 			});
 			$("#secondary").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-secondary text-white");
 				$("#alert").attr("class","alert alert-secondary border border-secondary");			
 				$("#cardColor").attr("class","card float-right text-white bg-secondary mb-3");
 				$("#alternativo").attr("class","btn btn-outline-secondary");
+				$("#prg").attr("class","progress-bar bg-secondary");
 			});
 			$("#success").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-success");			
 				$("#alert").attr("class","alert alert-success border border-success");
 				$("#cardColor").attr("class","card float-right bg-success mb-3");
 				$("#alternativo").attr("class","btn btn-outline-success");
+				$("#prg").attr("class","progress-bar bg-success");
 			});
 			$("#danger").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-danger");			
 				$("#alert").attr("class","alert alert-danger border border-danger");
 				$("#cardColor").attr("class","card float-right bg-danger mb-3");
 				$("#alternativo").attr("class","btn btn-outline-danger");
+				$("#prg").attr("class","progress-bar bg-danger");
 			});
 			$("#warning").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-warning");			
 				$("#alert").attr("class","alert alert-warning border border-warning");
 				$("#cardColor").attr("class","card float-right bg-warning mb-3");
 				$("#alternativo").attr("class","btn btn-outline-warning");
+				$("#prg").attr("class","progress-bar bg-warning");
 			});
 			$("#info").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-info");
 				$("#alert").attr("class","alert alert-info border border-info");			
 				$("#cardColor").attr("class","card float-right bg-info mb-3");
 				$("#alternativo").attr("class","btn btn-outline-info");
+				$("#prg").attr("class","progress-bar bg-info");
 			});
 			$("#light").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-light");
 				$("#alert").attr("class","alert alert-light border border-light");
 				$("#cardColor").attr("class","card float-right bg-light mb-3");			
 				$("#alternativo").attr("class","btn btn-outline-light");
+				$("#prg").attr("class","progress-bar bg-light");
 			});
 			$("#dark").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-dark text-white");
 				$("#alert").attr("class","alert alert-dark border border-dark");							
 				$("#cardColor").attr("class","card float-right text-white bg-dark mb-3");
 				$("#alternativo").attr("class","btn btn-outline-dark");
+				$("#prg").attr("class","progress-bar bg-dark");
 			});
 			$("#link").click(function primary(){				
 				$(".jumbotron").attr("class","jumbotron bg-link");							
 				$("#alert").attr("class","alert alert-link border border-link");
 				$("#cardColor").attr("class","card float-right bg-link mb-3");
 				$("#alternativo").attr("class","btn btn-outline-link");
+				$("#prg").attr("class","progress-bar bg-link");
 			});
 			$(".close").click(function(){
 					$(this).parent().hide('slow');
