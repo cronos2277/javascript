@@ -4,6 +4,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 //Importando componente padrão todos os seus imports devem estar no topo do código.
 import Padrao from "./Componentes"
+//Importando arquivo jsx com multiplos componentes.
+import Multi from './MultiplosComponentes';
 /*
 	O ReactDOM serve para renderizar conteudo nas páginas, você passa algum conteudo
 	em jsx, que é o tipo de dados que o React processa e depois seleciona
@@ -34,8 +36,8 @@ ReactDOM.render(listas,document.getElementById("lista"));
  * */
 ReactDOM.render(<Padrao primeiro="1" segundo={2} />,document.getElementById("componentePadrao"));
 
-
-
+ReactDOM.render(<Multi.Primeiro />,document.getElementById("componente1"));
+ReactDOM.render(<Multi.Segundo />,document.getElementById("componente2"));
 /*
 	Esse exemplo do react ele abre um servidor na porta 3000, e o html em questão
 	esta na pasta public, enquanto os recursos estão na SRC. O react organiza tudo
