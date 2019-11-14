@@ -2,6 +2,8 @@
 import React from 'react' 
 //Caso você queira renderizar algum componente, você precisa importar isso.
 import ReactDOM from 'react-dom'
+//Importando componente padrão todos os seus imports devem estar no topo do código.
+import Padrao from "./Componentes"
 /*
 	O ReactDOM serve para renderizar conteudo nas páginas, você passa algum conteudo
 	em jsx, que é o tipo de dados que o React processa e depois seleciona
@@ -20,6 +22,19 @@ ReactDOM.render(<h1 style={{color:'red'}}>Exemplo de Componente</h1>, document.g
 //Você também pode usar variáveis para isso ou constantes para armazenar os jsx.
 const listas = <ul><li>Primeiro Elemento</li><li>Segundo Elemento</li></ul>;
 ReactDOM.render(listas,document.getElementById("lista"));
+//Para mais informações sobre como esses componentes são criados, veja o componente JSX.
+/*
+  Quando voc~e cria um componente, o mesmo deve ter o mesmo nome de quando foi importado
+   import Padrao from "./Componentes" => daqui que vem o nome do componente padrão, lembrando 
+   sempre, a exigencia de componentes é sempre começar com letra maiuscula. e a mesma tag deve
+   ser devidamente informada dentro de aspas se for string ou se for qualquer outra coisa, tipo
+   um numero ou objeto, ou qualquer outro tipo de dado, coloque-os dentro de {}. Como esse componente
+   é o padrão você também não precisará acessa-lo como se fosse um atributo, uma vez que o mesmo
+   esta setado em export default.
+ * */
+ReactDOM.render(<Padrao primeiro="1" segundo={2} />,document.getElementById("componentePadrao"));
+
+
 
 /*
 	Esse exemplo do react ele abre um servidor na porta 3000, e o html em questão
