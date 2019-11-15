@@ -6,6 +6,10 @@ import ReactDOM from 'react-dom'
 import Padrao from "./Componentes"
 //Importando arquivo jsx com multiplos componentes.
 import Multi from './MultiplosComponentes';
+//Essa é uma forma de você importar módulos não padrão, mas que estão setados para
+//Exportação. Repare que nesse JSX não existe um Default e esses métodos se referenciam
+//Ao Composto1, Compost2 e o Composto3
+import {Composto1,Composto2, Composto3} from "./ComponentesCompostos.jsx";
 /*
 	O ReactDOM serve para renderizar conteudo nas páginas, você passa algum conteudo
 	em jsx, que é o tipo de dados que o React processa e depois seleciona
@@ -24,7 +28,7 @@ ReactDOM.render(<h1 style={{color:'red'}}>Exemplo de Componente</h1>, document.g
 //Você também pode usar variáveis para isso ou constantes para armazenar os jsx.
 const listas = <ul><li>Primeiro Elemento</li><li>Segundo Elemento</li></ul>;
 ReactDOM.render(listas,document.getElementById("lista"));
-//Para mais informações sobre como esses componentes são criados, veja o componente JSX.
+//Para mais informações sobre como esses componentes são criados, veja os componentes nos JSX.
 /*
   Quando voc~e cria um componente, o mesmo deve ter o mesmo nome de quando foi importado
    import Padrao from "./Componentes" => daqui que vem o nome do componente padrão, lembrando 
@@ -35,9 +39,13 @@ ReactDOM.render(listas,document.getElementById("lista"));
    esta setado em export default.
  * */
 ReactDOM.render(<Padrao primeiro="1" segundo={2} />,document.getElementById("componentePadrao"));
-
+/*Quando você exporta mais de uma função como padrão,você os acessa como se fosse método aqui. */
 ReactDOM.render(<Multi.Primeiro />,document.getElementById("componente1"));
 ReactDOM.render(<Multi.Segundo />,document.getElementById("componente2"));
+
+ReactDOM.render(<Composto1 />,document.getElementById("composto1"));
+ReactDOM.render(<Composto2 />,document.getElementById("composto2"));
+ReactDOM.render(<Composto3 />,document.getElementById("composto3"));
 /*
 	Esse exemplo do react ele abre um servidor na porta 3000, e o html em questão
 	esta na pasta public, enquanto os recursos estão na SRC. O react organiza tudo
