@@ -12,6 +12,8 @@ import Multi from './MultiplosComponentes';
 import {Composto1,Composto2, Composto3} from "./ComponentesCompostos.jsx";
 //Trabalhando com a classe filha de Component
 import Classe from './Classe';
+//
+import Heranca from './Heranca';
 /*
 	O ReactDOM serve para renderizar conteudo nas páginas, você passa algum conteudo
 	em jsx, que é o tipo de dados que o React processa e depois seleciona
@@ -44,11 +46,12 @@ ReactDOM.render(<Padrao primeiro="1" segundo={2} />,document.getElementById("com
 /*Quando você exporta mais de uma função como padrão,você os acessa como se fosse método aqui. */
 ReactDOM.render(<Multi.Primeiro />,document.getElementById("componente1"));
 ReactDOM.render(<Multi.Segundo />,document.getElementById("componente2"));
-
 ReactDOM.render(<Composto1 />,document.getElementById("composto1"));
 ReactDOM.render(<Composto2 />,document.getElementById("composto2"));
 ReactDOM.render(<Composto3 />,document.getElementById("composto3"));
 ReactDOM.render(<Classe leitura="leitura apenas" estado="leitura-escrita"/>,document.getElementById("classe"));
+const heranca_tags = <Heranca primeiro="Elemento com valor do pai"/>
+ReactDOM.render(heranca_tags,document.getElementById("heranca"));
 /*
 	Esse exemplo do react ele abre um servidor na porta 3000, e o html em questão
 	esta na pasta public, enquanto os recursos estão na SRC. O react organiza tudo
