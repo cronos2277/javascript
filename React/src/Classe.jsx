@@ -40,19 +40,20 @@ export default class Classe extends React.Component{
 	*/
 		const {leitura} = this.props;
 		const {estado} = this.state;
+		/*
+			elementos do React são iguais ao do html. porém a sintaxe diferente
+			do Jquery e do html, você tem o "on" e depois em maiusculo o evento 
+			que você quer, no caso aqui em baixo Change(). No caso foi usando uma função
+			arrow, caso você pense em usar uma callback ou uma função construida como
+			da maneira clássica, use a .bind() para referenciar o this correto.
+		*/
 		return (<div>
 					<hr/>
 					<h3>Exemplo do this.props: {leitura}</h3>
 					<input type='input' value={leitura}/>
 					<hr/>
 					<h3>Exemplo do this.state: {estado}</h3>
-					/*
-						elementos do React são iguais ao do html. porém a sintaxe diferente
-						do Jquery e do html, você tem o "on" e depois em maiusculo o evento 
-						que você quer, no caso aqui em baixo Change(). No caso foi usando uma função
-						arrow, caso você pense em usar uma callback ou uma função construida como
-						da maneira clássica, use a .bind() para referenciar o this correto.
-					*/
+					
 					<input type="input" value={estado} onChange ={elemento => this.mudarEstado(elemento)}/>
 				</div>);
 	}
