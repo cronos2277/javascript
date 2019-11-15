@@ -24,6 +24,11 @@ export default class Classe extends React.Component{
 	}
 
 	mudarEstado(elemento){
+	/*
+		Esse método é o responsável por permitir com que o componente seja
+		atualizado. O this.setState ela atualiza o estado do componente e 
+		consequentemente com isso o elemento é atualizado.
+	*/
 		console.log(elemento.target.value);
 		this.setState({estado: elemento.target.value});
 	}
@@ -52,3 +57,9 @@ export default class Classe extends React.Component{
 				</div>);
 	}
 }
+/*
+	A unica forma de você atualizar os componentes e permitir interação do lado do cliente,
+	é alterando o estado dos elementos, primeiro iniciando eles, depois setando o estado.
+	você precisa setar o estado para isso acontecer, isso é interessante pois permite um maior nível de 
+	segurança. De toda forma o elemento precisa mudar de estado para o cliente perceber a diferença.
+*/
