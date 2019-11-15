@@ -10,6 +10,8 @@ import Multi from './MultiplosComponentes';
 //Exportação. Repare que nesse JSX não existe um Default e esses métodos se referenciam
 //Ao Composto1, Compost2 e o Composto3
 import {Composto1,Composto2, Composto3} from "./ComponentesCompostos.jsx";
+//Trabalhando com a classe filha de Component
+import Classe from './Classe';
 /*
 	O ReactDOM serve para renderizar conteudo nas páginas, você passa algum conteudo
 	em jsx, que é o tipo de dados que o React processa e depois seleciona
@@ -46,6 +48,7 @@ ReactDOM.render(<Multi.Segundo />,document.getElementById("componente2"));
 ReactDOM.render(<Composto1 />,document.getElementById("composto1"));
 ReactDOM.render(<Composto2 />,document.getElementById("composto2"));
 ReactDOM.render(<Composto3 />,document.getElementById("composto3"));
+ReactDOM.render(<Classe leitura="leitura apenas" estado="leitura-escrita"/>,document.getElementById("classe"));
 /*
 	Esse exemplo do react ele abre um servidor na porta 3000, e o html em questão
 	esta na pasta public, enquanto os recursos estão na SRC. O react organiza tudo
