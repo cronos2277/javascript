@@ -32,7 +32,7 @@ export default class Calculator extends Component{
 				case '*':{values[0] *= values[1];break;}
 				default:{values[0] = values[1];break;}				
 			}
-			values[1] = 0;
+			values[1] = 0;			
 			console.log(values[0]);
 			this.setState({displayValue: values[0], operation: equals ? null : operation,
 			 current: equals ? 0 : 1, clearDisplay: !equals, values});		
