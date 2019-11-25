@@ -29,9 +29,18 @@
         do elemento, muito interessante para ser usado em formularios. Simplesmente coloca
         o v-model="o atributo a ser sincronizado", No caso a sincronizacao ocorre com o 
         atributo vmodelo.
+        Temos tambem o controle de eventos no vue, o @ substitui o 'v-on:', repare que no
+        caso abaixo temos ambos tanto o @ como o v-on e fazem exatamente a mesma coisa, uma
+        vez que assim como o : eh o resumo do bind o @ eh do v-on. Com relacao ao v-on o mesmo
+        lida com eventos, eh como se fosse o onclick, ou on change, porem com a sintaxe levemente
+        diferente. alem disso voce tem metodos que padrao no evento, por exemplo ao inves de 
+        voce colocar o metodo keyup e depois tratar as teclas, aqui voce pode colocar a notacao '.'
+        e a tecla a ser tratada, e assim sera executado, apenas quando aquela tecla em especifico
+        for pressionado, tambem temos o '.stop' que tem o metodo padrao relacionado para parar eventos
+        exemplo de uso: v-on:click, @change, @mouseover.stop.
       -->
       <p>{{vmodelo}}</p>
-      <input type='text' v-model='vmodelo' />
+      <input type='text' v-model='vmodelo' v-on:keyup.enter="teclaEnter" @keyup.esc="teclaEsc"/>
       <!-- 
         Chamando uma funcao, repare que a mesma foi declarada dentro do atributo metodo, dentro
         do objeto Vue. Uma vez declarada la voce pode fazer essa chamada, seguindo a sintaxe
@@ -58,6 +67,12 @@
         methods:{ //Aqui voce pode declarar as funcoes a ser utilizadas na pagina.
           minhaFuncao: function minhaFuncao(){
             console.log('minha funcao');
+          },
+          teclaEsc: function(){
+            alert('Tecla ESC Pressionada');
+          },
+          teclaEnter: function(){
+              alert('Tecla Enter Pressionada');
           }
         },
         computed:{ //Funcoes computadas, sao chamadas como callback e nao envocadas.
