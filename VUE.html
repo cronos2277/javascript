@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>VUE</title>
+    <meta charset='UTF-8'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="seletor">
+      <!-- 
+        O Vue funciona assim, voce informa um seletor ao Vue e ele renderiza
+        aonde eh indicado para ele renderizar, o seletor eh informado no
+        atributo el.
+        Eh dessa forma como exibida abaixo, que voce chama um atributo
+        no VUE, tudos os atributos criados dentro do data, voce pode chamar
+        usando chaves duplas e o Vue renderiza.
+      -->
+      <p>{{atributo_vue}}</p>
+      <!-- 
+          o ':' ele pega o valor do atributo informado e faz um {{}} no atributo,
+          seria algo do tipo href={{link}}, esse parametro eh a forma resumida do
+          v-bind:href="link". O Bind ele eh uma comunicacao Unidirecional, ou seja
+          se alterar ali, nao altera o valor no atributo dentro do Vue.
+      -->
+      <a :href="link">Exemplo de link</a>
+      <!-- 
+        O v-model diferente do v-bind acima, permite uma comunicacao bi-direcional,
+        ou seja quando muda o valor no html a variavel eh atualizada no exato momento,
+        eh como se houvesse um onchange no elemento sincronizando a variavel com o valor
+        do elemento, muito interessante para ser usado em formularios. Simplesmente coloca
+        o v-model="o atributo a ser sincronizado", No caso a sincronizacao ocorre com o 
+        atributo vmodelo.
+      -->
+      <p>{{vmodelo}}</p>
+      <input type='text' v-model='vmodelo' />
+      <!-- 
+        Chamando uma funcao, repare que a mesma foi declarada dentro do atributo metodo, dentro
+        do objeto Vue. Uma vez declarada la voce pode fazer essa chamada, seguindo a sintaxe
+        abaixo.
+      -->
+      {{minhaFuncao()}}
+      <br /> <br />
+      <!-- 
+        Aqui em baixo temos o dado computado. Ele permite criar funcoes como o methods, porem
+        a forma de chamada dele eh diferente, a funcao eh chamada como se fosse um arquivo,
+        pode ser interessante para criar funcoes de callback, ou funcoes que retorne os dados
+        prontos.
+      -->
+      {{computado}}
+    </div>
+    <script>
+      const vue = new Vue({
+        el:"#seletor", //Aqui eh informado o seletor Vue.
+        data:{ //Todas os atributos criados aqui podem ser chamados diretamente com {{}}
+          atributo_vue:"Exemplo de atributos vue", //Usado para chamar no {{}}
+          link:"#linkClicado", //usado no v-bind.
+          vmodelo:"exemplo" //usado no v-model.
+        },
+        methods:{ //Aqui voce pode declarar as funcoes a ser utilizadas na pagina.
+          minhaFuncao: function minhaFuncao(){
+            console.log('minha funcao');
+          }
+        },
+        computed:{ //Funcoes computadas, sao chamadas como callback e nao envocadas.
+          computado: function computado(){
+            return 'Dados Computado';
+          }
+        },
+        watch:{ //Monitora se houve as mudancas nos atributos dentro de data.
+        /* 
+          Voce informa como atributo, o mesmo nome que esta no data, uma vez feito isso
+          voce passa uma funcao, assim quando ocorrer alguma mudanca na variavel, essa
+          funcao eh executada aqui, no caso essa funcao chama o console.log quando o
+          vmodelo eh modificado. O mesmo segue um principio funcional, sendo assim o 
+          primeiro parametro, eh referente a mudanca percebida.
+        */
+          vmodelo: function mudou(valorNovo){
+            console.log(valorNovo);
+          }
+        }
+      });
+    </script>  
+  </body>
+</html>
