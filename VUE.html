@@ -55,6 +55,36 @@
         prontos.
       -->
       {{computado}}
+      <hr />
+      <!-- a diretiva abaixo nao renderiza o componente quando falso, apenas verdadeiro -->
+      <p v-if="false">Nao sera Renderizado</p>
+      <!-- a diretiva abaixo apenas seta o display como none, mas renderiza. -->
+      <p v-show="false">Tera o display setado como none, diferente do anterior que nao foi renderizado.</p>
+      <div>
+        <!-- 
+          Temos tambem a diretiva v-for. A diretiva v-for funciona como laco for do javascript
+          Voce pode tambem chamar a variavel de interacao usnado o {{suaVariavel}} no meio do laco.
+          Com essa diretiva eh possivel misturar o html com um laco javascript. Assim como temos um laco
+          classico como o criado abaixo que vai ate 9, podemos ter tambem lacos customizaveis, para arrays e objetos.
+        -->
+        <span v-for="n in 9">{{n}}, </span><hr />
+        <!-- 
+          Tambem podemos usar o v-for para varrer objetos, usando a sintaxe abaixo, esse seria equivalente
+          ao forEach, enquanto o de cima o forIn, (chave,valor) in objeto.
+        -->
+        <span v-for="(chave, valor) in objeto">{{chave}} : {{valor}}<br/></span>
+      </div>
+      <hr />
+      <div v-for="n in 3">
+        <!-- 
+          Tambem temos a sintax if, else if e else para o Vue, seguindo a sintaxe abaixo.
+          No caso apenas 1 desses 3 blocos funcionara a cada iteracao, como qualquer desvio
+          condicional.
+        -->
+        <span v-if="n == 1">Numero 1</span>
+        <span v-else-if="n>1 && n<3">Numero 2</span>
+        <span v-else>Numero 3</span>
+      </div>
     </div>
     <script>
       const vue = new Vue({
@@ -62,7 +92,8 @@
         data:{ //Todas os atributos criados aqui podem ser chamados diretamente com {{}}
           atributo_vue:"Exemplo de atributos vue", //Usado para chamar no {{}}
           link:"#linkClicado", //usado no v-bind.
-          vmodelo:"exemplo" //usado no v-model.
+          vmodelo:"exemplo", //usado no v-model.
+          objeto:{primeiro:1,segundo:2,terceiro:3} //tambem eh aceito objetos.
         },
         methods:{ //Aqui voce pode declarar as funcoes a ser utilizadas na pagina.
           minhaFuncao: function minhaFuncao(){
