@@ -8,3 +8,8 @@ aside.logo img{
 	padding: 0px 15px;
 	width:100%;
 }
+@media(max-width:576px){
+	side.logo img{
+		width:350px;
+	}
+}
