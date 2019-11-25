@@ -81,9 +81,9 @@
           No caso apenas 1 desses 3 blocos funcionara a cada iteracao, como qualquer desvio
           condicional.
         -->
-        <span v-if="n == 1">Numero 1</span>
-        <span v-else-if="n>1 && n<3">Numero 2</span>
-        <span v-else>Numero 3</span>
+        <span v-if="n == 1">Numero 1</span> <!-- equivalente ao if -->
+        <span v-else-if="n>1 && n<3">Numero 2</span> <!-- equivalente ao else if -->
+        <span v-else>Numero 3</span> <!-- equivalente ao else -->
       </div>
     </div>
     <script>
