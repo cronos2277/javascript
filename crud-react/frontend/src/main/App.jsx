@@ -9,7 +9,7 @@ export default props =>
 <HashRouter>
 <div className="app">
 	<Logo />
-	<Nav />
+	<Nav/>
 	<Router />
 	<Footer />
 </div>
