@@ -3,6 +3,11 @@
     <title>VUE</title>
     <meta charset='UTF-8'>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      .classe{
+        background-color: red;
+      }
+    </style>
   </head>
   <body>
     <div id="seletor">
@@ -85,6 +90,20 @@
         <span v-else-if="n>1 && n<3">Numero 2</span> <!-- equivalente ao else if -->
         <span v-else>Numero 3</span> <!-- equivalente ao else -->
       </div>
+      <hr>
+      <!-- 
+        O Vue tambem em um toggle para classes, como o JQuery por exemplo. Inicialmente
+        temos que o click ele recebe o inverso do booleano, porem a novidade esta no 
+        atributo :class. O :class recebe um objeto, que inclusive pode ter o seu atributo
+        envolto de aspas, ficando: {'classe': booleano}", nesse exemplo a classe se refere
+        ao estilo em css criado anteriormente e o booleano eh o atributo dentro do atributo
+        data.
+      -->
+      <h1 @click="booleano = !booleano" :class="{classe: booleano}">Clique para efeito de Texto</h1>
+      <hr>
+      <div id="template">
+          <!-- Aqui dentro estara o conteudo criado dinamicamente pelo Vue. -->
+      </div>
     </div>
     <script>
       const vue = new Vue({
@@ -93,7 +112,8 @@
           atributo_vue:"Exemplo de atributos vue", //Usado para chamar no {{}}
           link:"#linkClicado", //usado no v-bind.
           vmodelo:"exemplo", //usado no v-model.
-          objeto:{primeiro:1,segundo:2,terceiro:3} //tambem eh aceito objetos.
+          objeto:{primeiro:1,segundo:2,terceiro:3}, //tambem eh aceito objetos.
+          booleano:false //Usado para Toggle de classe.
         },
         methods:{ //Aqui voce pode declarar as funcoes a ser utilizadas na pagina.
           minhaFuncao: function minhaFuncao(){
@@ -122,7 +142,17 @@
           vmodelo: function mudou(valorNovo){
             console.log(valorNovo);
           }
-        }
+        },
+        
+      });
+      const vue2 = new Vue({
+        el:"#template",
+        /*
+          O template ele eh uma especie de innerHTML do vue, 
+        esse atributo limpa o elemento selecionado pelo atributo 
+        el e coloca o conteudo do atributo template em seu lugar.
+        */
+        template:"<div>Criado com o atributo template do Vue.</div>"
       });
     </script>  
   </body>
