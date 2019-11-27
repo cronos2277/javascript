@@ -103,9 +103,32 @@
       <hr>
       <div id="template">
           <!-- Aqui dentro estara o conteudo criado dinamicamente pelo Vue. -->
-      </div>
+      </div>    
+      <blog post="Minha jornada com Vue"></blog>       
     </div>
+    
     <script>
+      Vue.component('blog', {   
+        /*
+          Um componente deve ser carregado antes de instanciar os objetos do vue,
+          assim quando o vue comecar a renderizar, o mesmo ele ja sabe o que fazer
+          ao encontrar um componente. A criacao de um componente segue a seguinte 
+          sintaxe: Vue.component('Nome do componente', {Objeto com valores});
+          Dentro do Objeto voce tem o props que tem um funcionamento identico ao
+          React, No props voce coloca dentro do array o nome das propriedades dos
+          componentes criados e ai no template voce renderiza. Aqui nesse objeto
+          eh possivel usar os atributos abaixo, como o watch para monitorar, ou
+          o method e o computed por exemplo. Mas lembre-se chame os componentes
+          antes de dar new em qualquer objeto Vue.
+        */     
+        props: ['post'],        
+        template: `
+          <div class="blog-post">
+            <h3>{{ post }}</h3>            
+          </div>
+        `
+      });
+
       const vue = new Vue({
         el:"#seletor", //Aqui eh informado o seletor Vue.
         data:{ //Todas os atributos criados aqui podem ser chamados diretamente com {{}}
@@ -142,9 +165,8 @@
           vmodelo: function mudou(valorNovo){
             console.log(valorNovo);
           }
-        },
-        
-      });
+        }        
+      });      
       const vue2 = new Vue({
         el:"#template",
         /*
@@ -153,7 +175,8 @@
         el e coloca o conteudo do atributo template em seu lugar.
         */
         template:"<div>Criado com o atributo template do Vue.</div>"
-      });
+      });      
+      
     </script>  
   </body>
 </html>
