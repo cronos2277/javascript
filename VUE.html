@@ -1,0 +1,254 @@
+<html>
+  <head>
+    <title>VUE</title>
+    <meta charset='UTF-8'>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      .classe{
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="seletor">
+      <!-- 
+        O Vue funciona assim, voce informa um seletor ao Vue e ele renderiza
+        aonde eh indicado para ele renderizar, o seletor eh informado no
+        atributo el.
+        Eh dessa forma como exibida abaixo, que voce chama um atributo
+        no VUE, tudos os atributos criados dentro do data, voce pode chamar
+        usando chaves duplas e o Vue renderiza.
+      -->
+      <p>{{atributo_vue}}</p>
+      <!-- 
+          o ':' ele pega o valor do atributo informado e faz um {{}} no atributo,
+          seria algo do tipo href={{link}}, esse parametro eh a forma resumida do
+          v-bind:href="link". O Bind ele eh uma comunicacao Unidirecional, ou seja
+          se alterar ali, nao altera o valor no atributo dentro do Vue.
+      -->
+      <a :href="link">Exemplo de link</a>
+      <!-- 
+        O v-model diferente do v-bind acima, permite uma comunicacao bi-direcional,
+        ou seja quando muda o valor no html a variavel eh atualizada no exato momento,
+        eh como se houvesse um onchange no elemento sincronizando a variavel com o valor
+        do elemento, muito interessante para ser usado em formularios. Simplesmente coloca
+        o v-model="o atributo a ser sincronizado", No caso a sincronizacao ocorre com o 
+        atributo vmodelo.
+        Temos tambem o controle de eventos no vue, o @ substitui o 'v-on:', repare que no
+        caso abaixo temos ambos tanto o @ como o v-on e fazem exatamente a mesma coisa, uma
+        vez que assim como o : eh o resumo do bind o @ eh do v-on. Com relacao ao v-on o mesmo
+        lida com eventos, eh como se fosse o onclick, ou on change, porem com a sintaxe levemente
+        diferente. alem disso voce tem metodos que padrao no evento, por exemplo ao inves de 
+        voce colocar o metodo keyup e depois tratar as teclas, aqui voce pode colocar a notacao '.'
+        e a tecla a ser tratada, e assim sera executado, apenas quando aquela tecla em especifico
+        for pressionado, tambem temos o '.stop' que tem o metodo padrao relacionado para parar eventos
+        exemplo de uso: v-on:click, @change, @mouseover.stop.
+      -->
+      <p>{{vmodelo}}</p>
+      <input type='text' v-model='vmodelo' v-on:keyup.enter="teclaEnter" @keyup.esc="teclaEsc"/>
+      <!-- 
+        Chamando uma funcao, repare que a mesma foi declarada dentro do atributo metodo, dentro
+        do objeto Vue. Uma vez declarada la voce pode fazer essa chamada, seguindo a sintaxe
+        abaixo.
+      -->
+      {{minhaFuncao()}}
+      <br /> <br />
+      <!-- 
+        Aqui em baixo temos o dado computado. Ele permite criar funcoes como o methods, porem
+        a forma de chamada dele eh diferente, a funcao eh chamada como se fosse um arquivo,
+        pode ser interessante para criar funcoes de callback, ou funcoes que retorne os dados
+        prontos.
+      -->
+      {{computado}}
+      <hr />
+      <!-- a diretiva abaixo nao renderiza o componente quando falso, apenas verdadeiro -->
+      <p v-if="false">Nao sera Renderizado</p>
+      <!-- a diretiva abaixo apenas seta o display como none, mas renderiza. -->
+      <p v-show="false">Tera o display setado como none, diferente do anterior que nao foi renderizado.</p>
+      <div>
+        <!-- 
+          Temos tambem a diretiva v-for. A diretiva v-for funciona como laco for do javascript
+          Voce pode tambem chamar a variavel de interacao usnado o {{suaVariavel}} no meio do laco.
+          Com essa diretiva eh possivel misturar o html com um laco javascript. Assim como temos um laco
+          classico como o criado abaixo que vai ate 9, podemos ter tambem lacos customizaveis, para arrays e objetos.
+        -->
+        <span v-for="n in 9">{{n}}, </span><hr />
+        <!-- 
+          Tambem podemos usar o v-for para varrer objetos, usando a sintaxe abaixo, esse seria equivalente
+          ao forEach, enquanto o de cima o forIn, (chave,valor) in objeto.
+        -->
+        <span v-for="(chave, valor) in objeto">{{chave}} : {{valor}}<br/></span>
+      </div>
+      <hr />
+      <div v-for="n in 3">
+        <!-- 
+          Tambem temos a sintax if, else if e else para o Vue, seguindo a sintaxe abaixo.
+          No caso apenas 1 desses 3 blocos funcionara a cada iteracao, como qualquer desvio
+          condicional.
+        -->
+        <span v-if="n == 1">Numero 1</span> <!-- equivalente ao if -->
+        <span v-else-if="n>1 && n<3">Numero 2</span> <!-- equivalente ao else if -->
+        <span v-else>Numero 3</span> <!-- equivalente ao else -->
+      </div>
+      <hr>
+      <!-- 
+        O Vue tambem em um toggle para classes, como o JQuery por exemplo. Inicialmente
+        temos que o click ele recebe o inverso do booleano, porem a novidade esta no 
+        atributo :class. O :class recebe um objeto, que inclusive pode ter o seu atributo
+        envolto de aspas, ficando: {'classe': booleano}", nesse exemplo a classe se refere
+        ao estilo em css criado anteriormente e o booleano eh o atributo dentro do atributo
+        data.
+      -->
+      <h1 @click="booleano = !booleano" :class="{classe: booleano}">Clique para efeito de Texto</h1>
+      <hr>
+      <div id="template">
+          <!-- Aqui dentro estara o conteudo criado dinamicamente pelo Vue. -->
+      </div>    
+      <blog post="Minha jornada com Vue"></blog>      
+      <div id='dirct' v-diretiva="variavel"></div> 
+    </div>
+    
+    <script>
+      Vue.component('blog', {   
+        /*
+          Um componente deve ser carregado antes de instanciar os objetos do vue,
+          assim quando o vue comecar a renderizar, o mesmo ele ja sabe o que fazer
+          ao encontrar um componente. A criacao de um componente segue a seguinte 
+          sintaxe: Vue.component('Nome do componente', {Objeto com valores});
+          Dentro do Objeto voce tem o props que tem um funcionamento identico ao
+          React, No props voce coloca dentro do array o nome das propriedades dos
+          componentes criados e ai no template voce renderiza. Aqui nesse objeto
+          eh possivel usar os atributos abaixo, como o watch para monitorar, ou
+          o method e o computed por exemplo. Mas lembre-se chame os componentes
+          antes de dar new em qualquer objeto Vue. Quando for criar componentes,
+          crie componentes com corpo, parece que o Vue e buga com componentes sem
+          corpo. Voce pode criar um componente dentro de um objeto vue, usando o 
+          atributo component dele, exemplo:
+          new Vue({
+            el: "seletor"
+            component:{
+              blog: {props: ['post'], template:'saida html'}
+            }
+          });
+          Mais informacoes sobre componentes: https://br.vuejs.org/v2/guide/components-registration.html
+        */     
+        props: ['post'],        
+        template: `
+          <div class="blog-post">
+            <h3>{{ post }}</h3>            
+          </div>
+        `
+      });
+      Vue.directive('diretiva',{
+        /*
+          Na diretiva voce escolhe inicialmente um nome, lembrando que
+          na hora de colocar como atributo html o mesmo deve ter o v- na frente,
+          nesse caso o nome dessa diretiva fica v-diretiva, como os componentes,
+          aconselha criar antes de instanciar algum objeto do Vue. A sintaxe 
+          eh a seguinte:
+          Vue.directive('nome da diretiva',{objeto});
+          Voce tambem pode criar dentro de algum objeto instanciado.
+          new Vue({
+            data:{aVariavelDirectiva:"Valor aqui"}
+            directive: inserted(nomeDaDiretiva,valorDaDiretiva){
+              //Sua Logica.
+            }
+          });
+          A sintaxe eh a seguinte: Vue.directive('diretiva',{objeto com as funcoes}).
+          Uma vez que voce faz isso, dentro do objeto voce reescreve o metodo de acordo
+          com a necessidade, logo temos:
+          bind(){
+            //sua logica aqui
+          }
+          Entre os metodos que podem ser reescritos no objeto passado temos:
+          Um objeto de definição de diretiva pode prover algumas funções de gatilhos (todas opcionais):
+          "bind:" chamada apenas uma vez, quando a directiva é interligada pela primeira vez ao elemento. Aí é onde você pode fazer o trabalho de configuração inicial.
+          "inserted:" chamada quando o elemento for inserido no nó pai (garante a presença no nó pai, mas não necessariamente no documento).
+          "update:" chamada após a atualização do VNode que contém o componente, mas possivelmente antes da atualização de seus filhos. O valor da diretiva pode ou não ter mudado, mas você pode evitar atualizações desnecessárias comparando os valores atuais com os antigos (veja abaixo, em argumentos dos gatilhos).
+          "componentUpdated:" chamada após a atualização do Vnode que contém o componente, inclusive de seus filhos.
+          "unbind:" chamada somente uma vez, quando a diretiva é desvinculada do elemento.
+          Os parametros que essas metodos podem ter:
+          1)=> el: O elemento a que a diretiva está vinculada. Isso pode ser usado para manipular o DOM diretamente.
+          2)=> binding: Um objeto contendo as seguintes propriedades:
+              name: O nome da diretiva, sem o prefixo v-.
+              value: O valor passado para a diretiva. Por exemplo em v-my-directive="1 + 1", o valor passado seria 2.
+              oldValue: O valor anterior, somente disponível em update e componentUpdated. Está presente tanto se o valor foi alterado quanto não alterado.
+              expression: A expressão de vinculação como uma String. Por exemplo em v-my-directive="1 + 1", a expressão seria "1 + 1".
+              arg: O argumento passado para a diretiva, se houver algum. Por exemplo em v-my-directive:foo, o argumento seria "foo".
+              modifiers: Um objeto contendo modificadores, se houver algum. Por exemplo em v-my-directive.foo.bar, o objeto seria { foo: true, bar: true }.
+          3)=> vnode: O nó virtual produzido pelo compilador do Vue. Veja VNode API para mais detalhes.
+          4)=> oldVnode: O nó virtual anterior, somente disponível em update e componentUpdated.
+            Na maioria das metodos reescritos o primeiro parametro referencia o proprio elemento html e o segundo o
+            parametro faz refencia ao a sua diretiva criada, nesse segundo parametro voce tem acesso ao
+            nome da diretiva, valores, expressao e etc, porem cuidado, quando for trabalhar com strings aqui, coloque um segunda aspas
+            dentro da aspas que eh do atributo, pois ele interpola a string, e ai pode dar problemas. 
+            No exemplo abaixo eu crio dentro um paragrafo com texto em vermelho,
+            cujo o conteudo esta dentro do objeto vue instanciado, ou seja na diretiva se passa o nome da variavel, e o
+            Vue renderiza busca e renderiza o conteudo dentro dos <p></p> em vermelho. O template string chama a variavel, de acordo
+            com o valor que eh passado na diretiva, ou seja o valor da diretiva eh chamada faz referencia a uma variavel dentro de data.
+            
+        */
+        bind(elemento,valor){   
+          //Mais informacoes sobre criacao de diretivas: https://br.vuejs.org/v2/guide/custom-directive.html                    
+            elemento.innerHTML = `<p style='color:red'>${valor.value}</p>`;
+        }
+      });
+      const vue = new Vue({
+        el:"#seletor", //Aqui eh informado o seletor Vue.
+        data:{ //Todas os atributos criados aqui podem ser chamados diretamente com {{}}
+          atributo_vue:"Exemplo de atributos vue", //Usado para chamar no {{}}
+          link:"#linkClicado", //usado no v-bind.
+          vmodelo:"exemplo", //usado no v-model.
+          objeto:{primeiro:1,segundo:2,terceiro:3}, //tambem eh aceito objetos.
+          booleano:false, //Usado para Toggle de classe.
+          variavel: "Teste criando uma diretiva Nova"
+        },
+        methods:{ //Aqui voce pode declarar as funcoes a ser utilizadas na pagina.
+          minhaFuncao: function minhaFuncao(){
+            console.log('minha funcao');
+          },
+          teclaEsc: function(){
+            alert('Tecla ESC Pressionada');
+          },
+          teclaEnter: function(){
+              alert('Tecla Enter Pressionada');
+          }
+        },
+        computed:{ //Funcoes computadas, sao chamadas como callback e nao envocadas.
+          computado: function computado(){
+            return 'Dados Computado';
+          }
+        },
+        watch:{ //Monitora se houve as mudancas nos atributos dentro de data.
+        /* 
+          Voce informa como atributo, o mesmo nome que esta no data, uma vez feito isso
+          voce passa uma funcao, assim quando ocorrer alguma mudanca na variavel, essa
+          funcao eh executada aqui, no caso essa funcao chama o console.log quando o
+          vmodelo eh modificado. O mesmo segue um principio funcional, sendo assim o 
+          primeiro parametro, eh referente a mudanca percebida.
+        */
+          vmodelo: function mudou(valorNovo){
+            console.log(valorNovo);
+          }
+        }        
+      });      
+      const vue2 = new Vue({
+        el:"#template",
+        /*
+          O template ele eh uma especie de innerHTML do vue, 
+        esse atributo limpa o elemento selecionado pelo atributo 
+        el e coloca o conteudo do atributo template em seu lugar.
+        */
+        template:"<div>Criado com o atributo template do Vue.</div>",
+        mounted: function(){ 
+         //Essa funcao ela "monta o objeto", seria como se fosse o constructor do vue.
+         //No caso tudo que esta aqui dentro eh executado, assim que essa instancia do
+         //vue eh inicializada. 
+          console.log('Executado Quando o objeto eh instanciado')
+          }
+      });   
+      
+      
+    </script>  
+  </body>
+</html>
