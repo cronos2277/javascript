@@ -1,18 +1,95 @@
 <template>
 <div class="calculator">
-  <Display />
-  <Button />
+  <Display  :value="displayValue"/>
+  <!-- O onCalcButtonClick eh um atributo customizavel criado no Button.vue-->
+  <Button label="AC" triple @onCalcButtonClick="clearMemory"/>
+  <Button label="/" operation @onCalcButtonClick="setOperation"/>
+  <Button label="7" @onCalcButtonClick="addDigit"/>
+  <Button label="8" @onCalcButtonClick="addDigit"/>
+  <Button label="9" @onCalcButtonClick="addDigit"/>
+  <Button label="*" operation @onCalcButtonClick="setOperation"/>
+  <Button label="4" @onCalcButtonClick="addDigit"/>
+  <Button label="5" @onCalcButtonClick="addDigit"/>
+  <Button label="6" @onCalcButtonClick="addDigit"/>
+  <Button label="-" operation @onCalcButtonClick="setOperation"/>
+  <Button label="1" @onCalcButtonClick="addDigit"/>
+  <Button label="2" @onCalcButtonClick="addDigit"/>
+  <Button label="3" @onCalcButtonClick="addDigit"/>
+  <Button label="+" operation @onCalcButtonClick="setOperation"/>
+  <Button label="0" double @onCalcButtonClick="addDigit"/>
+  <Button label="." @onCalcButtonClick="addDigit"/>
+  <Button label="=" @onCalcButtonClick="setOperation"/>
+
 </div>
 </template>
 <script>
 import Display from '../components/Display';
 import Button from '../components/Button';
 export default{
-  components: {Button, Display}
+  //Quando em componentes, o data retorna um objeto, no caso uma funcao que retorna um objeto.
+  data:function(){
+    return{ //Aqui temos os valores iniciais da aplicacao.
+      displayValue:0,
+      clearDisplay:false,
+      operation:null,
+      values:[0,0],
+      current: 0
+    }
+  },
+  components: {Button, Display},  
+    methods: {
+        clearMemory() {
+          //Essa funcao retorna o objeto ao estado inicial do valor, ou seja limpa o objeto.
+            Object.assign(this.$data, this.$options.data())
+        },
+        setOperation(operation) {
+            if (this.current === 0) {
+                this.operation = operation
+                this.current = 1
+                this.clearDisplay = true
+            } else {
+                const equals = operation === "="
+                const currentOperation = this.operation
+                try {
+                    this.values[0] = eval(
+                        `${this.values[0]} ${currentOperation} ${this.values[1]}`
+                    )
+                } catch (e) {
+                    this.$emit('onError', e)
+                }
+                this.values[1] = 0
+                this.displayValue = this.values[0]
+                this.operation = equals ? null : operation
+                this.current = equals ? 0 : 1
+                this.clearDisplay = !equals
+            }
+        },
+        addDigit(n) {
+            if (n === "." && this.displayValue.includes(".")) {
+                return
+            }
+            const clearDisplay = this.displayValue === "0"
+                || this.clearDisplay
+            const currentValue = clearDisplay ? "" : this.displayValue
+            const displayValue = currentValue + n
+            this.displayValue = displayValue
+            this.clearDisplay = false       
+            
+            
+            
+             if (n !== ".") {
+                 const i = this.current
+                 const newValue = parseFloat(displayValue)
+                 this.values[i] = newValue
+             }
+        }
+    }
+
+
 }
 </script>
 <style>
-calculator{
+.calculator{
   height:320px;
   width:235px;
   border-radius:5px;
