@@ -237,7 +237,13 @@
         esse atributo limpa o elemento selecionado pelo atributo 
         el e coloca o conteudo do atributo template em seu lugar.
         */
-        template:"<div>Criado com o atributo template do Vue.</div>"
+        template:"<div>Criado com o atributo template do Vue.</div>",
+        mounted: function(){ 
+         //Essa funcao ela "monta o objeto", seria como se fosse o constructor do vue.
+         //No caso tudo que esta aqui dentro eh executado, assim que essa instancia do
+         //vue eh inicializada. 
+          console.log('Executado Quando o objeto eh instanciado')
+          }
       });   
       
       

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="js/vue.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Relatório de Vendas</title>
+</head>
+
+<body>
+
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                title:"Relatorio de vendas",
+                sales:null
+            },
+            methods:{
+                getSales(){
+                    fetch('/data/sales.json')
+                    .then(resp => resp.json())
+                    .then(data => console.log(data));
+                }
+            },
+            mounted(){
+                this.getSales();
+            }
+        });
+    </script>
+</body>
+
+</html>
