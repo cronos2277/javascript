@@ -180,7 +180,9 @@
           4)=> oldVnode: O nó virtual anterior, somente disponível em update e componentUpdated.
             Na maioria das metodos reescritos o primeiro parametro referencia o proprio elemento html e o segundo o
             parametro faz refencia ao a sua diretiva criada, nesse segundo parametro voce tem acesso ao
-            nome da diretiva, valores, expressao e etc. No exemplo abaixo eu crio dentro um paragrafo com texto em vermelho,
+            nome da diretiva, valores, expressao e etc, porem cuidado, quando for trabalhar com strings aqui, coloque um segunda aspas
+            dentro da aspas que eh do atributo, pois ele interpola a string, e ai pode dar problemas. 
+            No exemplo abaixo eu crio dentro um paragrafo com texto em vermelho,
             cujo o conteudo esta dentro do objeto vue instanciado, ou seja na diretiva se passa o nome da variavel, e o
             Vue renderiza busca e renderiza o conteudo dentro dos <p></p> em vermelho. O template string chama a variavel, de acordo
             com o valor que eh passado na diretiva, ou seja o valor da diretiva eh chamada faz referencia a uma variavel dentro de data.
