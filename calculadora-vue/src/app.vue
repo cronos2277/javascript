@@ -1,9 +1,15 @@
 <template>
   <div id="app">
-    Calculadora
+    <h1>Calculator</h1>
+    <Calculator />
   </div> 
 </template>
-
+<script>
+  import Calculator from "./main/Calculator";
+  export default{
+    components: { Calculator }
+  }
+</script>
 <style>
 @font-face {
     font-family: "RobotoMono";
