@@ -104,7 +104,8 @@
       <div id="template">
           <!-- Aqui dentro estara o conteudo criado dinamicamente pelo Vue. -->
       </div>    
-      <blog post="Minha jornada com Vue"></blog>       
+      <blog post="Minha jornada com Vue"></blog>      
+      <div id='dirct' v-diretiva="variavel"></div> 
     </div>
     
     <script>
@@ -119,7 +120,17 @@
           componentes criados e ai no template voce renderiza. Aqui nesse objeto
           eh possivel usar os atributos abaixo, como o watch para monitorar, ou
           o method e o computed por exemplo. Mas lembre-se chame os componentes
-          antes de dar new em qualquer objeto Vue.
+          antes de dar new em qualquer objeto Vue. Quando for criar componentes,
+          crie componentes com corpo, parece que o Vue e buga com componentes sem
+          corpo. Voce pode criar um componente dentro de um objeto vue, usando o 
+          atributo component dele, exemplo:
+          new Vue({
+            el: "seletor"
+            component:{
+              blog: {props: ['post'], template:'saida html'}
+            }
+          });
+          Mais informacoes sobre componentes: https://br.vuejs.org/v2/guide/components-registration.html
         */     
         props: ['post'],        
         template: `
@@ -128,7 +139,58 @@
           </div>
         `
       });
-
+      Vue.directive('diretiva',{
+        /*
+          Na diretiva voce escolhe inicialmente um nome, lembrando que
+          na hora de colocar como atributo html o mesmo deve ter o v- na frente,
+          nesse caso o nome dessa diretiva fica v-diretiva, como os componentes,
+          aconselha criar antes de instanciar algum objeto do Vue. A sintaxe 
+          eh a seguinte:
+          Vue.directive('nome da diretiva',{objeto});
+          Voce tambem pode criar dentro de algum objeto instanciado.
+          new Vue({
+            data:{aVariavelDirectiva:"Valor aqui"}
+            directive: inserted(nomeDaDiretiva,valorDaDiretiva){
+              //Sua Logica.
+            }
+          });
+          A sintaxe eh a seguinte: Vue.directive('diretiva',{objeto com as funcoes}).
+          Uma vez que voce faz isso, dentro do objeto voce reescreve o metodo de acordo
+          com a necessidade, logo temos:
+          bind(){
+            //sua logica aqui
+          }
+          Entre os metodos que podem ser reescritos no objeto passado temos:
+          Um objeto de definição de diretiva pode prover algumas funções de gatilhos (todas opcionais):
+          "bind:" chamada apenas uma vez, quando a directiva é interligada pela primeira vez ao elemento. Aí é onde você pode fazer o trabalho de configuração inicial.
+          "inserted:" chamada quando o elemento for inserido no nó pai (garante a presença no nó pai, mas não necessariamente no documento).
+          "update:" chamada após a atualização do VNode que contém o componente, mas possivelmente antes da atualização de seus filhos. O valor da diretiva pode ou não ter mudado, mas você pode evitar atualizações desnecessárias comparando os valores atuais com os antigos (veja abaixo, em argumentos dos gatilhos).
+          "componentUpdated:" chamada após a atualização do Vnode que contém o componente, inclusive de seus filhos.
+          "unbind:" chamada somente uma vez, quando a diretiva é desvinculada do elemento.
+          Os parametros que essas metodos podem ter:
+          1)=> el: O elemento a que a diretiva está vinculada. Isso pode ser usado para manipular o DOM diretamente.
+          2)=> binding: Um objeto contendo as seguintes propriedades:
+              name: O nome da diretiva, sem o prefixo v-.
+              value: O valor passado para a diretiva. Por exemplo em v-my-directive="1 + 1", o valor passado seria 2.
+              oldValue: O valor anterior, somente disponível em update e componentUpdated. Está presente tanto se o valor foi alterado quanto não alterado.
+              expression: A expressão de vinculação como uma String. Por exemplo em v-my-directive="1 + 1", a expressão seria "1 + 1".
+              arg: O argumento passado para a diretiva, se houver algum. Por exemplo em v-my-directive:foo, o argumento seria "foo".
+              modifiers: Um objeto contendo modificadores, se houver algum. Por exemplo em v-my-directive.foo.bar, o objeto seria { foo: true, bar: true }.
+          3)=> vnode: O nó virtual produzido pelo compilador do Vue. Veja VNode API para mais detalhes.
+          4)=> oldVnode: O nó virtual anterior, somente disponível em update e componentUpdated.
+            Na maioria das metodos reescritos o primeiro parametro referencia o proprio elemento html e o segundo o
+            parametro faz refencia ao a sua diretiva criada, nesse segundo parametro voce tem acesso ao
+            nome da diretiva, valores, expressao e etc. No exemplo abaixo eu crio dentro um paragrafo com texto em vermelho,
+            cujo o conteudo esta dentro do objeto vue instanciado, ou seja na diretiva se passa o nome da variavel, e o
+            Vue renderiza busca e renderiza o conteudo dentro dos <p></p> em vermelho. O template string chama a variavel, de acordo
+            com o valor que eh passado na diretiva, ou seja o valor da diretiva eh chamada faz referencia a uma variavel dentro de data.
+            
+        */
+        bind(elemento,valor){   
+          //Mais informacoes sobre criacao de diretivas: https://br.vuejs.org/v2/guide/custom-directive.html                    
+            elemento.innerHTML = `<p style='color:red'>${valor.value}</p>`;
+        }
+      });
       const vue = new Vue({
         el:"#seletor", //Aqui eh informado o seletor Vue.
         data:{ //Todas os atributos criados aqui podem ser chamados diretamente com {{}}
@@ -136,7 +198,8 @@
           link:"#linkClicado", //usado no v-bind.
           vmodelo:"exemplo", //usado no v-model.
           objeto:{primeiro:1,segundo:2,terceiro:3}, //tambem eh aceito objetos.
-          booleano:false //Usado para Toggle de classe.
+          booleano:false, //Usado para Toggle de classe.
+          variavel: "Teste criando uma diretiva Nova"
         },
         methods:{ //Aqui voce pode declarar as funcoes a ser utilizadas na pagina.
           minhaFuncao: function minhaFuncao(){
@@ -175,7 +238,8 @@
         el e coloca o conteudo do atributo template em seu lugar.
         */
         template:"<div>Criado com o atributo template do Vue.</div>"
-      });      
+      });   
+      
       
     </script>  
   </body>
