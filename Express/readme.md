@@ -6,6 +6,9 @@
 <b>npm i --save</b><br>Salva o pacote instalado no package.json<br>
 <b>npm i --save-dev</b><br>Salva o pacote instalado no package.json, mas como dependencia de desenvolvedor<br>
 <b>node</b><br> Laucher padrao que executa o arquivo js selecionado.
+<h2>NODEMON</h2>
+Quando instalado, ele monitora o arquivo e toda vez que o arquivo eh alterado, exemplo de uso: nodemon "arquivo".js
+<br><br>
 <h2>PM2</h2>
 <span>O PM2 eh um laucher mais profissional usado em ambientes de producao</span><br><br>
 <b>pm2 start Arquivo.js --name nome-da-aplicacao</b><br>Executa e monitora a aplicacao usando o PM2<br>
