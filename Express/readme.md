@@ -8,10 +8,10 @@
 <b>node</b><br> Laucher padrao que executa o arquivo js selecionado.
 <h2>PM2</h2>
 <span>O PM2 eh um laucher mais profissional usado em ambientes de producao</span><br>
-<b>pm2 start Arquivo.js --name nome-da-aplicacao</b>Executa e monitora a aplicacao usando o PM2<br>
+<b>pm2 start Arquivo.js --name nome-da-aplicacao</b><br>Executa e monitora a aplicacao usando o PM2<br>
 <b>pm2 monit</b><br> Abre o monitor que exibira detalhes sobre os processos node abertos
-<b>pm2 status</b> Exibe o estatus de todos os processos node abertos em uma tabela<br>
-<b>pm2 show "id do processo"</b> Descreve os detalhes do node processo do ID selecionado<br>
-<b>pm2 restart "id do processo"</b>Reinicia o node do processo selecionado<br>
-<b>pm2 stop "id do processo"</b>Paraliza o node processo selecionado<br>
+<b>pm2 status</b><br> Exibe o estatus de todos os processos node abertos em uma tabela<br>
+<b>pm2 show "id do processo"</b><br> Descreve os detalhes do node processo do ID selecionado<br>
+<b>pm2 restart "id do processo"</b><br>Reinicia o node do processo selecionado<br>
+<b>pm2 stop "id do processo"</b><br>Paraliza o node processo selecionado<br>
 <b>pm2 kill</b><br>Finaliza a aplicacao PM2 e mata todos os processos.
