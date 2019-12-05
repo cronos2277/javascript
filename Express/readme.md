@@ -5,7 +5,7 @@
 <b>npm i -g "nome do pacote"</b><br>Comando para instalar de forma global, precisa ser root.<br>
 <b>npm i --save "nome do pacote"</b><br>Salva o pacote instalado no package.json<br>
 <b>npm i --save-dev "nome do pacote"</b><br>Salva o pacote instalado no package.json, mas como dependencia de desenvolvedor<br>
-<b>node</b><br> Laucher padrao que executa o arquivo js selecionado. Exemplo de uso <b>node index.js</b>
+<b>node</b><br> Laucher padrao que executa o arquivo js selecionado. Exemplo de uso: <b>node index.js</b>
 <h2>NODEMON</h2>
 Quando instalado, ele monitora o arquivo e toda vez que o arquivo eh alterado, exemplo de uso: <b>nodemon index.js</b>
 <br><br>
