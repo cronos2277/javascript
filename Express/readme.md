@@ -2,13 +2,16 @@
 <h2>NPM</h2>
 <b>npm init -y</b><br> O init cria o package.json e o -y ele cria de maneira padrao sem questionar nada<br>
 <b>npm i</b><br>Comando para instalar algum modulo.<br>
-<b>npm i -g</b><br>Comando para instalar de forma global.<br>
+<b>npm i -g</b><br>Comando para instalar de forma global, precisa ser root.<br>
 <b>npm i --save</b><br>Salva o pacote instalado no package.json<br>
 <b>npm i --save-dev</b><br>Salva o pacote instalado no package.json, mas como dependencia de desenvolvedor<br>
 <b>node</b><br> Laucher padrao que executa o arquivo js selecionado.
 <h2>PM2</h2>
 <span>O PM2 eh um laucher mais profissional usado em ambientes de producao</span><br>
-<b></b><br>
-<b></b><br>
-<b></b><br>
-<b></b><br>
+<b>pm2 start Arquivo.js --name nome-da-aplicacao</b>Executa e monitora a aplicacao usando o PM2<br>
+<b>pm2 monit</b><br> Abre o monitor que exibira detalhes sobre os processos node abertos
+<b>pm2 status</b> Exibe o estatus de todos os processos node abertos em uma tabela<br>
+<b>pm2 show "id do processo"</b> Descreve os detalhes do node processo do ID selecionado<br>
+<b>pm2 restart "id do processo"</b>Reinicia o node do processo selecionado<br>
+<b>pm2 stop "id do processo"</b>Paraliza o node processo selecionado<br>
+<b>pm2 kill</b><br>Finaliza a aplicacao PM2 e mata todos os processos.
