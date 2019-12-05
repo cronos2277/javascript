@@ -7,9 +7,9 @@
 <b>npm i --save-dev</b><br>Salva o pacote instalado no package.json, mas como dependencia de desenvolvedor<br>
 <b>node</b><br> Laucher padrao que executa o arquivo js selecionado.
 <h2>PM2</h2>
-<span>O PM2 eh um laucher mais profissional usado em ambientes de producao</span><br>
+<span>O PM2 eh um laucher mais profissional usado em ambientes de producao</span><br><br>
 <b>pm2 start Arquivo.js --name nome-da-aplicacao</b><br>Executa e monitora a aplicacao usando o PM2<br>
-<b>pm2 monit</b><br> Abre o monitor que exibira detalhes sobre os processos node abertos
+<b>pm2 monit</b><br> Abre o monitor que exibira detalhes sobre os processos node abertos<br>
 <b>pm2 status</b><br> Exibe o estatus de todos os processos node abertos em uma tabela<br>
 <b>pm2 show "id do processo"</b><br> Descreve os detalhes do node processo do ID selecionado<br>
 <b>pm2 restart "id do processo"</b><br>Reinicia o node do processo selecionado<br>
