@@ -5,26 +5,14 @@
 */
 const express = require('express'); //importando.
 const app = express(); //Instanciando
+const modulo = require('./Modulo.js');
 /*
     Mais informacoes:
     https://expressjs.com/pt-br/4x/api.html#app
 */
-const middleware_funcao = function(requisicao, resposta,proxima_funcao){
-    console.log('Carregando pagina');
-//Esse modulo funciona no padrao chain of responsability ou popularmente
-//conhecido como middleware, o terceiro parametro eh uma callback que 
-//permitira a que outros metodos use, sem essa funcao o express processara
-//essa callback e ignorara qualquer outra chamada do metodo use, uma
-//vez que esse metodo nao eh restrito a url e roda de maneira em qualquer
-//url. O terceiro parametro sempre sinalizara ao metodo que ele devera
-//processar a outra chamada dele durante o codigo, formando assim uma corrente,
-//ou seja essa callback executara, depois outra callback de outra chamada
-//do metodo use(), get() ou post() formando assim uma corrente, ate que
-//nao se tenha mais a solicitacao de uma proxima chamada. Abaixo eu explicarei
-//o Chain of responsability ou middleway (ambos se refere ao mesmo project pattern)     
-    proxima_funcao();
-}
-app.use(middleware_funcao); //Ele esta usando a callback acima.
+ //Ele esta usando a callback do modulo, leia Modulo.js 
+ //para mais informacoes.
+app.use(modulo());
 
 
 const funcaoCallbackSucesso = function funcaoCallbackSucesso(){
