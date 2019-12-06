@@ -6,6 +6,9 @@
 const express = require('express'); //importando.
 const app = express(); //Instanciando
 const modulo = require('./Modulo.js');
+const bodyModule = require("./Body-Parser-Module");
+//Mais informacoes veja o Body-Parse-Module.js
+bodyModule.init(app);
 /*
     Mais informacoes:
     https://expressjs.com/pt-br/4x/api.html#app
@@ -13,8 +16,7 @@ const modulo = require('./Modulo.js');
  //Ele esta usando a callback do modulo, leia Modulo.js 
  //para mais informacoes.
 app.use(modulo());
-
-
+app.use('/body',bodyModule.bodyExemplos);
 const funcaoCallbackSucesso = function funcaoCallbackSucesso(){
     console.log("Sucesso na conexao");
 }
