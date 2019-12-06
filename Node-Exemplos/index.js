@@ -37,10 +37,33 @@ function callbackRequisicaoCustomizada(requisicao,resposta){
 //Nada sera processado depois dessa instrucao acima a nao ser que tenha uma callback com next, ou seja ponha o seu codigo antes    
 }
 function callbackReqResGet(requisicao,resposta){
-    resposta.send("<b>Esta No GET</b>");
+    /*
+        Imagine a seguinte url: http://localhost:3000/method/1?param=2
+        Nesse exemplo de url acima o requisicao.params.":valor" passado
+        la na funcao do get, pegaria o valor 1 dessa url, no caso o
+        numero 1 apos o method/.
+        ja o requisicao.query pega os valores da url apos o ?. 
+        sintaxe: requisicao.params.valor; <- o valor eh o :valor passado
+        como parametro no metodo, nesse caso voce pega os valores 
+        que podem ser modificados, logo voce usa o :valor para sinalizar
+        os valores que serao modificados.
+        na linha 72: app.get('/method/:valor',callbackReqResGet);
+        esse :valor pode vir qualquer valor e esse valor pode ser
+        recuperado dentro de requisicao.params.valor.
+        Ja o requisicao.query seria como se fosse o $_GET do PHP.
+        porem como um array no javascript pode ser acessado em notacao
+        ponto... Exemplo url?variavel=1, quando tiver esse valor na url
+        existira um atributo dentro de requisicao.query chamado variavel,
+        podendo ser acessado em requisicao.query.variavel e nele nesse
+        exemplo tera o valor 1.
+    */
+    let parametro_url = requisicao.params.valor;
+    let parametro_get = requisicao.query;
+    resposta.send(`<b>parametro_url:${parametro_url} <br> parametro_get: ${parametro_get.param} </b>`);
 //Nada sera processado depois dessa instrucao acima a nao ser que tenha uma callback com next ou seja ponha o seu codigo antes    
 }
 function callbackReqResPost(requisicao,resposta){
+    
     resposta.send("<b>Esta No Post</b>");
 //Nada sera processado depois dessa instrucao acima, a nao ser que tenha uma callback com next ou seja ponha o seu codigo antes    
 }
@@ -55,7 +78,8 @@ function callbackReqResPost(requisicao,resposta){
 // chamado essa callback, lembrando que todas as excecoes deveram ser
 //chamadas antes do caso generico, no caso do metodo use.
 app.use('/mude',callbackRequisicaoCustomizada);
-app.get('/method',callbackReqResGet);
+//Repare esse :valor, esse eh o valor que pode ser modificado
+app.get('/method/:valor',callbackReqResGet);
 app.post('/method',callbackReqResPost);
 
 
@@ -89,4 +113,3 @@ app.listen(3000,funcaoCallbackSucesso);
 	um parametro como padrão, todos unidos por esse parametro, ocorre a execução de diversos métodos em série
 	até a condição de parada seja acionada, como se fosse uma corrente.
 */
-
