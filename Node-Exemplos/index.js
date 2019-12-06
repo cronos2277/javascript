@@ -63,8 +63,26 @@ function callbackReqResGet(requisicao,resposta){
 //Nada sera processado depois dessa instrucao acima a nao ser que tenha uma callback com next ou seja ponha o seu codigo antes    
 }
 function callbackReqResPost(requisicao,resposta){
+    /*
+        Essa eh a forma padrao para pegar dados do POST.
+        primeiro voce passa para o metodo on os seguintes
+        parametros data + callback e end + callback, lembrando
+        que se eh chamado duas vezes.
+    */
     
-    resposta.send("<b>Esta No Post</b>");
+    let corpo = '' //Variavel que vai receber os valores.
+    requisicao.on('data', function(parte) {
+        //Aqui voce passa valores a essa variaveis.
+        corpo += parte
+    });
+
+    requisicao.on('end', function() {
+        //Aqui apos ter os dados voce manda o servidor exibir a 
+        //variavel corpo criado acima.
+        resposta.send(corpo)
+    });
+    
+    
 //Nada sera processado depois dessa instrucao acima, a nao ser que tenha uma callback com next ou seja ponha o seu codigo antes    
 }
 /*
