@@ -9,6 +9,23 @@ const app = express(); //Instanciando
     Mais informacoes:
     https://expressjs.com/pt-br/4x/api.html#app
 */
+const middleware_funcao = function(requisicao, resposta,proxima_funcao){
+    console.log('Carregando pagina');
+//Esse modulo funciona no padrao chain of responsability ou popularmente
+//conhecido como middleware, o terceiro parametro eh uma callback que 
+//permitira a que outros metodos use, sem essa funcao o express processara
+//essa callback e ignorara qualquer outra chamada do metodo use, uma
+//vez que esse metodo nao eh restrito a url e roda de maneira em qualquer
+//url. O terceiro parametro sempre sinalizara ao metodo que ele devera
+//processar a outra chamada dele durante o codigo, formando assim uma corrente,
+//ou seja essa callback executara, depois outra callback de outra chamada
+//do metodo use(), get() ou post() formando assim uma corrente, ate que
+//nao se tenha mais a solicitacao de uma proxima chamada. Abaixo eu explicarei
+//o Chain of responsability ou middleway (ambos se refere ao mesmo project pattern)     
+    proxima_funcao();
+}
+app.use(middleware_funcao); //Ele esta usando a callback acima.
+
 
 const funcaoCallbackSucesso = function funcaoCallbackSucesso(){
     console.log("Sucesso na conexao");
@@ -20,7 +37,7 @@ function callbackRequisicaoResposta(requisicao,resposta){
 */
 //Esse metodo pode retornar texto plano ou html.
 resposta.send("Estou <b>bem</b>");    
-//Nada sera processado depois dessa instrucao acima, ou seja ponha o seu codigo antes
+//Nada sera processado depois dessa instrucao acima a nao ser que tenha uma callback com next, ou seja ponha o seu codigo antes
 }
 function callbackRequisicaoCustomizada(requisicao,resposta){
 //Esse pode retornar em formato json transformando o objeto abaixo:
@@ -29,15 +46,15 @@ function callbackRequisicaoCustomizada(requisicao,resposta){
         valor:384.67,
         verdadeiro:true
     });
-//Nada sera processado depois dessa instrucao acima, ou seja ponha o seu codigo antes    
+//Nada sera processado depois dessa instrucao acima a nao ser que tenha uma callback com next, ou seja ponha o seu codigo antes    
 }
 function callbackReqResGet(requisicao,resposta){
     resposta.send("<b>Esta No GET</b>");
-//Nada sera processado depois dessa instrucao acima, ou seja ponha o seu codigo antes    
+//Nada sera processado depois dessa instrucao acima a nao ser que tenha uma callback com next ou seja ponha o seu codigo antes    
 }
 function callbackReqResPost(requisicao,resposta){
     resposta.send("<b>Esta No Post</b>");
-//Nada sera processado depois dessa instrucao acima, ou seja ponha o seu codigo antes    
+//Nada sera processado depois dessa instrucao acima, a nao ser que tenha uma callback com next ou seja ponha o seu codigo antes    
 }
 /*
     QUalquer requisicao a pagina caira dentro do metodo use.
@@ -65,5 +82,23 @@ app.use(callbackRequisicaoResposta);
 */
 app.listen(3000,funcaoCallbackSucesso);
 
-
+/*
+	Esse é o padrão de projeto também conhecido como Chain of Responsability, 
+	ou Middleware. Esse padrão funciona assim, você executa uma função e após
+	a execução ela pode ou não chamar a próxima. Um exemplo:
+	funcao(parameto){
+		//regra de negocio...
+		if(condicao para chamar a proxima funcao){
+			parametro.metodo();
+		}else{
+			encerre a execução.
+		}		
+	}
+	repare que a lógica se aproxima a de uma corrente, existe um método que funciona
+	como uma corrente entre a função do exemplo e o parametro passado, sendo que esse parametro
+	pode chamar outro método dentro dele, e isso pode acontecer N vezes até que a condição para o
+	else ocorra. Nesse padrão, as funções ou métodos podem executar outras funções e métodos, todos unidos e passando
+	um parametro como padrão, todos unidos por esse parametro, ocorre a execução de diversos métodos em série
+	até a condição de parada seja acionada, como se fosse uma corrente.
+*/
 
