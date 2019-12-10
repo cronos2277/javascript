@@ -1,5 +1,6 @@
 const config = require('../knexfile.js');
-const knex = require('knex')(config)
+const knex = require('knex')(config);
+knex.migrate.latest([config]);
 module.exports = knex;
 /*
 Explicando o KNEX.
@@ -28,6 +29,9 @@ uma forma de fazer um certo "versionamento" do banco de dados relacional que ser
 usado no projeto, permitindo que o mesmo tenha a estrutura necessaria caso seja 
 adicionado ou removido recursos.
 Apos configurar as migrations, use o comando:
-knex migrate:latest
+knex migrate:latest => Executa o metodo UP das migrations
+knex migration:rollback => Executa o metodo Down das migrations
 que vai persistir todas as configuracoes da sua migrations no DB
+e knex migration:rollback para voltar a ultima forma e executar as 
+instrucoes do metodo down. 
 */
