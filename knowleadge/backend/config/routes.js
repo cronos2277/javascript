@@ -24,6 +24,24 @@ module.exports = app =>{
     .get(app.api.category.get)
     .post(app.api.category.save);
 
+    /*
+    rotas mais especificas sempre
+    antes das mais genericas, isso
+    faz com que a condicao especifica
+    seja atendida, do contrario a
+    condicao mais generica sera atendida
+    no lugar da mais especifica.
+    No caso o /tree eh mais especifico
+    do que o /tree/:id, uma vez a 
+    rota especifica lida com apenas um 
+    parametro especifico na url, o
+    tree, enquanto que o mais generico
+    lida com qualquer outro parametro
+    diferente de tree. 
+    */
+    app.route('/categories/tree')
+    .get(app.api.category.getTree);
+
     app.route('categories/:id')
     .get(app.api.category.getById)
     .put(app.api.category.save)
