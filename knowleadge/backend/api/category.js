@@ -4,7 +4,7 @@ module.exports = app =>{
         const category = {...req.body};
         if(req.params.id) category.id = req.params.id;
         try{
-            existsOrError(category,name,"Nome nao informado");
+            existsOrError(category.name,"Nome nao informado");
         }catch(msg){
             return res.status(400).send(msg);
         }
