@@ -13,7 +13,7 @@ na hora da instalacao.
 <br>
 Depois: <b>psql -c "ALTER USER postgres WITH PASSWORD '[a sua senha]'" -d template1</b> 
 a senha usada nesse projeto eh a 123456, que pode ser alterada no arquivo knexfile.js
-o comando em questao eh toda a parte em negrito, e a [a sua senha] deve ser substituida
+o comando em questao eh toda a parte em negrito, e a <b>[a sua senha]</b> deve ser substituida
 pela mesma senha do knexfile.js
 
 
