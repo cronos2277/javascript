@@ -39,7 +39,14 @@ module.exports = app =>{
         .then(users => res.json(users))
         .catch(err => res.status(500).send(err));
     }
-    return {save,get}
+    const getById = (req,res) =>{
+        app.db('users').select('id','name','email','admin')
+        .where({id: req.params.id})
+        .first()
+        .then(user => res.json(user))
+        .catch(err => res.status(500).send(err));
+    }
+    return {save,get,getById}
 }
 /*
 Aqui eh exportado o save com o nome para fora chamado save,
