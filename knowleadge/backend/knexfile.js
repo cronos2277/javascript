@@ -1,4 +1,10 @@
-// Update with your config settings.
+/*
+    Aqui eh colocado as informacoes com relacao a banco de dados, como eh apenas
+    um banco de dado logo todo o conteudo do objeto production foi colocado dentro
+    do module.exports, voce pode criar um novo template desse indo no terminal
+    e digitando knex init no diretorio da aplicao, uma vez que o knex esteja instalado
+    de maneira global.
+*/
 
 module.exports = {    
         client: 'postgres',
