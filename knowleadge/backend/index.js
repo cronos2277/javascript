@@ -22,7 +22,12 @@ const app = require("express")();
     algumas informacoes do consign quando tudo for inicializado.
 */
 const consign = require('consign')
-consign().then('./config/middleware.js').then('./api').then('./config/routes.js').into(app);
+consign()
+.then('./config/middleware.js')
+.then('./api/validator.js')
+.then('./api')
+.then('./config/routes.js')
+.into(app);
 const db = require('./config/db'); //importando knex, mais explicacoes la.
 /*
     Aqui eh implementado a conexao do banco de dados com o objeto
