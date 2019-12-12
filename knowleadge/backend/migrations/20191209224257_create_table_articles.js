@@ -53,7 +53,7 @@ exports.up = function(knex, Promise) {
     //sendo o primary(), o metodo que sinaliza o primary key.
     //Equivalente a: id integer primary key;
     table.increments('id').primary();
-    table.string('nome').notNull();
+    table.string('name').notNull();
     table.string('description',1000).notNull();
     table.string('imageUrl',1000);
     table.binary('content').notNull();
