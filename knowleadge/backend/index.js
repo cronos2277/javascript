@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+require('./config/mongodb');
 /*
     Esse comando abaixo substitui o classico.
     const express = require("express");
@@ -21,6 +23,7 @@ const app = require("express")();
     tudo isso acontece ao inicializar com o projeto com o npm start, no terminal havera
     algumas informacoes do consign quando tudo for inicializado.
 */
+app.mongoose = mongoose;
 const consign = require('consign')
 consign()
 .include('./config/passport.js')
@@ -29,6 +32,7 @@ consign()
 .then('./api')
 .then('./config/routes.js')
 .into(app);
+
 const db = require('./config/db'); //importando knex, mais explicacoes la.
 /*
     Aqui eh implementado a conexao do banco de dados com o objeto

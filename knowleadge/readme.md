@@ -1,6 +1,7 @@
 <h1> Projeto Instrucoes.</h1>
 <h2>Mongo DB</h2>
-O mongo precisa estar devidamente instalando precisa estar em execucao
+O mongo precisa estar devidamente instalando precisa estar em execucao, caso tenha
+problemas com isso no linux, tente o seguinte comando "<b>sudo service mongod start</b>"
 <h2>Seguranca</h2>
 Nao esqueca de alterar a chave do arquivo "<b>.env</b>", na aplicacao, essa chave
 garante seguranca na aplicacao, eh obrigatorio mudar o valor caso use essa solucao,
