@@ -11,6 +11,13 @@ module.exports = app =>{
         if(!user){
             return res.status(400).send('Usuario nao encontrado');
         }
+        /*
+            a o metodo compareSync do objeto bcrypt faz a comparacao da
+            senha criptografada, senha criptograda pelo bcrypt deve ser
+            analisada usando esse metodo, do contrario dara sempre um 
+            falso negativo. Exemplo:
+bcrypt.compareSync(<senha informado pelo usuario>,<senha do banco de dados>);
+        */
         const isMatch = bcrypt.compareSync(req.body.password,user.password)
         if(!isMatch){
             return res.status(401).send('Email/Senha invalidos!');
@@ -44,6 +51,16 @@ module.exports = app =>{
             */
             exp: now + (60 * 60 * 24 * 3) 
         };
+        /*
+            o metodo encode ele cria o token para o cliente.
+            const objetoParaCriarToken = {
+                colunaDoUsuario:"valorDaColuna",
+                iat:"data de inicio criada",
+                exp:"hora que expira"
+            };             
+            jtw.encode(objetoParaCriarToken, authSecret)
+            authSecret => eh a chave criada com base no arquivo .env
+        */
         res.json({
             ...payload, 
             token: jtw.encode(payload, authSecret)
