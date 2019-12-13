@@ -23,6 +23,7 @@ const app = require("express")();
 */
 const consign = require('consign')
 consign()
+.include('./config/passport.js')
 .then('./config/middleware.js')
 .then('./api/validator.js')
 .then('./api')

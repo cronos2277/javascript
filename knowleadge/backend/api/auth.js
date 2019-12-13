@@ -70,6 +70,11 @@ bcrypt.compareSync(<senha informado pelo usuario>,<senha do banco de dados>);
     const validateToken = async(req,res) =>{
         const userData = req.body || null;
         try{
+            /*
+                o metodo decode ele decodifica e verifica se o token
+                foi feito com base no arquivo .env.
+                sintaxe: jwt.decode(<token>,<chave criado com base no arquivo .env>);
+            */
             if(userData){
                 const token = jwt.decode(userData.token,authSecret);
                 if(new Date(token.exp * 1000) > new Date()){
