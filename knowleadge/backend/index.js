@@ -30,6 +30,7 @@ consign()
 .then('./config/middleware.js')
 .then('./api/validator.js')
 .then('./api')
+.then('./schedule.js')
 .then('./config/routes.js')
 .into(app);
 
@@ -42,5 +43,5 @@ const db = require('./config/db'); //importando knex, mais explicacoes la.
 */
 app.db = db;
 app.listen(3000,()=>{
-    console.log('Knowleadge Backend active!');
+    console.log('Knowleadge Backend Ativo!');
 });
