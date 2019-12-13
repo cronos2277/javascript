@@ -22,13 +22,28 @@ module.exports = app => {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
     }
     const strategy = new Strategy(params,(payload,done)=>{
+        /*
+            Repare que a Strategy eh feito com base em uma
+            consulta ao banco de dados. o done que eh o 
+            ultimo parametro eh a funcao a ser chamada caso
+            voce termine o seu algoritimo aqui, lembrando
+            que esse metodo segue o Middleware ou o Chain
+            of responsability como pattern.
+        */
         app.db('users').where({id: payload.id}).first()
         /* .then(user => done(parametroDeErro,retornoAoUsuario)) */
         .then(user => done(null,user ? {...payload} : false))
         /* .catch(err => done(erro,retornoAoUsuario)); */
         .catch(err => done(err,false));
     });
+    /* Uma vez criada a estrategia voce informa ao passport, com o metodo use */
     passport.use(strategy);
+    /*
+        o metodo authenticate faz a autenticacao, sendo o primeiro parametro
+        a forma, nesse caso JWT e apos isso os ajustes de sessao, que nesse
+        caso nao eh usado. Esse authenticate sera usado no arquivo de rotas
+        para verificar as credenciais.
+    */
     return{
         authenticate: () => passport.authenticate('jwt',{session:false})
     }
