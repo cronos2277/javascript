@@ -1,8 +1,13 @@
 <h1> Projeto Instrucoes.</h1>
 <h2>Mongo DB</h2>
 O mongo precisa estar devidamente instalando precisa estar em execucao
-<h2>Knex.js</h2>
-
+<h2>Seguranca</h2>
+Nao esqueca de alterar a chave do arquivo "<b>.env</b>", na aplicacao, essa chave
+garante seguranca na aplicacao, eh obrigatorio mudar o valor caso use essa solucao,
+por questoes de seguranca, mude a String de altenticacao e cuidado com esse arquivo
+para nao cair em maos erradas. Caso a chave usada para criptografar vaze a terceiros,
+qualquer um pode acessar a sua aplicao como se estivesse logado, quebrando assim
+a seguranca <br>
 <h2>POSTGRES</h2>
 1 - iniciar usando o comando "<b>sudo su - postgres</b>".<br> 
 2 - depois "<b>psql</b>". <br>
