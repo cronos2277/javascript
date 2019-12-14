@@ -63,8 +63,11 @@ module.exports = app =>{
                 .then(_=>res.status(204).send()) //Caso de certo retorna o status 204 sem mensagem.
                 .catch(err => res.status(500).send(err)); //caso de erro retorna status 500 com a mensagem de erro.
              */
-            app.db('users').update(user).where({id: user.id})
-            .then(_=>res.status(204).send()).catch(err => res.status(500).send(err));
+            app.db('users').update(user)
+            .where({id: user.id})
+            .whereNull('deletedAt') /* Apenas se esse campo estiver nulo */
+            .then(_=>res.status(204).send())
+            .catch(err => res.status(500).send(err));
         }else{
             /*
                 <parametro do consign>.<o banco de dado atribuido no index.js>('<Nome da tabela criada no knex>')
@@ -86,17 +89,35 @@ module.exports = app =>{
             .catch(err => res.status(500).send(err)); //callback de resposta caso tenha algum erro.
          */
         app.db('users').select('id','name','email','admin')
+        .whereNull('deletedAt') /* Apenas se esse campo estiver nulo */
         .then(users => res.json(users))
         .catch(err => res.status(500).send(err));
     }
     const getById = (req,res) =>{
         app.db('users').select('id','name','email','admin')
         .where({id: req.params.id})
+        .whereNull('deletedAt') /* Apenas se esse campo estiver nulo */
         .first()
         .then(user => res.json(user))
         .catch(err => res.status(500).send(err));
     }
-    return {save,get,getById}
+
+    const remove = async (req,res) =>{
+        try{
+            const articles = await app.db('articles')
+            .where({userId:req.params.id})
+            notExistsOrError(articles, "Usuario Possui artigos.");
+            const rowsUpdated = await app.db('users').update(
+                {deletedAt:new Date()}
+            ).where({id: req.params.id});
+            existsOrError(rowsUpdated,'Usuario nao foi encontrado');
+            res.status(204).send();
+        }catch(msg){
+            res.status(400).send(msg);
+        }
+    }
+
+    return {save,get,getById, remove}
 }
 /*
     Aqui eh exportado o save com o nome para fora chamado save,
