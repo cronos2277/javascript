@@ -35,6 +35,7 @@ module.exports = app =>{
         if(req.params.id){
             user.id = req.params.id;            
         }
+        
         try{
             existsOrError(user.name,"Nome não informado!");
             existsOrError(user.email,"Email Não informado");
