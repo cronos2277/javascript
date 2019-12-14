@@ -21,7 +21,22 @@ Depois: <b>psql -c "ALTER USER postgres WITH PASSWORD '[a sua senha]'" -d templa
 a senha usada nesse projeto eh a 123456, que pode ser alterada no arquivo knexfile.js
 o comando em questao eh toda a parte em negrito, e a <b>[a sua senha]</b> deve ser substituida
 pela mesma senha do knexfile.js
-
+<hr>
+<h2>Knex</h2>
+para instalar globalmente, o que eh necessario para executar esses comandos:
+"<b>npm install knex -g</b>"
+<h3>Migrations</h3>
+Uma vez que o knex seja instalado globalmente, voce pode criar migrations pelo terminal,
+usando o seguinte comando "<b>knex migrate:make [nomeDaTabela]</b>", sendo que a parte
+correspondente a <b>[nomeDaTabela]</b> deve ser substituido pelo nome da tabela. <br>
+<h3>Lidando com as migrations</h3>
+Esse comando executa os metodos up das migrations, aplicando updates na estrutura do seu banco de dados
+comando: "<b>knex migrate:latest</b>"<br>
+Esse comando executa os metodos down das migrations, aplicando downgrade na estrutura do seu DB,
+bom para reverter problemas com atualizacoes por exemplo.
+comando "<b>knex migrate:rollback</b>"
+<h3>Criando um Knex File</h3>
+use o comando <b>knex init</b> para criar um novo arquivo knex file padrao.
 
 
 
