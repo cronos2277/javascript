@@ -1,7 +1,7 @@
 <template>
 	<div id="app" :class="{'hide-menu': !isMenuVisible}">
 		<!-- Os 2 pontos interpola o valor, necessario para nao ser confundido com String -->
-		<Header title="Base de Conhecimento" :hideToggle="false"/>
+		<Header title="Base de Conhecimento" :hideToggle="false" :hideUserDropDown="false"/>
 		<Menu />
 		<Content />
 		<Footer />

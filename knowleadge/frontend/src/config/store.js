@@ -14,7 +14,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     //Os estados em questao, dentro do objeto state.
     state:{
-        isMenuVisible:true
+        isMenuVisible:true,
+        user:{
+            name:"Usuario User",
+            email:'email@email.com'
+        }
     },
     //mutations: aqui as funcoes para mudar o estado do atributo.
     mutations:{
