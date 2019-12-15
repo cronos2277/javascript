@@ -21,11 +21,24 @@ export default {
         hideToggle: Boolean
     },
     computed:{
-        icon(){
+        icon(){/*
+            Repare a forma com que eh acessado o atributo no Store
+            eh usado o $store, que no caso faz a referencia a essa
+            variavel do store e entao chamamos o objeto e depois
+            o atributo desse atributo. exemplo:
+            this.$<instancia do Store>.state.<atributo do State>
+        */
             return this.$store.state.isMenuVisible ? "fa-angle-left" : "fa-angle-down"
         }
     },
     methods:{
+        /*
+            Ja as mutations do Store eh acessado de maneira diferente
+            voce referencia o objeto com o $ na frente e ai chama
+            o metodo commit dele passando o nome do metodo la dentro
+            na store.
+            this.$<instancia do Store>.commit('<mutation dentro de aspas como string>'); 
+        */
         toggleMenu(){
            this.$store.commit('toggleMenu'); 
         }
