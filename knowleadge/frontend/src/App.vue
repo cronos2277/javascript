@@ -1,6 +1,7 @@
 <template>
 	<div id="app">
-		<Header/>
+		<!-- Os 2 pontos interpola o valor, necessario para nao ser confundido com String -->
+		<Header title="Base de Conhecimento" :hideToggle="false"/>
 		<Menu />
 		<Content />
 		<Footer />
