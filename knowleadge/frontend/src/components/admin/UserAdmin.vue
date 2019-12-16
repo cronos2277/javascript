@@ -1,12 +1,42 @@
 <template>
   <div class="user-admin">
-      <h1>Usuarios Componente</h1>
+      <b-table hover striped :items="users" :fields="fields">
+      </b-table>
   </div>
 </template>
 
 <script>
+import {BaseApiUrl} from '@/global';
+import axios from "axios";
 export default {
-    name:"UserAdmin"
+    name:"UserAdmin",
+    data:function(){
+      return{
+        mode:'save',
+        user:{},
+        users:[],
+        fields:[
+          {key:'id',label:'Codigo',sorteable:true},
+          {key:'name',label:'Nome',sorteable:true},
+          {key:'email',label:'E-mail',sorteable:true},
+          {key:'admin',label:'Adminstrador',sorteable:true,
+          formatter: value => value ? 'Sim':'Nao'},
+          {key:'actions',label:'Acoes'}  
+          ]
+      }
+    },
+    methods:{
+      loadUsers(){
+        const url = `${BaseApiUrl}/users`;        
+        axios.get(url).then(res => {
+          this.users = res.data;                    
+        });
+        
+      }      
+    },
+    mounted(){
+        this.loadUsers();
+      }
 }
 </script>
 

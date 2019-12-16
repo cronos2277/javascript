@@ -6,7 +6,7 @@ import store from './config/store'; //Importando Store.
 import router from "./config/router";
 Vue.config.productionTip = false;
 
-require('axios').defaults.headers.common['Authorization'] = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwibmFtZSI6IkFkYW0gU2t5bmV3IiwiZW1haWwiOiJlbWFpbEBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTc2NDM3MDc5LCJleHAiOjE1NzY2OTYyNzl9.Bfi-SbOSxXzx2KWx72n4dtriWAVdQx5BCSyUu5NtJag';
+require('axios').defaults.headers.common['Authorization'] = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwibmFtZSI6IkFkYW0gU2t5bmV3IiwiZW1haWwiOiJlbWFpbEBlbWFpbC5jb20iLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTc2NTI2NzE3LCJleHAiOjE1NzY3ODU5MTd9.6HLrSl0mvVbuj0OR4efMYmSNAJrMFpxb2VqF5UkcJoM';
 
 //repare que o store eh incluido aqui.
 new Vue({
