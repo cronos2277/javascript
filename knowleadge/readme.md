@@ -1,5 +1,5 @@
 <h1>Iniciando aplicacao</h1>
-<h2>Passo 1:<h2>
+<h2>Passo 1:</h2>
 deve ser feito a instalacao com o "<b>npm i</b>" de todo backend,
 entre na pasta backend e execute o npm nessa pasta,
 depois iniciar o postgres e caso a senha nao seja a padrao 123456,
