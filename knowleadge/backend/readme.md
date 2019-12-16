@@ -36,7 +36,7 @@ Esse comando executa os metodos down das migrations, aplicando downgrade na estr
 bom para reverter problemas com atualizacoes por exemplo.
 comando "<b>knex migrate:rollback</b>"
 <h3>Criando um Knex File</h3>
-use o comando <b>knex init</b> para criar um novo arquivo knex file padrao.
+use o comando "<b>knex init</b>" para criar um novo arquivo knex file padrao.
 
 
 
