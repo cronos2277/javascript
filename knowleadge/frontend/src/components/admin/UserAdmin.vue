@@ -16,10 +16,10 @@ export default {
         user:{},
         users:[],
         fields:[
-          {key:'id',label:'Codigo',sorteable:true},
-          {key:'name',label:'Nome',sorteable:true},
-          {key:'email',label:'E-mail',sorteable:true},
-          {key:'admin',label:'Adminstrador',sorteable:true,
+          {key:'id',label:'Codigo',sortable:true},
+          {key:'name',label:'Nome',sortable:true},
+          {key:'email',label:'E-mail',sortable:true},
+          {key:'admin',label:'Adminstrador',sortable:true,
           formatter: value => value ? 'Sim':'Nao'},
           {key:'actions',label:'Acoes'}  
           ]
