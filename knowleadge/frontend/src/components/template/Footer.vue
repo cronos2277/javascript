@@ -1,8 +1,7 @@
 <template>
-  <footer class="footer">
-      <span>Copyright<strong>JP</strong>2020</span>
-  </footer>
-  
+    <footer class="footer">
+        <span>Copyright <strong>Cod3r</strong> © 2015-2018</span>
+    </footer>
 </template>
 
 <script>
@@ -12,11 +11,12 @@ export default {
 </script>
 
 <style>
-    .footer{
+    .footer {
         grid-area: footer;
         background-color: #DDD;
-        color:#333;
-        display:flex;
+        color: #333;
+
+        display: flex;
         align-items: center;
         justify-content: flex-end;
         padding-right: 10px;
