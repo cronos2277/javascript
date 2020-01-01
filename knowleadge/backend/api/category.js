@@ -1,3 +1,6 @@
+/*
+    Mais explicacoes no user.js
+*/
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validation
 
@@ -94,6 +97,18 @@ module.exports = app => {
     }
 
     const toTree = (categories, tree) => {
+        /*
+            O metodo filter esta presente em qualquer
+            Array, o filter ele filtra os dados de um 
+            array, retornando os ao novo array com
+            base em um valor boleano. Por exemplo:
+            NovoArray = Array.filter(<expressao booleana>), no
+            caso se a expressao boleana for verdadeira o valor
+            sera parte da composicao do novo array, em caso
+            negativo, o mesmo dado nao vai ao novo array.
+            Essa expressao, eh uma funcao que deve retornar
+            verdadeiro ou falso.
+        */
         if(!tree) tree = categories.filter(c => !c.parentId)
         tree = tree.map(parentNode => {
             const isChild = node => node.parentId == parentNode.id

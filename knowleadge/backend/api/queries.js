@@ -1,3 +1,6 @@
+/*
+    Essa query compoe uma variavel dentro do article.
+*/
 module.exports = {
     categoryWithChildren: `
         WITH RECURSIVE subcategories (id) AS (
