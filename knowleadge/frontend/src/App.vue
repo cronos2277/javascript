@@ -1,5 +1,6 @@
 <template>
 	<div id="app" :class="{'hide-menu': !isMenuVisible || !user}">
+		<!-- Os 2 pontos interpola o valor, necessario para nao ser confundido com String -->
 		<Header title="Cod3r - Base de Conhecimento" 
 			:hideToggle="!user"
 			:hideUserDropdown="!user" />
@@ -13,6 +14,7 @@
 <script>
 import axios from "axios"
 import { baseApiUrl, userKey } from "@/global"
+//o @ significa que voce vai acessar de forma absoluta o path.
 import { mapState } from "vuex"
 import Header from "@/components/template/Header"
 import Menu from "@/components/template/Menu"
