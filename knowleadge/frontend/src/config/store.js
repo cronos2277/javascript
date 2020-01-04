@@ -36,11 +36,17 @@ export default new Vuex.Store({
         setUser(state, user) {
             state.user = user
             if(user) {
+                /*
+                    Caso o usuario esteja logado eh colocado as informacoes
+                    referente ao token de login do header da requisicao, no 
+                    campo Authorization usando o modulo Axios. 
+                */
                 axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`
-                state.isMenuVisible = true
+                state.isMenuVisible = true //Exibe o menu se logado.
             } else {
+                //Caso nao esteja logado, o Authorization sera excluido, usando o axios.
                 delete axios.defaults.headers.common['Authorization']
-                state.isMenuVisible = false
+                state.isMenuVisible = false //Oculta o menu se nao logado.
             }
         }
     }
