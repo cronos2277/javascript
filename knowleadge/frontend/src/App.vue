@@ -50,7 +50,13 @@ export default {
 			if (res.data) {
 				//Commit executa o metodo setUser e salva na localstorage.
 				this.$store.commit('setUser', userData)
-				
+				//Essa eh a verificacao de responsividade, o $mq eh
+				//um atributo que foi criado no "mq.js" quando registrado
+				//usando o metodo use do Vue.js. Ou seja de acordo com
+				//o breakpoint esse atributo tem como possivel valor,
+				//as strings: xs,sm,md,lg,xl de acordo com o tamanho
+				//informado nos breakpoints. Se for xs ou sm, oculta 
+				//o menu lateral.
 				if(this.$mq === 'xs' || this.$mq === 'sm') {
 					this.$store.commit('toggleMenu', false)
 				}
