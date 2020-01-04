@@ -6,7 +6,9 @@
 </template>
 
 <script>
+//css para highlight
 import 'highlightjs/styles/dracula.css'
+//Javascript para highlight
 import hljs from 'highlightjs/highlight.pack.js'
 import { baseApiUrl } from '@/global'
 import axios from 'axios'
@@ -25,6 +27,16 @@ export default {
         axios.get(url).then(res => this.article = res.data)
     },
     updated() {
+        /*
+            Aqui eh aplicado o highlight, como nao tem integracao com
+            o vue o mesmo eh feito por javascript puro mesmo.
+            Todo o conteudo dentro da tag pre tendo as classes
+            'article-content' ou 'ql-syntax' eh interpretado
+            como codigo fonte e colorizado as suas palavras reservadas
+            como tal, por exemplo em um codigo html  as tags mudam
+            de cor, os comentarios tem outra cor e por ai vai, isso
+            eh o Highlight.
+        */
         document.querySelectorAll('.article-content pre.ql-syntax').forEach(e => {
             hljs.highlightBlock(e)
         })
