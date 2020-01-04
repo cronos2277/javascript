@@ -53,11 +53,14 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     const json = localStorage.getItem(userKey)
-
+//Aqui eh verificado para ver se o usuario tem a informacao requires admin = true
     if(to.matched.some(record => record.meta.requiresAdmin)) {
         const user = JSON.parse(json)
+        //Se usuario nao for falso segundo o js e user.admin tambem nao, 
+        //o usuario avanca como adminstrador, caso contrario o mesmo eh enviado a raiz do diretorio.
         user && user.admin ? next() : next({ path: '/' })
     } else {
+    //Caso nao tem a informacao, o usuario avanca sem ser administrador    
         next()
     }
 })

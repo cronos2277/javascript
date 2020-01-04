@@ -92,14 +92,16 @@ export default {
                 this.limit = res.data.limit
             })
         },
-        reset() {
+        reset() { //seta as configuracoes para o padrao.
             this.mode = 'save'
             this.article = {}
             this.loadArticles()
         },
-        save() {
+        save() { //Salva (se o ID for falso na regra do JS) ou atualiza 
+            //Se tem id vai pelo put para atualizar, senao o post para cadastrar
             const method = this.article.id ? 'put' : 'post'
             const id = this.article.id ? `/${this.article.id}` : ''
+            //nao esqueca que os colchetes sao uma alternativa da notacao ponto no JS.
             axios[method](`${baseApiUrl}/articles${id}`, this.article)
                 .then(() => {
                     this.$toasted.global.defaultSuccess()
@@ -109,6 +111,7 @@ export default {
         },
         remove() {
             const id = this.article.id
+        //Aqui ja voltamos ao classico da notacao ponto.    
             axios.delete(`${baseApiUrl}/articles/${id}`)
                 .then(() => {
                     this.$toasted.global.defaultSuccess()

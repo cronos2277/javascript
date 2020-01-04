@@ -77,6 +77,19 @@ export default {
             user: {},
             users: [],
             fields: [
+                 /*
+                    Aqui eh como sao organizados os campos na exibicao
+                    da tabela, key eh a chave, label eh como deve ser 
+                    exibido na tabela bootstrap-vue, sortable caso seja
+                    verdadeiro permite inverter a ordem de exibicao, caso
+                    clicado no icone ao lado da label.
+                    O formatter ele muda a exibicao de uma label, ou seja
+                    ao inves de mostrar na tabela se o usuario eh administrador
+                    true ou false, o mesmo exibe esse valor de acordo com o
+                    formatado pela funcao, assim sendo temos uma funcao lambda,
+                    caso o parametro em value seja verdadeiro eh exibido sim ao
+                    inves de true, caso contrario nao ao inves de false.
+                */
                 { key: 'id', label: 'Código', sortable: true },
                 { key: 'name', label: 'Nome', sortable: true },
                 { key: 'email', label: 'E-mail', sortable: true },
