@@ -1,3 +1,8 @@
+/*
+    O vue-router contem modulos que fara com que
+    seja respondidas requisicoes nas url informada
+    @ => Raiz do projeto vue.
+*/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -12,16 +17,19 @@ import { userKey } from '@/global'
 Vue.use(VueRouter)
 
 const routes = [{
-    name: 'home',
-    path: '/',
-    component: Home
+    name: 'home', //nome da rota;
+    path: '/', //url ao qual ira responder, o barra significa raiz.
+    component: Home //O componente a ser renderizado
 }, {
     name: 'adminPages',
     path: '/admin',
     component: AdminPages,
-    meta: { requiresAdmin: true }
+/*  Meta significa que necessita ter essa informacao
+    no header da requisicao, no caso a informacao de login */
+    meta: { requiresAdmin: true } 
 }, {
     name: 'articlesByCategory',
+/* Aonde tem os 2 pontos (ex, ":id") significa que tera um parametro na URL */    
     path: '/categories/:id/articles',
     component: ArticlesByCategory
 }, {
