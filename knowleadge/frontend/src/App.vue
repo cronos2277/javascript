@@ -48,13 +48,16 @@ export default {
 			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
 
 			if (res.data) {
+				//Commit executa o metodo setUser e salva na localstorage.
 				this.$store.commit('setUser', userData)
 				
 				if(this.$mq === 'xs' || this.$mq === 'sm') {
 					this.$store.commit('toggleMenu', false)
 				}
 			} else {
+				//remove da storage o valor de userKey.
 				localStorage.removeItem(userKey)
+				//Redireciona a tela de login, que nesse caso tem o nome de rota de Auth
 				this.$router.push({ name: 'auth' })
 			}
 
