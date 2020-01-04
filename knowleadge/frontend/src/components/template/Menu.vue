@@ -12,30 +12,49 @@
 
 <script>
 import { mapState } from 'vuex'
-import Tree from 'liquor-tree'
+import Tree from 'liquor-tree' //Aqui importa o modulo Tree
 import { baseApiUrl } from '@/global'
 import axios from 'axios'
 
 export default {
     name: 'Menu',
-    components: { Tree },
+    /*
+        Aqui acontece a desestruturacao do modulo Tree, o que permite
+        que exista as seguintes atributos aqui dentro: 
+        treeFilter, treeData, treeOptions.
+    */
+    components: { Tree }, 
     computed: mapState(['isMenuVisible']),
     data: function() {
         return {
-            treeFilter: '',
-            treeData: this.getTreeData(),
+            treeFilter: '', //Filtro da arvores
+            treeData: this.getTreeData(), //Chama o metodo getTreeData.
             treeOptions: {
+            /*
+                Aqui caso tenha alguma propriedade do front end diferente do backend. 
+                {atributo aqui:atributo no backend}
+            */    
                 propertyNames: { 'text': 'name' },
+           //O texto a ser retornado caso a categoria nao seja encontrada.     
                 filter: { emptyText: 'Categoria não encontrada' }
             }
         }
     },
     methods: {
+        /*
+            Esse metodo faz conexao com o axios e abaixa do servidor
+            o resultado da url /categories/tree usando o metodo get.
+        */
         getTreeData() {
             const url = `${baseApiUrl}/categories/tree`
             return axios.get(url).then(res => res.data)
         },
         onNodeSelect(node) {
+          /*
+            Aqui eh puxado uma rota, ou seja, sera redirecionado a rota 
+            que tem esse nome, passando os parametros que esta no objeto 
+            params.
+         */  
             this.$router.push({
                 name: 'articlesByCategory',
                 params: { id: node.id }
