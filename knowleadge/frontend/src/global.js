@@ -1,7 +1,8 @@
 import Vue from 'vue'
-
+//a userKey sera a chave.
 export const userKey = '__knowledge_user'
-export const baseApiUrl = 'http://localhost:4000'
+//porta que a aplicacao rodara: 4000
+export const baseApiUrl = 'http://localhost:4000' 
 
 export function showError(e) {
     if(e && e.response && e.response.data) {

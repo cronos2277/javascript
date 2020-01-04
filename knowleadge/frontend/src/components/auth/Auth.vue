@@ -30,23 +30,44 @@ export default {
     name: 'Auth',
     data: function() {
         return {
-            showSignup: false,
-            user: {}
+        /*
+            Se falso mostra o login se verdadeiro o sign up. 
+            Ambas as paginas sao programadas aqui e eh essa a flag,
+             para disparar uma ou a outra.  */    
+            showSignup: false, 
+            user: {} //user comeca vazio.
         }
     },
     methods: {
-        signin() {
+        signin() { //Metodo para logar.
+        //this.user eh o usuario a ser enviado no login.
             axios.post(`${baseApiUrl}/signin`, this.user)
-                .then(res => {
+                .then(res => { //resposta do axios
+                //Aqui salva no local storage nesse caso o metodo do storage, funciona como um cookie isso.
+                //No caso tem o metodo que nesse caso eh setUser e o valor que eh um json. 
+                //Para mais informacoes: veja o arquivo store.js na pasta config, 
+                //foi la que foi definido o metodo setUser
                     this.$store.commit('setUser', res.data)
+                    //O Tipo de dado salvo pela localstorage eh em formato de String
+                    //o metodo stringify transforma Objeto em string Json
                     localStorage.setItem(userKey, JSON.stringify(res.data))
+                    //O Usuario eh redirecionado para a raiz da aplicacao. 
                     this.$router.push({ path: '/' })
+                    /*
+                        Resumindo tem uma funcao no store.js que lida com a autenticacao,
+                        colocando a string no header ou tirando, caso o usuario nao esteja 
+                        logado. Nesse caso como o usuario tem dados, sempre vai dar true.
+                        Uma vez feito isso, eh persistido no localstorage usando como
+                        chave um atributo criado la no global.js, portando o dado em 
+                        formato de string.
+                    */
                 })
                 .catch(showError)
         },
-        signup() {
+        signup() { //Metodo para cadastrar
+       //this.user eh o usuario a ser enviado no cadastro. 
             axios.post(`${baseApiUrl}/signup`, this.user)
-                .then(() => {
+                .then(() => { //resposta do axios
                     this.$toasted.global.defaultSuccess()
                     this.user = {}
                     this.showSignup = false

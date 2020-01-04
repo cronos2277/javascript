@@ -25,7 +25,10 @@ const routes = [{
     path: '/admin',
     component: AdminPages,
 /*  Meta significa que necessita ter essa informacao
-    no header da requisicao, no caso a informacao de login */
+    no header da requisicao, no caso a informacao de login
+    referente ao administrador, uma vez que o mesmo tem 
+    um login diferenciado dos outros usuarios.    
+*/
     meta: { requiresAdmin: true } 
 }, {
     name: 'articlesByCategory',
