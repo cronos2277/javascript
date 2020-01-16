@@ -1,0 +1,58 @@
+//:[typescriptTipo] apos os parenteses indica o tipo de dados que a funcao retorna.
+function funcao1():void{ //Nao recebe nada, nao retorna nada. Void = Vazio.
+    console.log('Funcao nao retorna nada');    
+} 
+function funcao2():number{ //Retorna um numero e nao recebe nada.
+    return 0;
+}
+
+//Voce pode definir a insercao de tipos na entrada de parametros.
+function funcao3(var1: any):void{ //Recebe qualquer
+    console.log(var1);
+}
+
+//Voce pode ter entrada e saida de dados diferentes.
+function funcao4(var1:number,var2:number,var3:string):any{
+//Recebe 3 parametros e retorna qualquer coisa.
+    return var3 + (var1+var2);
+}
+//Definindo no TypeScript o tipo de dados do tipo funcao.
+let funcao5: () => number; //Estrutura para definir um tipo funcao.
+funcao5 = () => 1+1; //Funcao arrow que nao recebe parametros.
+/*
+    A funcao 5, apenas pode receber uma funcao que nao tenha
+    parametros e retorna dados do tipo numerico, se a funcao
+    tiver parametros ou retornar qualquer outra coisa, ou
+    nao retornar nada, a mesma nao pode ser atribuida a funcao 5.
+*/
+const funcao6: (param1:string) => void = function(param1):void{
+//A funcao 6 ela pode receber apenas uma funcao que tenha 1 parametro
+//e sem algum retorno.    
+    console.log(param1);
+}
+
+var funcao7: () => string;
+funcao7 = function funcao7():string{
+//A funcao7 Ela pode receber apenas uma funcao
+//que nao recebe parametro e retorna uma string.    
+    return "mensagem";
+}
+
+let funcao8: (va1:number,var2:number) => number;
+funcao8 = function funcao8(x,y):number{
+/* 
+    O nome dos parametros eh irrelevante, 
+    mas a ordem e quantidade devem ser mantidas.    
+ */    
+    return x+y;
+}
+const function9: ([number,string]) => [string,number] = function(a:[number,string]){    
+    return [a[1],a[0]];
+/*
+    Voce tambem pode tanto ter como parametro de entrada ou de saida, tuplas.
+    Repare que a entrada eh [number,string] e a saida [string,number].
+    Lembre-se que constante, deve ter o seu conteudo informado, assim que a 
+    mesma eh declarada, diferente do javascript que voce pode passar conteudo
+    para ela depois, no TypeScript voce deve fazer na hora da declaracao.
+*/    
+}
