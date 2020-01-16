@@ -16,7 +16,17 @@ enum semana{
     sexta, //Vale 301 tambem, sempre eh o elemento anterior +1 por padrao.
     sabado //Para acessar os valores, use a notacao ponto, semana.sabado;
 }
-console.log(semana.sabado);
+/*
+    Essa eh a funcionalidade union, ou seja a variavel pode ser de um tipo
+    ou outro apenas, por exemplo a Variavel tipos abaixo, apenas aceita
+    ou inteiro ou booleano. Essa eh uma funcionalidade caso voce precise
+    que a variavel aceite mais de um tipo, sem precisar recorrer any.
+    Qualquer valor para variaveis tipos que nao seja number o booleano,
+    dara erro.
+*/
+let tipos: number | boolean = 1;
+tipos = false;
+
 /*
     Mesmo que o codigo nao esteja certo perante o TypeScript 
     o mesmo pode ser compilado caso seja um codigo javascript
