@@ -1,1 +1,0 @@
-let exemplo:number = ""; 
