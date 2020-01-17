@@ -3,7 +3,8 @@
 <h3>Opcao noEmitOnError = true</h3>
 <img src=".@imgs/onEmitOnError-true.png" /><br/>
 A mesma deve ser colocada junto com as outras opcoes. Dentro da propriedade compilerOptions. Por padrao essa
-opcao nao esta la, mas pode ser adicionado as configuracoes do compilador se necessario.
+opcao nao esta la, mas pode ser adicionado as configuracoes do compilador se necessario. Ela nao gera arquivo javascript, caso
+possua erros no typescript.
 <h2>Uso</h2>
 <h3>tsc [seu arquivo]</h3>
 Compila o arquivo transformando-o em javascript. O [seu arquivo] deve ser substituido pelo arquivo a ser compilado.
