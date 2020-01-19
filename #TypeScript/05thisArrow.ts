@@ -76,3 +76,13 @@ const arrow4:(n:Numero,p:any)=>boolean = (numero:Numero,param:any) => {
         [] (Array vazio)
 */
 const arrow5 = () => 0 || 1;
+/*
+    O this do arrow sempre vai referenciar o contexto, por contexto
+    que fique entendido a ultima referencia do this, se o this esta
+    dentro de um objeto, a arrow vai tratar ele como o objeto em questao
+    se esta fora de objetos, representa o modulo no caso do node js ou
+    o window.document se for no navegador, mesmo que faca bind, se 
+    a funcao em questao for uma arrow o contexto nao muda, pois a arrow
+    tem uma prioridade maior que o bind, ou seja nao faca bind em arrow,
+    eh inutil.
+*/
