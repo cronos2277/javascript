@@ -58,3 +58,19 @@ const isRest:(valor:any) => void = (primeiro:any,...param:any) => {
 };
 let comparacoes:any[] = [0,1,[],[1],{},'',null,undefined];
 isRest(comparacoes);
+
+/*
+    Aqui as tuplas podem ser usadas com o operador spread,
+    no caso a tupla eh um array com tipo definido, nesse
+    exemplo a tupla tem valores dentro do array respectivamente
+    number,string,boolean. Uma vez que seja usado o operador 
+    spread, eh possivel usar a tupla como se voce 3 variaveis
+    destintas como no exemplo abaixo.
+*/
+const tupla:[number,string,boolean] = [1,'a',true];
+const tfunction:(a:number,b:string,c:boolean)=>void = (a,b,c) =>{
+    console.log('A: '+a);
+    console.log('B: '+b);
+    console.log('C: '+c);
+};
+tfunction(...tupla);
