@@ -46,7 +46,7 @@ funcao8 = function funcao8(x,y):number{
  */    
     return x+y;
 }
-const function9: ([number,string]) => [string,number] = function(a:[number,string]){    
+const function9:(tupla:[number,string]) => [string,number] = function(a:[number,string]){    
     return [a[1],a[0]];
 /*
     Voce tambem pode tanto ter como parametro de entrada ou de saida, tuplas.
@@ -56,3 +56,20 @@ const function9: ([number,string]) => [string,number] = function(a:[number,strin
     para ela depois, no TypeScript voce deve fazer na hora da declaracao.
 */    
 }
+const function0:(param1:number,param2:number)=>number = (param1:number = 3,param2:number = param1 + 2){
+    return param1 + param2;
+}
+/*
+    Voce tambem pode ter um valor padrao para a funcao, como eh o caso do param1 e ainda ter
+    um parametro padrao, como parte de um parametro padrao, como eh o caso do param2,
+    que usa o param1 somado de dois como parametro padrao. No caso se nao for informado um 
+    numero no param1 o valor sera 3 no param1 e 3+2 no param2, sendo assim 5. Agora se for
+    informado um zero no param1, o param1 fica com 0 e o param2 com 0+2, nesse caso 2.
+    caso seja informado por exemplo 1 no param1 e 2 no param2, ai fica esses valores mesmo
+    1 para o param1 e 2 para o param2. No caso os valores padroes so entram em cena caso
+    eles nao sejam informados. A ordem dos parametros eh sempre da esquerda para a direita, ou
+    seja se for informado apenas um parametro, o mesmo sera usado como param 1. No javascript
+    puro voce poderia passar um valor para o param2 omitindo o primeiro o valor usando a , na 
+    frente, no caso ficaria assim: `functio0(,2)` nesse caso o parametro 2 iria para o param2,
+    uma vez que foi usado a virgula na frente, mas no typescript isso nao eh permitido.
+*/

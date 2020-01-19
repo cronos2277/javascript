@@ -86,3 +86,11 @@ const arrow5 = () => 0 || 1;
     tem uma prioridade maior que o bind, ou seja nao faca bind em arrow,
     eh inutil.
 */
+
+/*
+    Exemplo de parametro padrao, caso nao seja informado nada o parametro
+    param1 ficara com zero e o param2 ficara com o zero do param1 + 2,
+    caso tenha apenas um parametro, o segundo parametro sera o primeiro,
+    porem incrementado em 2.
+*/
+const arrow6 = (param1:number = 0,param2:number = param1 + 2) => param1 + param2;
