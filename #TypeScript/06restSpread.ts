@@ -32,3 +32,29 @@ console.log(completo);
         completo[9],completo[10],completo[11]));
 */ 
 console.log(Math.max(...completo));
+console.log('continuando...');
+/*
+    Com relacao a ...param, temos que esse aqui eh 
+    operador rest, sendo o spread quando separa
+    e rest quando junta, tudo dependendo do contexto,
+    no caso aqui eh o rest, no caso a funcao isRest
+    ele recebe infinitos parametros do tipo any, atraves
+    do argumento param na funcao. Voce tambem pode separar
+    o primeiro parametro dos outros, no caso o primeiro,
+    eh sempre o primeiro parametro informado, e o param
+    seriam os demais. O param no contexto dessa funcao,
+    seria da segunda ate a ultima funcao, independente
+    de quantos argumentos tenha, caso seja so um, apenas
+    o primeiro parametro teria valores.
+    Entao assim sendo a diferencao entre rest e spread
+    se diferencia de acordo com o contexto, porem ambos
+    usam 3 pontos, no caso desse rest abaixo, todos os
+    parametros do segundo ate o ultimo sao unidos em um array
+    formando assim um rest.
+*/
+const isRest:(valor:any) => void = (primeiro:any,...param:any) => {
+    console.log(primeiro);
+    console.log(param);    
+};
+let comparacoes:any[] = [0,1,[],[1],{},'',null,undefined];
+isRest(comparacoes);
