@@ -1,5 +1,5 @@
  
-    type contaBancaria = {saldo:number,depositar:(x:number)=>void};
+    type ContaBancaria = {saldo:number,depositar:(x:number)=>void};
     
     let contaBancaria = {
         saldo: 3456,
@@ -7,8 +7,9 @@
             this.saldo += valor
         }
     }
-     
-    let correntista:{nome:string,contaBancaria:contaBancaria,contatos:string[]} = {
+    type Correntista = {nome:string,contaBancaria:ContaBancaria,contatos:string[]};  
+
+    let correntista:Correntista = {
         nome: 'Ana Silva',
         contaBancaria: contaBancaria,
         contatos: ['34567890', '98765432']
