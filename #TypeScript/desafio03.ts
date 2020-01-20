@@ -10,16 +10,16 @@
     // Exercicio 3
     let nums:number[] = [-3, 33, 38, 5];
     console.log(...nums);
-     
+    
     // Exercicio 4
     let array:number[] = [55, 20];     
     console.log(...array);
-     
+    
     // Exercicio 5
     let notas:number[] = [8.5, 6.3, 9.4]
     let [nota1,nota2,nota3] = notas;    
     console.log(nota1, nota2, nota3);
-     
+    
     // Exercicio 6
     let cientista:{primeiroNome:string, experiencia:number} = {primeiroNome: "Will", experiencia: 12};
     let {primeiroNome, experiencia} = cientista;    
