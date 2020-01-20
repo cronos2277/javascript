@@ -8,11 +8,11 @@
     dizerOla("Anna");
     
     // Exercicio 3
-    let nums:number[] = [-3, 33, 38, 5];
-    console.log(...nums);
+    let nums:number[] = [-3, 33, 38, 5];    
+    console.log(Math.min(...nums));
     
     // Exercicio 4
-    let array:number[] = [55, 20];     
+    let array:number[] = [55, 20, ...nums];     
     console.log(...array);
     
     // Exercicio 5
