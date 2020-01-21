@@ -72,3 +72,28 @@ class Exemplo2{
 const exemplo2:Exemplo2 = new Exemplo2();
 console.log(exemplo2.metodo1());
 console.log(exemplo2.metodo2('argumento passado'));
+/*
+    Aqui no exemplo abaixo, nos temos um exemplo do private,
+    o private sao atributos ou metodos de classe, ou seja
+    eles so podem ser acessado na propria classe, assim como
+    em uma linguagem orientada a objeto.
+    O private nao existe no javascript puro, logo isso eh 
+    um recurso do Typescript.
+*/
+class Exemplo3{
+    //O Private precisa ser explicitado, do contrario sera publica. 
+    private atributoPrivado1:number = 1;
+    private atributoPrivado2:number;
+    constructor(param:number){
+        this.atributoPrivado2 = param;
+    }
+    //Voce pode tambem colocar um metodo como privado.
+    private metodo():string{
+        return `o atributo privado 1 = ${this.atributoPrivado1}, o atributo privado 2 = ${this.atributoPrivado2}`;
+    }
+    public resultado():string{
+        return this.metodo();
+    }
+}
+const meuExemplo3:Exemplo3 = new Exemplo3(2);
+console.log(meuExemplo3.resultado());
