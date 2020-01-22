@@ -1,5 +1,26 @@
+/* Assim que voce cria uma classe abstrata. */
+abstract class Avo{
+    //Uma classe abstrata permite que voce crie metodos abstratos.
+    abstract exibir():void;
+    //E dessa forma se cria um atributo estatico privado
+    private static attrDeClasse:string = "Valor da classe estatica";
+    //Metodo estatico publica se cria dessa forma.
+    public static pegarEstatico():string{
+        return Avo.attrDeClasse;
+    }
+    /* 
+        Quando tem o atributo readonly, significa que o valor em questao
+        sempre tera apenas o primeiro valor estipulado a ela, ou seja
+        apenas eh possivel atribuir algo para ele uma vez.
+    */
+    public readonly somenteLeitura:string;
+    constructor(somenteLeituraVariavel:string = "Valor Padrao da variavel apenas leitura"){
+        this.somenteLeitura = somenteLeituraVariavel;
+    } 
+}
 
-class Pai{
+
+class Pai extends Avo{
     /*
         O protected funciona como nas outras linguagens 
         de programacao, ou seja apenas a propria classe
@@ -16,13 +37,21 @@ class Pai{
         e privado no construtor por exemplo.
     */
     private var1:string = "Exemplo de atributo privado";
-    constructor(protected var2:string){}
-    protected retorneVar1():string{
+    constructor(protected var2:string){
+        super(); //Sempre que a classe tiver um pai, precisa chamar o construtor.
+    }
+    protected retorneVar1():string{        
         return this.var1;
+        
     }
 
     protected retorneVar2():string{
         return this.var2;
+    }
+    //Esse eh o metodo que a classe Avo Obriga que seja implementado.
+    public exibir():void{
+        console.log(this.retorneVar1());
+        console.log(this.retorneVar2());
     }
 }
 
@@ -40,10 +69,7 @@ class Filho extends Pai{
     constructor(){
         super("Exemplo de outro atributo");
     }
-    public exibir():void{
-        console.log(this.retorneVar1());
-        console.log(this.retorneVar2());
-    }
+    
 }
 /*
     Apesar da classe pai exigir parametro, o super do construtor
@@ -52,3 +78,8 @@ class Filho extends Pai{
 */
 const filho:Filho = new Filho();
 filho.exibir();
+
+//Aqui eh acessado o metodo estatico da classe avo.
+console.log(Avo.pegarEstatico());
+//aqui eh acessado uma variavel classe Avo.
+console.log(filho.somenteLeitura);
