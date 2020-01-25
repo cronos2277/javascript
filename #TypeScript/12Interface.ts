@@ -82,8 +82,31 @@ interface Interface3{
 const Objeto3Interface3:Interface3 = {
     q:"Valor de q", //Esse valor corresponde ao qualquer string.
     //Aqui abaixo estamos implementando o metodo exibir texto
-    exibirTexto:function(interfac:Interface3){
-        console.log(interfac.q);
+    exibirTexto:function(this:Interface3){
+        console.log(this.q);
     }
 };
 Objeto3Interface3.exibirTexto(Objeto3Interface3);
+
+/*
+    Aqui abaixo temos uma terceira forma, que eh a 
+    forma tradicional, repare que houve um polimorfismo
+    no metodo da Interface3, se de toda forma voce quiser
+    manter a essinatura do metodo como a Interface3, voce
+    pode tipar o objeto como Interface3, ao inves de Classe1
+*/
+class Classe1 implements Interface3{
+    exibirTexto(){
+        console.log(this.atribute);
+    }
+    [qualquerCoisa:string]:any;
+}
+//Tipando como Classe1;
+let classeInterf:Classe1 = new Classe1();
+classeInterf.atribute = "Exemplo de interface em classe, metodo classe1";
+//Repare que aqui o metodo eh do tipo Classe1 e nao Interface3
+classeInterf.exibirTexto();
+let interfClasse:Interface3 = new Classe1();
+interfClasse.q = "exemplo de interface em classe, metodo Interface3";
+interfClasse.exibirTexto = () => console.log(interfClasse.q);
+interfClasse.exibirTexto(interfClasse);
