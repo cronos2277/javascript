@@ -28,6 +28,8 @@ interface Interface2 {
     //Quando tem o interrogacao, apos o nome do atributo, significa opcional.
     attra2?:string
     //Aqui significa, o atributo eh obrigatorio, deve ser do tipo string e tem o nome dinamico.
+    //Na pratica ele se torna o atributo, qualquer string, menos attra1 e attra2. Ou seja 
+    //Qualquer atributo string que apareca no objeto e nao tenha nome attra1 ou attra2, entra aqui.
     [attra3: string]:any; //Atributo com nome dinamico o nome.
 }
 const attra1:string = "atributo1";
@@ -38,14 +40,14 @@ const qualquerCoisa1:string = "Atributo com nome variavel";
 */
 const Objeto1Interface2:{attra1:string,qualquerCoisa1:string} = {attra1,qualquerCoisa1};
 function fInterface2(param: Interface2){
-    console.log(param.attr1);
+    console.log(param.attra1);
 /* 
     Qualquer atributo do tipo string que tenha um nome diferente de attra1, sera atribuido
     a [attr3], uma vez que o mesmo tem o nome dinamico, em outras palavras, independente
     do nome, o atributo string que nao tem o nome definido da interface, vai entrar como
-    uma [attra3].
+    uma [attra3]. Porem se o atributo com esse nome nao existir no  passado objeto, ai da undefined
 */    
-    console.log(param.qq); //No caso aqui ele eh referenciado como qq.
+    console.log(param.qualquerCoisa1); //No caso aqui ele eh referenciado como qq.
 }
 fInterface2(Objeto1Interface2);
 const attra2="agora com o atributo opcional";
@@ -58,10 +60,30 @@ function fInterface22(param:Interface2){
     Qualquer atributo do tipo string que tenha um nome diferente de attra1, sera atribuido
     a [attr3], uma vez que o mesmo tem o nome dinamico, em outras palavras, independente
     do nome, o atributo string que nao tem o nome definido da interface, vai entrar como
-    uma [attra3].
+    uma [attra3]. Porem se o atributo com esse nome nao existir no  passado objeto, ai da undefined
 */ 
     //No caso aqui ele eh referenciado como stringDinamica.
     console.log(param.stringDinamica);
 }
 
+/*
+    Terceira forma de se criar uma interface,
+    aqui nessa interface temos um atributo que no caso
+    se referencia a qualquer string encontrada.
+    e um metodo abstrado, ou seja o objeto que usar esse tipo,
+    ou a classe que implementar essa interface, deve ter
+    um metodo exibirTexto.
+*/
+interface Interface3{
+    [qualquerString:string]:any
+    exibirTexto(x: Interface3):void
+}
 
+const Objeto3Interface3:Interface3 = {
+    q:"Valor de q", //Esse valor corresponde ao qualquer string.
+    //Aqui abaixo estamos implementando o metodo exibir texto
+    exibirTexto:function(interfac:Interface3){
+        console.log(interfac.q);
+    }
+};
+Objeto3Interface3.exibirTexto(Objeto3Interface3);
