@@ -110,3 +110,19 @@ let interfClasse:Interface3 = new Classe1();
 interfClasse.q = "exemplo de interface em classe, metodo Interface3";
 interfClasse.exibirTexto = () => console.log(interfClasse.q);
 interfClasse.exibirTexto(interfClasse);
+
+/*
+    Interface do tipo funcao.
+    Aqui voce tem uma interface que define o tipo de funcao,
+    ou seja se algum objeto implementar essa interface, ele
+    devera ser uma funcao, que siga a assinatura da funcao
+    abaixo.
+*/
+interface Interface4{
+    //(parametros:tipo):tipo_do_retorno;
+    (numa:number,numb:number):number;
+}
+//Aqui abaixo associamos uma funcao que recebe dois parametros
+//e retorna a soma deles, conforma definido na Interface4.
+const objInterface4:Interface4 = (a,b) => a+b;
+console.log(objInterface4(1,1));
