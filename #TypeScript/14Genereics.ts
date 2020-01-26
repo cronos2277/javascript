@@ -43,3 +43,41 @@ type meuTipo = {
 }
 const arraygen3:Array<meuTipo> = [{numero:1,texto:"ola mundo"},{numero:2,texto:"novo texto"}];
 console.log(arraygen3);
+
+/*
+    Aqui temos um exemplo de generico dentro de classes.
+    Nesse diamante abaixo, estamos exigindo para que a classe filha,
+    determine os tipos a serem passados aqui, podendo ser um tipo
+    primitivo, ou ate mesmo uma classe ou algo criado com o type.
+    Essa classe abstrata abaixo exige a passagem de dois tipos 
+    dentro do diamamnte e a implementacao do metodo exibir.
+*/
+
+abstract class ClasseAbstrata <Numero1,Numero2>{ 
+    public abstract exibir (numero1:Numero1, numero2:Numero2):string;
+}
+/*
+    Aqui temos eles postos em pratica. Os valores passado no
+    diamante, ou se ja dentro do menor maior <>, foi o tipo
+    number, ou seja o mesmos tipos informados aqui serao
+    respectivamento substituidos pelas referencias de Numero1
+    e Numero2 na classe, como os dois sao number aqui na classe
+    concreta eh number, logo o o Numero1 e Numero2 da classe abstrata
+    sera number, na implementacao feita aqui.
+*/
+class ClasseConcreta extends ClasseAbstrata<number,number>{
+    /*
+        Como o metodo exige 2 parametros definidos da classe
+        abstratas como tipo Numero1 e Numero2, aqui sera 
+        pego os tipos na ordem definida dentro dos diamantes.
+        o primeiro number seria o Number1 e o segundo number,
+        seria o Number2, ou seja o metodo ele tem a assinatura
+        de dois parametros definidos dentro do diamante e retorna
+        String.
+    */
+    public exibir(numero1:number,numero2:number):string{
+        return `O resultado eh ${numero1 + numero2}`;
+    }
+}
+
+console.log(new ClasseConcreta().exibir(3,4));
