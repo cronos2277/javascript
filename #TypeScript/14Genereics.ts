@@ -26,3 +26,20 @@ console.log(1.989485984.toFixed(2));
 //Aqui como se fosse um booleano.
 //Repare que a funcao generica tem os mesmos metodos aqui que um booleano literal.
 console.log(true.valueOf);
+/*
+    Outro exemplo de generics, o nome deriva-se do fato de que a classe criadora
+    eh generica e nao o seu uso. O Array eh uma classe generica, que pode ser
+    usada, usando a estrutura de diamante com qualquer tipo de dado, nesse caso um number.
+*/
+const arraygen1:Array<number> = [0,1,2.2];
+console.log(arraygen1);
+//Usando o operador union.
+const arraygen2:Array<string|number> = ['2',2]; 
+//Voce tambem pode usar um tipo customizavel no array generico.
+console.log(arraygen2);
+type meuTipo = {
+    numero:number,
+    texto:string
+}
+const arraygen3:Array<meuTipo> = [{numero:1,texto:"ola mundo"},{numero:2,texto:"novo texto"}];
+console.log(arraygen3);
