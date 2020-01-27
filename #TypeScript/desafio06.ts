@@ -9,12 +9,12 @@ class Fila<Generico>{
     public imprimir():void{
         console.log(this.fila);
     }
-    constructor(public sequencias:Array<Generico>){
+    constructor(...sequencias:Generico[]){
         this.fila = sequencias;
     }
 } 
 
-const filaObj:Fila<number> = new Fila([1,2,3,4,5,6,7]);
+const filaObj:Fila<number> = new Fila(1,2,3,4,5,6,7);
 filaObj.entrar(8);
 filaObj.proximo();
 filaObj.imprimir();
