@@ -67,6 +67,7 @@ function exemploDecorator2(texto:string,numero:number){
     Aqui no terceiro exemplo, temos um exemplo mais resumido,
     do exemplo2 acima.
 */
+@exemploDecorator1 //Voce pode colocar multiplos decoradores
 @exemploDecorator3("NOME",0)
 class Decorator3{    
     constructor(public var1:string){        
@@ -92,6 +93,10 @@ class Decorator4{
     public metodo():void{
         console.log('regras de negocios');
     }
+
+    public metodoParam(@params1rule x:string, @params1rule y:number){
+
+    }
 }
 //Funcao decoradora de atributo
 function decoratorAtributo(classe:any,nomeAtributo:string):any{
@@ -111,7 +116,7 @@ function decoratorAtributo(classe:any,nomeAtributo:string):any{
     console.log('-----------------------');        
 }
 
-function decoradorMetodo(alvo:any,nomePropriedade:string,descricao:PropertyDescriptor):any{
+function decoradorMetodo(classe:any,nomePropriedade:string,descricao:PropertyDescriptor):any{
     /*
         semelhante ao decorador de objeto, os dois primeiros parametros sao identicos, assim
         como o retorno. O que difere aqui seria o terceiro parametro, que permite com que 
@@ -124,5 +129,23 @@ function decoradorMetodo(alvo:any,nomePropriedade:string,descricao:PropertyDescr
                 configurable: true //Pode ter atributos modificados?
             }
     */
+    
     console.log(descricao);
+}
+function params1rule(classe:any,nomeDoMetodo:string,posicaoDoatributo:number){
+    /*
+        O primeiro atributo refencia a classe, o segundo o nome do metodo,
+        ao qual tem como assinatura esse parametro, e o terceiro parametro,
+        refere-se a posicao do parametro, nesse caso temos:
+            public metodoParam(x:string, @params1rule y:number){}
+            repare que no codigo acima, o @param1rule esta sendo usado no segundo
+            parametro, logo o terceiro parametro retorna o valor 1, se no caso
+            esse decorador estivesse no primeiro parametro retornaria zero.
+            No caso voce nao precisa usar essa anotacao em apenas um parametro,
+            nesse exemplo esta sendo usado nos dois parametros.
+    */
+    console.log("---------------------------");
+    console.log(nomeDoMetodo);
+    console.log(posicaoDoatributo);
+    console.log("---------------------------");
 }
