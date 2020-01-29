@@ -93,7 +93,7 @@ class Decorator4{
     public metodo():void{
         console.log('regras de negocios');
     }
-
+    //Colocando decorador nos parametros de funcoes e metodos
     public metodoParam(@params1rule x:string, @params1rule y:number){
 
     }
