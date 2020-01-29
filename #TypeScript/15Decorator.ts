@@ -20,3 +20,40 @@ function exemploDecorator1(constructor: Function){
 }
 
 new Decorator1("Instanciando decorator 1");
+/*
+    Aqui abaixo um exemplo mais complexo de decorator com 
+    parametros. Uma funcao para o decorator precisa retornar
+    uma outra funcao, porem pode ou nao ter argumentos como
+    eh o caso aqui.
+*/
+@exemploDecorator2("Meu Texto",1)
+class Decorator2{    
+    constructor(public var1:string){        
+        console.log(var1);
+    }
+}
+/*
+    Aqui um exemplo de uma funcao decorator, aqui voce
+    recebe dois parametros, os parametros passado na anotacao,
+    e apos isso voce retorna uma funcao que tem um parametro,
+    sendo esse parametro a classe
+*/
+function exemploDecorator2(texto:string,numero:number){
+    /* 
+        Uma funcao decorator retorna uma funcao, o parametro
+        `_` dessa funcao faz alusao a classe. A funcao interna
+        eh o retorno.
+    */
+    return function interna(_:Function):void{
+        console.log(texto);
+        console.log(numero);
+        console.log(_);
+    }
+    /*
+        A regra eh, se tem parametro, precisa usar argumentos
+        a funcao decoradora precisa retornar uma funcao, e essa
+        funcao que sera retornada, deve ter um parametro, como
+        a funcao interna acima.
+    */
+    
+}
