@@ -83,3 +83,46 @@ function exemploDecorator3(name:string,numero:number){
     que tenha um argumento, contendo dentro desse ultimo a classe.
 */
 new Decorator3("exemplo");
+
+class Decorator4{
+    @decoratorAtributo //Atribuindo decorador em atributo.
+    public atributo:string = "Valor do atributo";
+
+    @decoradorMetodo //Atribuindo decorador em metodo.
+    public metodo():void{
+        console.log('regras de negocios');
+    }
+}
+//Funcao decoradora de atributo
+function decoratorAtributo(classe:any,nomeAtributo:string):any{
+    /* 
+        A funcao  de decorador de atributo, e o mesmo tem a seguinte assinatura:
+        2 argumentos, o primeiro sendo a classe do tipo any, e o segundo o nome do atributo,
+        com esses dois parametros voce pode fazer a sua regra de negocio, usando
+        o primeiro caso voce queira fazer checagem de valores e implementar uma 
+        restricao, e o segundo que faz referencia ao nome do atributo, independente
+        do uso a assinatura deve ter 2 argumentos, e nao deve ter retorno e em caso de
+        retorno o mesmo deve retornar do tipo any. Essa funcao por exemplo nao tem retorno
+    */
+   console.log('-----------------------');    
+    console.log('Decorator em Atributos');    
+    console.log("valor de classe: ",classe);    
+    console.log("Nome do atributo: "+nomeAtributo);
+    console.log('-----------------------');        
+}
+
+function decoradorMetodo(alvo:any,nomePropriedade:string,descricao:PropertyDescriptor):any{
+    /*
+        semelhante ao decorador de objeto, os dois primeiros parametros sao identicos, assim
+        como o retorno. O que difere aqui seria o terceiro parametro, que permite com que 
+        voce modifique certas estruturas do comportamento do metodo, que seria a descricao,
+        essa descricao eh um objeto que contem os seguintes atributos:
+            {
+                value: [Function], //Valor
+                writable: true, //Pode ser reescrito?
+                enumerable: true, //Pode ser exibido, no console.log por exemplo.
+                configurable: true //Pode ter atributos modificados?
+            }
+    */
+    console.log(descricao);
+}
