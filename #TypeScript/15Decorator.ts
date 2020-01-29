@@ -5,6 +5,9 @@
     esse recurso, e por fim criar uma funcao para esse recurso.
     Acima da classe voce coloca a notacao '@' com um nome, e apos
     isso voce cria uma funcao para essa anotacao que voce criou.
+    Resumindo, um decorator intecepta a classe na hora da instanciacao
+    e a modifica de acordo com a funcao decoradora, que eh a funcao
+    como o mesmo nome do que a funcao que tem um @.
     Abaixo a anotacao: @exemploDecorator1.
 */
 @exemploDecorator1
@@ -47,7 +50,9 @@ function exemploDecorator2(texto:string,numero:number){
     return function interna(_:Function):void{
         console.log(texto);
         console.log(numero);
-        console.log(_);
+    //Aqui sera impresso a classe, lembrando que uma classe no JS
+    //eh uma funcao.    
+        console.log(_); 
     }
     /*
         A regra eh, se tem parametro, precisa usar argumentos
@@ -57,3 +62,24 @@ function exemploDecorator2(texto:string,numero:number){
     */
     
 }
+
+/*
+    Aqui no terceiro exemplo, temos um exemplo mais resumido,
+    do exemplo2 acima.
+*/
+@exemploDecorator3("NOME",0)
+class Decorator3{    
+    constructor(public var1:string){        
+        console.log(var1);
+    }
+}
+
+function exemploDecorator3(name:string,numero:number){
+     return function(_:Function){}     
+     //Essa funcao nao fara nada.
+}
+/*
+    Como a mesma tem argumentos, precisa retornar uma funcao,
+    que tenha um argumento, contendo dentro desse ultimo a classe.
+*/
+new Decorator3("exemplo");
