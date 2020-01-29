@@ -33,3 +33,6 @@ Compila o arquivo transformando-o em javascript. O <b>[seu arquivo]</b> deve ser
 cria um arquivo json padrao com muitas opcoes comentadas. Esse arquivo define o funcionamento do compilador.
 <h3>tsc -w [arquivo.ts]</h3>
 Monitora um arquivo e compila quando uma alteracao eh feita. O <b>[arquivo.ts]</b> deve ser substituido pelo arquivo a ser moniorado.
+<h3>Com relacao ao decorator<h3>
+Para usar o decorator no typescript, se faz necessario habilitar no arquivo de configuracao do typescript: <b>"experimentalDecorators": true</b><br>
+O decorator seria o suporte a reflexao, com ele voce pode usar recursos de reflexao no Typescript.
