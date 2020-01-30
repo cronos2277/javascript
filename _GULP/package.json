@@ -4,15 +4,17 @@
   "description": "This template contains the minimum needed for work with gulp and Typescript",
   "main": "index.js",
   "scripts": {
-    "prepare": "mkdir public && mkdir src && mkdir dist && touch main.ts",
+    "prepare": "mkdir public && mkdir src && mkdir dist",
     "build": "gulp"
   },
   "author": "cronos2277",
   "license": "ISC",
   "devDependencies": {
+    "@types/jquery": "^3.3.31",
     "browserify": "^16.5.0",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
+    "jquery": "^3.4.1",
     "tsify": "^4.0.1",
     "typescript": "^3.7.5",
     "vinyl-source-stream": "^2.0.0"
