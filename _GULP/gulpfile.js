@@ -1,8 +1,10 @@
 const {series, parallel, src, dest } = require('gulp');
-const del = require('del') //para deletar pastas
+const del = require('del') 
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
 const tsify = require('tsify');
+const uglify = require('gulp-uglify');
+const rename = require('gulp-rename');
 
 //Essa funcao limpa o diretorio
 const cleanDirectory = function cleanDirectory(){   
@@ -26,7 +28,13 @@ const createJS = function createJS(){
     .pipe(dest('dest'));    
 }
 
+//Cria o Javascript pronto para producao.
+const createJavaScriptProduction = function createJavaScriptProduction(){
+    return src('dest/app.js').pipe(rename('app.min.js')).pipe(uglify()).pipe(dest('dest'));
+}
+
 exports.default = series(
     cleanDirectory,
-    parallel(createJS,copyHTML)
+    parallel(createJS,copyHTML),
+    createJavaScriptProduction
 )
