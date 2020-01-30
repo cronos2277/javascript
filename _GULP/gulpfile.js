@@ -20,7 +20,7 @@ const createJS = function createJS(){
         basedir:'.',
         entries: ['src/main.ts']
     })
-    .plugin(tsfy)
+    .plugin(tsify)
     .bundle()
     .pipe(source('app.js'))
     .pipe(dest('dest'));    
