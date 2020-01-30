@@ -9,3 +9,7 @@ Observacao, o gulp eh inteligente o bastante para ignorar modulos que nao sao ut
 entao se voce referencia algum modulo e nao usa, o GULP ignora, alem disso voce pode adicionar
 mais tarefas editando o arquivo '<b>gulpfile.js</b>'.
 </p>
+<ol>
+    <li>Coloque os seus html na pasta public.</li>
+    <li>A pasta <b>dest</b> eh a pasta de saida, sendo o que contem o min no meio do nome o arquivo mimificado</li>
+</ol>
