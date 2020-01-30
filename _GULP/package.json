@@ -4,7 +4,7 @@
   "description": "This template contains the minimum needed for work with gulp and Typescript",
   "main": "index.js",
   "scripts": {
-    "prepare": "mkdir public",
+    "prepare": "npm i --save-dev && mkdir public",
     "build": "gulp"
   },
   "author": "cronos2277",
