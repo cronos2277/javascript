@@ -1,5 +1,6 @@
 const path = require('path');
 const outputFile = "dist";
+const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     mode: 'production', 
     entry: './src/Main.ts', 
@@ -7,6 +8,11 @@ module.exports = {
         filename: "app.min.js",
         path: path.join(__dirname, outputFile)
     },
+    plugins:[
+        new CopyPlugin([
+            { from: 'public'}
+        ])
+    ],
     resolve: {
         extensions: ['.ts','.js']
     },
