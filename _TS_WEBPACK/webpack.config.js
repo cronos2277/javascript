@@ -1,12 +1,17 @@
 const path = require('path');
-const outputFile = "dist";
+const outputFolder = "dist";
 const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
     mode: 'production', 
     entry: './src/Main.ts', 
+    devServer: {
+        contentBase: path.join(__dirname,outputFolder),
+        port: 9000,
+        hot:true
+    },
     output: { 
         filename: "app.min.js",
-        path: path.join(__dirname, outputFile)
+        path: path.join(__dirname, outputFolder)
     },
     plugins:[
         new CopyPlugin([
