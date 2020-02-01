@@ -1,1 +1,16 @@
-<p>Componente Inside dentro do generated</p>
+<!-- 
+    Essa interpolacao esta relacionado com o atributo de mesmo nome, 
+    essa variavel eh um atributo dentro de inside.components.ts
+-->
+<p>{{exemplo1}}</p>
+<!-- 
+    Essa interpolacao eh de um atributo interno de um objeto dentro da classe,
+    no caso "exemplo.exemplo1", dentro do arquivo inside.components.ts
+-->
+<p>{{exemplo.exemplo1}}</p>
+<!-- 
+    Aqui no exemplo abaixo nos temos uma interpolacao de string, nesse caso
+    o resultado sera a soma da expressao abaixo, expressoes como essa abaixo,
+    sao resolvidas antes na hora da renderizacao.
+-->
+<p>{{ 10+10 }}</p>
