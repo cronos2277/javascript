@@ -1,4 +1,11 @@
 <h1>Angular 2</h1>
+<h2>Instalacao<h2>
+<p>
+Caso voce esteja baixando esse arquivo, use o "<b>npm i</b>", com o terminal dentro da pasta do projeto para instalar
+todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, como por exemplo o myapp, use o comando
+"<b>npm i<b>", para que funcione na sua maquina.
+</p>
+<hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
@@ -20,9 +27,9 @@
   <b>version (v)</b> Emite a versão da CLI angular.<br>
   <b>xi18n</b> Extrai mensagens i18n do código fonte.<br>
 </p>
-<p>
 <hr>
 <h2>A respeito do NG Generate:</h2>
+
 <p>
     Voce pode usar o comando, na raiz do projeto:<br>
     <b>ng generate component "[NOME_DO_COMPONENTE]"</b><br>
@@ -34,8 +41,22 @@
 </p>
 
 <hr>
+
+<h2>A respeito do NG add: </h2>
+
+<p>
+  Sempre que possivel use o ng add ao inves do npm install, uma vez que 
+  esse comando nao so instala, assim como tambem ja configura tudo para que
+  funcione bem no projeto. Segue abaixo 2 bibliotecas para frontend:<br>
+  Materialize: "<b>ng add @angular/material</b>" => https://material.angular.io/components/categories <br>
+  Bootstrap: "<b>ng add ngx-bootstrap</b>" => https://valor-software.com/ngx-bootstrap/#/documentation <br>
+</p>
+
+
+
+<hr>
 <h2>Erros do tipo: <b>ERROR in Could not resolve module</b></h2>
-caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
+<p>caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
 <br>
 Nesse caso pode ser que exista algum caracter bizarro no path ate o projeto,
 evite usar '#', @ e qualquer outro caracter bizarro. Primeira dica.<br> segunda dica:<br>
