@@ -1,3 +1,4 @@
+<p>
   <b>add</b> Adiciona suporte para uma biblioteca externa ao seu projeto.<br>
   <b>analytics</b> Configura a coleta de métricas de uso da CLI angular. Veja: https://v8.angular.io/cli/usage-analytics-gathering.<br>
   <b>build (b)</b> Compila um aplicativo Angular em um diretório de saída chamado dist / no caminho de saída especificado. Deve ser executado de dentro de um diretório da área de trabalho.<br>
@@ -14,4 +15,21 @@
   <b>update</b> Atualiza seu aplicativo e suas dependências. Veja: https://update.angular.io/<br>
   <b>version (v)</b> Emite a versão da CLI angular.<br>
   <b>xi18n</b> Extrai mensagens i18n do código fonte.<br>
+</p>
+<p>
+caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
+Vai até o arquivo main.ts e arrume as referencias, nessa linha:<br>
+substitua:<br>
 
+<b>
+import { enableProdMode } from '@angular/core';<br>
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';<br>
+</b>
+POR:
+<hr>
+<b>
+import { enableProdMode } from '../node_modules/@angular/core';<br>
+import { platformBrowserDynamic } from '../node_modules/@angular/platform-browser-dynamic';<br>
+</b>
+
+</p>
