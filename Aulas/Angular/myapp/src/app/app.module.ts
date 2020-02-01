@@ -5,6 +5,10 @@ import { AppComponent } from './app.component';
 import {MyCompositeComponent} from "./mycomposite.components";
 import { MygeneratedComponent } from './mygenerated/mygenerated.component';
 import { InsideComponent } from './mygenerated/inside/inside.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button'; //Modulo para o botao material design
+import {MatCardModule} from '@angular/material/card';  //Modulo para a div do material design
+
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
 */
@@ -14,8 +18,12 @@ import { InsideComponent } from './mygenerated/inside/inside.component';
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
     MyCompositeComponent, MygeneratedComponent, InsideComponent //Um componente composto que carrega arquivos externos.
   ],
-  imports: [
-    BrowserModule
+  imports: [ //Aqui lidamos com a importacao de modulos
+    BrowserModule,
+    BrowserAnimationsModule,
+//Aqui eh feito a importacao dos elementos do material design    
+    MatButtonModule,
+    MatCardModule, //Modulos deve ser referenciado aqui dentro do imports
   ],
   providers: [],
   bootstrap: [AppComponent] //A sequencia de componentes que sera chamada.
