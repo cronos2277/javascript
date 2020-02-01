@@ -16,12 +16,12 @@ Execute `ng build` para criar o projeto. Os artefatos de construção serão arm
 
 ## Running unit tests
 
-Execute o `ng test` para executar os testes de unidade via[Karma](https://karma-runner.github.io).
+Execute o `ng test` para executar os testes de unidade via [Karma] (https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Execute `ng e2e` para executar os testes de ponta a ponta via[Protractor](http://www.protractortest.org/).
+Execute `ng e2e` para executar os testes de ponta a ponta via [Protractor] (http://www.protractortest.org/).
 
 ## Further help
 
-Para obter mais ajuda na CLI Angular, use `ng help` ou vá para o [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Para obter mais ajuda na CLI Angular, use `ng help` ou vá para o [Angular CLI README] (https://github.com/angular/angular-cli/blob/master/README.md).
