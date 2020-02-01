@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import {MyBasicComponent} from './mybasic.components';
 import { AppComponent } from './app.component';
 import {MyCompositeComponent} from "./mycomposite.components";
+import { MygeneratedComponent } from './mygenerated/mygenerated.component';
+import { InsideComponent } from './mygenerated/inside/inside.component';
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
 */
@@ -10,7 +12,7 @@ import {MyCompositeComponent} from "./mycomposite.components";
   declarations: [ //Aqui estamos também informando a ordem de carregamento dos componentes.
     AppComponent, //Aqui estamos declarando a utilização desse componente.
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
-    MyCompositeComponent //Um componente composto que carrega arquivos externos.
+    MyCompositeComponent, MygeneratedComponent, InsideComponent //Um componente composto que carrega arquivos externos.
   ],
   imports: [
     BrowserModule
