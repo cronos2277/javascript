@@ -17,16 +17,15 @@
   <b>xi18n</b> Extrai mensagens i18n do código fonte.<br>
 </p>
 <p>
+<hr>
 caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
-Vai até o arquivo main.ts e arrume as referencias, nessa linha:<br>
-substitua:<br>
-
+Vai até o arquivo main.ts e arrume as referencias, nessa linha substitua:<br>
 <b>
 import { enableProdMode } from '@angular/core';<br>
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';<br>
 </b>
 POR:
-<hr>
+<br>
 <b>
 import { enableProdMode } from '../node_modules/@angular/core';<br>
 import { platformBrowserDynamic } from '../node_modules/@angular/platform-browser-dynamic';<br>
