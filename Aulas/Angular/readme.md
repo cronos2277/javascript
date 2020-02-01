@@ -3,7 +3,7 @@
 <p>
 Caso voce esteja baixando esse arquivo, use o "<b>npm i</b>", com o terminal dentro da pasta do projeto para instalar
 todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, como por exemplo o myapp, use o comando
-"<b>npm i<b>", para que funcione na sua maquina.
+"<b>npm i</b>", para que funcione na sua maquina.
 </p>
 <hr>
 <h2>Comandos basicos do ng</h2>
