@@ -1,14 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {MyFirstComponent} from './myfirst.components';
+import {MyBasicComponent} from './mybasic.components';
 import { AppComponent } from './app.component';
+import {MyCompositeComponent} from "./mycomposite.components";
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
 */
 @NgModule({
   declarations: [ //Aqui estamos também informando a ordem de carregamento dos componentes.
     AppComponent, //Aqui estamos declarando a utilização desse componente.
-    MyFirstComponent //Componente criado por mim
+    MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
+    MyCompositeComponent //Um componente composto que carrega arquivos externos.
   ],
   imports: [
     BrowserModule
