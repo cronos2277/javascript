@@ -14,3 +14,13 @@
     sao resolvidas antes na hora da renderizacao.
 -->
 <p>{{ 10+10 }}</p>
+<!-- 
+    Aqui temos um exemplo de uma interpolacao do valor, nesse caso quando
+    voce coloca os colchetes dentro do atributo, ou da diretiva como eh
+    chamado no Angular, o mesmo trata o valor como se fosse uma variavel.
+    Nesse caso o color vai procurar o valor no array colors no indice,
+    previamente especificado, nesse caso pela variavel indice, tanto o 
+    indice assim como o array colors esta setado na classe que renderiza 
+    todo esse html. O exemplo abaixo vai resultar em um botao like piscante.
+-->
+<button mat-fab [color]="colors[indice]">LIKE</button>
