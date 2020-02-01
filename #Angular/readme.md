@@ -30,5 +30,7 @@ POR:
 import { enableProdMode } from '../node_modules/@angular/core';<br>
 import { platformBrowserDynamic } from '../node_modules/@angular/platform-browser-dynamic';<br>
 </b>
-
+<br>
+Isso eh valido caso voce precise criar um novo projeto, as vezes acontece esses problemas, ao menos agora aconteceu quando
+foi criado um novo projeto, mas eu fiz essa correcao e o problema foi resolvido.
 </p>
