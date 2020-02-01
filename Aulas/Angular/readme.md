@@ -1,3 +1,7 @@
+<h1>Angular 2</h1>
+<h2>Comandos basicos do ng</h2>
+<h3>Exemplo de sintaxe:</h3>
+<p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
 <p>
   <b>add</b> Adiciona suporte para uma biblioteca externa ao seu projeto.<br>
   <b>analytics</b> Configura a coleta de métricas de uso da CLI angular. Veja: https://v8.angular.io/cli/usage-analytics-gathering.<br>
@@ -18,7 +22,7 @@
 </p>
 <p>
 <hr>
-
+<h2>A respeito do NG Generate:</h2>
 <p>
     Voce pode usar o comando, na raiz do projeto:<br>
     <b>ng generate component "[NOME_DO_COMPONENTE]"</b><br>
@@ -30,6 +34,7 @@
 </p>
 
 <hr>
+<h2>Erros do tipo: <b>ERROR in Could not resolve module</b></h2>
 caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
 <br>
 Nesse caso pode ser que exista algum caracter bizarro no path ate o projeto,
