@@ -18,6 +18,18 @@
 </p>
 <p>
 <hr>
+
+<p>
+    Voce pode usar o comando, na raiz do projeto:<br>
+    <b>ng generate component "[NOME_DO_COMPONENTE]"</b><br>
+    Assim como voce pode criar um componente dentro de um componente<br>
+    <b>ng generate component "[NOME_DO_COMPONENTE]/[NOME_DO_COMPONENTE_INTERNO]"</b><br>
+    Dessa forma o componente eh criado da maneira correta dentro de uma pasta, sendo referenciado 
+    inclusive dentro do arquivo "<b>./src/app.module.ts</b>", com o seu respectivo html e css,
+    tupo isso de maneira automatizada.
+</p>
+
+<hr>
 caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
 <br>
 Nesse caso pode ser que exista algum caracter bizarro no path ate o projeto,
