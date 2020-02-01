@@ -19,18 +19,13 @@
 <p>
 <hr>
 caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
-Vai até o arquivo main.ts e arrume as referencias, nessa linha substitua:<br>
-<b>
-import { enableProdMode } from '@angular/core';<br>
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';<br>
-</b>
-POR:
 <br>
-<b>
-import { enableProdMode } from '../node_modules/@angular/core';<br>
-import { platformBrowserDynamic } from '../node_modules/@angular/platform-browser-dynamic';<br>
-</b>
-<br>
-Isso eh valido caso voce precise criar um novo projeto, as vezes acontece esses problemas, ao menos agora aconteceu quando
-foi criado um novo projeto, mas eu fiz essa correcao e o problema foi resolvido.
+Nesse caso pode ser que exista algum caracter bizarro no path ate o projeto,
+evite usar '#', @ e qualquer outro caracter bizarro. Primeira dica.<br> segunda dica:<br>
+    Desinstalar a dependência rxjs do projeto."<b>npm uninstall rxjs</b>"<br>
+    Apagar a pasta node_modules. "<b>rm -rf node_modules</b>" <br>
+    Apagar o arquivo package-json.lock e yarn.lock (se existir). "<b>rm package-json.lock yarn.lock</b>"<br>
+    Instalar todas as dependências novamente. "<b>npm i</b>"<br>
+    Instalar a versão mais nova do rxjs. "<b>npm i rxjs</b>"<br>
+    Tentar subir novamente. "<b>ng serve --open</b>"<br>
 </p>
