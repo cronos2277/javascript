@@ -1,17 +1,17 @@
-  <b>add</b> Adds support for an external library to your project.<br>
-  <b>analytics</b> Configures the gathering of Angular CLI usage metrics. See https://v8.angular.io/cli/usage-analytics-gathering.<br>
-  <b>build (b)</b> Compiles an Angular app into an output directory named dist/ at the given output path. Must be executed from within a workspace directory.<br>
-  <b>deploy (d)</b> Invokes the deploy builder for a specified project or for the default project in the workspace.<br>
-  <b>config</b> Retrieves or sets Angular configuration values in the angular.json file for the workspace.<br>
-  <b>doc (d)</b> Opens the official Angular documentation (angular.io) in a browser, and searches for a given keyword.<br>
-  <b>e2e (e)</b> Builds and serves an Angular app, then runs end-to-end tests using Protractor.<br>
-  <b>generate (g)</b> Generates and/or modifies files based on a schematic.  <br>
-  <b>lint (l)</b> Runs linting tools on Angular app code in a given project folder.<br>
-  <b>new (n)</b> Creates a new workspace and an initial Angular app.<br>
-  <b>run</b> Runs an Architect target with an optional custom builder configuration defined in your project.<br>
-  <b>serve (s)</b> Builds and serves your app, rebuilding on file changes.<br>
-  <b>test (t)</b> Runs unit tests in a project.<br>
-  <b>update</b> Updates your application and its dependencies. See https://update.angular.io/<br>
-  <b>version (v)</b> Outputs Angular CLI version.<br>
-  <b>xi18n</b> Extracts i18n messages from source code.<br>
+  <b>add</b> Adiciona suporte para uma biblioteca externa ao seu projeto.<br>
+  <b>analytics</b> Configura a coleta de métricas de uso da CLI angular. Veja: https://v8.angular.io/cli/usage-analytics-gathering.<br>
+  <b>build (b)</b> Compila um aplicativo Angular em um diretório de saída chamado dist / no caminho de saída especificado. Deve ser executado de dentro de um diretório da área de trabalho.<br>
+  <b>deploy (d)</b> Invoca o construtor de implementação para um projeto especificado ou para o projeto padrão na área de trabalho.<br>
+  <b>config</b> Recupera ou define valores de configuração Angular no arquivo angular.json da área de trabalho.<br>
+  <b>doc (d)</b> Abre a documentação oficial do Angular (angular.io) em um navegador e pesquisa uma determinada palavra-chave.<br>
+  <b>e2e (e)</b> Cria e veicula um aplicativo Angular e, em seguida, executa testes de ponta a ponta usando o Transferidor.<br>
+  <b>generate (g)</b> Gera e / ou modifica arquivos com base em um esquema.  <br>
+  <b>lint (l)</b> Executa ferramentas de linting no código do aplicativo Angular em uma determinada pasta do projeto.<br>
+  <b>new (n)</b> Cria um novo espaço de trabalho e um aplicativo Angular inicial.<br>
+  <b>run</b> Executa um destino do Architect com uma configuração opcional do construtor personalizado definida em seu projeto.<br>
+  <b>serve (s)</b> Cria e veicula seu aplicativo, reconstruindo com alterações de arquivo.<br>
+  <b>test (t)</b> Executa testes de unidade em um projeto.<br>
+  <b>update</b> Atualiza seu aplicativo e suas dependências. Veja: https://update.angular.io/<br>
+  <b>version (v)</b> Emite a versão da CLI angular.<br>
+  <b>xi18n</b> Extrai mensagens i18n do código fonte.<br>
 
