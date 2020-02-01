@@ -8,7 +8,7 @@ Execute `ng serve` para um servidor dev. Navegue para `http: // localhost: 4200 
 
 ## Code scaffolding
 
-Execute `ng gerar componente nome-do-componente` para gerar um novo componente. Você também pode usar a diretiva ng ng | pipe | service | class | guard | interface | enum | module`.
+Execute `ng generate componente nome-do-componente` para gerar um novo componente. Você também pode usar a diretiva ng ng | pipe | service | class | guard | interface | enum | module`.
 
 ## Build
 
