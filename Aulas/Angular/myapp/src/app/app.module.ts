@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button'; //Modulo para o botao 
 import {MatCardModule} from '@angular/material/card';  //Modulo para a div do material design
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
+import {MatInputModule} from '@angular/material/input';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -28,6 +29,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatCardModule, //Modulos deve ser referenciado aqui dentro do imports
     MatCheckboxModule,
     MatSelectModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent] //A sequencia de componentes que sera chamada.

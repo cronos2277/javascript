@@ -14,6 +14,7 @@ export class InsideComponent implements OnInit {
   indice = 0;
   constructor() {}
   cars = "";
+  input = "null";
   ngOnInit() {
 
     setInterval(() =>{
@@ -46,6 +47,10 @@ export class InsideComponent implements OnInit {
   setCars(event){
     console.log(event);
     this.cars = event.value; 
+  }
+  inputText(event){
+    console.log(event);
+    this.input = event.target.value;
   }
 
 }

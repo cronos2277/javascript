@@ -52,5 +52,18 @@
 </mat-form-field>
 <br>
 <p>Carro selecionado: {{cars}}</p>
-<br><br>
-
+<br>
+<!-- 
+    Tanto o select acima, assim como o input abaixo usam
+    do mecanismo da two way data binding, ou seja elas recebem
+    e escreve dados do mesmo atributo da classe, no caso 
+    o select le os dados na interpolacao dentro da p, e escreve
+    no evento selectionChange, ficar esperto que o select tem
+    eventos diferente dos outros elementos.
+    Abaixo temos o input que tambem segue esse mesmo two way data binding
+-->
+<br>
+<mat-form-field class="example-full-width">
+    <input matInput placeholder="Favorite food" (input)="inputText($event)" value="">
+</mat-form-field>
+<p>Valor do input: {{input}}</p>
