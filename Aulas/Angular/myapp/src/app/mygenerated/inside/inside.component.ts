@@ -13,7 +13,7 @@ export class InsideComponent implements OnInit {
   colors = ["primary","accent","warn"]
   indice = 0;
   constructor() {}
-
+  cars = "";
   ngOnInit() {
 
     setInterval(() =>{
@@ -39,6 +39,13 @@ export class InsideComponent implements OnInit {
       this.indice =  (this.indice +1) % this.colors.length;
     },1000);
     
+  }
+  checkboxFunction(event){
+    console.log(event);
+  }
+  setCars(event){
+    console.log(event);
+    this.cars = event.value; 
   }
 
 }

@@ -8,6 +8,8 @@ import { InsideComponent } from './mygenerated/inside/inside.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button'; //Modulo para o botao material design
 import {MatCardModule} from '@angular/material/card';  //Modulo para a div do material design
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -24,6 +26,8 @@ import {MatCardModule} from '@angular/material/card';  //Modulo para a div do ma
 //Aqui eh feito a importacao dos elementos do material design    
     MatButtonModule,
     MatCardModule, //Modulos deve ser referenciado aqui dentro do imports
+    MatCheckboxModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent] //A sequencia de componentes que sera chamada.

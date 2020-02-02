@@ -24,3 +24,33 @@
     todo esse html. O exemplo abaixo vai resultar em um botao like piscante.
 -->
 <button mat-fab [color]="colors[indice]">LIKE</button>
+<br><br>
+<!-- 
+    Aqui nos temos um exemplo de como funciona os eventos do Angular,
+    os eventos padroes do Angular tem nomes parecidos com o do Jquery,
+    entretanto os mesmos devem estar dentro de parentes e o seu valor,
+    dever o metodo correspondente na classe. No caso a coisa functiona assim
+    (evento)="metodoNaClasse(Parametro)", no caso o metodo eh criado
+    no corpo da sua classe, nesse caso o metodo esta dentro do inside.component.ts.
+    O Parametro passado eh o $event, nesse caso o $event eh uma variavel criado
+    pelo angular e que pode ser passado como parametro de um metodo, para que voce
+    possa interceptar um evento.
+    (input) => Evento padrao de qualquer componente, o mesmo contem atributos diversos.
+    (change) => Evento ocorre quando ocorre uma mudanca de estado.
+    (click) => Evento ocorre quando o mesmo eh clicado.
+-->
+<mat-checkbox (input)="checkboxFunction($event)" (change)="checkboxFunction($event)" (click)="checkboxFunction($event)">Check me!</mat-checkbox>
+<br><br><br>
+<mat-form-field>
+    <mat-label>Cars</mat-label>
+        <mat-select matNativeControl required (selectionChange)="setCars($event)">
+            <mat-option value="volvo">Volvo</mat-option>
+            <mat-option value="saab">Saab</mat-option>
+            <mat-option value="mercedes">Mercedes</mat-option>
+            <mat-option value="audi">Audi</mat-option>
+        </mat-select>
+</mat-form-field>
+<br>
+<p>Carro selecionado: {{cars}}</p>
+<br><br>
+
