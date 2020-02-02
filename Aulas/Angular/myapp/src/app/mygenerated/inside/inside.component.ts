@@ -13,8 +13,8 @@ export class InsideComponent implements OnInit {
   colors = ["primary","accent","warn"]
   indice = 0;
   constructor() {}
-  cars = "";
-  input = "null";
+  cars = ""; //usado no 2way data binding do select
+  input = "null";  //usado no 2way data binding do input
   ngOnInit() {
 
     setInterval(() =>{
@@ -41,14 +41,20 @@ export class InsideComponent implements OnInit {
     },1000);
     
   }
-  checkboxFunction(event){
+/*
+  Os metodos abaixo sao metodos, que correspondem a eventos
+  no html.
+*/
+  checkboxFunction(event){ //Checkbox change e click
     console.log(event);
   }
-  setCars(event){
+
+  setCars(event){ //selectChange
     console.log(event);
     this.cars = event.value; 
   }
-  inputText(event){
+
+  inputText(event){ //input
     console.log(event);
     this.input = event.target.value;
   }
