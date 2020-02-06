@@ -68,8 +68,32 @@
 </mat-form-field>
 <p>Valor do input: {{input}}</p>
 <br>
+<!-- 
+    Abaixo nos temos a diretiva ngClass, essa diretiva eh responsavel
+    por definir a classe do elemento abaixo. funciona como as outras 
+    diretivas, porem como tem os colchetes o valor eh interpolado, logo
+    o valor passado aqui se refe a um atributo da classe, nesse caso
+    um array.
+-->
 <button mat-fab [(ngClass)]="classDirective[classDirectiveIndex]" (click)="classDirectiveFunction()">Change</button>
 <br><br>
+<!-- 
+ *ngIf => Essa diretiva estrutural funciona exatamente igual os Ifs nas
+linguagens de programacao. Inicialmente repare que o mesmo possui um
+asteriscos na frente do nome da diretiva. a mesma pode aceitar tanto um
+atributo da classe, assim como o exemplo abaixo.
+[ngStyle] => Essa diretiva eh a responsavel por decorar o elemento
+a estrutura para isso eh usando objetos em javascript, no estilo chave/valor,
+ja com relacao aos atributos, os atributos compostos devem seguir o padrao 
+camelcase, os atributos do tipo background-color que se torna backgroundColor,
+margin-left => marginLeft e por ai vai, assim como acontece dentro atributo style
+dentro de cada objeto node. Lembrando sempre, como esta dentro das chaves o valor
+eh interpolado, nesse caso no ng style voce informa objeto, contendo os atributos
+a serem decorados e por fim as variaveis ou array como eh o caso contendo valores.
+-->
+<!-- Aqui o *ngIf recebe um valor boolean de um atributo. -->
 <div *ngIf="isActiveLabel" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
+<!-- Nesse segundo exemplo o *ngIf recebe valores de maneira direta. -->
+<div *ngIf="(true && false) || false" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
 <br>
 <button mat-fab (click)="changeLabelVisibility()">Hide</button>
