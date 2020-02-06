@@ -10,8 +10,11 @@ export class InsideComponent implements OnInit {
   exemplo = { //Usando o Javascript simples
     exemplo1: "Exemplo de interpolacao de String dentro de Objeto."
   }
+  //Atributos referentes a mudanca de cor, aqui o exemplo relacionado a interpolacao de string
   colors = ["primary","accent","warn"]
   indice = 0;
+
+  //Exemplos da diretiva de classe do Angular.
   classDirective = ["classe1","classe2"];
   classDirectiveIndex = 0;
   classDirectiveFunction(){
@@ -22,13 +25,18 @@ export class InsideComponent implements OnInit {
     }
   }
 
+    //Esse atributo esta relacionado a diretiva ngStyle.
   ngstyle = ["black","white"];
 
+  isActiveLabel = true;
+  changeLabelVisibility(){
+    this.isActiveLabel = !this.isActiveLabel;
+  }
   constructor() {}
   cars = ""; //usado no 2way data binding do select
-  input = "null";  //usado no 2way data binding do input
+  input = "null";  //usado no 2way data binding do input  
   ngOnInit() {
-
+    //Esse metodo eh chamado quando o componente eh criado.
     setInterval(() =>{
       /*
         Engenhoso e interessante essa estrategia, a % abaixo calcula o resto da divisao, 

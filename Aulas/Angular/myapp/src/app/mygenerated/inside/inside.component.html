@@ -70,4 +70,6 @@
 <br>
 <button mat-fab [(ngClass)]="classDirective[classDirectiveIndex]" (click)="classDirectiveFunction()">Change</button>
 <br><br>
-<div [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
+<div *ngIf="isActiveLabel" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
+<br>
+<button mat-fab (click)="changeLabelVisibility()">Hide</button>
