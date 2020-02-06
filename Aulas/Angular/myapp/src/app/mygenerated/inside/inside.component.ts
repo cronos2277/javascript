@@ -12,6 +12,18 @@ export class InsideComponent implements OnInit {
   }
   colors = ["primary","accent","warn"]
   indice = 0;
+  classDirective = ["classe1","classe2"];
+  classDirectiveIndex = 0;
+  classDirectiveFunction(){
+    if(this.classDirectiveIndex){
+      this.classDirectiveIndex = 0;
+    }else{
+      this.classDirectiveIndex = 1;
+    }
+  }
+
+  ngstyle = ["black","white"];
+
   constructor() {}
   cars = ""; //usado no 2way data binding do select
   input = "null";  //usado no 2way data binding do input
