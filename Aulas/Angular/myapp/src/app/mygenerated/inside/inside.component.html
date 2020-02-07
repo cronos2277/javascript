@@ -1,3 +1,15 @@
+<div>
+    <!-- 
+        Usando a tag ng-content, voce pode inserir o conteudo
+        que eh passado na tag superior, no arquivo mygenerated
+        eh passado dois elementos <p>.
+        Eles seram exibidos no caso aonde tem a tag ng-content,
+        nesse caso essa tag abaixo vai renderizar:
+<p style="color:red"><b>Elementos passado como parametros no no superior.</b></p>
+<p style="color:green"><b>Um outro texto passando um outro elemento dentro do superior.</b></p>
+    -->
+    <ng-content></ng-content>
+</div>
 <!-- 
     Essa interpolacao esta relacionado com o atributo de mesmo nome, 
     essa variavel eh um atributo dentro de inside.components.ts
@@ -150,7 +162,46 @@ a serem decorados e por fim as variaveis ou array como eh o caso contendo valore
     criar um atributo com o mesmo nome dessa referencia, uma vez que ambos sao
     referenciados de maneira semelhante.   
 -->
+<hr>
 <ng-template #mytemplate>
     <p>Exemplo de <b>ng-template</b>.</p>
     <p>Uma vez chamado a referencia #mytemplate</p>
+</ng-template>
+<!-- 
+    Um exemplo do uso do conteiner, ele seria o equivalente
+    Angular do Fragment-React do React. Porem o seu uso
+    geralmente quando voce quer usar o For com algum desvio
+    condicional, nesse caso o if. O angular nao permite 
+    que um mesmo elemento HTML tenha duas diretivas com asteriscos,
+    ou seja caso voce precise que o elemento tenha um for
+    e um if por exemplo, voce deve usa-lo dentro de container,
+    usando o ng-container, diferente do ng-template
+    que precisa ser invocado, esse nao precisa, eis ai uma
+    diferenca entre os dois. No exemplo abaixo o container
+    contem o laco for.
+-->
+<ng-container *ngFor="let alvo of arrays; let i=index">    
+    <!-- 
+        O If no angular eh ligeiramente bizarro, mas tente 
+        entender a logica, se verdadeiro, nesse caso se 
+        "I" resto de divisao diferente de zero, ele eh um numero
+        impar, logo ele renderiza o proprio elemento, caso
+        nao seja, ele ira renderizar um elemento ng-template,
+        nesse caso o fragmento par. Assim sendo, geralmente
+        usa-se o ng-container com o for e o ng-template como
+        resultado de algum else. Dessa forma o for executa
+        todo o container e case ao if/else ou renderizar
+        o propio elemento ou redenrizar um ng-template se
+        cair no else, ou nao renderizar nada caso nao tenha
+        um else, porem esse ultimo exemplo eh de como funciona
+        o for junto com o if/else.
+    -->
+    <div *ngIf="i%2!=0 else fragmentoPar">
+        <span>Valor impar</span>
+        <br>
+    </div>
+</ng-container>
+<ng-template #fragmentoPar>
+    <span>Valor Par</span>
+    <br>
 </ng-template>
