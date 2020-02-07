@@ -1,6 +1,12 @@
 <h1>Angular 2</h1>
 <h2>Revisao</h2>
-<p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo o Angular 2</p>
+<p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo Angular 2</p>
+<p>
+  Os exemplos mais basicos do Angular, podem ser acompanhados aqui:
+  <a href="./myapp/src/app/mybasic.components.ts">mybasic.components.ts</a>
+  <br> 
+  <a href="./myapp/src/app/mycomposite.components.ts">mycomposite.components.ts</a>
+</p>
 <p> Para ver os exemplos mais basicos de diretivas do Angular, acesse o arquivo <a href="myapp/src/app/mygenerated/inside/inside.component.html" target="_blank">inside.component.html</a>, sendo esse um componente interno do componente <a href="myapp/src/app/mygenerated/mygenerated.component.html" target="_blank">mygenerated.component.html</a>
 </p>
 <p>
