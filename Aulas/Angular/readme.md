@@ -28,9 +28,9 @@ de maneira automatica, estando assim pronto o seu novo componente
 para uso. Agora se voce vai usar algo externo, ou algo instalado
 pelo npm, nao esqueca de incluir isso nesse arquivo varias vezes citado aqui: <a href="./myapp/src/app/app.module.ts">app.module.ts</a><br>
 Esse arquivo possui estilo e um html, sendo o seu estilo 
-<a href="./myapp/src/app/app.components.css">app.components.css</a> e o
-seu html <a href="./myapp/src/app/app.components.html">app.components.html</a> tendo tambem um
-arquivo <a href="./myapp/src/app/app.components.ts">app.components.css</a> aonde fica toda a regra
+<a href="./myapp/src/app/app.component.css">app.component.css</a> e o
+seu html <a href="./myapp/src/app/app.component.html">app.component.html</a> tendo tambem um
+arquivo <a href="./myapp/src/app/app.component.ts">app.component.css</a> aonde fica toda a regra
 de negocios do componente, ou seja o arquivo principal tambem carrega um componente principal
 que nesse caso eh o:  
 </p>
