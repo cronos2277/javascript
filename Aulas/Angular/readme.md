@@ -3,6 +3,7 @@
 <p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo Angular 2</p>
 <p>
   Os exemplos mais basicos do Angular, podem ser acompanhados aqui:
+  <br>
   <a href="./myapp/src/app/mybasic.components.ts">mybasic.components.ts</a>
   <br> 
   <a href="./myapp/src/app/mycomposite.components.ts">mycomposite.components.ts</a>
