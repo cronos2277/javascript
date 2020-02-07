@@ -4,7 +4,8 @@
 <p>
   Os exemplos mais basicos do Angular, podem ser acompanhados aqui:
   <br>
-  <a href="./myapp/src/app/mybasic.components.ts">mybasic.components.ts</a>
+  <a href="./myapp/src/app/mybasic.components.ts">mybasic.components.ts</a>, modelo extremamente basico, nao possui
+  HTML e CSS.
   <br> 
   <a href="./myapp/src/app/mycomposite.components.ts">mycomposite.components.ts</a>, sendo o html <a href="./myapp/src/app/mycomposite.components.html">mycomposite.components.html</a>,
   e o css <a href="./myapp/src/app/mycomposite.components.css">mycomposite.components.css</a>
@@ -17,6 +18,16 @@ contem toda as regras de negocio em javascript, nesse caso temos:<br>
 Para <b><a href="myapp/src/app/mygenerated/inside/inside.component.html" target="_blank">inside.component.html</a> => <a href="myapp/src/app/mygenerated/inside/inside.component.ts" target="_blank">inside.component.ts</a><br></b>
 Para: <b><a href="myapp/src/app/mygenerated/mygenerated.component.html" target="_blank">mygenerated.component.html</a> => <a href="myapp/src/app/mygenerated/mygenerated.component.ts" target="_blank">mygenerated.component.ts</a>
 </b></p>
+<p>
+Aqui <a href="/myapp/src/app/app.module.ts">app.module.ts</a> temos o arquivo mais importante da aplicao, que eh carregado carregado pelo arquivo <a href="/src/main.ts">main.ts</a>. Todos os modulos
+que serao implementados estaram dentro desse arquivo, assim como
+a sua implementacao devera estar aqui dentro de <a href="/myapp/src/app/app.module.ts">app.module.ts</a>. Recomenda-se usar o ng quando
+for criar um novo componente, ou qualquer coisa que seja, uma vez
+que o ng faz toda essa parte de implementar dentro desse arquivo
+de maneira automatica, estando assim pronto o seu novo componente
+para uso. Agora se voce vai usar algo externo, ou algo instalado
+pelo npm, nao esqueca de incluir isso nesse arquivo varias vezes citado aqui: <a href="/myapp/src/app/app.module.ts">app.module.ts</a>
+</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
