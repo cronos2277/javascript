@@ -3,6 +3,11 @@
 <p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo o Angular 2</p>
 <p> Para ver os exemplos mais basicos de diretivas do Angular, acesse o arquivo <a href="myapp/src/app/mygenerated/inside/inside.component.html" target="_blank">inside.component.html</a>, sendo esse um componente interno do componente <a href="myapp/src/app/mygenerated/mygenerated.component.html" target="_blank">mygenerated.component.html</a>
 </p>
+<p>
+Os arquivos html acima sao interpolados por uma classe, ao qual
+contem toda as regras de negocio em javascript, nesse caso temos:<br>
+Para <b><a href="myapp/src/app/mygenerated/inside/inside.component.html" target="_blank">inside.component.html</a></b> => <a href="myapp/src/app/mygenerated/inside/inside.component.ts" target="_blank">inside.component.ts</a><br>
+</p>
 <hr>
 <h2>Instalacao</h2>
 <p>
