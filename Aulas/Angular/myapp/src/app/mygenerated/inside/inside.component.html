@@ -97,3 +97,20 @@ a serem decorados e por fim as variaveis ou array como eh o caso contendo valore
 <div *ngIf="(true && false) || false" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
 <br>
 <button mat-fab (click)="changeLabelVisibility()">Hide</button>
+<!-- 
+    Aqui temos um exemplo do laco for, se por acaso tivessemos apenas:
+    "let alvo of arrays", ainda assim funcionaria, mas sem os indices,
+    o funcionamento basico do laco for no angula eh semelhante ao do
+    javascript, voce cria uma variavel com let para ser a variavel que
+    recebera valores de cada indice ou propriedade a cada interacao,
+    diferente do javascript que voce escolhe var ou let, aqui eh apenas 
+    let mesmo, var nao vai funcionar, e por fim o array la na classe que
+    esta referenciando esse html. Ficando assim:
+    let "<variavel>" of "<seu array>" sem o ponto e virgula se for uma so sentenca
+    Nesse nosso for, tem uma segunda sentenca logo precisa de um ponto e virgula,
+    ai temos um novo let, que atribui a variavel i o valor do index, que nesse
+    caso eh o indice, logo o mesmo comeca do zero e nao do valor 1.
+    Todas as diretivas estruturais devem comecar com asteriscos, repare isso na
+    sintaxe abaixo, assim como o ngIf, o ngFor tambem precisa comecar com asteriscos.
+-->
+<p *ngFor="let alvo of arrays; let i=index">{{i}}:{{alvo}} </p>

@@ -28,10 +28,13 @@ export class InsideComponent implements OnInit {
     //Esse atributo esta relacionado a diretiva ngStyle.
   ngstyle = ["black","white"];
 
+  //Exemplo com o *ngIf.
   isActiveLabel = true;
   changeLabelVisibility(){
     this.isActiveLabel = !this.isActiveLabel;
   }
+
+  arrays = ["valor1","valor2","valor3","valor4","valor5","valor6"];  
   constructor() {}
   cars = ""; //usado no 2way data binding do select
   input = "null";  //usado no 2way data binding do input  
