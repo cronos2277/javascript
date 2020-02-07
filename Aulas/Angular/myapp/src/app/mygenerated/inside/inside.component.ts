@@ -12,7 +12,7 @@ export class InsideComponent implements OnInit {
   }
   //Atributos referentes a mudanca de cor, aqui o exemplo relacionado a interpolacao de string
   colors = ["primary","accent","warn"]
-  indice = 0;
+  indice = 0; //Esse atributo tambem eh usado no ngSwitch
 
   //Exemplos da diretiva de classe do Angular.
   classDirective = ["classe1","classe2"];
