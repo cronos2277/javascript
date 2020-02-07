@@ -7,7 +7,7 @@
 Os arquivos html acima sao interpolados por uma classe, ao qual
 contem toda as regras de negocio em javascript, nesse caso temos:<br>
 Para <b><a href="myapp/src/app/mygenerated/inside/inside.component.html" target="_blank">inside.component.html</a> => <a href="myapp/src/app/mygenerated/inside/inside.component.ts" target="_blank">inside.component.ts</a><br>
-Para: <b><a href="myapp/src/app/mygenerated/mygenerated.component.html" target="_blank">mygenerated.component.html</a> => <a href="myapp/src/app/mygenerated/mygenerated.component.ts" target="_blank">mygenerated.component.ts</a>
+Para: <a href="myapp/src/app/mygenerated/mygenerated.component.html" target="_blank">mygenerated.component.html</a> => <a href="myapp/src/app/mygenerated/mygenerated.component.ts" target="_blank">mygenerated.component.ts</a>
 </b></p>
 <hr>
 <h2>Instalacao</h2>
