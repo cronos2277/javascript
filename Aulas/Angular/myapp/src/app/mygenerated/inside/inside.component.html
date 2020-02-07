@@ -114,3 +114,20 @@ a serem decorados e por fim as variaveis ou array como eh o caso contendo valore
     sintaxe abaixo, assim como o ngIf, o ngFor tambem precisa comecar com asteriscos.
 -->
 <p *ngFor="let alvo of arrays; let i=index">{{i}}:{{alvo}} </p>
+<!-- 
+    Aqui abaixo um exemplo de como funciona o switch case no Angular,
+    Inicialmente voce interpola ou informa o valor se nao for interpolar
+    no ngSwitch. Se interpolado, ou seja com os colchetes, entao voce informa
+    o atributo na classe que contem o valor, caso nao interpolado, ou seja
+    sem os parenteses, entao voce informa o valor.
+    Logo dentro da div, nos temos os case do switch e o default, que nesse
+    caso funciona como qualquer case e default padrao na linguagem de programacao.
+    Mas lembre-se que a sintaxe tem um asterisco na frente e como valor desse
+    atributo voce informa o valor a ser comparado, se for 1, cai no case1, se for 2,
+    cai no case 2, e se for qualquer numero diferente de 1 ou 2, cai no case default.
+-->
+<div [ngSwitch]="indice">    <!-- equivale a switch(indice){-->
+    <p *ngSwitchCase="1">Indice esta em: 1</p> <!-- equivale a case:1 -->
+    <p *ngSwitchCase="2">Indice esta em: 2</p> <!-- equivale a case:2 -->
+    <p *ngSwitchDefault>Indice esta em: 0</p> <!-- equivale a default: -->
+</div> <!-- Aqui esta equivalendo a } -->

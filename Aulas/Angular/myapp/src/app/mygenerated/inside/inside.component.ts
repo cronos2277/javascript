@@ -34,7 +34,7 @@ export class InsideComponent implements OnInit {
     this.isActiveLabel = !this.isActiveLabel;
   }
 
-  arrays = ["valor1","valor2","valor3","valor4","valor5","valor6"];  
+  arrays = ["valor1","valor2","valor3"];  
   constructor() {}
   cars = ""; //usado no 2way data binding do select
   input = "null";  //usado no 2way data binding do input  
