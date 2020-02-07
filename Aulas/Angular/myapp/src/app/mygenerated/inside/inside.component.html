@@ -94,7 +94,16 @@ a serem decorados e por fim as variaveis ou array como eh o caso contendo valore
 <!-- Aqui o *ngIf recebe um valor boolean de um atributo. -->
 <div *ngIf="isActiveLabel" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
 <!-- Nesse segundo exemplo o *ngIf recebe valores de maneira direta. -->
-<div *ngIf="(true && false) || false" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
+<!-- 
+    Aqui temos um exemplo de if com else, repare que o else eh
+    informado depois da expressao de if, no caso voce tem if
+    a expressao do if e ai depois da expressao do if, voce 
+    tem o else, nesse caso o else esta chamando uma referencia
+    de codigo o "mytemplate", essa expressao da falsa, logo
+    essa referencia de codigo sera chamada. Ela sera melhor
+    explicada logo mais abaixo.
+-->
+<div *ngIf="(true && false) || false else mytemplate" [ngStyle]="{backgroundColor: ngstyle[0],color:ngstyle[1]}">EXEMPLO DA DIRETIVA NGCLASS</div>
 <br>
 <button mat-fab (click)="changeLabelVisibility()">Hide</button>
 <!-- 
@@ -131,3 +140,17 @@ a serem decorados e por fim as variaveis ou array como eh o caso contendo valore
     <p *ngSwitchCase="2">Indice esta em: 2</p> <!-- equivale a case:2 -->
     <p *ngSwitchDefault>Indice esta em: 0</p> <!-- equivale a default: -->
 </div> <!-- Aqui esta equivalendo a } -->
+
+<!-- 
+    Aqui nos temos a referencia do mytemplate, usada tambem no exemplo
+    de if/else acima. Toda vez que for referenciado o mytemplate dentro
+    do html, sera feito referencia ao interior desse trecho de codigo abaixo
+    no caso quando for chamado por um desvio condicional o mytemplate
+    esse trecho de codigo dentro do ng-template sera exibido. No caso evite
+    criar um atributo com o mesmo nome dessa referencia, uma vez que ambos sao
+    referenciados de maneira semelhante.   
+-->
+<ng-template #mytemplate>
+    <p>Exemplo de <b>ng-template</b>.</p>
+    <p>Uma vez chamado a referencia #mytemplate</p>
+</ng-template>
