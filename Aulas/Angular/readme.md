@@ -4,7 +4,7 @@
 <p>
   Os exemplos mais basicos do Angular, podem ser acompanhados aqui:
   <br>
-  <a href="./myapp/src/app/mybasic.components.ts">mybasic.components.ts</a>, sendo o html <a href="./myapp/src/app/mybasic.components.hml">mybasic.components.html</a>, e o css <a href="./myapp/src/app/mybasic.components.css">mybasic.components.css</a>
+  <a href="./myapp/src/app/mybasic.components.ts">mybasic.components.ts</a>
   <br> 
   <a href="./myapp/src/app/mycomposite.components.ts">mycomposite.components.ts</a>, sendo o html <a href="./myapp/src/app/mycomposite.components.html">mycomposite.components.html</a>,
   e o css <a href="./myapp/src/app/mycomposite.components.css">mycomposite.components.css</a>
