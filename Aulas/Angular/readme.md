@@ -10,13 +10,6 @@ Para <b><a href="myapp/src/app/mygenerated/inside/inside.component.html" target=
 Para: <b><a href="myapp/src/app/mygenerated/mygenerated.component.html" target="_blank">mygenerated.component.html</a> => <a href="myapp/src/app/mygenerated/mygenerated.component.ts" target="_blank">mygenerated.component.ts</a>
 </b></p>
 <hr>
-<h2>Instalacao</h2>
-<p>
-Caso voce esteja baixando esse arquivo, use o "<b>npm i</b>", com o terminal dentro da pasta do projeto para instalar
-todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, como por exemplo o myapp, use o comando
-"<b>npm i</b>", para que funcione na sua maquina.
-</p>
-<hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
@@ -62,9 +55,13 @@ todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, co
   Materialize: "<b>ng add @angular/material</b>" => https://material.angular.io/components/categories <br>
   Bootstrap: "<b>ng add ngx-bootstrap</b>" => https://valor-software.com/ngx-bootstrap/#/documentation <br>
 </p>
-
-
-
+<hr>
+<h2>Instalacao</h2>
+<p>
+Caso voce esteja baixando esse arquivo, use o "<b>npm i</b>", com o terminal dentro da pasta do projeto para instalar
+todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, como por exemplo o myapp, use o comando
+"<b>npm i</b>", para que funcione na sua maquina.
+</p>
 <hr>
 <h2>Erros do tipo: <b>ERROR in Could not resolve module</b></h2>
 <p>caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
