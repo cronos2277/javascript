@@ -10,6 +10,7 @@ export class MygeneratedComponent implements OnInit {
   objeto = {texto:"Texto exemplo",numero:10,booleano:true}
   eventoDaClasse(){
     console.log("Evento ativado!");
+    alert("Event Emit");
   }
   constructor() { }
 
