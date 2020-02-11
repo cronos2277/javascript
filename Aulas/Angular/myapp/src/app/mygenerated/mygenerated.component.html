@@ -5,7 +5,7 @@
     objeto, e dessa forma esse valor sera passado como parametro. O atributo objeto esta localizado dentro
     do arquivo "mygenerated.components.ts", dentro da classe: "MygeneratedComponent"
 -->
-<app-comunication atributo="Exemplo de passagem de parametro de componente." parametro="Exemplo mais complexo de passagem de parametro" [objeto]="objeto"></app-comunication>
+<app-comunication atributo="Exemplo de passagem de parametro de componente." parametro="Exemplo mais complexo de passagem de parametro" [objeto]="objeto" (eventoOutput)="eventoDaClasse()"></app-comunication>
 
 <app-inside>
     <p style="color:red"><b>Elementos passado como parametros ao chamar tag.</b></p>

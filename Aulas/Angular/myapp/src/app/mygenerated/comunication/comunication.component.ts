@@ -1,5 +1,5 @@
 //O Input precisa ser importado para functionar a anotacao.
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-comunication',
@@ -35,6 +35,13 @@ export class ComunicationComponent implements OnInit {
     obrigado a especificar o tipo, mas aqui ele eh usado como um objeto de fato.
   */
   @Input() objeto;
+
+  @Output() eventoOutput = new EventEmitter();
+
+  meuEvento(){
+    this.eventoOutput.emit(null);
+  }
+
   ngOnInit() {
   }
 
