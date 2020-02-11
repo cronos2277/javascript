@@ -30,6 +30,11 @@ export class ComunicationComponent implements OnInit {
     valor para o parametro, podendo o mesmo sendo resgatado por um atributo chamado variavel.
     */
   @Input('parametro') variavel:string; //Aqui com valor.
+  /*
+    No exemplo abaixo estamos recebendo um objeto, no caso esse valor eh generico, voce nao eh 
+    obrigado a especificar o tipo, mas aqui ele eh usado como um objeto de fato.
+  */
+  @Input() objeto;
   ngOnInit() {
   }
 

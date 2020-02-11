@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mygenerated.component.css']
 })
 export class MygeneratedComponent implements OnInit {
-
+  /* Esse objeto abaixo sera passado como parametro para uma tag. */
+  objeto = {texto:"Texto exemplo",numero:10,booleano:true}
   constructor() { }
 
   ngOnInit() {

@@ -1,5 +1,11 @@
 <p>mygenerated works!</p>
-<app-comunication atributo="Exemplo de passagem de parametro de componente." parametro="Exemplo mais complexo de passagem de parametro"></app-comunication>
+<!-- 
+    Aqui no exemplo abaixo temos a interpolacao de um objeto, essa eh uma forma de passar um objeto como
+    parametro para um componente, nesse caso sera interpolado o atributo objeto e esse atributo eh um
+    objeto, e dessa forma esse valor sera passado como parametro. O atributo objeto esta localizado dentro
+    do arquivo "mygenerated.components.ts", dentro da classe: "MygeneratedComponent"
+-->
+<app-comunication atributo="Exemplo de passagem de parametro de componente." parametro="Exemplo mais complexo de passagem de parametro" [objeto]="objeto"></app-comunication>
 
 <app-inside>
     <p style="color:red"><b>Elementos passado como parametros ao chamar tag.</b></p>
