@@ -11,6 +11,7 @@ import {MatCardModule} from '@angular/material/card';  //Modulo para a div do ma
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import { ComunicationComponent } from './mygenerated/comunication/comunication.component';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -19,7 +20,7 @@ import {MatInputModule} from '@angular/material/input';
   declarations: [ //Aqui estamos também informando a ordem de carregamento dos componentes.
     AppComponent, //Aqui estamos declarando a utilização desse componente.
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
-    MyCompositeComponent, MygeneratedComponent, InsideComponent //Um componente composto que carrega arquivos externos.
+    MyCompositeComponent, MygeneratedComponent, InsideComponent, ComunicationComponent //Um componente composto que carrega arquivos externos.
   ],
   imports: [ //Aqui lidamos com a importacao de modulos
     BrowserModule,
