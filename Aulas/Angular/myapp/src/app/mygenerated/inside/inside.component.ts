@@ -81,5 +81,8 @@ export class InsideComponent implements OnInit {
     console.log(event);
     this.input = event.target.value;
   }
+  metodoInside(){
+    alert('Funcao executada dentro do inside.component.ts');
+  }
 
 }

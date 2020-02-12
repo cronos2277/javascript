@@ -12,7 +12,16 @@
     (eventoOutput)="eventoDaClasse()" (eventoComplexo)="eventoDaClasseComplexo($event)">
 </app-comunication>
 
-<app-inside>
+<button mat-fab (click)="componente.metodoInside()" color="secondary">#Hash</button>
+<!-- 
+    Voce pode referenciar esse componente como variavel, criando a variavel usando a hastag,
+    nesse caso quando chamado como variavel, apenas aqui no html e nao na classe, la voce
+    faz usando notacoes. componente -> faz referencia a esse componente registrado,
+    nesse caso seria a classe "InsideComponent" do arquivo "inside.components.ts".
+    Repare que esse componente em questao eh referenciado no botao acima, o mesmo chama
+    o metodoInside, quando clicado, que no caso pertence a esse componente abaixo.
+-->
+<app-inside #componente>
     <p style="color:red"><b>Elementos passado como parametros ao chamar tag.</b></p>
     <p style="color:green"><b>Um outro texto passando um outro.</b></p>
 </app-inside>
