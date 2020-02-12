@@ -7,7 +7,10 @@
     Tambem estamos passando o metodo "eventoDaClasse", encontrado no arquivo mygenarated.components.ts
     para o evento "(eventoOutput)", encontrado no arquivo comunication.components.ts, veja la para mais informacoes.  
 -->
-<app-comunication atributo="Exemplo de passagem de parametro de componente." parametro="Exemplo mais complexo de passagem de parametro" [objeto]="objeto" (eventoOutput)="eventoDaClasse()"></app-comunication>
+<app-comunication atributo="Exemplo de passagem de parametro de componente." 
+    parametro="Exemplo mais complexo de passagem de parametro" [objeto]="objeto" 
+    (eventoOutput)="eventoDaClasse()" (eventoComplexo)="eventoDaClasseComplexo($event)">
+</app-comunication>
 
 <app-inside>
     <p style="color:red"><b>Elementos passado como parametros ao chamar tag.</b></p>

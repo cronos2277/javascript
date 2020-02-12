@@ -63,7 +63,21 @@ export class ComunicationComponent implements OnInit {
     */
     this.eventoOutput.emit(null);
   }
-
+  /*
+    Aqui temos um exemplo mais complexo envolvendo o "EventEmitter", nesse exemplo temos a tipagem dentro do diamante,
+    nesse caso string. Ou seja voce pode fazer algo mais especifico.
+  */
+  @Output() eventoComplexo = new EventEmitter<string>();
+  meuEventoComplexo(event: string){
+    /*
+      Essa funcao eh executada quando o botao eh clicado. Esse event ele recebe um parametro tambem,
+      esse parametro deve ser do mesmo tipo do informado no diamante acima, nesse caso string. Nesse
+      caso o event, vendo de dentro da funcao que o chama, nesse caso do botao, que chama esse metodo.
+      Quando se eh chamado uma funcao com parametro, voce passa esse parametro, como parametro do metodo
+      emit(), ou voce pode omiti-lo passando null como parametro.
+    */
+    this.eventoComplexo.emit(event);
+  }
   ngOnInit() {
   }
 

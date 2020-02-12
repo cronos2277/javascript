@@ -13,6 +13,11 @@ export class MygeneratedComponent implements OnInit {
     alert("Event Emit");
   }
   
+  //Essa funcao sera passado como parametro do evento: (eventoComplexo)
+  eventoDaClasseComplexo(event: string){
+    console.log(event);
+    alert("Event Emit Complexo: "+event);
+  }
   constructor() { }
 
   ngOnInit() {
