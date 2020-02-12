@@ -12,6 +12,7 @@ export class MygeneratedComponent implements OnInit {
     console.log("Evento ativado!");
     alert("Event Emit");
   }
+  
   constructor() { }
 
   ngOnInit() {
