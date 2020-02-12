@@ -34,6 +34,10 @@ arquivo <a href="./myapp/src/app/app.component.ts">app.component.ts</a> aonde fi
 de negocios do componente, ou seja o arquivo principal tambem carrega um componente principal
 que nesse caso eh o:  
 </p>
+<p>
+Aqui temos um exemplo da comunicacao entre componentes, nesse arquivo temos um exemplo da estrutura <a href="myapp/src/app/mygenerated/comunication/comunication.component.html">comunication.component.html</a>, sendo o arquivo da aonde esta a classe: <a href="myapp/src/app/mygenerated/comunication/comunication.component.ts">comunication.component.ts</a>.<br>
+Esse componente assim como esses dois arquivos tem uma demonstracao de como funciona a comunicao entre componentes.
+</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
