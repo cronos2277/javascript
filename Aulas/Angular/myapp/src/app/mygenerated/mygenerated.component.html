@@ -11,6 +11,22 @@
     parametro="Exemplo mais complexo de passagem de parametro" [objeto]="objeto" 
     (eventoOutput)="eventoDaClasse()" (eventoComplexo)="eventoDaClasseComplexo($event)">
 </app-comunication>
+<br>
+<!-- ngModel requer> "FormsModule" importado para funcionar. O mesmo foi importado no arquivo app.module.ts -->
+<!-- 
+    NG model permite o 2 way data bind, repare que o valor do meuInput1(usando ngModel) eh atualizado ao mesmo tempo
+    que ocorre a alteracao. O change eh chamado assim que tem uma mudanca de estado.
+-->
+<input matInput placeholder="Input Examples"   [(ngModel)]="meuInput1" (change)="setText()">
+<p>meuInput1 (Sem nenhuma Interceptacao): <b>{{meuInput1}}</b></p>
+<!-- 
+    O "set" coloca "/set/"" antes da do "meuinput1" e o "get" depois,
+    eis abaixo um valor interceptado pelos dois metodos. No caso o set
+    na escrita do valor e o get na leitura, no caso a mesma eh acessada
+    como um atributo qualquer.
+-->
+<p>meuInput2 (Interceptado por get e Set): <b>{{meuInput2}}</b></p>
+<br>
 
 <button mat-fab (click)="componente.metodoInside()" color="secondary">#Hash</button>
 <!-- 
@@ -25,3 +41,4 @@
     <p style="color:red"><b>Elementos passado como parametros ao chamar tag.</b></p>
     <p style="color:green"><b>Um outro texto passando um outro.</b></p>
 </app-inside>
+

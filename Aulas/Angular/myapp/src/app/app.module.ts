@@ -12,7 +12,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import { ComunicationComponent } from './mygenerated/comunication/comunication.component';
-
+import { FormsModule } from '@angular/forms'; //Importante para o funcionamento da diretiva ngModule.
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
 */
@@ -31,6 +31,7 @@ import { ComunicationComponent } from './mygenerated/comunication/comunication.c
     MatCheckboxModule,
     MatSelectModule,
     MatInputModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent] //A sequencia de componentes que sera chamada.

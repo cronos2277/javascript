@@ -1,11 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges,Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-mygenerated',
   templateUrl: './mygenerated.component.html',
   styleUrls: ['./mygenerated.component.css']
 })
-export class MygeneratedComponent implements OnInit {
+export class MygeneratedComponent implements OnInit,OnChanges {
+  @Input() private _input:string = ""; //o metodo usado por "get" e "set" do "meuInput2" 
+  meuInput1:string = "";
+  /*
+    Voce tambem pode usar o @Input junto com o get e o Set.
+    No caso a variavel "meuInput2" sao interceptadas tanto
+    pelo get e o set. No caso o @input voce usa no set,
+    uma vez que o mesmo lida com a entrada de dados.
+  */
+  @Input() set meuInput2(str:string){ //caso o meuInput2 esteja sendo escrita.
+    console.log("Interceptado pelo set");
+    this._input = "/set/ "+str;
+  }
+
+  get meuInput2(){ //na hora de ler o valor de meuInput2.    
+    return (this._input)?this._input + " /get/":"";
+  }
+
   /* Esse objeto abaixo sera passado como parametro para uma tag. */
   objeto = {texto:"Texto exemplo",numero:10,booleano:true}
   eventoDaClasse(){
@@ -35,6 +52,16 @@ export class MygeneratedComponent implements OnInit {
   constructor() { }
 
   //Metodo carregado antes de qualquer coisa.
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("ngOnInit chamado!");
+  }
 
+  ngOnChanges(changes:SimpleChanges): void {
+    console.log("ngOnChanges chamado!");
+    console.log(changes);
+  }
+  setText(){ //funcao chamada no evento change do meuInput1
+    this.meuInput2 = this.meuInput1;
+  }
+  
 }
