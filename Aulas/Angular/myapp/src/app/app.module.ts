@@ -6,11 +6,7 @@ import {MyCompositeComponent} from "./mycomposite.components";
 import { MygeneratedComponent } from './mygenerated/mygenerated.component';
 import { InsideComponent } from './mygenerated/inside/inside.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material/button'; //Modulo para o botao material design
-import {MatCardModule} from '@angular/material/card';  //Modulo para a div do material design
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
+import {MaterialModule} from './material.module'; //Esse modulo importa todos os componentes do Material design.
 import { ComunicationComponent } from './mygenerated/comunication/comunication.component';
 import { FormsModule } from '@angular/forms'; //Importante para o funcionamento da diretiva ngModule.
 /*
@@ -22,15 +18,10 @@ import { FormsModule } from '@angular/forms'; //Importante para o funcionamento 
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
     MyCompositeComponent, MygeneratedComponent, InsideComponent, ComunicationComponent //Um componente composto que carrega arquivos externos.
   ],
-  imports: [ //Aqui lidamos com a importacao de modulos
+  imports: [ //Aqui lidamos com a importacao de modulos, Modulos deve ser referenciado aqui dentro do imports
     BrowserModule,
-    BrowserAnimationsModule,
-//Aqui eh feito a importacao dos elementos do material design    
-    MatButtonModule,
-    MatCardModule, //Modulos deve ser referenciado aqui dentro do imports
-    MatCheckboxModule,
-    MatSelectModule,
-    MatInputModule,
+    BrowserAnimationsModule,       
+    MaterialModule, //Aqui eh feito a importacao dos elementos do material design    
     FormsModule,
   ],
   providers: [],
