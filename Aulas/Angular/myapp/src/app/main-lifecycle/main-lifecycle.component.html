@@ -1,1 +1,42 @@
-<p>main-lifecycle works!</p>
+<mat-card>
+    <mat-card-title>
+      Clients
+    </mat-card-title>
+    <mat-card-content>
+      <section>
+
+          <mat-form-field class="form-field" style="width: 400px; padding-right: 20px;" >
+            <input matInput placeholder="Name" [(ngModel)]="name">
+          </mat-form-field>
+
+          <mat-form-field class="form-field" style="width: 100px; padding-right: 20px" >
+              <input matInput placeholder="Age" [(ngModel)]="age">
+          </mat-form-field>
+
+          <mat-form-field >
+            <mat-select placeholder="Favorite Food" [(ngModel)]="food">
+              <mat-option *ngFor="let foodOption of foods" [value]="foodOption">
+                {{foodOption}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-icon-button color="primary" >
+            <mat-icon>check</mat-icon>
+          </button>
+
+          <button mat-icon-button color="primary" >
+            <mat-icon>refresh</mat-icon>
+          </button>
+
+
+      </section>
+
+
+      <section>
+
+      </section>
+
+
+    </mat-card-content>
+  </mat-card>

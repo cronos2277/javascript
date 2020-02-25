@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-lifecycle.component.css']
 })
 export class MainLifecycleComponent implements OnInit {
-
+  private foods:string[] = ["Rice","Beans","Pizza"];
   constructor() { }
 
   ngOnInit() {
