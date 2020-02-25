@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms'; //Importante para o funcionamento 
 import { MainLifecycleComponent } from './main-lifecycle/main-lifecycle.component';
 import {LifecycleChildComponent} from './main-lifecycle/lifecycle-child/lifecycle-child.component';
 import {ChildChildComponent} from './main-lifecycle/lifecycle-child/child-child/child-child.component';
+import {CheckComponent} from './check/check.component';
+import {CheckChildComponent} from './check/check-child/check-child.component';
+
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -22,7 +25,7 @@ import {ChildChildComponent} from './main-lifecycle/lifecycle-child/child-child/
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
     MyCompositeComponent, MygeneratedComponent, InsideComponent,
     ComunicationComponent, MainLifecycleComponent, LifecycleChildComponent,
-    ChildChildComponent,  //Um componente composto que carrega arquivos externos.
+    ChildChildComponent, CheckComponent, CheckChildComponent //Um componente composto que carrega arquivos externos.
   ],
   imports: [ //Aqui lidamos com a importacao de modulos, Modulos deve ser referenciado aqui dentro do imports
     BrowserModule,
