@@ -8,8 +8,11 @@ import { InsideComponent } from './mygenerated/inside/inside.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module'; //Esse modulo importa todos os componentes do Material design.
 import { ComunicationComponent } from './mygenerated/comunication/comunication.component';
-import { FormsModule } from '@angular/forms';
-import { MainLifecycleComponent } from './main-lifecycle/main-lifecycle.component'; //Importante para o funcionamento da diretiva ngModule.
+import { FormsModule } from '@angular/forms'; //Importante para o funcionamento da diretiva ngModule.
+import { MainLifecycleComponent } from './main-lifecycle/main-lifecycle.component';
+import {LifecycleChildComponent} from './main-lifecycle/lifecycle-child/lifecycle-child.component';
+import {ChildChildComponent} from './main-lifecycle/lifecycle-child/child-child/child-child.component';
+
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
 */
@@ -17,7 +20,9 @@ import { MainLifecycleComponent } from './main-lifecycle/main-lifecycle.componen
   declarations: [ //Aqui estamos também informando a ordem de carregamento dos componentes.
     AppComponent, //Aqui estamos declarando a utilização desse componente.
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
-    MyCompositeComponent, MygeneratedComponent, InsideComponent, ComunicationComponent, MainLifecycleComponent //Um componente composto que carrega arquivos externos.
+    MyCompositeComponent, MygeneratedComponent, InsideComponent,
+    ComunicationComponent, MainLifecycleComponent, LifecycleChildComponent,
+    ChildChildComponent,  //Um componente composto que carrega arquivos externos.
   ],
   imports: [ //Aqui lidamos com a importacao de modulos, Modulos deve ser referenciado aqui dentro do imports
     BrowserModule,
