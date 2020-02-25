@@ -72,7 +72,15 @@ Esse componente assim como esses dois arquivos tem uma demonstracao de como func
     inclusive dentro do arquivo "<b>./src/app.module.ts</b>", com o seu respectivo html e css,
     tupo isso de maneira automatizada.
 </p>
-
+<p>
+Voce tambem pode usar o seguinte comando caso apareca a mensagem:<br>
+<b>More than one module matches. Use skip-import option to skip importing the component into the closest module.</b><br>
+Comando: "<b>ng g c componente -m app</b>", sendo:<br>
+"<b>componente</b>": O nome do componente a ser criado; <br>
+"<b>-m</b>": o parametro a ser usado para designar o diretorio pai.
+"<b>app</b>": o nome da pasta a ser adicionado dentro. App eh a pasta principal de componente.<br>
+No caso acima usamos a pasta app, mas a pasta app poderia ser substituida por qualquer pasta de componente se fosse o caso.
+</p>
 <hr>
 
 <h2>A respeito do NG add: </h2>
