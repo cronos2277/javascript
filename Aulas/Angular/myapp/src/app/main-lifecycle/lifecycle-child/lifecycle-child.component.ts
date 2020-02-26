@@ -26,10 +26,11 @@ na hora da execucao o typescript vai transformar isso em outra coisa,
 resumindo, interface do ponto de vista da funcionalidade eh irrelevante,
 porem do ponto de vista de boas praticas, eh completamente relevante.
  */
-  @Input() name: string;
-  @Input() age: number;
-  @Input() food: string;
+  @Input() name: string; //Monitorado pelo ngOnChanges pois tem o @Input()
+  @Input() age: number; //Monitorado pelo ngOnChanges pois tem o @Input()
+  @Input() food: string; //Monitorado pelo ngOnChanges pois tem o @Input()
 
+  //Atributos daqui para baixo nao serao monitorados pelo ngOnChange();
   public events: LifeCycleEvent[] = [];
   nextEventId : number = 0;
 
@@ -57,7 +58,19 @@ porem do ponto de vista de boas praticas, eh completamente relevante.
     this.newEvent("constructor");
     this.intervalRef = setInterval(()=>{ console.log('interval')}, 2000);
   }
-
+  /*
+    Caso voce queira inicializar algum componente no Angular, o ngOnInit
+    eh o lugar certo para fazer. Por mais que o ngOnChange seja executado
+    por primeiro, o local eh aqui. No caso esse metodo tem como objetivo
+    inicializar o componente. Ele eh executado apenas uma vez quando o 
+    componente eh inicializado. No caso aqui ele eh o terceiro metodo a
+    ser executado, sendo executado apos o ngOnChanges e o construtor.
+    Qualquer configuracao envolvendo algum atributo de um componente do 
+    angular deve ser feito aqui, sob pena de nao ser executado, ou de ser
+    sobreescrito pelo padrao do angular, caso seja feito no constutor.
+    Ou de ser ignorado, caso seja feito no ngOnChanges, uma vez que esse
+    metodo eh acionado apenas em mudancas.
+  */
   ngOnInit() {
     console.log(this.name + " - ngOnInit");
     this.newEvent("ngOnInit");
@@ -76,11 +89,12 @@ porem do ponto de vista de boas praticas, eh completamente relevante.
       ngOnChanges aceita um parametro, nesse caso esse parametro
       eh do tipo SimpleChanges. Esse objeto contem um outro objeto
       dentro desse objeto tem no estilo chave e valor (ou seja um outro 
-      objeto interno), como chave o atributo dessa classe que foi alterado,
-      e como valor um outro objeto contendo "previosValue" que contem o valor
-      antigo desse atributo alterado, "currentValue" que tem o valor atual
-      e firstChange que eh um booleano que informa se eh ou nao a primeira
-      mudanca. No caso de uma instancia dessa classe apenas quando inserido
+      objeto interno), como chave o atributo com anotacao @input dessa classe 
+      que foi alterado, e como valor um outro objeto contendo "previosValue" 
+      que contem o valor antigo desse atributo alterado, "currentValue" 
+      que tem o valor atual e firstChange que eh um booleano que informa,
+      se eh ou nao a primeira mudanca. 
+      No caso de uma instancia dessa classe apenas quando inserido
       e nao quando eh alterado algum valor, fica:
       {
         age:{
@@ -99,8 +113,15 @@ porem do ponto de vista de boas praticas, eh completamente relevante.
           firstChange:true
         }
       }
+      para acessar:
+      changes.age.firstChange //Anotacao ponto.
+      changes['name'].currentValue //Como array e anotacao ponto.
+      changes['food']['previosValue'] //Como array.
+      Aqui no caso eh changes, em funcao do nome do parametro de entrada.
+      --
       Detalhe o mesmo retorna todos os atributos que foram alterados,
-      isso pode ser interessante caso voce queira interceptar algum
+      esse objeto em questao, deve estar decorado com o @input para aparecer
+      aqui. Isso pode ser interessante caso voce queira interceptar algum
       atributo quando o mesmo for escrito, seria uma alternativa a 
       funcionalidade "set" do javascript. Apenas os atributos que foram
       modificados aparecem aqui, os que permaneceram iguais sequer aparece
@@ -121,6 +142,12 @@ porem do ponto de vista de boas praticas, eh completamente relevante.
     this.newEvent("ngAfterViewInit");
   }
 
+  /*
+    Esse metodo eh chamado apenas quando a instancia eh 
+    destruida. No caso quando voce solicitar o fim dessa
+    instancia, esse metodo sera chamado, antes do objeto
+    ser destruido.
+  */
   ngOnDestroy(){
     console.log(this.name + " - ngOnDestroy");
     this.newEvent("ngOnDestroy");
