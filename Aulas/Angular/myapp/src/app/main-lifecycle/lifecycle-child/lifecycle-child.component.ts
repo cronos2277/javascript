@@ -131,12 +131,37 @@ porem do ponto de vista de boas praticas, eh completamente relevante.
     console.log(changes); //Exibe os dados do changes no console.
     this.newEvent("ngOnChanges");
   }
-
+/*
+  Esse metodo eh chamado depois do init, quando existe o contato
+  com o conteudo externo. por exemplo se no seletor desse componente
+  voce precise tratar algum dado de entrada o metodo ngAfterContentInit
+  eh o lugar certo para fazer. Temos o seguinte seletor 
+  <app-main-lifecycle></app-main-lifecycle>, caso voce queira tratar algum
+  parametro de entrada passado pelo seletor, por exemplo:
+  <app-main-lifecycle sel='1'></app-main-lifecycle>, aqui eh o melhor
+  lugar para tratar por exemplo a diretiva "sel". Eh de se imaginar que
+  o valor passado pela diretiva sel, ou atributo sel, nao fica disponivel
+  no init, caso voce queira usalo no componente, logo para pega-lo, voce
+  pode usar esse metodo. O mesmo eh o quarto metodo a ser executado, sendo
+  o mesmo executado apos o metodo ngOnInit. Ou seja, quando o valor vir
+  de maneira externa, a melhor forma de lidar com esse valor, eh esse metodo,
+  uma vez que o ngOnInit eh executado antes mesmo do angular analisar
+  os valores externos. ngAfterContentInit -> NG depois do conteudo, qual conteudo?
+  As diretivas...
+*/
   ngAfterContentInit() {
     console.log(this.name + " - ngAfterContentInit");
     this.newEvent("ngAfterContentInit");
   }
-
+/*
+  Chamado depois que todo o componente eh carregado, isso inclui
+  os componentes filhos, uma vez que os componentes filhos compoe
+  esse componente, ou seja aqui eh garantido que seja executado
+  depois que esse componentente e os seus filhos esteja todos 
+  carregados, ele lembra o "window.document.onload" do javascript,
+  no seu funcionamento, sendo executado, uma vez que tudo esteja 
+  pronto.
+*/
   ngAfterViewInit() {
     console.log(this.name + " - ngAfterViewInit");
     this.newEvent("ngAfterViewInit");
@@ -146,7 +171,16 @@ porem do ponto de vista de boas praticas, eh completamente relevante.
     Esse metodo eh chamado apenas quando a instancia eh 
     destruida. No caso quando voce solicitar o fim dessa
     instancia, esse metodo sera chamado, antes do objeto
-    ser destruido.
+    ser destruido. Ideal para fazer desalocacoes de atributos
+    ou metodos que estejam relacionados com a sua instancia,
+    lembra o metodo magico de destruicao do PHP.
+    No caso esse metodo ele desaloca um interval, ou seja
+    a cada 2 segundo eh printado uma mensagem no 
+    console chamado "interval", com esse metodo, quando
+    essa instancia eh destruida, esse interval eh desalocado
+    interrompendo a ocorrencia do evento, esse eh o tipo de
+    coisa que continuaria, caso nao fosse desalocado na destruicao
+    da instancia.
   */
   ngOnDestroy(){
     console.log(this.name + " - ngOnDestroy");
