@@ -39,6 +39,9 @@ Aqui temos um exemplo da comunicacao entre componentes, nesse arquivo temos um e
 Esse componente assim como esses dois arquivos tem uma demonstracao de como funciona a comunicao entre componentes.
 </p>
 <p>Aqui voce entendera como que funciona o ciclo de vida de um componente: <a href="./myapp/src/app/main-lifecycle/lifecycle-child/lifecycle-child.component.ts">lifecycle-child.component.ts</a>, os seguintes metodos sao detalhados ali:"<b> ngOnInit, ngOnChanges, ngAfterContentInit, ngAfterViewInit, ngOnDestroy</b>"</p>
+<p>Exemplos Avancados de metodos usados na vida de componentes, sendo recomendado, apenas quando os metodo acimas nao servem:<br> 
+Arquivo: <a href="./myapp/src/app/check/check-child/check-child.component.ts">check-child.component.ts</a>, sendo detalhado ali:
+<b>ngDoCheck, ngAfterContentChecked, ngAfterViewChecked</b>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
