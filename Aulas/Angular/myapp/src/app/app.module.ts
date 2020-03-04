@@ -14,7 +14,8 @@ import {LifecycleChildComponent} from './main-lifecycle/lifecycle-child/lifecycl
 import {ChildChildComponent} from './main-lifecycle/lifecycle-child/child-child/child-child.component';
 import {CheckComponent} from './check/check.component';
 import {CheckChildComponent} from './check/check-child/check-child.component';
-
+import {Module1Module} from './module1/module1.module';
+import {Module2Module} from './module2/module2.module';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -23,7 +24,7 @@ import {CheckChildComponent} from './check/check-child/check-child.component';
   declarations: [ //Aqui estamos também informando a ordem de carregamento dos componentes.
     AppComponent, //Aqui estamos declarando a utilização desse componente.
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
-    MyCompositeComponent, MygeneratedComponent, InsideComponent,
+    MyCompositeComponent, MygeneratedComponent, InsideComponent, 
     ComunicationComponent, MainLifecycleComponent, LifecycleChildComponent,
     ChildChildComponent, CheckComponent, CheckChildComponent //Um componente composto que carrega arquivos externos.
   ],
@@ -32,6 +33,8 @@ import {CheckChildComponent} from './check/check-child/check-child.component';
     BrowserAnimationsModule,       
     MaterialModule, //Aqui eh feito a importacao dos elementos do material design    
     FormsModule,
+    Module1Module,
+    Module2Module,
   ],
   providers: [],
   bootstrap: [AppComponent] //A sequencia de componentes que sera chamada.
