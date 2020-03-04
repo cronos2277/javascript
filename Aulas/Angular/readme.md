@@ -45,7 +45,7 @@ Arquivo: <a href="./myapp/src/app/check/check-child/check-child.component.ts">ch
 <p>Aqui voce encontrará informacoes de como construir um servico, de modo que voce possa injetar nos componentes: 
 <a href="./myapp/src/app/module1/service1.service.ts">service1.service.ts</a><br>
 Aqui mais informacoes de como implementar e registrar um servico um servico:
-<a href="./myapp/src/app/module1/module1.module.ts">module1.module.ts</a><br><br>
+<a href="./myapp/src/app/module1/module1.module.ts">module1.module.ts</a><br>
 Aqui um exemplo de como usar e de como criar uma classe para implementar esse servico:
 <a href="./myapp/src/app/module1/component1/component1.component.ts">component1.component.ts</a><br>
 </p>
