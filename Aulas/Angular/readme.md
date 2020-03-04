@@ -46,12 +46,16 @@ Esse componente assim como esses dois arquivos tem uma demonstracao de como func
 Arquivo: <a href="./myapp/src/app/check/check-child/check-child.component.ts">check-child.component.ts</a>, sendo detalhado ali:
 <b>ngDoCheck, ngAfterContentChecked, ngAfterViewChecked</b>
 <h3>Servicos</h3>
-<p>Aqui voce encontrará informacoes de como construir um servico, de modo que voce possa injetar nos componentes: 
+<p>Como construir um servico, de modo que voce possa injetar nos componentes: 
 <a href="./myapp/src/app/module1/service1.service.ts">service1.service.ts</a><br>
 Aqui mais informacoes de como implementar e registrar um servico um servico:
 <a href="./myapp/src/app/module1/module1.module.ts">module1.module.ts</a><br>
 Aqui um exemplo de como usar e de como criar uma classe para implementar esse servico:
 <a href="./myapp/src/app/module1/component1/component1.component.ts">component1.component.ts</a><br>
+Aqui um exemplo de como definir o provider dentro da anotacao @Injetable:
+<a href="./myapp/src/app/module1/component2/service1.service.ts">service1.service.ts</a><br>
+Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico] deve ser substituido pelo nome do arquivo que voce quer criar.<br>
+<a href="./myapp/src/app/service2.service.ts">service2.service.ts</a>
 </p>
 <hr>
 <h2>Comandos basicos do ng</h2>
