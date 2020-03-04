@@ -54,7 +54,7 @@ Aqui um exemplo de como usar e de como criar uma classe para implementar esse se
 <a href="./myapp/src/app/module1/component1/component1.component.ts">component1.component.ts</a><br>
 Aqui um exemplo de como definir o provider dentro da anotacao @Injetable:
 <a href="./myapp/src/app/module2/service1.service.ts">service1.service.ts</a><br>
-Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico] deve ser substituido pelo nome do arquivo que voce quer criar:
+Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico] deve ser substituido pelo nome do arquivo que voce quer criar, o arquivo criado pelo NG:
 <a href="./myapp/src/app/service2.service.ts">service2.service.ts</a>
 </p>
 <hr>
@@ -90,6 +90,19 @@ Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico]
     Dessa forma o componente eh criado da maneira correta dentro de uma pasta, sendo referenciado 
     inclusive dentro do arquivo "<b>./src/app.module.ts</b>", com o seu respectivo html e css,
     tupo isso de maneira automatizada.
+</p>
+<p>
+Com esse comando abaixo, voce cria um modulo, no caso apenas um arquivo TS, para conter componente.<br>
+Para criar um modulo: "<b>ng generate module [NOME_DO_MODULO]</b>"<br>
+Com o comando abaixo voce cria um servico ja contendo a injecao no escopo de root, ou seja abrangendo o escopo mais externo, altere se precisar o @Injection<br>
+Para criar um servico: "<b>ng generate service [NOME_DO_SERVICO]</b>"<br>
+</p>
+<p>
+<b>Abreviacoes:</b> <br>
+Componente: "<b>ng g c [NOME]</b>".<br>
+Modulo: "<b>ng g m [NOME]</b>".<br>
+Servico: "<b>ng g s [NOME]</b>".<br>
+Substitua o <b>[NOME]</b> pelo nome do componente.
 </p>
 <p>
 Voce tambem pode usar o seguinte comando caso apareca a mensagem:<br>
