@@ -42,6 +42,8 @@ Esse componente assim como esses dois arquivos tem uma demonstracao de como func
 <p>Exemplos Avancados de metodos usados na vida de componentes, sendo recomendado, apenas quando os metodo acimas nao servem:<br> 
 Arquivo: <a href="./myapp/src/app/check/check-child/check-child.component.ts">check-child.component.ts</a>, sendo detalhado ali:
 <b>ngDoCheck, ngAfterContentChecked, ngAfterViewChecked</b>
+<p>Aqui voce encontrará informacoes de como construir um servico, de modo que voce possa injetar nos componentes:<br>
+<a href="./myapp/src/app/module1/service1.service.ts"></a>service1.service.ts</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
