@@ -1,6 +1,7 @@
 <h1>Angular 2</h1>
 <h2>Revisao</h2>
 <p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo Angular 2</p>
+<h3>Basico</h3>
 <p>
   Os exemplos mais basicos do Angular, podem ser acompanhados aqui:
   <br>
@@ -34,14 +35,17 @@ arquivo <a href="./myapp/src/app/app.component.ts">app.component.ts</a> aonde fi
 de negocios do componente, ou seja o arquivo principal tambem carrega um componente principal
 que nesse caso eh o:  
 </p>
+<h3>Comunicacao Entre componentes</h3>
 <p>
 Aqui temos um exemplo da comunicacao entre componentes, nesse arquivo temos um exemplo da estrutura <a href="myapp/src/app/mygenerated/comunication/comunication.component.html">comunication.component.html</a>, sendo o arquivo da aonde esta a classe: <a href="myapp/src/app/mygenerated/comunication/comunication.component.ts">comunication.component.ts</a>.<br>
 Esse componente assim como esses dois arquivos tem uma demonstracao de como funciona a comunicao entre componentes.
 </p>
+<h3>Ciclo de vida de componentes</h3>
 <p>Aqui voce entendera como que funciona o ciclo de vida de um componente: <a href="./myapp/src/app/main-lifecycle/lifecycle-child/lifecycle-child.component.ts">lifecycle-child.component.ts</a>, os seguintes metodos sao detalhados ali:"<b> ngOnInit, ngOnChanges, ngAfterContentInit, ngAfterViewInit, ngOnDestroy</b>"</p>
 <p>Exemplos Avancados de metodos usados na vida de componentes, sendo recomendado, apenas quando os metodo acimas nao servem:<br> 
 Arquivo: <a href="./myapp/src/app/check/check-child/check-child.component.ts">check-child.component.ts</a>, sendo detalhado ali:
 <b>ngDoCheck, ngAfterContentChecked, ngAfterViewChecked</b>
+<h3>Servicos</h3>
 <p>Aqui voce encontrará informacoes de como construir um servico, de modo que voce possa injetar nos componentes: 
 <a href="./myapp/src/app/module1/service1.service.ts">service1.service.ts</a><br>
 Aqui mais informacoes de como implementar e registrar um servico um servico:
