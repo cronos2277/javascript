@@ -28,7 +28,7 @@ export class ProductService {
     }
     
   }
-  public getProduct():Product[]{
+  public getProducts():Product[]{
     return this.products;
   }
 
