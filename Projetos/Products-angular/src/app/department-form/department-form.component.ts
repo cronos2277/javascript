@@ -6,8 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./department-form.component.css']
 })
 export class DepartmentFormComponent implements OnInit {
-
+  public depName:string = "";
   constructor() { }
+
+  public save():void{
+
+  }
+
+  public clear():void{
+
+  }
 
   ngOnInit() {
   }
