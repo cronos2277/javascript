@@ -1,6 +1,6 @@
 import { Department } from './department.model';
 export interface Product{
-    id:number;
+    id?:number;
     name:string;
     price:number;
     description:string;
