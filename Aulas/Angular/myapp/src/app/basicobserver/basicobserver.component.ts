@@ -85,6 +85,9 @@ export class BasicobserverComponent implements OnInit {
             observer.next(i);
         }, 1000);
         return () => {
+          //O retorno do observer eh chamado depois do metodo complete.
+          //Nesse caso eh parado o setInterval, do contrario o mesmo,
+          //continuaria devido ao setInterval.
           clearInterval(id);
         }
       }
@@ -101,6 +104,7 @@ export class BasicobserverComponent implements OnInit {
     );
 
     setTimeout(()=>{
+       //Esse método desescreve o metodo do observer, suspendendo o seu funcionamento.
       this.subscription1.unsubscribe();
       this.subscription2.unsubscribe();
     }, 15000)
