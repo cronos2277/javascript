@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Observer, interval, Subscription } from 'rxjs';
 //import { BrowserViewportScroller } from '@angular/common/src/viewport_scroller';
 
+/*
+  Esse eh um exemplo de um cold-observer, nesse caso cada subscribe funciona de 
+  maneira idependente, diferente de um hot-observer por exemplo.
+*/
+
 @Component({
   selector: 'app-basic',
   templateUrl: './basicobserver.component.html',
