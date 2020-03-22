@@ -16,6 +16,7 @@ import {CheckComponent} from './check/check.component';
 import {CheckChildComponent} from './check/check-child/check-child.component';
 import {Module1Module} from './module1/module1.module';
 import {Module2Module} from './module2/module2.module';
+import { BasicobserverComponent } from './basicobserver/basicobserver.component';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -26,7 +27,7 @@ import {Module2Module} from './module2/module2.module';
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
     MyCompositeComponent, MygeneratedComponent, InsideComponent, 
     ComunicationComponent, MainLifecycleComponent, LifecycleChildComponent,
-    ChildChildComponent, CheckComponent, CheckChildComponent //Um componente composto que carrega arquivos externos.
+    ChildChildComponent, CheckComponent, CheckChildComponent, BasicobserverComponent //Um componente composto que carrega arquivos externos.
   ],
   imports: [ //Aqui lidamos com a importacao de modulos, Modulos deve ser referenciado aqui dentro do imports
     BrowserModule,
