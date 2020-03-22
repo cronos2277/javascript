@@ -57,6 +57,9 @@ Aqui um exemplo de como definir o provider dentro da anotacao @Injetable:
 Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico] deve ser substituido pelo nome do arquivo que voce quer criar, o arquivo criado pelo NG:
 <a href="./myapp/src/app/service2.service.ts">service2.service.ts</a>
 </p>
+<h2>Observables</h2>
+<h3>Cold-Observables</h3>
+<p>Aqui temos um exemplo de cold-observables, no caso cada observer eh independente um do outro:<a href="./myapp/src/app/basicobserver/basicobserver.component.ts">basicobserver.component.ts</a>.</h3>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
