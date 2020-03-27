@@ -60,6 +60,8 @@ Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico]
 <h2>Observables</h2>
 <h3>Cold-Observables</h3>
 <p>Aqui temos um exemplo de cold-observables, no caso cada observer eh independente um do outro:<a href="./myapp/src/app/basicobserver/basicobserver.component.ts">basicobserver.component.ts</a>.</h3>
+<h3>Hot-Observables</h3>
+<p>Aqui temos um exemplo de hot-observables, no caso o observer é disponibilizado em grupo:<a href="./myapp/src/app/hot-observables/hot-observables.component.ts">basicobserver.component.ts</a>.</h3>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>

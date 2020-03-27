@@ -17,6 +17,7 @@ import {CheckChildComponent} from './check/check-child/check-child.component';
 import {Module1Module} from './module1/module1.module';
 import {Module2Module} from './module2/module2.module';
 import { BasicobserverComponent } from './basicobserver/basicobserver.component';
+import {HotObservablesComponent} from './hot-observables/hot-observables.component';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -25,7 +26,7 @@ import { BasicobserverComponent } from './basicobserver/basicobserver.component'
   declarations: [ //Aqui estamos também informando a ordem de carregamento dos componentes.
     AppComponent, //Aqui estamos declarando a utilização desse componente.
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
-    MyCompositeComponent, MygeneratedComponent, InsideComponent, 
+    MyCompositeComponent, MygeneratedComponent, InsideComponent, HotObservablesComponent,
     ComunicationComponent, MainLifecycleComponent, LifecycleChildComponent,
     ChildChildComponent, CheckComponent, CheckChildComponent, BasicobserverComponent //Um componente composto que carrega arquivos externos.
   ],
