@@ -51,6 +51,24 @@ export class ComunicationComponent implements OnInit {
     Envocar significa colocar os parenteses depois do nome da funcao, ou seja nao trata-la como um dado.
     Uma vez passada a sua funcao, a mesma sera chamada quando for executado o metodo emit() desse atributo
     do tipo EventEmitter abaixo.
+    Resumindo, com esse exemplo:
+    No elemento pai, no html você vai vai ter um evento chamado "eventoOutput", esse evento output
+    deve ter no arquivo TS do pai uma funcao associada a ele caso o evento "eventoOutput" seja disparado,
+    ficando no HTML:
+     <app-comunication (eventoOutput)="suaFuncao()"></app-comunication>
+     ou caso a funcao tenha algum parametro:
+     <app-comunication (eventoOutput)="suaFuncao($event)"></app-comunication>
+     Dentro do arquivo TS do Elemento pai eh aonde estara definida a funcao "suaFuncao()" ou suaFuncao(parametro).
+     Agora Vamos ao filho:
+     No filho voce coloca dentro de algum metodo que ira dispara o emiter, dentro do metodo que 
+     voce quer envocar voce coloca a seguinte sentenca: "this.oNomeDoOutPut.emit('O Valor aqui')",
+     uma vez que o emiter seja chamado, o metodo do componente pai sera executado. Isso pode ser util
+     caso voce tenha um dado que se origine no componente filho e voce queira passar para os componentes
+     mais hierarquicamente acima. Logo: No filho voce coloca o gatilho dentro de algum metodo, metodo esse que pode estar
+     associado a um (click) ou (input) por exemplo, e quando esse gatilho for executado o evento que esta
+     definido na classe externa responde e se tiver um parametro ainda passa esse valor. Nesse exemplo o $event, 
+     sim o parametro a ser informado no html do pai deve ser $event, sera o "O valor aqui", caso o gatilho seja
+     esse emit informado aqui.
   */
   @Output() eventoOutput = new EventEmitter();
 
