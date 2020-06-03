@@ -44,28 +44,6 @@ export class HotObservablesComponent implements OnInit {
   }
 
 
-  usingShare() {
-    const multicasted = this.myObservable.pipe(share());
-
-    //Subscriber 1
-    this.s1 = 'waiting for interval...';
-    setTimeout(()=>{
-      multicasted.subscribe((_n) => { 
-        this.n1 = _n;
-        this.s1 = 'OK';
-      })
-    },2000);
-
-    //Subscriber 2
-    this.s2 = 'waiting for interval...';
-    setTimeout(()=>{
-      multicasted.subscribe((_n) => { 
-        this.n2 = _n;
-        this.s2 = 'OK';
-      })
-    },4000);    
-  }  
-
   //Essa eh uma forma basica de esquentar Observers.
   usingSubjects() {
     /*
@@ -147,6 +125,42 @@ export class HotObservablesComponent implements OnInit {
       })
     },4000);    
   }
+
+  usingShare() {
+    /*
+      Essa estrategia eh muito parecida com essa:
+      //const multicasted = this.myObservable.pipe(publish(), refCount());
+      porem tem apenas uma unica diferenca.Quando finalizado o
+      processamento dos dados o publish nao retornara nenhum dado ao
+      novo observer subscrito, sendo que o share ele reinicia o processamento
+      dos dados, ou seja isso diz respeito a criacao de dados. Resumindo:
+      publish() => Quando tem uma nova subscricao, mantem-se a consistencia, 
+      ou seja se o processamento se encerro nao eh retornado nada ao novo subscrito,
+      ou seja depois de publicado ja era.
+      share() => Para cada subscricao, existe um reinicio as condicoes iniciais dos dados,
+      caso o processamento tenha sido concluido, ou seja tudo eh compartilhado, inclusive
+      o estado.
+    */
+    const multicasted = this.myObservable.pipe(share());
+
+    //Subscriber 1
+    this.s1 = 'waiting for interval...';
+    setTimeout(()=>{
+      multicasted.subscribe((_n) => { 
+        this.n1 = _n;
+        this.s1 = 'OK';
+      })
+    },2000);
+
+    //Subscriber 2
+    this.s2 = 'waiting for interval...';
+    setTimeout(()=>{
+      multicasted.subscribe((_n) => { 
+        this.n2 = _n;
+        this.s2 = 'OK';
+      })
+    },4000);    
+  }  
 
 
 }
