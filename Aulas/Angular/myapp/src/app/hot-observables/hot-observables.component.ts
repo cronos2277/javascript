@@ -66,32 +66,6 @@ export class HotObservablesComponent implements OnInit {
     },4000);    
   }  
 
-  usingPublish() {
-    //const multicasted = this.myObservable.pipe(publish(), refCount());
-
-    const multicasted: ConnectableObservable<number> = this.myObservable
-      .pipe(publish()) as ConnectableObservable<number>;
-    multicasted.connect();
-
-    //Subscriber 1
-    this.s1 = 'waiting for interval...';
-    setTimeout(()=>{
-      multicasted.subscribe((_n) => { 
-        this.n1 = _n;
-        this.s1 = 'OK';
-      })
-    },2000);
-
-    //Subscriber 2
-    this.s2 = 'waiting for interval...';
-    setTimeout(()=>{
-      multicasted.subscribe((_n) => { 
-        this.n2 = _n;
-        this.s2 = 'OK';
-      })
-    },4000);    
-  }
-
   //Essa eh uma forma basica de esquentar Observers.
   usingSubjects() {
     /*
@@ -133,6 +107,46 @@ export class HotObservablesComponent implements OnInit {
 
   }
 
+  /*
+    Aqui temos uma outra estrategia a publish, muito parecida com a subscriber
+    inclusive. Nessa estrategia voce pode colocar filtros personalizados no
+    pipe. Nessa estrategia o observer echamado assim que eh chamado o metodo
+    connect(), ou quando iniciar o subscriber caso a primeira linha do metodo,
+    seja descomentada.
+  */
+  usingPublish() {
+    //const multicasted = this.myObservable.pipe(publish(), refCount());
+    /*
+      Aqui temos duas estrategias a estrategia comentada acima, com o 
+      refcount() faz com  que o observer comeca a sua execucao no primeiro
+      subscriber. A funcao publish retorna um subject, ou seja o metodo
+      ele passa um subject para o metodo pipe.
+      Agora temos o codigo abaixo, o as abaixo ele da um cast no observable 
+      abaixo. Nessa estrategia apenas comeca a execucao quando chamado o
+      metodo ".connect()".
+    */
+    const multicasted: ConnectableObservable<number> = this.myObservable
+      .pipe(publish()) as ConnectableObservable<number>;
+    multicasted.connect();
+
+    //Subscriber 1
+    this.s1 = 'waiting for interval...';
+    setTimeout(()=>{
+      multicasted.subscribe((_n) => { //A subscricao eh feita no objeto ConnectableObservable
+        this.n1 = _n;
+        this.s1 = 'OK';
+      })
+    },2000);
+
+    //Subscriber 2
+    this.s2 = 'waiting for interval...';
+    setTimeout(()=>{
+      multicasted.subscribe((_n) => { //A subscricao eh feita no objeto ConnectableObservable
+        this.n2 = _n;
+        this.s2 = 'OK';
+      })
+    },4000);    
+  }
 
 
 }
