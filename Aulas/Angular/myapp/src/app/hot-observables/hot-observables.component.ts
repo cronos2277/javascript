@@ -9,6 +9,7 @@ import { publish, refCount, share } from 'rxjs/operators';
   styleUrls: ['./hot-observables.component.css']
 })
 export class HotObservablesComponent implements OnInit {
+  //Esses atributos sao acessados por todos os subscribe, pois sao criados aqui
   n: number = 0;
   n1: number = 0;
   n2: number = 0;
@@ -24,6 +25,7 @@ export class HotObservablesComponent implements OnInit {
       Dessa forma que voce cria um hot observable, voce cria um objeto
       do tipo observable e passa uma funcao como parametro na hora da
       instanciacao.
+      
     */
     this.myObservable = new Observable(
       (observer:Observer<number>) => {
