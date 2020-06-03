@@ -92,14 +92,31 @@ export class HotObservablesComponent implements OnInit {
     },4000);    
   }
 
+  //Essa eh uma forma basica de esquentar Observers.
   usingSubjects() {
-    const subject = new Subject<number>();
-    this.myObservable.subscribe(subject);
+    /*
+      Um Objeto Subject extende de um Observable, entao
+      justamente por isso o subject tem os metodos do
+      Observable.
+      Nessa estrategia voce subscreve um subject e
+      uma vez que o subject esta subscrito, eh 
+      justamente nesse subject que voce vai
+      subscrever os seus observers. Basicamente:
+      1) Cria um subject e subscreve ele em um Observable.
+      2) Use o subject no passo acima como um Observable.
+      Essa seria uma outra maneira de esquentar um observer,
+      como as callbacks vao compartilhar o mesmo subject,
+      logo tudo sera esquentado, pois elas compartilharam
+      dados.
+    */
+    const subject = new Subject<number>(); //Criando um Subject.
+    //Subscrevendo o Subject acima, em um observable da instancia.
+    this.myObservable.subscribe(subject); //Aqui o subject se comporta como um Observer.
 
     //Subscriber 1
     this.s1 = 'waiting for interval...';
     setTimeout(()=>{
-      subject.subscribe((_n) => { 
+      subject.subscribe((_n) => { //Aqui o subject se comporta como um Observable
         this.n1 = _n;
         this.s1 = 'OK';
       })
@@ -108,7 +125,7 @@ export class HotObservablesComponent implements OnInit {
     //Subscriber 2
     this.s2 = 'waiting for interval...';
     setTimeout(()=>{
-      subject.subscribe((_n) => { 
+      subject.subscribe((_n) => { //Aqui o subject se comporta como um Observable
         this.n2 = _n;
         this.s2 = 'OK';
       })
