@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { from, Subscriber, Subscription, of, interval, timer, fromEvent, Subject, Observable, Observer } from 'rxjs';
-import { CompileTemplateMetadata } from '@angular/compiler';
+import { from, Subscription, of, interval, timer, fromEvent, Subject, Observable, Observer } from 'rxjs';
+
 
 @Component({
   selector: 'app-rxjs',
@@ -136,7 +136,12 @@ export class RxjsComponent implements OnInit {
     //Vigiando o evento onclick do botao com ID => btn1-fe
     const fonte = fromEvent(document.getElementById('btn1-fe'),'click');
     fonte.subscribe( //Repare que a inscricao segue o mesmo padrao.
-      mensagem => console.log(mensagem),
+      /*
+        Aqui nessa callback o parametro pego eo $event que a funcao gera,
+        nesse caso como eh o clique eh pego todos os dados com relacao
+        ao cursos do cliente.
+      */
+      evento => console.log(evento),
       erro => console.error(erro),
       () => console.log('Evento concluido com sucesso')
     );

@@ -78,6 +78,8 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
     ricas e “tempo real” com usuários.</li>
 <ul>
 </p>
+<h3>Operadores RXJS</h3>
+<p>Aqui temos usamos funcoes para criar os Observers, sao uteis caso haja alguma exigencia, cronologica, reativa ou ate mesmo caso a complexidade possa ser reduzida, aqui os Observables sao criados com funcoes, um pouco diferente dos metodos acima:<a href="./myapp/src/app/rxjs/rxjs.component.ts">rxjs.component.ts</a></p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
