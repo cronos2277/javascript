@@ -40,7 +40,7 @@ export class HotObservablesComponent implements OnInit {
     );
     //this.usingSubjects();
     //this.usingPublish();
-    this.usingShare();
+    //this.usingShare();
   }
 
 
