@@ -76,7 +76,7 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
     aplicações por múltiplas threads síncronas, sistemas são compostos de gerenciadores de eventos assíncronos e não bloqueantes;</li>
     <li>Responsivo: Reage aos usuários: aplicações que oferecem interações
     ricas e “tempo real” com usuários.</li>
-<ul>
+</ul>
 </p>
 <h3>Operadores RXJS</h3>
 <p>Aqui temos usamos funcoes para criar os Observers, sao uteis caso haja alguma exigencia, cronologica, reativa ou ate mesmo caso a complexidade possa ser reduzida, aqui os Observables sao criados com funcoes, um pouco diferente dos metodos acima:<a href="./myapp/src/app/rxjs/rxjs.component.ts">rxjs.component.ts</a></p>
