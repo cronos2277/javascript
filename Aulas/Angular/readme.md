@@ -38,13 +38,13 @@ que nesse caso eh o:
 <h3>Comunicacao Entre componentes</h3>
 <p>
 Aqui temos um exemplo da comunicacao entre componentes, nesse arquivo temos um exemplo da estrutura <a href="myapp/src/app/mygenerated/comunication/comunication.component.html">comunication.component.html</a>, sendo o arquivo da aonde esta a classe: <a href="myapp/src/app/mygenerated/comunication/comunication.component.ts">comunication.component.ts</a>.<br>
-Esse componente assim como esses dois arquivos tem uma demonstracao de como funciona a comunicao entre componentes.
+Esse componente assim como esses dois arquivos tem uma demonstracao de como funciona a comunicao entre componentes. Ou seja como funciona a comunicacao entre eles, tento entre componentes filhos como da mesma hierarquia.
 </p>
 <h3>Ciclo de vida de componentes</h3>
-<p>Aqui voce entendera como que funciona o ciclo de vida de um componente: <a href="./myapp/src/app/main-lifecycle/lifecycle-child/lifecycle-child.component.ts">lifecycle-child.component.ts</a>, os seguintes metodos sao detalhados ali:"<b> ngOnInit, ngOnChanges, ngAfterContentInit, ngAfterViewInit, ngOnDestroy</b>"</p>
+<p>Aqui voce entendera como que funciona o ciclo de vida de um componente: <a href="./myapp/src/app/main-lifecycle/lifecycle-child/lifecycle-child.component.ts">lifecycle-child.component.ts</a>, os seguintes metodos sao detalhados ali:"<b> ngOnInit, ngOnChanges, ngAfterContentInit, ngAfterViewInit, ngOnDestroy</b>", Todos aqueles metodos necessarios caso voce queira manipular dados da classe do componente.</p>
 <p>Exemplos Avancados de metodos usados na vida de componentes, sendo recomendado, apenas quando os metodo acimas nao servem:<br> 
 Arquivo: <a href="./myapp/src/app/check/check-child/check-child.component.ts">check-child.component.ts</a>, sendo detalhado ali:
-<b>ngDoCheck, ngAfterContentChecked, ngAfterViewChecked</b>
+<b>ngDoCheck, ngAfterContentChecked, ngAfterViewChecked</b>, podendo ser util para programar interacoes mais avancadas entre os componentes, como mudanca da url, redirecionamento, etc... Basicamente qualquer coisa que aconteca com o navegador.
 <h3>Servicos</h3>
 <p>Como construir um servico, de modo que voce possa injetar nos componentes: 
 <a href="./myapp/src/app/module1/service1.service.ts">service1.service.ts</a><br>
@@ -56,6 +56,8 @@ Aqui um exemplo de como definir o provider dentro da anotacao @Injetable:
 <a href="./myapp/src/app/module2/service1.service.ts">service1.service.ts</a><br>
 Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico] deve ser substituido pelo nome do arquivo que voce quer criar, o arquivo criado pelo NG:
 <a href="./myapp/src/app/service2.service.ts">service2.service.ts</a>
+<br>
+Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencias, ou seja o servico eh algo injetavel, que cuja cada instancia podera ser reutilizada evitando custos com novas instanciacoes.
 </p>
 <h2>Observables</h2>
 <h3>Cold-Observables</h3>
@@ -64,6 +66,18 @@ Aqui um exemplo de um servico criado por: <b>"ng g s [Servico]"</b>, o [Servico]
 <p>Aqui temos um exemplo de hot-observables, no caso o observer é disponibilizado em grupo:<a href="./myapp/src/app/hot-observables/hot-observables.component.ts">basicobserver.component.ts</a>.</p>
 <h3>Objeto Subjects com funcao de Observable e Observer</h3>
 <p>Aqui um exemplo das entranhas do Subject:<a href="./myapp/src/app/subject/subject.component.ts">subject.component.ts</a> </p>
+<p>Observables sao uma maneira de programacao reativa no Angular, com eles voce pode monitorar o Status de cada dado e ir trabalhando seguindo os principios da programacao reativa:</p>
+<p>
+<ul>
+   <li> Elástico: Reage à demanda/carga: aplicações podem fazer uso de múltiplos núcleos e múltiplos servidores;</li>
+    <li>Resiliente: Reage às falhas; aplicações reagem e se recuperam de
+    falhas de software, hardware e de conectividade;</li>
+    <li>Message Driven: Reage aos eventos (event driven): em vez de compor
+    aplicações por múltiplas threads síncronas, sistemas são compostos de gerenciadores de eventos assíncronos e não bloqueantes;</li>
+    <li>Responsivo: Reage aos usuários: aplicações que oferecem interações
+    ricas e “tempo real” com usuários.</li>
+<ul>
+</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
