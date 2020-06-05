@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, from, of, interval } from 'rxjs';
-import { delay, map, filter, tap, first, last, take } from 'rxjs/operators';
+import { Subscription, from, of, interval, Subject, fromEvent } from 'rxjs';
+import { delay, map, filter, tap, first, last, take, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operadores',
@@ -8,10 +8,11 @@ import { delay, map, filter, tap, first, last, take } from 'rxjs/operators';
   styleUrls: ['./operadores.component.css']
 })
 export class OperadoresComponent implements OnInit {
-
+  public classe:string = "";
   constructor() { }
 
   ngOnInit() {
+    this.debouceTimeFuncao();
   }
   /*
     Aqui temos um exemplo de como funciona o pipe,
@@ -182,7 +183,7 @@ export class OperadoresComponent implements OnInit {
     let fonte = from([1,2,3,4,5,6,7,8,9,10]);
     fonte = fonte.pipe(
       tap(e => console.log(`valor processado antes do first ${e}`)),
-      first(),
+      first(), //Operador first
       tap(e => console.log(`valor processado depois do first ${e}`)) //Sera ignorado.
     );
     const subscribe = fonte.subscribe(
@@ -207,11 +208,12 @@ export class OperadoresComponent implements OnInit {
     );
   }
 
+  //Operador Last
   public lastFuncao():void{
     let fonte = from([1,2,3,4,5,6,7,8,9,10]);
     fonte = fonte.pipe(
       tap(e => console.log(`valor processado antes do last ${e}`)),
-      last(),
+      last(), //Operador last aqui.
       tap(e => console.log(`valor processado depois do last ${e}`)) //Sera ignorado.
     );
     const subscribe = fonte.subscribe(
@@ -236,6 +238,7 @@ export class OperadoresComponent implements OnInit {
     );
   }
 
+  //Operador Take
   public takeFuncao():void{
     let fonte = from([1,2,3,4,5,6,7,8,9,10]);
     fonte = fonte.pipe(
@@ -264,6 +267,42 @@ export class OperadoresComponent implements OnInit {
       }
     );
   }
-  
+  /*
+    O DebouceTime suspende a ocorrencia de eventos que se executam em 
+    um intervalo de tempo inferior ao informado, ou seja, qualquer 
+    evento que tem uma frequencia inferior a 3 segundos(nesse caso em especifico),
+    sera ignorado. No exemplo abaixo colocamos que o botao debounceTime apenas
+    execute o metodo onclick associado a ele apenas uma vez a cada 3 segundos.
+    Dessa forma enquanto o botao estiver vermelho, por mais que o usuario clique,
+    nao ocorrera o evento associado a ele. Essa funcao pode ser interessante, 
+    caso o excesso de interacao do evento por parte do usuario possa ter algum 
+    efeito colateral, dessa forma voce pode restringir a quantidade de interacao
+    do usuario a uma dentro de um tempo especifico. Em resumo o codigo abaixo,
+    impoe ao usuario a execucao do evento 1 click a uma execucao maxima de uma
+    vez a cada 3 segundos, por mais que o usuario nao respeite esse tempo.
+  */
+  private debouceTimeFuncao(){
+    const milisegundos = 3000; //Aqui eh definido os milisegundos, nesse caso 3 segundos
+    let fonte = fromEvent(document.getElementById('debounceTime'), 'click');
+    fonte = fonte.pipe(
+      //Com o Tap executado antes, colocamos a cor vermelha registrando classe ao componente.
+      tap(_ => this.classe = "cor"), 
+       //Repare que a funcao usa como parametro os milisegundos definidos acima.
+      debounceTime(milisegundos),
+      //Caso a frequencia do evento respeite a condicao pelo debouceTime, tiramos a cor.
+      tap(_ => this.classe = "")
+    );
+    fonte.subscribe(
+      msg => {
+        console.log(`
+          Funcao debouceTime ativa, repare que quando o botao estiver vermelho,
+          nao sera impresso outra mensagem como essa, por mais que voce clique.
+          A impressao ocorre depois que o botao volta ao normal.
+        `);
+      },
+      error => console.error(error),
+      () => console.log('Execucao Completa!')
+    );
+  }
 
 }
