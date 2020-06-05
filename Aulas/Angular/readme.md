@@ -65,21 +65,24 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
 <h3>Hot-Observables</h3>
 <p>Aqui temos um exemplo de hot-observables, no caso o observer é disponibilizado em grupo:<a href="./myapp/src/app/hot-observables/hot-observables.component.ts">basicobserver.component.ts</a>.</p>
 <h3>Objeto Subjects com funcao de Observable e Observer</h3>
-<p>Aqui um exemplo das entranhas do Subject:<a href="./myapp/src/app/subject/subject.component.ts">subject.component.ts</a> </p>
+<p>Aqui um exemplo das entranhas do Subject: <a href="./myapp/src/app/subject/subject.component.ts">subject.component.ts</a> </p>
 <p>Observables sao uma maneira de programacao reativa no Angular, com eles voce pode monitorar o Status de cada dado e ir trabalhando seguindo os principios da programacao reativa:</p>
 <p>
 <ul>
-   <li> Elástico: Reage à demanda/carga: aplicações podem fazer uso de múltiplos núcleos e múltiplos servidores;</li>
-    <li>Resiliente: Reage às falhas; aplicações reagem e se recuperam de
+   <li> Elastico: Reage a demanda/carga: aplicacoes podem fazer uso de multiplos nucleos e multiplos servidores;</li>
+    <li>Resiliente: Reage as falhas; aplicacoes reagem e se recuperam de
     falhas de software, hardware e de conectividade;</li>
     <li>Message Driven: Reage aos eventos (event driven): em vez de compor
-    aplicações por múltiplas threads síncronas, sistemas são compostos de gerenciadores de eventos assíncronos e não bloqueantes;</li>
-    <li>Responsivo: Reage aos usuários: aplicações que oferecem interações
-    ricas e “tempo real” com usuários.</li>
+    aplicacoes por multiplas threads sincronas, sistemas sao compostos de gerenciadores de eventos assincronos e nao bloqueantes;</li>
+    <li>Responsivo: Reage aos usuarios: aplicacoes que oferecem interacoes
+    ricas e “tempo real” com usuarios.</li>
 </ul>
 </p>
-<h3>Operadores RXJS</h3>
-<p>Aqui temos usamos funcoes para criar os Observers, sao uteis caso haja alguma exigencia, cronologica, reativa ou ate mesmo caso a complexidade possa ser reduzida, aqui os Observables sao criados com funcoes, um pouco diferente dos metodos acima:<a href="./myapp/src/app/rxjs/rxjs.component.ts">rxjs.component.ts</a></p>
+<h2>Operadores RXJS</h2>
+<h3>Funcoes para criacao de Observables</h3>
+<p>Aqui temos usamos funcoes para criar os Observers, sao uteis caso haja alguma exigencia, cronologica, reativa ou ate mesmo caso a complexidade possa ser reduzida, aqui os Observables sao criados com funcoes, um pouco diferente dos metodos acima: <a href="./myapp/src/app/rxjs/rxjs.component.ts">rxjs.component.ts</a></p>
+<h3>Pipe e seus operadores</h3>
+<p> Aqui eh explicado os operadores no metodo pipe, ao qual pode fazer um tratamento dos dados: <a href="./myapp/src/app/operadores/operadores.component.ts">operadores.component.ts</a></p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
