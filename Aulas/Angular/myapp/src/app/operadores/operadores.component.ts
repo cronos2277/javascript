@@ -295,33 +295,71 @@ export class OperadoresComponent implements OnInit {
     */
     let fonte:Observable<any> = interval(500);    
     fonte = fonte.pipe(
+      /*
+        O value e o index comecam com o valor e vao
+        sendo incrementado em 1. Os dois valores sao
+        iguais, mas o value permite manipulacao.
+      */
       takeWhile((value,index) => { 
-        console.log("Valor: "+value);
-        console.log("Indice: "+index);       
-        return (value < 10)?true:false;
+        //Voce pode manipular qualquer um dos dois e compara-los,
+        //justamente por isso o takewhile permite que voce usa dois valores.
+        value *= 2;         
+        console.log("Valor TakeWhile: "+value);
+        console.log("Indice TakeWhile: "+index);  
+        //Quando a callback retornar false o complete eh chamado.     
+        return (value < 20)?true:false; 
       })
     );
 
-    fonte.subscribe(
-      (msg) => console.log("Valor pego: "+msg),
+    const inscricao = fonte.subscribe(
+      (msg) => console.log("%c Valor pego TakeWhile: "+msg,"color:green"),
       (erro) => console.error(erro),
       () => console.warn("Exemplo Take While encerrado!")
     );
 
+    //Verificando a desinscricao, quando concluido.
+    const intervalo = setInterval(
+      () => {
+        if(inscricao.closed){
+          console.warn("TakeWhile concluido e desinscrito!");          
+          clearInterval(intervalo);
+        }
+      }
+    );
   }
-
+  /*
+    TakeUntil tem como condicao um Observable. Ele executa
+    os passos do Observable e quando o Observable der complete
+    o takeUntil execute a callback complete e depois encerra
+    a inscricao.
+  */
   public takeUntilFunction(){
+    //Criando o Observable que vai usar o takeUntil.
     let fonte:Observable<any> = interval(500);
+    //Criando o Observable condicional.
     const condicao:Observable<any> = timer(10000)
     fonte = fonte.pipe(
-      takeUntil(condicao)
+      tap(_=> console.log("%c Valor de TakeUntil antes: "+_, "color:blue")),
+      takeUntil(condicao), //Depois de executado o Observable condicional, encerra-se
+      tap(_=> console.log("%c Valor de TakeUntil depois: "+_, "color:blue"))
     );
 
-    fonte.subscribe(
-      (msg) => console.log("Valor pego: "+msg),
+    const inscricao = fonte.subscribe(
+      (msg) => console.log("%c Valor pego TakeUntil: "+msg,"color:blue"),
       (erro) => console.error(erro),
       () => console.warn("Exemplo Take Until encerrado!")
     );
+
+    //Verificando a desinscricao, quando concluido.
+    const intervalo = setInterval(
+      () => {
+        if(inscricao.closed){
+          console.warn("TakeWhile concluido e desinscrito!");          
+          clearInterval(intervalo);
+        }
+      }
+    );
+
   }
 
   /*
