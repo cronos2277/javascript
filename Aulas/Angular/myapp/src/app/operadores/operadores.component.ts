@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, from, of, interval, Subject, fromEvent } from 'rxjs';
-import { delay, map, filter, tap, first, last, take, debounceTime } from 'rxjs/operators';
+import { Subscription, from, of, interval, Subject, fromEvent, Observable, timer } from 'rxjs';
+import { delay, map, filter, tap, first, last, take, debounceTime, takeWhile, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operadores',
@@ -268,6 +268,63 @@ export class OperadoresComponent implements OnInit {
     );
   }
   /*
+    Take while e Take until pode ser util caso
+    voce queira trabalhar com Observables do
+    tipo interval ou timer. Assim como o take,
+    uma vez que a condicao eh concluida, se
+    executa o metodo complete e depois a
+    desiscricao.
+    Take while => assim como o filter,
+    ele aceita uma callback que deve
+    retornar true ou false, enquanto a
+    callback estiver retornando true
+    a continuacao executa.
+    TakeUntil, funciona igual ao while,
+    o porem ele aceita como parametro
+    um observable e depois de executado
+    todos os next e o complete ow erro
+    do observable usado como parametro
+    ai se executa a callback complete
+    e depois a desinscricao.
+  */
+  public takeWhileFunction(){
+    /*
+      Aqui fica claro que funcoes do tipo
+      From, Of, FromEvent, interval, geram
+      observables, analise a linha abaixo e veja.
+    */
+    let fonte:Observable<any> = interval(500);    
+    fonte = fonte.pipe(
+      takeWhile((value,index) => { 
+        console.log("Valor: "+value);
+        console.log("Indice: "+index);       
+        return (value < 10)?true:false;
+      })
+    );
+
+    fonte.subscribe(
+      (msg) => console.log("Valor pego: "+msg),
+      (erro) => console.error(erro),
+      () => console.warn("Exemplo Take While encerrado!")
+    );
+
+  }
+
+  public takeUntilFunction(){
+    let fonte:Observable<any> = interval(500);
+    const condicao:Observable<any> = timer(10000)
+    fonte = fonte.pipe(
+      takeUntil(condicao)
+    );
+
+    fonte.subscribe(
+      (msg) => console.log("Valor pego: "+msg),
+      (erro) => console.error(erro),
+      () => console.warn("Exemplo Take Until encerrado!")
+    );
+  }
+
+  /*
     O DebouceTime suspende a ocorrencia de eventos que se executam em 
     um intervalo de tempo inferior ao informado, ou seja, qualquer 
     evento que tem uma frequencia inferior a 3 segundos(nesse caso em especifico),
@@ -280,6 +337,7 @@ export class OperadoresComponent implements OnInit {
     do usuario a uma dentro de um tempo especifico. Em resumo o codigo abaixo,
     impoe ao usuario a execucao do evento 1 click a uma execucao maxima de uma
     vez a cada 3 segundos, por mais que o usuario nao respeite esse tempo.
+    Util para usar em conjunto com um Observable fromEvent()
   */
   private debouceTimeFuncao(){
     const milisegundos = 3000; //Aqui eh definido os milisegundos, nesse caso 3 segundos
@@ -290,14 +348,16 @@ export class OperadoresComponent implements OnInit {
        //Repare que a funcao usa como parametro os milisegundos definidos acima.
       debounceTime(milisegundos),
       //Caso a frequencia do evento respeite a condicao pelo debouceTime, tiramos a cor.
-      tap(_ => this.classe = "")
+      tap(_ => this.classe = "") //So executa se debouceTime for respeitado.
     );
     fonte.subscribe(
-      msg => {
+      _ => {
         console.log(`
           Funcao debouceTime ativa, repare que quando o botao estiver vermelho,
           nao sera impresso outra mensagem como essa, por mais que voce clique.
-          A impressao ocorre depois que o botao volta ao normal.
+          A impressao ocorre depois que o botao volta ao normal. Nao importa
+          quantas vezes voce clique, o evento onclick apenas estara disponivel
+          1 vez a cada 3 segundos.
         `);
       },
       error => console.error(error),
