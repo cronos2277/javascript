@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, from, of } from 'rxjs';
-import { delay, map, filter, tap } from 'rxjs/operators';
+import { Subscription, from, of, interval } from 'rxjs';
+import { delay, map, filter, tap, first, last, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operadores',
@@ -70,10 +70,34 @@ export class OperadoresComponent implements OnInit {
     );
 
     //Aqui eh feito a inscricao, repare que o pipe nao esta encadeado.
-    fonte.subscribe(
+    const inscricao = fonte.subscribe(
         msg => console.log(msg),
         error => console.error(error),
         () => console.log("Execucao do PIPE Delay")      
+    );
+    /*
+      Dessa forma voce pode fazer a desisncricao, bom cuidado
+      ao fazer a desiscricao quando for usar o delay, pois dependendo
+      do caso o observer pode ser desinscrito antes de executar.
+      Aqui usamos o setInterval, como nao foi passado os milisegundos
+      como segundo parametro, ele fica executando em segundo plano
+      executando a funcao, entao cuidado com isso. Ou seja o setInterval
+      pode ser executado fora de periodicidade e de maneira assincrona,
+      porem erros ai, pode deixar a aplicacao onerosa.
+      Dentro de um objeto Subscribe existe um atributo: "inscricao.closed"
+      com base nesse atributo voce pode saber quando a operacao foi
+      concluida, ou seja ele passa a ser true depois de executada a
+      callback de complete dos Observables.
+    */
+    let interval = setInterval( //Precisamos atribuir a uma variavel para pode, limpa-lo depois.
+      () =>{ //Funcao callback do setInterval
+        if(inscricao.closed){
+          console.log("Concluido! Desinscrevendo Observable do exemplo do Delay");
+          inscricao.unsubscribe(); //Desiscrevendo.
+          //Aqui limpamos o interval, faca isso, se nao o processo fica executando em loop.
+          clearInterval(interval); 
+        }
+      } //Repare que nao ha parametro de tempo.
     );
   }
 
@@ -141,4 +165,105 @@ export class OperadoresComponent implements OnInit {
       () => console.log('Execucao concluida com sucesso')
     ).unsubscribe();
   }
+
+  /*
+    First, take, last.
+    Esses tres operadores que podem ser usados dentro do pipe, sendo:
+    first => vai apenas pegar o primeiro dado da fonte, executar a 
+    callback de complete se houver e depois desinscrever.
+    last => vai apenas pegar apenas o ultimo dado da fonte, executar a 
+    callback de complete se houver e depois desinscrever.
+    Take(numeroDeDadosAPegar) => vai apenas pegar a quantidade de dado informado
+    da fonte, executar a callback de complete se houver e depois desinscrever.
+    Esses tres metodos executam tanto o metodo de complete como a desiscricao.
+    Nenhum outro metodo do pipe sera executado depois do last e first no pipe.
+  */
+  public firstFuncao():void{
+    let fonte = from([1,2,3,4,5,6,7,8,9,10]);
+    fonte = fonte.pipe(
+      tap(e => console.log(`valor processado antes do first ${e}`)),
+      first(),
+      tap(e => console.log(`valor processado depois do first ${e}`)) //Sera ignorado.
+    );
+    const subscribe = fonte.subscribe(
+      msg => console.log(` %c Valor pego: ${msg}`, "background-color:black;color:white;font-size:16px"),
+      erro => console.error(erro),
+      () => console.log(`
+          Foi chamado a callback de conclusao pelo
+          metodo do pipe, que ira chamar depois o
+          unsubscribe, uma vez que o metodo complete
+          termine a sua execucao.
+      `)
+    );
+
+    //Verificando se o observer foi desinscrito.
+    const intervalo = setInterval(
+      () => {
+        if(subscribe.closed){
+          console.warn("Inscricao encerrada!");
+          clearInterval(intervalo);
+        }
+      }
+    );
+  }
+
+  public lastFuncao():void{
+    let fonte = from([1,2,3,4,5,6,7,8,9,10]);
+    fonte = fonte.pipe(
+      tap(e => console.log(`valor processado antes do last ${e}`)),
+      last(),
+      tap(e => console.log(`valor processado depois do last ${e}`)) //Sera ignorado.
+    );
+    const subscribe = fonte.subscribe(
+      msg => console.log(`%c Valor pego: ${msg}.`,"background-color:black;color:white;font-size:16px"),
+      erro => console.error(erro),
+      () => console.log(`
+          Foi chamado a callback de conclusao pelo
+          metodo do pipe, que ira chamar depois o
+          unsubscribe, uma vez que o metodo complete
+          termine a sua execucao.
+      `)
+    );
+
+    //Verificando se o observer foi desinscrito.
+    const intervalo = setInterval(
+      () => {
+        if(subscribe.closed){
+          console.warn("Inscricao encerrada!");
+          clearInterval(intervalo);
+        }
+      }
+    );
+  }
+
+  public takeFuncao():void{
+    let fonte = from([1,2,3,4,5,6,7,8,9,10]);
+    fonte = fonte.pipe(
+      tap(e => console.log(`valor processado antes do take: ${e}`)),
+      take(5), //No take voce deve informar quantos dados voce quer pegar.
+      tap(e => console.log(`valor processado depois do take: ${e}`)) //Sera exibido.
+    );
+    const subscribe = fonte.subscribe(
+      msg => console.log(`%c Valor pego: ${msg}`, "background-color:black;color:white;font-size:16px"),
+      erro => console.error(erro),
+      () => console.log(`
+          Foi chamado a callback de conclusao pelo
+          metodo do pipe, que ira chamar depois o
+          unsubscribe, uma vez que o metodo complete
+          termine a sua execucao.
+      `)
+    );
+
+    //Verificando se o observer foi desinscrito.
+    const intervalo = setInterval(
+      () => {
+        if(subscribe.closed){
+          console.warn("Inscricao encerrada!");
+          clearInterval(intervalo);
+        }
+      }
+    );
+  }
+  
+
 }
