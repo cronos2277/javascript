@@ -1,0 +1,28 @@
+<br />
+<hr>
+<h2>RXJS Async</h2>
+<p class="verde">A inscricao do siteeh feita aqui e nao utilizando o metodo subscribe.</p>
+<p>Desconsidere o tempo para loading, pois o atraso eh proposital, o observer2 e observer3 tem um tempo diferente para ficar evidente as explicacoes.</p>
+<h3>Observer 1<span class="vermelho">(*ngFor="let cada of observer1$ | async")</span></h3>
+<div *ngFor="let cada of observer1$ | async">    
+    <p>Codigo: {{cada.code}}, Nome: {{cada.name}}</p>
+</div>
+<h3>Observer 2 <span class="vermelho">(*ngIf="observer2$|async; else carregando")</span></h3>
+<p>Repare que comeca exibindo valores em branco.</p>
+    <div *ngIf="observer2$|async; else carregando">
+        <p><b>Code: {{(observer2$|async)?.code}}</b> </p>
+        <p><b>Nome: {{(observer2$|async)?.name}}</b> </p>
+    </div>
+    <ng-template #carregando>
+        <h3 class="verde">CARREGANDO DADOS...</h3>
+    </ng-template>
+<h3>Observer 3 <span class="vermelho">(*ngIf="observer2$|async as objeto; else carregando1")</span></h3>
+<p>Executa apenas quando tem algum valor</p>
+    <div *ngIf="observer2$|async as objeto; else carregando1">
+        <p><b>Code: {{objeto.code}}</b></p>
+        <p><b>Nome: {{objeto.name}}</b></p>
+    </div>
+    <ng-template #carregando1>
+        <h3 class="verde">CARREGANDO DADOS...</h3>
+    </ng-template>
+<hr>
