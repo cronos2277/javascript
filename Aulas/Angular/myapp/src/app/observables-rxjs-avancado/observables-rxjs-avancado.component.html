@@ -1,1 +1,7 @@
-<p>observables-rxjs-avancado works!</p>
+<br>
+<h2>Caixa arrastavel</h2>
+<div id="arrastavel" name="arrastavel" class="arrastavel" #arrastavel [style.top.px]="cima" [style.left.px]="esquerda" draggable="true">
+    <p class="texto-arrastavel" >Exemplo caixa arrastavel</p>
+</div>
+<button (click)="voltar()">Trazer div devolta</button>
+

@@ -1,0 +1,16 @@
+.arrastavel{
+    background-color: red;
+    box-shadow: 0px 0px 10px black;
+    width:300px;
+    height:100px;
+    position: absolute; 
+}
+.texto-arrastavel{
+    color:white;
+    text-shadow: 1px 1px 10px black;    
+    padding: 20px;
+    font-size: 24px;
+}
+button{
+    margin-left:20px;
+}
