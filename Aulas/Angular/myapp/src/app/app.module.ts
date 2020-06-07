@@ -22,6 +22,7 @@ import { SubjectComponent } from './subject/subject.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { OperadoresComponent } from './operadores/operadores.component';
 import { RxjsAsyncComponent } from './rxjs-async/rxjs-async.component';
+import { ObservablesRxjsAvancadoComponent } from './observables-rxjs-avancado/observables-rxjs-avancado.component';
 
 /*
   Aqui abaixo temos um decorator contendo 4 atributos, que eh passado ao ng module.
@@ -32,7 +33,7 @@ import { RxjsAsyncComponent } from './rxjs-async/rxjs-async.component';
     MyBasicComponent, //Componente criado por mim, um componente simples, aqui esta as explicacoes basicas de componentes.
     MyCompositeComponent, MygeneratedComponent, InsideComponent, HotObservablesComponent,
     ComunicationComponent, MainLifecycleComponent, LifecycleChildComponent,
-    ChildChildComponent, CheckComponent, CheckChildComponent, BasicobserverComponent, SubjectComponent, RxjsComponent, OperadoresComponent, RxjsAsyncComponent //Um componente composto que carrega arquivos externos.
+    ChildChildComponent, CheckComponent, CheckChildComponent, BasicobserverComponent, SubjectComponent, RxjsComponent, OperadoresComponent, RxjsAsyncComponent, ObservablesRxjsAvancadoComponent //Um componente composto que carrega arquivos externos.
   ],
   imports: [ //Aqui lidamos com a importacao de modulos, Modulos deve ser referenciado aqui dentro do imports
     BrowserModule,
