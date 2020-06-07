@@ -186,4 +186,29 @@ export class RxjsComponent implements OnInit {
     );
     inscricao.unsubscribe();
   }
+
+  /*
+    Em um observer voce pode fazer com que seja chamado a callback
+    de erro quando voce impoe o throw new, ou seja caso seja executado
+    um throw new dentro de um observable, eh executado a callback de erro.
+  */
+  public funcaoCberror():void{
+    let fonte:Observable<any> = new Observable<any>(
+        (observer) => {
+          observer.next(`
+              Executando erro da callback de erro devido 
+              ao botao CB error pressionado...`
+          );
+          //Você pode envocar o erro a qualquer momento.
+          throw new Error("Erro provocado pelo usuario"); //Provocando o erro.
+        }
+    );
+    
+    fonte.subscribe(
+      msg => console.log(msg),
+      erro => console.error("Erro CB Erro"+erro) //Callback para erro.
+    );
+    
+  }
+
 }

@@ -85,8 +85,8 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
 <p> Aqui eh explicado os operadores no metodo pipe, ao qual pode fazer um tratamento dos dados: <a href="./myapp/src/app/operadores/operadores.component.ts">operadores.component.ts</a></p>
 <h3>Inscrevendo Observables com Async</h3>
 <p> Aqui temos uma explicacao melhor de como funciona o Async e como eh possivel dar subscribe com ele:<br>
-<a href="./myapp/src/app/rxjs-async/rxjs-async.component.ts">rxjs-async.component.html</a><br>
 <a href="./myapp/src/app/rxjs-async/rxjs-async.component.ts">rxjs-async.component.ts</a><br>
+<a href="./myapp/src/app/rxjs-async/rxjs-async.component.html">rxjs-async.component.html</a><br>
 </p>
 <hr>
 <h2>Comandos basicos do ng</h2>
