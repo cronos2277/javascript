@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription, from, of, interval, Subject, fromEvent, Observable, timer } from 'rxjs';
-import { delay, map, filter, tap, first, last, take, debounceTime, takeWhile, takeUntil } from 'rxjs/operators';
+import { Subscription, from, of, interval, Subject, fromEvent, Observable, timer, Observer } from 'rxjs';
+import { delay, map, filter, tap, first, last, take, debounceTime, takeWhile, takeUntil, catchError,retry, retryWhen, timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-operadores',
@@ -403,4 +403,172 @@ export class OperadoresComponent implements OnInit {
     );
   }
 
+  public catchErrorFuncao(){
+    //Aqui faremos com o subject para ficar claro o passo a passo.
+    /* 
+      Como os passos estao sendo executado pelo subject, o mesmo
+      objeto que fara a inscricao, entao ele nao executara os next
+      devido ao erro. Ou seja quando tem um erro ele nao executa 
+      nenhum next e ja imprime logo o erro. Diferente dos observables,
+      que executam passo a passo os next ate o complete ou o erro.
+      Nesse caso sera impresso o erro, depois a mensagem gerada
+      pelo observer do catchErro e ai por fim o complete, sem executar
+      em nenuma vez os next, primeiro porque o subject vai ignorar
+      os next ate o erro e segundo porque o catchError muda o fluxo
+      do observer executando outro observer.
+    */
+    const fonte = new Subject(); 
+    fonte.next("Instrucao antes do erro"); //Nao sera executado
+    //Repare que aqui estamos executando um erro.
+    fonte.error("Ops... Deu um erro, tratando e continuando!"); 
+    fonte.next("Instrucao depois do erro"); //Nao sera executado.
+    fonte.complete();
+    fonte.pipe(
+      /*
+        Aqui temos um exemplo da funcionalidade de um operador, no
+        caso o catch erro ele permite que se continue a execucao
+        apesar do erro, funciona como o catch das linguagens de 
+        programacoes. O catch permite com que a execucao continue.
+        O Catch recebe como parametro de entrada da callback dele,
+        o valor passado no .error(), e exige como um retorno um observable,
+        ou seja, caso aconteca erros, ele executa um outro observable, no
+        caso eh esse observable que voce poe como retorno da callback da catchError.
+        E entao o fluxo continuara a execucao apartir da execucao desse Observable
+        que voce especificou no return da callback, voce pode tambem dar um throw new Error,
+        caso nao queira continuar, de toda forma essa eh a forma de voce lidar
+        com erros no pipe.
+      */
+      catchError(erro =>{ //O parametro eh a mensagem que o throw gerou.
+        console.log(erro); 
+        return of("concluindo... "); //Aqui estamos retornando um Observable apesar da funcao OF
+      })
+    ).subscribe(
+      mensagem => console.log(mensagem),
+      erro => console.error(erro), //Nao sera executado devido ao tratamento do catchError.
+      () => console.warn("Execucaoo concluida, apesar de erros.")
+    );
+    fonte.unsubscribe();
+  }
+
+  public retryFuncao():void{
+    const fonte:Observable<any> = new Observable<any>(
+      (observer) =>{
+        for(let i=1;i<4;i++){
+          observer.next("Executando "+i);
+          if(i == 2){
+            console.warn("deu Erro, tentando de novo");
+            //O retry nao deixara imprimir o throw ate acabar as tentativas
+            throw new Error("Acabou as tentativas!");
+          } 
+        }
+        observer.complete();
+      }
+    );
+    fonte.pipe(  
+      /*
+        Caso de erros, o retry permite que voce possa tentar denovo,
+        ou seja ele executa novamento o observer a caso de erro,
+        o parametro que ele aceita eh a quantidade de tentativas que
+        ele pode executar. No caso ele ira executar duas vezes a execucao
+        do observer.
+      */
+      retry(2)        
+    ).subscribe(
+      mensagem => console.log(mensagem),
+      erro => console.error("Erro Fatal: "+erro),
+      () => console.warn("Execucao concluida com erros!")
+    ).unsubscribe();
+  }
+
+  public retryWhenFuncao():void{
+    /*
+      Voce pode criar um observebles sem a necessidade
+      de colocar dentro de uma variavel.
+    */
+    new Observable<any>(
+      (observer:Observer<any>) => {
+        for(let i=0; i<5; i++){
+          observer.next('valor: '+i);
+          if(i == 2) throw new Error("Erro");
+        }
+      }
+    ).pipe(
+      /*
+        retryWhen recebe como parametro
+        uma callback e essa callback recebe
+        um parametro do tipo subject e deve
+        obrigatoriamente retornar um observable,
+        Uma vez que o observable de retorno seja
+        resolvido, ai eh feito uma nova tentativa,
+        e esse operador nao dispara a callback de
+        erro, na verdade ele nao deixa executar
+        nenhum catch e tao pouco suspende a execucao,
+        ele conclui sem problemas com base no valor que tem.
+      */
+        retryWhen((parametro:Subject<any>) => {          
+          console.log(parametro);
+          return timer(500);
+        })
+    ).subscribe(
+      mensagem => console.log(mensagem),
+      erro => console.error("Erro: "+erro),
+      () => console.warn("Concluido!") 
+    );    
+  }
+
+  public timeoutFuncao():void{
+    let fonte = new Observable<any>(
+      (observer) => {        
+        for(let i:number = 0; i<11; i++){
+          observer.next(i);          
+        }
+        observer.complete();
+      }
+    );
+    fonte = fonte.pipe(
+      /*
+        Esse operador faz uma nova tentativa depois
+        do tempo especificado, no caso depois de 5000
+        milisegundos, aqui nem vai fazer diferenca,
+        mas ele faz a diferenca em Observables de tempo,
+        uma vez que ele atrasa para poder se adequar ao
+        observable de tempo.
+      */      
+      timeout(5000),
+    );
+
+    const inscricao = fonte.subscribe(
+      mensagem => console.log(mensagem),
+      erro => console.error(erro),
+      () => console.warn("fonte1 executado com sucesso!")
+    );
+    
+    let fonte2 = timer(3000);
+    fonte2 = fonte2.pipe(
+      /*
+        Aqui sim, repare que o observable esta em 3 segundos,
+        porem o timeout esta em 1,5 segundos, aqui dara erro
+        pois a fonte vai demorar 3 segundos para gerar o dado
+        e o timeout esta esperando apenas 1500. No caso o time
+        out permite sincronizar o pipe com um Observable de timer,
+        eh para isso que serve o operador timeout.
+      */
+      timeout(1500)
+    );
+    
+    let inscricao2 = fonte2.subscribe(
+      mensagem => console.log(mensagem),
+      erro => console.error("Erro controlado na fonte2:"+erro)
+    );
+
+    let intervalo = setInterval(
+      () => {
+        if(inscricao.closed && inscricao2.closed){
+          inscricao.unsubscribe();
+          inscricao2.unsubscribe();
+          clearInterval(intervalo);
+        }
+      }  
+    );
+  }
 }
