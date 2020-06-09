@@ -1,7 +1,6 @@
 <h1>Angular 2</h1>
 <h2>Revisao</h2>
 <p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo Angular 2</p>
-<p>A pasta <a href="./server-name-api/">server-name-api</a>, Eh um servidor que talvez precise ser inicializado para funcionar alguns exemplos. Inicie-o atraves do npm start, mas antes instale as dependencias usando npm install.</p>
 <h3>Basico</h3>
 <p>
   Os exemplos mais basicos do Angular, podem ser acompanhados aqui:
@@ -89,13 +88,15 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
 <a href="./myapp/src/app/rxjs-async/rxjs-async.component.ts">rxjs-async.component.ts</a><br>
 <a href="./myapp/src/app/rxjs-async/rxjs-async.component.html">rxjs-async.component.html</a><br>
 </p>
-<h3>RXJS Avancado: </h3>
+<h3>RXJS Drag </h3>
 <p>
-Aqui esta os exemplos mais avancado com Observables e RXJS, Aqui sera abordado sobre o MargeMap e o SwitchMap. Talvez para alguns exemplos
-funcionar precisa iniciar o servidor do "server-name-api" dando um "npm start" la.<br>
+Aqui esta um exemplo de um componente arrastavel, usando os conceitos do Observables.<br>
 <a href="./myapp/src/app/observables-rxjs-avancado/observables-rxjs-avancado.component.ts">observables-rxjs-avancado.component.ts</a><br>
 <a href="./myapp/src/app/observables-rxjs-avancado/observables-rxjs-avancado.component.html">observables-rxjs-avancado.component.html</a>
 </p>
+<hr>
+<h1> Angular 2, Exemplos mais avancados.
+<p>A pasta <a href="./server-name-api/">server-name-api</a>, Eh um servidor que talvez precise ser inicializado para funcionar alguns exemplos. Inicie-o atraves do npm start, mas antes instale as dependencias usando npm install.</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
