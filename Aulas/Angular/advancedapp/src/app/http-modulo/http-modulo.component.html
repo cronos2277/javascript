@@ -1,8 +1,31 @@
-<p>
-    <span>Busca: </span>
-    <input #objetoBusca id="campo_busca" type="text" [(ngModel)]="busca"/>    
-    <button (click)="comando()">Comando</button>
-</p>
+    <h2 align="center">Modulo HTTP:</h2>
+    <p align="center" class="paragrafo">
+        <span>Busca: </span>
+        <input #objetoBusca id="campo_busca" type="text" [(ngModel)]="busca"/>    
+        <button (click)="comando()">Comando</button>
+    </p>
 
-{{busca}}
 
+<ng-template #offline>
+    <h3>Voce precisa estar online!</h3>
+</ng-template>
+
+<table border="1px" align="center">
+    <legend>Pesquisando por: {{busca}}</legend>
+    <thead>
+        <th>_id</th>
+        <th>lastname</th>
+        <th>email</th>
+        <th>city</th>
+        <th>country</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of results$ | async">
+            <td>{{p._id}}</td>
+            <td>{{p.lastname}}</td>
+            <td>{{p.email}}</td>
+            <td>{{p.city}}</td>
+            <td>{{p.country}}</td>
+        </tr>
+    </tbody>
+</table>

@@ -95,8 +95,9 @@ Aqui esta um exemplo de um componente arrastavel, usando os conceitos do Observa
 <a href="./myapp/src/app/observables-rxjs-avancado/observables-rxjs-avancado.component.html">observables-rxjs-avancado.component.html</a>
 </p>
 <hr>
-<h1> Angular 2, Exemplos mais avancados.
+<h1> Angular 2, Exemplos mais avancados.</h1>
 <p>A pasta <a href="./server-name-api/">server-name-api</a>, Eh um servidor que talvez precise ser inicializado para funcionar alguns exemplos. Inicie-o atraves do npm start, mas antes instale as dependencias usando npm install.</p>
+<p>A Pasta com exemplos avancados: <a href="./advancedapp/">advancedapp</a></p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>

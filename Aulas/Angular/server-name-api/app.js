@@ -46,7 +46,7 @@ app.get('/:text', (req, res) => {
         }
         setTimeout(() => {
             return res.status(200).json(data)
-        }, 2000);
+        });
     }); 
 })
 
