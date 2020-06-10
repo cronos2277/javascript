@@ -98,6 +98,14 @@ Aqui esta um exemplo de um componente arrastavel, usando os conceitos do Observa
 <h1> Angular 2, Exemplos mais avancados.</h1>
 <p>A pasta <a href="./server-name-api/">server-name-api</a>, Eh um servidor que talvez precise ser inicializado para funcionar alguns exemplos. Inicie-o atraves do npm start, mas antes instale as dependencias usando npm install.</p>
 <p>A Pasta com exemplos avancados: <a href="./advancedapp/">advancedapp</a></p>
+<h2>HTTP no Angular</h2>
+<p>
+Aqui temos mais exemplo da conexao com o protocolo HTTP em um servidor externo, necessita do servidor acima rodando para funcionar:<br>
+<a href="./advancedapp/src/app/http-modulo/http-modulo.component.html">http-modulo.component.html</a><br>
+<a href="./advancedapp/src/app/http-modulo/http-modulo.component.ts">http-modulo.component.ts</a><br><br>
+Lembrando que se faz necessario incluir pacotes aqui: <a href="./advancedapp/src/app/app.module.ts">app.module.ts</a><br><br>
+
+</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>

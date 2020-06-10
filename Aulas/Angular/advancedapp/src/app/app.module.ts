@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     HttpClientModule,    //Com isso a conexao com o protocolo HTTP funciona.
-    FormsModule
+    FormsModule //Importe isso para funcionar o [(NgModel)] e o 2way databind
   ],
   providers: [],
   bootstrap: [AppComponent]
