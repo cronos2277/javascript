@@ -1,13 +1,15 @@
+<div *ngIf="isServerOnline else offline">
+    <h3>Servidor online</h3>
+</div>
     <h2 align="center">Modulo HTTP:</h2>
     <p align="center" class="paragrafo">
         <span>Busca: </span>
-        <input #objetoBusca id="campo_busca" type="text" [(ngModel)]="busca"/>    
-        <button (click)="comando()">Comando</button>
+        <input #objetoBusca id="campo_busca" type="text" [(ngModel)]="busca"/>            
     </p>
 
 
 <ng-template #offline>
-    <h3>Voce precisa estar online!</h3>
+    <h3>Voce precisa estar online para funcionar!</h3>
 </ng-template>
 
 <table border="1px" align="center">
