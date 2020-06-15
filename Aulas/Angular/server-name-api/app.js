@@ -51,9 +51,19 @@ app.get('/:text', (req, res) => {
 })
 
 
+app.delete('/:id', function (req, res) {
+    Person.deleteOne({_id: req.params.id},  
+        (err) => {
+            if(err)
+                res.status(500).send(err);
+            else
+                res.status(200).send({});
+        })
+});
 
 app.use(function(req, res, next) {
     res.status(404).send('Route does not exist.');
 });
+
 
 app.listen(9000);

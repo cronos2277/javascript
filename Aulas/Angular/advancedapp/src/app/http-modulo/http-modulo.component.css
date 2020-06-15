@@ -15,3 +15,8 @@ thead,th{
     background-color: black;
     color:white;
 }
+.bexcluir{
+    background-color: red;
+    color:white;
+    font-weight: 900;
+}

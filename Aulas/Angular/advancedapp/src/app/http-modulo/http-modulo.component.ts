@@ -113,5 +113,17 @@ export class HttpModuloComponent implements OnInit{
         }
       )
     );    
+  }
+  public deleteRem(p):void{    
+    const codigo = p._id;
+    this.http.delete(
+      this.url+"/"+p._id
+    ).subscribe(
+      _ => {
+            console.table(codigo+" => apagado com sucesso");
+            document.getElementById(codigo).remove();            
+          },
+      erro => console.error(erro)
+    );
   } 
 }
