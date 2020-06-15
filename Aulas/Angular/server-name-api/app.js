@@ -61,6 +61,22 @@ app.delete('/:id', function (req, res) {
         })
 });
 
+app.post('/', function (req, res) {
+    p = new Person({
+        firstname:"nothing",
+        lastname: req.body.lastname,        
+        country: req.body.country,        
+        email: req.body.email,        
+        city: req.body.city                
+    });
+    p.save((err, prod) => {
+        if(err)
+            res.status(500).send(err);
+        else
+            res.status(200).send(prod);
+    });
+});
+
 app.use(function(req, res, next) {
     res.status(404).send('Route does not exist.');
 });

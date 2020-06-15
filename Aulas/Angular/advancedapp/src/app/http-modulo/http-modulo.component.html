@@ -15,16 +15,16 @@
 <table border="1px" align="left">
     <legend>Pesquisando por: {{busca}}</legend>
     <thead>
-        <th>_id</th>
+        <th>_id</th>        
         <th>lastname</th>
         <th>email</th>
         <th>city</th>
         <th>country</th>
         <th>Excluir</th>
     </thead>
-    <tbody>
+    <tbody #tbody>
         <tr *ngFor="let p of results$ | async" id="{{p._id}}">
-            <td>{{p._id}}</td>
+            <td>{{p._id}}</td>            
             <td>{{p.lastname}}</td>
             <td>{{p.email}}</td>
             <td>{{p.city}}</td>
@@ -33,3 +33,26 @@
         </tr>
     </tbody>
 </table>
+<table id="adicionar" align="center">    
+    <tr>
+        <td>Adicionar ultimo nome: </td>
+        <td><input type="text" id="nome" name="nome" #novo_ultimo_nome/></td>
+    </tr>
+    <tr>
+        <td>Adicionar E-mail</td>
+        <input type="email" id="email" name="email" #novo_email/>
+    </tr>
+    <tr>
+        <td>Adicionar cidade</td>
+        <input type="text" id="cidade" name="cidade" #novo_cidade/>
+    </tr>
+    <tr>
+        <td>Adicionar Pais</td>
+        <input type="text" id="pais" name="pais" #novo_pais/>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">
+            <button (click)="addNew()">Adicionar</button>
+        </td>
+    </tr>            
+</table>   

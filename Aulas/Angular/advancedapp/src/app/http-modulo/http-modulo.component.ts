@@ -13,7 +13,12 @@ export class HttpModuloComponent implements OnInit{
   public busca:string;  
 
   /* Por padrao procure deixar o static como True se quiser acessa-lo no template */
-  @ViewChild("objetoBusca",{static:true}) objBusca:ElementRef;
+  @ViewChild("objetoBusca",{static:true}) objBusca:ElementRef;  
+  @ViewChild("novo_ultimo_nome",{static:true}) novo_ultimo_nome:ElementRef;
+  @ViewChild("novo_email",{static:true}) novo_email:ElementRef;
+  @ViewChild("novo_cidade",{static:true}) novo_cidade:ElementRef;
+  @ViewChild("novo_pais",{static:true}) novo_pais:ElementRef;
+  @ViewChild("tbody",{static:true}) tbody:ElementRef;
   private readonly url = "http://127.0.0.1:9000";
   private results$;
   public isServerOnline:Boolean;
@@ -120,10 +125,40 @@ export class HttpModuloComponent implements OnInit{
       this.url+"/"+p._id
     ).subscribe(
       _ => {
-            console.table(codigo+" => apagado com sucesso");
-            document.getElementById(codigo).remove();            
+        document.getElementById(codigo).remove();            
+        console.table(codigo+" => apagado com sucesso");
           },
       erro => console.error(erro)
     );
-  } 
+  }
+  
+  public addNew():void{            
+    const novapessoa = {      
+      lastname:this.novo_ultimo_nome.nativeElement.value,
+      email:this.novo_email.nativeElement.value,
+      city:this.novo_cidade.nativeElement.value, 
+      country:this.novo_pais.nativeElement.value
+    }
+    console.log(novapessoa);
+    this.http.post(this.url,novapessoa).subscribe(
+      mensagem => {        
+        const tr = document.createElement('tr');
+        tr.appendChild(this.createTH(mensagem['_id']));
+        tr.appendChild(this.createTH(novapessoa.lastname));
+        tr.appendChild(this.createTH(novapessoa.email));
+        tr.appendChild(this.createTH(novapessoa.city));
+        tr.appendChild(this.createTH(novapessoa.country));        
+        this.tbody.nativeElement.appendChild(tr);
+      },
+      erro => console.error(erro)
+    );
+    console.log(this.tbody.nativeElement)
+  }
+
+  createTH(valor:string){
+    let th = document.createElement('th');
+    th.textContent = valor;
+    return th;
+  }
+  
 }

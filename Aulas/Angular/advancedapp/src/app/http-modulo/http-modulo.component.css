@@ -1,6 +1,7 @@
 table{
     min-width:500px;
     align-items: center;
+    float: left;
 }
 .paragrafo{
     align-items: center;
@@ -19,4 +20,11 @@ thead,th{
     background-color: red;
     color:white;
     font-weight: 900;
+}
+#adicionar{
+    border: 1px solid black;
+    margin-left: 20px;
+}
+h2{
+    margin-left: 20px;
 }
