@@ -20,6 +20,7 @@
         <th>email</th>
         <th>city</th>
         <th>country</th>
+        <th>Modificar</th>
         <th>Excluir</th>
     </thead>
     <tbody #tbody>
@@ -29,6 +30,7 @@
             <td>{{p.email}}</td>
             <td>{{p.city}}</td>
             <td>{{p.country}}</td>
+            <td><button (click)="modificar(p)" class="bmodificar">MODIFICAR</button></td>
             <td><button (click)="deleteRem(p)" class="bexcluir">EXCLUIR</button></td>
         </tr>
     </tbody>
@@ -55,4 +57,28 @@
             <button (click)="addNew()">Adicionar</button>
         </td>
     </tr>            
+</table>   
+<table id="editar" align="center"> 
+    <input type="hidden" value={{mod_id}}  required/>
+    <tr>
+        <td>Modificar ultimo nome:</td>
+        <td><input type="text" id="mod_nome" name="mod_nome" [(ngModel)]="mod_nome" value={{mod_nome}}/></td>
+    </tr>
+    <tr>
+        <td>Modificar E-mail</td>
+        <input type="email" id="mod_email" name="mod_email" [(ngModel)]="mod_email" value={{mod_email}}/>
+    </tr>
+    <tr>
+        <td>Modificar cidade</td>
+        <input type="text" id="mod_cidade" name="mod_cidade" [(ngModel)]="mod_cidade" value={{mod_cidade}}/>
+    </tr>
+    <tr>
+        <td>Modificar Pais</td>
+        <input type="text" id="mod_pais" name="mod_pais" [(ngModel)]="mod_pais" value={{mod_pais}}/>
+    </tr>    
+    <tr>
+        <td colspan="2" align="center">
+            <button (click)="confirmarModificao()">Modificar</button>
+        </td>
+    </tr>             
 </table>   

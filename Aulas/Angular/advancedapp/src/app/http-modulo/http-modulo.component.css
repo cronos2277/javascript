@@ -21,6 +21,11 @@ thead,th{
     color:white;
     font-weight: 900;
 }
+.bmodificar{
+    background-color: blue;
+    color:white;
+    font-weight: 900;
+}
 #adicionar{
     border: 1px solid black;
     margin-left: 20px;

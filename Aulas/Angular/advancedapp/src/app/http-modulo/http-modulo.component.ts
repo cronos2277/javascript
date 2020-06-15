@@ -10,7 +10,17 @@ import { Subscription, fromEvent, timer, Observable } from 'rxjs';
 })
 export class HttpModuloComponent implements OnInit{
 
+  /*
+    Aqui sao feitas a comunicacao 2 way data bind com
+    o template.
+  */
   public busca:string;  
+  public mod_id:string;
+  public mod_nome:string;
+  public mod_email:string;
+  public mod_cidade:string;
+  public mod_pais:string;
+
 
   /* Por padrao procure deixar o static como True se quiser acessa-lo no template */
   @ViewChild("objetoBusca",{static:true}) objBusca:ElementRef;  
@@ -123,12 +133,18 @@ export class HttpModuloComponent implements OnInit{
     const codigo = p._id;
     this.http.delete(
       this.url+"/"+p._id
+      /*
+        Aqui fizemos da maneira tradicional usando subscribe, 
+        repare que a comunicao com o servidor eh executado 
+        quando eh dado o subscribe.
+      */
     ).subscribe(
       _ => {
         document.getElementById(codigo).remove();            
         console.table(codigo+" => apagado com sucesso");
           },
-      erro => console.error(erro)
+      erro => console.error(erro),
+      () => this.consult()
     );
   }
   
@@ -143,22 +159,63 @@ export class HttpModuloComponent implements OnInit{
     this.http.post(this.url,novapessoa).subscribe(
       mensagem => {        
         const tr = document.createElement('tr');
-        tr.appendChild(this.createTH(mensagem['_id']));
+        /*
+          Dessa forma se cria um novo no HTML.
+          voce cria passando a tag dentro do
+          metodo createElement e depois edita-o
+          a gosto.
+        */
+        tr.appendChild(this.createTH(mensagem['_id'])); 
+        //Com esses metodo voce coloca um no dentro do no pai.
         tr.appendChild(this.createTH(novapessoa.lastname));
         tr.appendChild(this.createTH(novapessoa.email));
         tr.appendChild(this.createTH(novapessoa.city));
-        tr.appendChild(this.createTH(novapessoa.country));        
+        tr.appendChild(this.createTH(novapessoa.country));       
+        //Aqui eh colocado o no criado acima, dentro do elemento do viewChield.
         this.tbody.nativeElement.appendChild(tr);
       },
-      erro => console.error(erro)
+      erro => console.error(erro),
+      () => this.consult()
     );
     console.log(this.tbody.nativeElement)
   }
 
-  createTH(valor:string){
-    let th = document.createElement('th');
-    th.textContent = valor;
-    return th;
+  createTH(valor:string){ //Essa funcao cria um elemento HTML TH
+    let th = document.createElement('th'); //Aqui cria o no.
+    th.textContent = valor; //Aqui define um texto para o no.
+    return th; //retorna o no.
   }
   
+  public modificar(pessoa):void{
+    this.mod_id = pessoa._id;
+    this.mod_nome = pessoa.lastname;
+    this.mod_email = pessoa.email;
+    this.mod_cidade = pessoa.city;
+    this.mod_pais = pessoa.country;
+  }
+
+  confirmarModificao(){
+    const editarpessoa = {
+      _id: this.mod_id,    
+      lastname:this.mod_nome,
+      email: this.mod_email,
+      city:this.mod_cidade, 
+      country:this.mod_pais
+    }    
+
+    /*
+      PUT, UPDATE, DELETE, POST precisam que voce passa um segundo parametro,
+      que seria o corpo da requisicao, como no GET esses dados estao na URL,
+      logo apenas uma parametro eh passado nesse metodo HTTP, mas nosmoutros
+      metodos voce passa os dados da requisicao como o segundo parametro.
+      this.http.[patch ou put ou delete](protocolo+url+porta,objetoComOsDados).subscribe(cb,cb,cb).      
+    */
+    this.http.patch(this.url+"/"+editarpessoa._id,editarpessoa).subscribe(
+      mensagem => console.log(mensagem),
+      erro => console.error(erro),
+      () => this.consult()
+    );
+
+  }
+
 }

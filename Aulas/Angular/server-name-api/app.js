@@ -77,6 +77,31 @@ app.post('/', function (req, res) {
     });
 });
 
+app.patch('/:id', function (req, res) {
+
+    Person.findById(req.params.id, (err, prod) => {
+        if (err)
+            res.status(500).send(err);
+        else if (!prod) 
+            res.status(404).send({});
+        else {
+            prod.lastname = req.body.lastname;
+            prod.country = req.body.country;
+            prod.email = req.body.email;
+            prod.city = req.body.city;
+
+            prod.save((err, prod) => {
+                if (err)
+                    res.status(500).send(err);
+                else
+                    res.status(200).send(prod);
+            });
+        }    
+    });
+
+
+})
+
 app.use(function(req, res, next) {
     res.status(404).send('Route does not exist.');
 });
