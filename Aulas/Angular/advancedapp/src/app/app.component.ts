@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'advancedapp';
+  http_modulo:boolean = false;
 }

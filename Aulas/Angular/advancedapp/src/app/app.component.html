@@ -3,4 +3,18 @@
   <h2>Se faz necessário iniciar: "server-name-api"</h2>
 </div> 
 <hr>
-<app-http-modulo></app-http-modulo>
+<!-- 
+  Aqui estamos definindo se vai ou nao ser renderizado o componente. O ngModel
+  faz a ligacao desse elemento html do template com a variavel booleana da classe,
+  o [value] nesse contexto, transforma o valor que por padrao eh string em booleano.
+  Voce precisa fazer essa operacao, se nao o false nao funciona, uma vez que o valor
+  eh interpretado como String, quando voce usa o value ao inves de [value],
+  no caso o valor de [value] eh passado para a variavel de [(ngModel)], lembrando
+  que o ngModel deve ser parenteses dentro de colchetes, ficando assim: [(ngModel)]
+-->
+<label><input type="radio" [value]="true" name="appmoduloradio"  [(ngModel)]="http_modulo" /> Habilitar HTTP-Modulo Exemplo</label>
+<label><input type="radio" [value]="false" name="appmoduloradio"  [(ngModel)]="http_modulo" /> Desabilitar HTTP-Modulo Exemplo</label>
+<div *ngIf="http_modulo">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-http-modulo></app-http-modulo>
+</div>
+

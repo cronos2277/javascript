@@ -103,6 +103,7 @@ Aqui esta um exemplo de um componente arrastavel, usando os conceitos do Observa
 Aqui temos mais exemplo da conexao com o protocolo HTTP em um servidor externo, necessita do servidor acima rodando para funcionar:<br>
 <a href="./advancedapp/src/app/http-modulo/http-modulo.component.html">http-modulo.component.html</a><br>
 <a href="./advancedapp/src/app/http-modulo/http-modulo.component.ts">http-modulo.component.ts</a><br><br>
+<a href="./advancedapp/src/app/app.component.html">app.component.html</a><br><br>
 Lembrando que se faz necessario incluir pacotes aqui: <a href="./advancedapp/src/app/app.module.ts">app.module.ts</a><br><br>
 
 </p>

@@ -13,6 +13,12 @@ export class HttpModuloComponent implements OnInit{
   /*
     Aqui sao feitas a comunicacao 2 way data bind com
     o template.
+    Recomenda-se usar um servico a parte para trabalhar 
+    com o Objeto HTTPClient, mas para simplificar a 
+    explicacao, tudo foi feito em uma classe so, mas
+    fica a observacao para trabalhar com o HTTPClient
+    em um servico ao qual deve ser injetado aqui, o
+    servico que lida com o HTTPClient
   */
   public busca:string;  
   public mod_id:string;
