@@ -1,0 +1,79 @@
+<!-- 
+    #formClient="ngForm" => {
+        com essa diretiva voce esta criando uma nova
+        variavel formClient, voce pode com a estrutura
+        ngForm, que pode ser acompanhada no console
+        do navegador. Atraves desse objeto voce 
+        pode manipular todo o formulario, no caso
+        eh o angular que manipula o formulario.
+    }
+    onSubmit => {
+        
+    }
+-->
+<form (ngSubmit)="onSubmit()" #formClient="ngForm"> 
+    <!-- 
+        #valor1="ngModel" => {
+            Aqui estamos colocando a estrutura de ngModel dentro dos inputs, ele tem alguns
+            atributos booleanos que ajudam na validacao de um formulario:
+
+            ATRIBUTOS:
+            .valid =>{true se todas as exigencias do input for atendida, como a required e a minlenght por exemplo.}
+            .invalid => {eh o contrario do .valid}
+            .touched => {Se o input foi tocado, esse atributo eh ativado depois do onfocus e onblur no input}
+            .untouched => {O contrario do touched, fica true quando o touched for false e vice-versa.}
+            .dirty => {Verdadeiro apartir do momento que o input tiver algum valor diferente do padrao.}
+            .pristine => {contrario do dirty, depois de falso uma vez, sempre falso.}
+        }
+    -->   
+    <div>
+        <input value="" placeholder="valor1" name="valor1"  [(ngModel)]="modelo.valor1" #valor1="ngModel" required minlength="3">
+        <ul>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor1.valid">Valid ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor1.invalid">Invalid ativo!</li>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor1.touched">Touched ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor1.untouched">Untouched ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor1.pristine">Pristine ativo!</li>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor1.dirty">Dirty ativo!</li>
+        </ul>
+    </div>
+    <!-- 
+        [(ngModel)] => referencia um atributo do arquivo ts, no exemplo dos input o mesmo ocorre com os modelos.
+        #valor2="ngModel" => Aqui voce cria a variavel valor2 do tipo ngModel, com base no input, assim sendo:{
+            Nome da variavel: valor2, Tipo da variavel: ngModel, valor da variavel =  um objeto com base no no html.
+        }
+        [hidden] => Se a expressao boleana for verdadeira oculta, logo a logica abaixo eh invertida mesmo.
+    -->
+    <div>
+        <input value="" placeholder="valor2" name="valor2"  [(ngModel)]="modelo.valor2" #valor2="ngModel" required>
+        <ul>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor2.valid">Valid ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor2.invalid">Invalid ativo!</li>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor2.touched">Touched ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor2.untouched">Untouched ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor2.pristine">Pristine ativo!</li>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor2.dirty">Dirty ativo!</li>
+        </ul>
+    </div>
+    <div>
+        <input value="" placeholder="valor3" name="valor3"  [(ngModel)]="modelo.valor3" #valor3="ngModel">
+        <ul>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor3.valid">Valid ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor3.invalid">Invalid ativo!</li>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor3.touched">Touched ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor3.untouched">Untouched ativo!</li>
+            <li style="color: red;background-color: #333;" [hidden]="!valor3.pristine">Pristine ativo!</li>
+            <li style="color: blue;background-color: #999;" [hidden]="!valor3.dirty">Dirty ativo!</li>
+        </ul>
+    </div>
+    <!-- 
+        [disabled] => {
+            se verdadeiro coloca o atributo disable no no html.
+        }
+        (click) => {
+            invoca uma funcao quando clicado.
+        }
+    -->
+    <input type="button" name="enviar" value="Enviar!" [disabled]="!valor1.dirty || !valor2.dirty || !valor3.dirty" 
+    (click)="modeloFuncao(formClient,valor2,valor2,valor3)"/>    
+</form>

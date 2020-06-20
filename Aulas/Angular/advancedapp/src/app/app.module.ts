@@ -4,11 +4,13 @@ import { HttpClientModule } from '@angular/common/http'; //Precisa importar
 import { AppComponent } from './app.component';
 import { HttpModuloComponent } from './http-modulo/http-modulo.component';
 import { FormsModule } from '@angular/forms';
+import { FormularioModuloComponent } from './formulario-modulo/formulario-modulo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HttpModuloComponent    
+    HttpModuloComponent,
+    FormularioModuloComponent    
   ],
   imports: [
     BrowserModule,

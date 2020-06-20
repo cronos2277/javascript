@@ -17,4 +17,13 @@
 <div *ngIf="http_modulo">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
   <app-http-modulo></app-http-modulo>
 </div>
+<br>
+<hr>
+<label><input type="radio" [value]="true" name="appformulario"  [(ngModel)]="formulario_modulo" /> Habilitar Formulario NG Exemplo</label>
+<label><input type="radio" [value]="false" name="appformulario"  [(ngModel)]="formulario_modulo" /> Desabilitar Formulario NG Exemplo</label>
+<div *ngIf="formulario_modulo">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-formulario-modulo></app-formulario-modulo>
+</div>
+<br>
+<hr>
 
