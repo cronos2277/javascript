@@ -7,11 +7,11 @@
         pode manipular todo o formulario, no caso
         eh o angular que manipula o formulario.
     }
-    onSubmit => {
-        
+    (ngSubmit) =>{
+        Quando for dado um submit o angular vai executar essa funcao.
     }
 -->
-<form (ngSubmit)="onSubmit()" #formClient="ngForm"> 
+<form  #formClient="ngForm" (ngSubmit)="submeter(formClient)" name="formulario"> 
     <!-- 
         #valor1="ngModel" => {
             Aqui estamos colocando a estrutura de ngModel dentro dos inputs, ele tem alguns
@@ -43,9 +43,10 @@
             Nome da variavel: valor2, Tipo da variavel: ngModel, valor da variavel =  um objeto com base no no html.
         }
         [hidden] => Se a expressao boleana for verdadeira oculta, logo a logica abaixo eh invertida mesmo.
+        pattern => Aqui voce informa uma expressao regular que o campo precisa seguir.
     -->
     <div>
-        <input value="" placeholder="valor2" name="valor2"  [(ngModel)]="modelo.valor2" #valor2="ngModel" required>
+        <input value="" placeholder="valor2" name="valor2"  [(ngModel)]="modelo.valor2" #valor2="ngModel" required pattern="">
         <ul>
             <li style="color: blue;background-color: #999;" [hidden]="!valor2.valid">Valid ativo!</li>
             <li style="color: red;background-color: #333;" [hidden]="!valor2.invalid">Invalid ativo!</li>
@@ -74,6 +75,8 @@
             invoca uma funcao quando clicado.
         }
     -->
-    <input type="button" name="enviar" value="Enviar!" [disabled]="!valor1.dirty || !valor2.dirty || !valor3.dirty" 
-    (click)="modeloFuncao(formClient,valor2,valor2,valor3)"/>    
+    <input type="button" name="enviar" value="Exibir valor de input" [disabled]="!valor1.dirty || !valor2.dirty || !valor3.dirty" 
+    (click)="modeloFuncao(valor1,valor2,valor3)"/>  
+    <!-- O botao abaixo executa o submit do formulario, parece que o ngSubmit do formulario tem problemas com input para isso.-->  
+    <button type="submit">Executar ngSubmit</button>
 </form>

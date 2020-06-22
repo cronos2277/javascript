@@ -34,10 +34,9 @@ export class FormularioModuloComponent implements OnInit {
   /*
     Disparado quando clicado no botao submit.
   */
-  public modeloFuncao(formClient,valor1,valor2,valor3){ 
+  public modeloFuncao(valor1,valor2,valor3){ 
     console.clear() //Limpa o console do navegador.
-    console.log('%c #formClient="ngForm"',"font-size:18px");           
-    console.table(formClient); //Console.table exibe o objeto em uma tabela.
+    console.log("Exibindo valores dos inputs")    
     console.log('%c #valor1="ngModel"',"font-size:18px");       
     console.table(valor1);    
     console.log('%c #valor2="ngModel"',"font-size:18px");       
@@ -49,8 +48,10 @@ export class FormularioModuloComponent implements OnInit {
   ngOnInit() {
   }
 
-  public onSubmit(){
-    console.log("sbmt");
+  public submeter(formulario){
+    console.clear();
+    console.log("Evento ngSubmit do formulario");
+    console.table(formulario);
     this.submitted  = true;
     return true;
   }
