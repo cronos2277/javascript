@@ -8,3 +8,8 @@ Para funcionar a Aplicacao inicie o servidor. Para isso vai no diretorio "server
 [app.component.spec.ts](./src/app/app.component.spec.ts)
 [app.component.ts](./src/app/app.component.ts)
 [app.module.ts](./src/app/app.module.ts)
+
+## Requisitos: 
+Veja nesse arquivo [app.module.ts](./src/app/app.module.ts), quais sao os modulos que voce precisa importar para determinado modulo funcionar.
+para funcionar o http por exemplo voce precisa desse "**HttpClientModule**", depois no ngModule e o formulario voce vai precisar desse "**FormsModule**",
+caso voce faca uso do Reactive forms, provalvelmente, tera que usar esse "**ReactiveFormsModule**"
