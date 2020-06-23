@@ -26,4 +26,11 @@
 </div>
 <br>
 <hr>
+<label><input type="radio" [value]="true" name="appreactive"  [(ngModel)]="reactive_forms" /> Habilitar Reactive Forms</label>
+<label><input type="radio" [value]="false" name="appreactive"  [(ngModel)]="reactive_forms" /> Desabilitar Reactive Forms</label>
+<div *ngIf="reactive_forms">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-reactive-forms></app-reactive-forms>
+</div>
+<br>
+<hr>
 

@@ -113,6 +113,11 @@ e com isso voce pode usar o angular para controlar o formulario atraves do arqui
 <a href="./advancedapp/src/app/formulario-modulo/formulario-modulo.component.html">formulario-modulo.component.html</a><br>
 <a href="./advancedapp/src/app/formulario-modulo/formulario-modulo.component.ts">formulario-modulo.component.ts</a><br><br>
 </p>
+<p>
+Aqui temos um exemplo de como funciona um reactive-forms: <br>
+<a href="./advancedapp/src/app/formulario-modulo/reactive-forms.component.html">reactive-forms.component.html</a><br>
+<a href="./advancedapp/src/app/formulario-modulo/reactive-forms.component.ts">reactive-forms.component.ts</a><br><br>
+<p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>

@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { HttpModuloComponent } from './http-modulo/http-modulo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormularioModuloComponent } from './formulario-modulo/formulario-modulo.component';
+import { ReactiveFormsComponent } from './reactive-forms/reactive-forms.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HttpModuloComponent,
-    FormularioModuloComponent    
+    FormularioModuloComponent,
+    ReactiveFormsComponent    
   ],
   imports: [
     BrowserModule,

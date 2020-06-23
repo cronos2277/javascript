@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'advancedapp';
   http_modulo:boolean = false;
-  formulario_modulo:boolean = true;
+  formulario_modulo:boolean = false;
+  reactive_forms:boolean = true;
 }

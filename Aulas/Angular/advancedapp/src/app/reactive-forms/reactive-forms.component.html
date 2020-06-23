@@ -1,0 +1,25 @@
+<div id="reactive-forms">
+    <div id="reactive-form1">
+        <h3>Exemplo de Form Controls</h3>
+        <!-- Voce usa a diretiva [formControl] para monitorar o elemento no arquivo TS. -->
+        <p><input type="text" [formControl]="formControlBasico"/></p>
+        <p>Valor: {{resultadoBasico}}</p>
+        <p><button (click)="exibirEstruturaFormControl()">Estrutura do FormControl</button></p>
+    </div>
+    <!-- 
+        [formGroup] => Essa a diretiva para o formgroup que envolve todos os elementos.
+        formGroupName => Use essa diretiva aqui para formgroups internos.
+        formControlName => use essa diretiva, caso voce queira referenciar um formControl dentro de um formGroup
+        Lembre-se que diretivas envoltas de [] serao interpoladas, assim como as () serao invocadas.        
+    -->
+    <div id="reactive-form2" [formGroup]="grupo">
+        <h3>Exemplo de Form Group</h3>
+        <p><input type="text" placeholder="input1" formControlName="input1"/></p>
+        <p><input type="text" placeholder="input2" formControlName="input2"/></p>    
+        <div formGroupName="subatributo">
+            <input type="text" formControlName="input3" placeholder="input3"/>
+            <input type="hidden" formControlName="input4"/>
+        </div>            
+        <p><button (click)="executarFormGroup()">Exibir inputs Montado</button></p>
+    </div>
+</div>
