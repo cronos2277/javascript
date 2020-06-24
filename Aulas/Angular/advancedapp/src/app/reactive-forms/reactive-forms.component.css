@@ -1,6 +1,6 @@
 #reactive-forms div{
     display: inline-block;
-    width: 15%;
+    width: 30%;
     border:2px solid black; 
     margin-top: 10px;    
 }
@@ -11,6 +11,11 @@
 }
 #reactive-form2{
     background-color: red;
+    color:white;
+    padding-left: 10px;
+}
+#reactive-form3{
+    background-color: green;
     color:white;
     padding-left: 10px;
 }

@@ -22,4 +22,13 @@
         </div>            
         <p><button (click)="executarFormGroup()">Exibir inputs Montado</button></p>
     </div>
+    <div id="reactive-form3" [formGroup]="builder">
+        <h3>Exemplo de Form Builder</h3>
+        <input type="text" formControlName="atributo" placeholder="atributo"/>
+        <br>
+        <div formGroupName="objeto">
+            <input type="text" formControlName="subatributo" placeholder="subatributo"/>
+        </div>
+        <p><button (click)="executarBuilder()">Excutar Builder</button></p>
+    </div>
 </div>

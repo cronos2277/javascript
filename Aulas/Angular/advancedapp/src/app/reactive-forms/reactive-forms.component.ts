@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,8 +8,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./reactive-forms.component.css']
 })
 export class ReactiveFormsComponent implements OnInit {
-
-  constructor() { }
+  
   /*
     Reactive form ele tem utilidade para campos avulsos sem 
     estar em um formulario. Ele te permite manipular o elemento
@@ -74,6 +73,7 @@ export class ReactiveFormsComponent implements OnInit {
 
   public executarFormGroup(){
     console.clear();
+    console.log("%c Objeto Form Group","font-size:24px;color:red");
     /* Aqui printa a estrutura do FormGroup */
     console.table(this.grupo);
     /*Aqui exibimos um objeto pronto com todos os valores. */
@@ -94,7 +94,29 @@ export class ReactiveFormsComponent implements OnInit {
 
   public exibirEstruturaFormControl(){
     console.clear();
+    console.log("%c Form Control","font-size:24px;color:red");
     console.table(this.formControlBasico);
   }
 
+  public builder;  
+  constructor(private formBuilder:FormBuilder) { 
+    this.builder = this.formBuilder.group(
+      {
+        atributo:[''],
+        objeto: this.formBuilder.group({
+          subatributo:['']
+        })
+      }
+    );
+  }
+
+  executarBuilder(){
+    console.clear();
+    console.log("%c Objeto Form Builder","font-size:24px;color:red");
+    console.log(this.formBuilder);
+    console.log("%c Objeto Builder","font-size:24px;color:red");
+    console.table(this.builder);
+    console.log("%c Valor tratado","font-size:24px;color:red");
+    console.log(this.builder.value);    
+  }
 }
