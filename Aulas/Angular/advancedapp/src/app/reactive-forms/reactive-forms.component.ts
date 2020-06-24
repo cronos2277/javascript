@@ -97,12 +97,31 @@ export class ReactiveFormsComponent implements OnInit {
     console.log("%c Form Control","font-size:24px;color:red");
     console.table(this.formControlBasico);
   }
-
+  /*
+    Essa eh uma outra estrategia, no caso seria o formBuilder.
+    O formBuilder trabalha com a injecao de dependencia, 
+    voce o chama no construtor e monta o mesmo usando 
+    o metodo ".group" ou "control" ou "array". nenhuma restricao
+    precisa ser colocado no html, como required ou minlenght,
+    voce pode fazer isso aqui.
+    Metodos:
+    .group => {
+      ele aceita um objeto contendo a estrutura de como
+      deve ser o objeto montado, assim como no formGroup,
+      porem ao inves de instanciar um formGroup, voce 
+      usa a injecao de dependencia e cria essa estrutura
+      usando o metodo group.
+    }
+  */
   public builder;  
-  constructor(private formBuilder:FormBuilder) { 
+  constructor(private formBuilder:FormBuilder) {     
     this.builder = this.formBuilder.group(
       {
         atributo:[''],
+        /*
+          Voce pode colocar um group dentro de outro,
+          no caso dessa forma criamos subatributos.
+        */
         objeto: this.formBuilder.group({
           subatributo:['']
         })
