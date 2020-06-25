@@ -146,7 +146,14 @@ export class ReactiveFormsComponent implements OnInit {
           String vazia.
           */
         arrayExemplo:this.formBuilder.array(['']),
+        /*
+          Aqui abaixo temos um exemplo de como criar um array
+          de objetos, ou seja, temos um array e dentro desse
+          array temos um grupo e ai o objeto em questao com
+          valores padroes
+        */
         objetoComplexoExemplo:this.formBuilder.array([
+          /*Dentro do array um group, temos aqui. */
           this.formBuilder.group(
             {
               cor:['#000'], range:[50]
@@ -154,6 +161,21 @@ export class ReactiveFormsComponent implements OnInit {
         ])
       }
     );
+    /* 
+      Aqui estamos ampliando o escopo do array, tanto do simples
+      como o array complexo formado por um conjunto de formControl.
+      Essas dois atributos tem uma visibilidade publica e eh com
+      base neles que o template vai trabalhar, no caso o template HTML.
+      Metodos:
+      .get('nome do atributo do form builder array') => {
+        Esse metodo pega um atributo de dentro do formBuilder, a String
+        passada eh o nome do atributo que voce quer pegar do formBuilder
+        array.
+      }
+
+      o as eh uma forma de dar cast, de modo que o dado fique moldado a
+      classe FormArray.
+    */
       this.camposExemplos = this.arrayBuilder.get('arrayExemplo') as FormArray;
       this.camposExemplosComplexo = this.arrayBuilder.get('objetoComplexoExemplo') as FormArray;      
   }
@@ -168,10 +190,22 @@ export class ReactiveFormsComponent implements OnInit {
     console.log(this.builder.value);    
   }
 
+  /* 
+    Esse metodo eh acionado quando o cliente requesita um novo elemento
+    input em tempo de execucao.
+  */
   adicionarInputsArray(){
+    /* 
+      Quando o formArray eh simples, voce pode fazer como em qualquer array e dar um push
+    o metodo requer um .control como atributo, uma vez que se trata de um array de control.
+    */
     this.camposExemplos.push(
       this.formBuilder.control('')
     );    
+    /*
+      Aqui um exemplo de um formArray mais complexo, a diferenca eh que aqui voce adiciona um 
+      grupo.
+    */
     this.camposExemplosComplexo.push(this.formBuilder.group(
       {
         cor:this.formBuilder.control(''),
@@ -187,4 +221,5 @@ export class ReactiveFormsComponent implements OnInit {
     console.log("%c Valores dentro do FormArray","font-size:24px;color:red");
     console.log(this.arrayBuilder.value);
   }
+
 }
