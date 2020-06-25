@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -114,6 +114,9 @@ export class ReactiveFormsComponent implements OnInit {
     }
   */
   public builder;  
+  private arrayBuilder;
+  public camposExemplos:FormArray;
+  public camposExemplosComplexo:FormArray;
   constructor(private formBuilder:FormBuilder) {     
     this.builder = this.formBuilder.group(
       {
@@ -127,6 +130,32 @@ export class ReactiveFormsComponent implements OnInit {
         })
       }
     );
+      /*
+        Aqui abaixo temos um exemplo de como funciona o array,
+        ele pode ser util caso precise criar novos elementos
+        do tipo input ou select em tempo de execucao.
+      */
+    this.arrayBuilder = this.formBuilder.group(
+      {
+        /* 
+            Aqui criamos um array no caso dentro desse metodo
+          abaixo voce informa os valores padroes dos formControl,
+          no caso para cada elemento que tiver dentro desse array
+          sera criado um elemento e com o valor padrao, nesse caso
+          apenas se cria um unico formcontrol cuja o valor eh uma 
+          String vazia.
+          */
+        arrayExemplo:this.formBuilder.array(['']),
+        objetoComplexoExemplo:this.formBuilder.array([
+          this.formBuilder.group(
+            {
+              cor:['#000'], range:[50]
+            })
+        ])
+      }
+    );
+      this.camposExemplos = this.arrayBuilder.get('arrayExemplo') as FormArray;
+      this.camposExemplosComplexo = this.arrayBuilder.get('objetoComplexoExemplo') as FormArray;      
   }
 
   executarBuilder(){
@@ -137,5 +166,25 @@ export class ReactiveFormsComponent implements OnInit {
     console.table(this.builder);
     console.log("%c Valor tratado","font-size:24px;color:red");
     console.log(this.builder.value);    
+  }
+
+  adicionarInputsArray(){
+    this.camposExemplos.push(
+      this.formBuilder.control('')
+    );    
+    this.camposExemplosComplexo.push(this.formBuilder.group(
+      {
+        cor:this.formBuilder.control(''),
+        range:this.formBuilder.control('')
+      }
+    ));
+  }
+
+  exibirValorDosInputsArray(){
+    console.clear();
+    console.log("%c Objeto Form Array","font-size:24px;color:red");
+    console.table(this.arrayBuilder);
+    console.log("%c Valores dentro do FormArray","font-size:24px;color:red");
+    console.log(this.arrayBuilder.value);
   }
 }

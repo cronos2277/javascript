@@ -31,4 +31,25 @@
         </div>
         <p><button (click)="executarBuilder()">Excutar Builder</button></p>
     </div>
+    <div id="reactive-form4" >
+        <h3>Exemplo de Form Array</h3>
+        <ng-container [formGroup]="camposExemplos">
+            <ng-container *ngFor="let input of camposExemplos.controls; let indice=index">            
+                <input type="text" placeholder="Campo Array Exemplo" [formControlName]="indice"/>            
+            </ng-container>       
+        </ng-container>
+        <br>           
+
+        <ng-container [formGroup]="camposExemplosComplexo">
+            <ng-container *ngFor="let input of camposExemplosComplexo.controls; let indice=index">
+                <ng-container [formGroupName]="indice">
+                    <input type="color" formControlName="cor"/>
+                    <input type="range" formControlName="range"/>
+                </ng-container>
+            </ng-container>   
+        </ng-container>
+        <button (click)="adicionarInputsArray()">Criar Novo Campo</button>
+        <button (click)="exibirValorDosInputsArray()">Exibir Valores dos Inputs</button>
+    </div>
+    
 </div>
