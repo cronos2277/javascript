@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, FormArray, Validators, RequiredValidator } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -39,7 +39,27 @@ export class ReactiveFormsComponent implements OnInit {
       do elemento.
     }
   */
-  public formControlBasico:FormControl = new FormControl();
+  private array_com_validacoes = [
+    /* 
+      Aqui eh feito as validacoes. Para isso voce deve criar um array e passar 
+    como segundo parametro um array com as validacoes, no caso aqui temos 4
+    validacoes que o reactive form pode fazer. Cada validator eh um objeto ao
+    qual contem os dados do usuario em seu interior que permite a devida programacao
+    do tratamento do erro.
+    */
+    Validators.required, /* Aqui estamos especificando que o campo eh obrigatorio. */
+    Validators.minLength(4), /* O campo deve ter no minimo 4 caracteres */
+    Validators.maxLength(10), /* O campo deve ter no maximo 10 caracteres */
+    /* 
+        Quando voce for colocar algum valor em String o Angular ira acrescentar a sua String 
+      /^ antes e $/: depois. Voce tambem pode colocar um regex tambem direto, o regex eh 
+      um tipo de dado do Javascript tambem aceito como parametro na funcao abaixo, no
+      caso abaixo, dara erro caso o valor informado nao bata com a expressao regular abaixo. 
+    */
+    Validators.pattern(/[^0-9]/) 
+  ];
+  //Aqui temos a string vazia que informa o valor padrao do elemento e depois um array com as validacoes.
+  public formControlBasico:FormControl = new FormControl('',this.array_com_validacoes);
   public formControlBasico$:Subscription = null;
   public resultadoBasico:string = "";
   /*
@@ -96,6 +116,9 @@ export class ReactiveFormsComponent implements OnInit {
     console.clear();
     console.log("%c Form Control","font-size:24px;color:red");
     console.table(this.formControlBasico);
+    console.log("%c Erros de validacao","font-size:24px;color:red");
+    console.log((this.formControlBasico.hasError)?this.formControlBasico.errors:"Sem erros");
+    console.log(`%c Status:${this.formControlBasico.status}`,"font-size:24px;color:yellow;background-color:black");
   }
   /*
     Essa eh uma outra estrategia, no caso seria o formBuilder.
@@ -156,7 +179,7 @@ export class ReactiveFormsComponent implements OnInit {
           /*Dentro do array um group, temos aqui. */
           this.formBuilder.group(
             {
-              cor:['#000'], range:[50]
+              cor:['#000'], range:[50]              
             })
         ])
       }
@@ -177,7 +200,7 @@ export class ReactiveFormsComponent implements OnInit {
       classe FormArray.
     */
       this.camposExemplos = this.arrayBuilder.get('arrayExemplo') as FormArray;
-      this.camposExemplosComplexo = this.arrayBuilder.get('objetoComplexoExemplo') as FormArray;      
+      this.camposExemplosComplexo = this.arrayBuilder.get('objetoComplexoExemplo') as FormArray;        
   }
 
   executarBuilder(){
@@ -219,7 +242,8 @@ export class ReactiveFormsComponent implements OnInit {
     console.log("%c Objeto Form Array","font-size:24px;color:red");
     console.table(this.arrayBuilder);
     console.log("%c Valores dentro do FormArray","font-size:24px;color:red");
-    console.log(this.arrayBuilder.value);
+    console.log(this.arrayBuilder.value);    
   }
 
+  
 }

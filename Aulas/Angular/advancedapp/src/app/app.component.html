@@ -1,6 +1,6 @@
 <div>
   <h1> Exemplo de Angular avançado!</h1>
-  <h2>Se faz necessário iniciar: "server-name-api"</h2>
+  <h2>Lembre-se de abrir o console do navegador para entender o funcionamento.</h2>
 </div> 
 <hr>
 <!-- 
@@ -12,7 +12,7 @@
   no caso o valor de [value] eh passado para a variavel de [(ngModel)], lembrando
   que o ngModel deve ser parenteses dentro de colchetes, ficando assim: [(ngModel)]
 -->
-<label><input type="radio" [value]="true" name="appmoduloradio"  [(ngModel)]="http_modulo" /> Habilitar HTTP-Modulo Exemplo</label>
+<label><input type="radio" [value]="true" name="appmoduloradio"  [(ngModel)]="http_modulo" /> Habilitar HTTP-Modulo Exemplo (Se faz necessário iniciar: "server-name-api")</label>
 <label><input type="radio" [value]="false" name="appmoduloradio"  [(ngModel)]="http_modulo" /> Desabilitar HTTP-Modulo Exemplo</label>
 <div *ngIf="http_modulo">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
   <app-http-modulo></app-http-modulo>

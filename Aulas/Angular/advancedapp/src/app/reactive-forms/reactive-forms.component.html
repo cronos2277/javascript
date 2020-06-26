@@ -1,6 +1,6 @@
 <div id="reactive-forms">
     <div id="reactive-form1">
-        <h3>Exemplo de Form Controls</h3>
+        <h3>Exemplo de Form Controls, Com validacao</h3>
         <!-- Voce usa a diretiva [formControl] para monitorar o elemento no arquivo TS. -->
         <p><input type="text" [formControl]="formControlBasico"/></p>
         <p>Valor: {{resultadoBasico}}</p>
@@ -31,11 +31,12 @@
         </div>
         <p><button (click)="executarBuilder()">Excutar Builder</button></p>
     </div>
-    <div id="reactive-form4" >
+
+    <div id="reactive-form4">
         <h3>Exemplo de Form Array</h3>
         <ng-container [formGroup]="camposExemplos">
             <ng-container *ngFor="let input of camposExemplos.controls; let indice=index">            
-                <input type="text" placeholder="Campo Array Exemplo" [formControlName]="indice"/>            
+                <input type="text" placeholder="Campo Array Exemplo" [formControlName]="indice"/>                  
             </ng-container>       
         </ng-container>
         <br>           
@@ -49,7 +50,7 @@
             </ng-container>   
         </ng-container>
         <button (click)="adicionarInputsArray()">Criar Novo Campo</button>
-        <button (click)="exibirValorDosInputsArray()">Exibir Valores dos Inputs</button>
+        <button (click)="exibirValorDosInputsArray()">Exibir Valores dos Inputs</button>        
     </div>
     
 </div>
