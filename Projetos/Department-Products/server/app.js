@@ -21,7 +21,7 @@ const app = express();
 const department_controller = require('./department_controller');
 app.use(body.json());
 app.use(body.urlencoded({extended:true}));
-app.use(cors);
+app.use(cors());
 mongoose.connect(credentials.getMongoDBString(),{useNewUrlParser:true});
 app.use(credentials.departments_url,department_controller);
 //app.use(credentials.products_url,product_controller);
