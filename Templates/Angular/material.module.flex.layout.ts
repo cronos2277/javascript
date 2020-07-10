@@ -82,8 +82,8 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    FlexLayoutModule
-
+    FlexLayoutModule,
+    CommonModule
   ],
   declarations: []
 })
