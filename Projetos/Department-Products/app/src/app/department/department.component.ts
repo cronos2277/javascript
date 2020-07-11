@@ -9,7 +9,7 @@ import { DepartmentService } from '../department.service';
 })
 export class DepartmentComponent implements OnInit {
   depName:string = "";
-  departments: Department[] = [{name:"dep1"},{name:"dep2"}];
+  departments: Department[] = []; 
   constructor(private departmentService:DepartmentService) { }
 
   ngOnInit() {
