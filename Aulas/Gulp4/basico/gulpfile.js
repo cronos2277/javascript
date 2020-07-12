@@ -1,11 +1,6 @@
-const gulp = require("gulp"); //Importando o gulp para o projeto.
-/*
-    O gulp pode executar tarefas tamnto em series como em paralelo,
-    caso nao haja nenhuma dependencia, com o auxilio dos dois
-    objetos abaixo.
-*/
-const series  = gulp.series; //A series eh uma atributo do gulp
-const parallel = gulp.parallel; //Assim como o parallel tambem eh 
+const gulp = require("gulp"); 
+const series  = gulp.series; 
+const parallel = gulp.parallel;
 
 function tarefa1(quandoConcluido){
 /*
@@ -20,22 +15,27 @@ function tarefa1(quandoConcluido){
     quandoConcluido(); //Callback vai ser executada quando a tarefa for concluida.
 }
 
-/*
-    Aqui que acontece a execucao. Voce basicamente da um module.exports e exporta
-    o resultado da funcao series ou parallel. Cada tarefa a ser executado deve 
-    ser informado dentro dos parenteses. Lembrando que o Gulp exige uma task 
-    default, logo voce precisa atribuir o resultado da funcao series ou parallel para:
-    module.exports.default
-    No exemplo abaixo estamos executando a mesma tarefa duas vezes e de maneira serial.
-    Vamos la:
-    1) Uma tarefa eh nada mais que uma funcao que recebe uma callback do gulp e que
-    sera executada apos a execucao do gulp (semelhante ao express e os seus next)
-    2)voce deve passar ao module.exports.default como valor o resultado de uma
-    funcao do gulp, podendo ser serial ou parallel por exemplo
-    3)Voce deve informar cada tarefa, no caso a funcao que voce criou e que recebe
-    como parametro uma callback que o gulp vai injetar e executar quando encerrar a
-    tarefa, como parametro para a funcao series ou parallel e a mesma sera executada
-    na ordem passada.
-*/
+function copiandoArquivo(cb){
+    gulp.src([ //O metodo .src ele importa arquivos a serem processados.
+        'pastaA/arquivo1.txt',
+        'pastaA/arquivo2.txt'        
+    ]).pipe(
+        /*
+            O Pipe ele faz processamento de dados, ou seja a ideia eh que
+            ele pegue os arquivos importados do metodo src e faca o procesamento
+            aqui. Cada pipe desses funcoes que voce importa do node js ou cria.
+            Aqui estamos operando sobre o padrao PIPE and Filters:
+            https://pt.wikipedia.org/wiki/Pipes_e_filtros
+            Abaixo estamos usando um metodo dest, que deve ser usado dentro de um pipe.
+            Esse metodo ele mode os arquivos do src para o destino informado como
+            parametro do metodo, essa String passada eh o nome e path da pasta de destino
+        */
+        gulp.dest('pastaB') //Esse pipe ele cria o arquivo processado na pastaB
+    );
+    return cb();
+}
 
-module.exports.default = series(tarefa1,tarefa1);
+module.exports.default = series(
+    parallel(tarefa1,tarefa1), //Voce pode executar o parallel dentro da funcao series e vice-versa
+    copiandoArquivo //Aqui esta a funcao que vai copiar arquivos.
+    );
