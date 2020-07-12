@@ -5,5 +5,5 @@ export interface Product {
     _id?:string;
     stock:Number;
     price:Number;
-    departments: Department[];
+    departments: Department[] | string[];
 }
