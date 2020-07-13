@@ -80,5 +80,30 @@ ou
 
  `module.exports.default = parallel(series(tarefa1,tarefa1),tarefa2 );` **ou o contrário.**
 
+## Pipes
+O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas começar a importar o arquivo que você quer manipular, tratar ele com os pipes e apos isso mover para o destino.
+
+### Exemplo de uso de pipes
+`gulp.src('src/**/*.js')` => Aqui estamos importando todos os arquivos nas subpastas que tem a extensão **JS**
+
+`gulp.src('src/**/*.js').pipe(uglify())` => Aqui estamos executando um pipe no arquivo importado, no exemplo estamos executando o uglify, no arquivo importado pelo metodo src.
+
+`gulp.src('src/**/*.js').pipe(uglify()).on('error',erro => console.error(erro))` => Aqui alem de executar o pipe, estamos tratando um evento, nesse exemplo nós estamos tratando o evento de erro. No caso qualquer erro que ocorra até esse ponto será tratado ali no on, como apenas tem um pipe com o uglify, logo é caso aconteça um erro no uglify mesmo.
+
+`gulp.src('src/**/*.js').pipe(uglify()).on('error',erro => console.error(erro)).pipe(gulp.dest('build'));` => Aqui temos um segundo PIPE, esse ultimo Pipe ele move o arquivo importado pelo.`.src()` , processado pelo primeiro `.pipe(no caso o uglify)` e com o evento tratado pelo metodo `.on(Que esta tratando o erro de todo o pipe do uglify)`, e move para a pasta build.
+
+### Funções ou métodos para serem usados dentro do método gulp.pipe()
+#### Lembre-se que se faz necessário importar usando o metodo src do gulp, uma vez importado, ai você pode usar o método pipe e algumas dessas funções dentro do método pipe.
+
+`uglify()` => mimifica arquivos.
+
+`concat("nomeDoArquivoConcatenado.extensao")` => Une todos os arquivos de entrada do método src nesse único arquivo.
+
+`babel()` => Converte códigos na nova codificação do javascript, para códigos que funcione em navegadores mais antigos.
+
+`gulp.dest('build')` => Essa função deve ser a ultima do pipe, aqui informamos a pasta aonde deve estar o arquivo de output importado pelo `.src()` e processado pelo `.pipe()`
+
  ## Exemplos:
- [Copia de Arquivo](./basico/gulpfile.js)
+ [Copia de Arquivo](./basico/gulpfile.js) => Exemplo básico de como funciona o gulp.
+
+ [Preparar aquivos JS](./javascript/gulpfile.js) => Exemplo de como preparar um arquivo javascript para produção.
