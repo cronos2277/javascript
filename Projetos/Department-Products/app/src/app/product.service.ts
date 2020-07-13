@@ -25,9 +25,10 @@ export class ProductService {
         this.departmentService.get()
       ).pipe(
         map(([products,departments]) => {
-          for(let p of products){
-            let ids = (p.departments as string[]);
-            p.departments = ids.map((id) => departments.find(dep => dep._id==id));
+          for(let p of products){            
+              let ids = (p.departments as string[]);            
+              p.departments = ids.map((id)=>departments.find(dep=>dep._id==id));         
+            
           }
           return products;
         }),
@@ -42,7 +43,7 @@ export class ProductService {
 
   add(prod:Product):Observable<Product>{
     let departments = (prod.departments as Department[]).map(d => d._id);
-    return this.http.post<Product>(this.url, {...prod, departments})
+    return this.http.post<Product>(this.url, {...prod, departments:departments})
     .pipe(
       tap((p) => {
         this.productSubject$.getValue().push({...prod, _id:p._id})
