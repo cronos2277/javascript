@@ -72,8 +72,8 @@ export class DepartmentComponent implements OnInit {
     .subscribe(
       () => this.notify("Removed!"),
       (err) => {
-        this.notify("Error!");
-        console.error(err);
+        this.notify(err.error.msg);
+        console.error(err.error.error);
       }
     );
   }
