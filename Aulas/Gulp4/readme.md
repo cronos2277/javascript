@@ -55,7 +55,8 @@ o nome do arquivo que você deseja executar.
     Vamos la:
 
     1) Uma tarefa é nada mais que uma função que recebe uma callback do gulp4 e que
-    sera executada após a execucao do gulp4 (semelhante ao express e os seus next).
+    sera executada após a execucao do gulp4 (semelhante ao express e os seus next), 
+    ou retorna alguma coisa.
 
     2)você deve passar ao module.exports.default como valor o resultado de uma
     função do gulp, podendo ser serial ou parallel por exemplo.
@@ -93,7 +94,7 @@ O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas c
 `gulp.src('src/**/*.js').pipe(uglify()).on('error',erro => console.error(erro)).pipe(gulp.dest('build'));` => Aqui temos um segundo PIPE, esse ultimo Pipe ele move o arquivo importado pelo.`.src()` , processado pelo primeiro `.pipe(no caso o uglify)` e com o evento tratado pelo metodo `.on(Que esta tratando o erro de todo o pipe do uglify)`, e move para a pasta build.
 
 ### Funções ou métodos para serem usados dentro do método gulp.pipe()
-#### Lembre-se que se faz necessário importar usando o metodo src do gulp, uma vez importado, ai você pode usar o método pipe e algumas dessas funções dentro do método pipe.
+#### Lembre-se que se faz necessário importar usando o metodo src do gulp, uma vez importado, ai você pode usar o método pipe e algumas dessas funções dentro do método pipe. Lembre-se também, você precisa colocar apenas uma função por cada pipe, uma vez que elas são executadas de maneira sequencial, evite coisas como: ".pipe(uglify(),gulp.dest('output'))", ao inves disso use ".pipe(uglify()).pipe(gulp.dest('output'))", ou seja sempre opte por uma função por pipe.
 
 `uglify()` => mimifica arquivos.
 
@@ -107,3 +108,5 @@ O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas c
  [Copia de Arquivo](./basico/gulpfile.js) => Exemplo básico de como funciona o gulp.
 
  [Preparar aquivos JS](./javascript/gulpfile.js) => Exemplo de como preparar um arquivo javascript para produção.
+
+ [Preparar aquivos TS](./typeScript/gulpfile.js) => Exemplo de como preparar um arquivo typescript para produção.
