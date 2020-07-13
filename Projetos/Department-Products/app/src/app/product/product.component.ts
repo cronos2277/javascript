@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../product.service';
-import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
-import {Product} from "../product";
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { Product } from '../product';
 import { DepartmentService } from '../department.service';
 import { Department } from '../department';
 import { Subject } from 'rxjs';
@@ -14,70 +14,77 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  @ViewChild('form',null) form: NgForm;
-  productForm:FormGroup = this.fb.group({
+
+  productForm: FormGroup = this.fb.group({
     _id: [null],
-    name: ['',[Validators.required]],
-    stock: [0,[Validators.required, Validators.min(0)]],
-    price: [0,[Validators.required, Validators.min(0)]],
-    departments:[[],[Validators.required]]
+    name: ['', [Validators.required]],
+    stock: [0, [Validators.required, Validators.min(0)]],
+    price: [0, [Validators.required, Validators.min(0)]],
+    departments:[[], [Validators.required]]
   });
 
-  private unsbscribe$:Subject<any> = new Subject<any>()
-  constructor(
-      private productService:ProductService, 
-      private fb:FormBuilder,
-      private departmentService:DepartmentService,
-      private snackbar:MatSnackBar
-      ) { }
+  @ViewChild('form',null) form: NgForm;
 
-  products:Product[] = [];
-  departments:Department[] = [];
+  products: Product[] = [];
+  departments: Department[] = [];
+
+  private unsubscribe$: Subject<any> = new Subject<any>();
+
+  constructor(
+    private productService: ProductService,
+    private fb: FormBuilder,
+    private departmentService: DepartmentService,
+    private snackbar: MatSnackBar) { }
+
   ngOnInit() {
-    this.productService.get().pipe(
-      takeUntil(this.unsbscribe$)
-    ).subscribe(
-      prods => this.products = prods
-      );
-    this.departmentService.get().pipe(
-      takeUntil(this.unsbscribe$)
-    ).subscribe(deps => this.departments = deps);
+    this.productService.get()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((prods) => this.products = prods);
+    this.departmentService.get()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((deps) => this.departments = deps);
   }
 
-  ngOnDestroy(){
-    this.unsbscribe$.next();
+  ngOnDestroy() {
+    this.unsubscribe$.next();
   }
 
   save(){
     let data = this.productForm.value;
-    console.log(data);
-    if(data._id != null){
-      this.productService.update(data).subscribe();
-    }else{
-      this.productService.add(data).subscribe();
+    if (data._id != null) {
+      this.productService.update(data)
+        .subscribe(
+          (p)=> this.notify("Updated!")
+        );
+    }
+    else {
+      this.productService.add(data)
+        .subscribe(
+          (p) => this.notify("Inserted!!")
+        );
     }
     this.resetForm();
   }
 
-  delete(p:Product){
-    this.productService.del(p).subscribe(
-      () => this.notify("Deleted!"),
-      (err) => {
-        this.notify("Error!");
-        console.error(err);
-      }
-    );
+  delete(p: Product) {
+    this.productService.del(p)
+      .subscribe(
+        () => this.notify("Deleted!"),
+        (err) => console.log(err)
+      )
   }
 
-  edit(p:Product){
-    this.productForm.setValue(p)
+  edit(p: Product) {
+    this.productForm.setValue(p);
   }
 
-  notify(msg: string){
-    this.snackbar.open(msg, "OK", {duration:3000});
+  notify(msg: string) {
+    this.snackbar.open(msg, "OK", {duration: 3000});
   }
 
-  resetForm(){
+  resetForm() {
+    //this.productForm.reset();
+    // Checar: https://github.com/angular/material2/issues/4190
     this.form.resetForm();
   }
 }
