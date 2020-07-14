@@ -96,13 +96,17 @@ O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas c
 ### Funções ou métodos para serem usados dentro do método gulp.pipe()
 #### Lembre-se que se faz necessário importar usando o metodo src do gulp, uma vez importado, ai você pode usar o método pipe e algumas dessas funções dentro do método pipe. Lembre-se também, você precisa colocar apenas uma função por cada pipe, uma vez que elas são executadas de maneira sequencial, evite coisas como: ".pipe(uglify(),gulp.dest('output'))", ao inves disso use ".pipe(uglify()).pipe(gulp.dest('output'))", ou seja sempre opte por uma função por pipe.
 
-`uglify()` => mimifica arquivos.
+`require('gulp-uglify')` => mimifica arquivos.
 
-`concat("nomeDoArquivoConcatenado.extensao")` => Une todos os arquivos de entrada do método src nesse único arquivo.
+`require('gulp-concat')` => Une todos os arquivos de entrada do método src nesse único arquivo.
 
-`babel()` => Converte códigos na nova codificação do javascript, para códigos que funcione em navegadores mais antigos.
+`require('gulp-babel')` => Converte códigos na nova codificação do javascript, para códigos que funcione em navegadores mais antigos.
 
 `gulp.dest('build')` => Essa função deve ser a ultima do pipe, aqui informamos a pasta aonde deve estar o arquivo de output importado pelo `.src()` e processado pelo `.pipe()`
+
+`require('gulp-uglifycss')` => mimifica o css, não confundir com a função que mimifica javascript.
+
+`require('gulp-sass')` => Processamento de arquivo SASS.
 
  ## Exemplos:
  [Copia de Arquivo](./basico/gulpfile.js) => Exemplo básico de como funciona o gulp.
@@ -110,3 +114,5 @@ O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas c
  [Preparar aquivos JS](./javascript/gulpfile.js) => Exemplo de como preparar um arquivo javascript para produção.
 
  [Preparar aquivos TS](./typeScript/gulpfile.js) => Exemplo de como preparar um arquivo typescript para produção.
+
+ [Preparar aquivos CSS/SASS](./css/gulpfile.js) => Exemplo de como preparar um arquivo typescript para produção.
