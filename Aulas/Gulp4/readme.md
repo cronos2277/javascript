@@ -109,6 +109,9 @@ O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas c
 `require('gulp-sass')` => Processamento de arquivo SASS.
 
  ## Exemplos:
+ ### Observação
+ O Gulp deve estar instalado de maneira global para os exemplos abaixo funcionarem, para isso: `npm i -g gulp`
+ 
  [Copia de Arquivo](./basico/gulpfile.js) => Exemplo básico de como funciona o gulp.
 
  [Preparar aquivos JS](./javascript/gulpfile.js) => Exemplo de como preparar um arquivo javascript para produção.
@@ -116,3 +119,5 @@ O gulp trabalha com o padrão pipe and filter, nesse caso você precisa apenas c
  [Preparar aquivos TS](./typeScript/gulpfile.js) => Exemplo de como preparar um arquivo typescript para produção.
 
  [Preparar aquivos CSS/SASS](./css/gulpfile.js) => Exemplo de como preparar um arquivo typescript para produção.
+
+ [Exemplo complexo envolvendo o Gulp](./spa/gulpfile.js) => Exemplo de como preparar um arquivo typescript para produção. Esse exemplo avançado requer a instalação da pasta **node_modules**, então não esqueça do `npm i` na pasta, para depois executar a tarefa com o comando `gulp`.
