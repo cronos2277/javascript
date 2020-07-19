@@ -9,5 +9,6 @@ export class AppComponent {
   title = 'advancedapp';
   http_modulo:boolean = false;
   formulario_modulo:boolean = false;
-  reactive_forms:boolean = true;
+  reactive_forms:boolean = false;
+  rotas:boolean = true;
 }
