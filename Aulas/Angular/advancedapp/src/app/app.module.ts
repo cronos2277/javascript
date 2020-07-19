@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'; //Precisa importar
 import { AppComponent } from './app.component';
 import { HttpModuloComponent } from './http-modulo/http-modulo.component';
@@ -7,7 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormularioModuloComponent } from './formulario-modulo/formulario-modulo.component';
 import { ReactiveFormsComponent } from './reactive-forms/reactive-forms.component';
 import { RotasComponent } from './rotas/rotas.component';
-import {Routes, RouterModule} from "@angular/router"; //Precisa importar se for trabalhar com rotas
+import {Routes, RouterModule} from "@angular/router";
+import { ParametrosComponent } from './rotas/parametros/parametros.component'; //Precisa importar se for trabalhar com rotas
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
   /*
@@ -30,7 +31,11 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
   {
     path:"rota2",
     component:FormularioModuloComponent
-  }  
+  },
+  {
+    path:"parametros/:parametro",
+    component:ParametrosComponent
+  },  
 ];
 
 @NgModule({
@@ -39,7 +44,8 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     HttpModuloComponent,
     FormularioModuloComponent,
     ReactiveFormsComponent,
-    RotasComponent    
+    RotasComponent,
+    ParametrosComponent    
   ],
   imports: [
     BrowserModule,

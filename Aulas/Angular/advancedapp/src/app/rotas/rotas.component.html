@@ -4,11 +4,12 @@
   <button routerLink="">Padrao</button>
   <!-- 
     routerLink => a rota correspondente do Objeto "Routes".
-    routerLinkActive => Classe css que sera usanda quando o usuario estiver nesse "routerLink".
+    routerLinkActive => Classe css que sera usanda quando o usuario estiver nesse "routerLink". Esse atributo deve substituir o href.
     <router-outlet> => Dentro dessa tag sera exibido o conteudo da rota., no caso o componente informado no "Routes"
   -->
   <button routerLink="rota1" routerLinkActive="act">Rota 1</button>
   <button routerLink="rota2" routerLinkActive="act">Rota 2</button>
+  <button routerLink="parametros/{{ramdomico}}" routerLinkActive="act">Parametro: {{ramdomico}}</button>
 </div>
 <!--
   A rota eh baseada em componentes, nessas tags de router-outlet eh aonde o componente da rota informada, nesse caso

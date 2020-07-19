@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RotasComponent implements OnInit {
 
-  constructor() { }
+  ramdomico = 0;
+  constructor() {     
+    this.ramdomico = Math.round(Math.random() * 100);
+    console.log(this.ramdomico);
+  }
 
   ngOnInit() {
   }
