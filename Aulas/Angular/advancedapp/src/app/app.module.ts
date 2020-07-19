@@ -8,11 +8,29 @@ import { FormularioModuloComponent } from './formulario-modulo/formulario-modulo
 import { ReactiveFormsComponent } from './reactive-forms/reactive-forms.component';
 import { RotasComponent } from './rotas/rotas.component';
 import {Routes, RouterModule} from "@angular/router"; //Precisa importar se for trabalhar com rotas
-const appRoutes:Routes = [
+// Exemplo Simples de rota
+const appRoutes:Routes = [ //Aqui esta todas as rotas.
+  /*
+    Basicamente voce entra com um objeto que contem os atributos e esses atributos serao
+    renderizados no local aonde voce informou o "<router-outlet></router-outlet>",com
+    base na url do usuario. 
+    --- Path
+    O Path seria o gatilho, no caso, quando o cliente entrar
+    com a url, o componente relacionado a ele sera renderizado, na url o path corresponde
+    a esse trecho da url: ["ESSEVALORAQUI"]   
+    path: Indica a rota, exemplo: http://localhost:4200/["ESSEVALORAQUI"]
+    --- Component
+    Aqui estamos informando qual componente deve ser renderizado, quando o cliente entrar
+    como a rota informada no path.
+  */
   {
-    path:"padrao", // => Aqui a rota.
-    component:RotasComponent //=> Aqui o componente que atende na rota
-}
+    path:"rota1", // => Aqui a rota.
+    component:ReactiveFormsComponent //=> Aqui o componente que atende na rota
+  },
+  {
+    path:"rota2",
+    component:FormularioModuloComponent
+  }  
 ];
 
 @NgModule({
@@ -28,6 +46,7 @@ const appRoutes:Routes = [
     HttpClientModule,    //Com isso a conexao com o protocolo HTTP funciona.
     FormsModule, //Importe isso para funcionar o [(NgModel)] e o 2way databind
     ReactiveFormsModule, //Obrigatorio para o funcionamento do Reactive Forms.
+    //Aplicando as rotas
     RouterModule.forRoot(appRoutes) //=> Aqui eh informado as rotas
   ],
   providers: [],

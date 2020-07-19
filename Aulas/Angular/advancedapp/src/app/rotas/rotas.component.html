@@ -1,1 +1,17 @@
-<p>rotas works!</p>
+<div>
+  <h1>Rotas:</h1>
+  <p>Preste a atencao que a url muda tambem, essa eh uma forma de voce colocar conteudo conforme a url informada.</p>
+  <button routerLink="">Padrao</button>
+  <!-- 
+    routerLink => a rota correspondente do Objeto "Routes".
+    routerLinkActive => Classe css que sera usanda quando o usuario estiver nesse "routerLink".
+    <router-outlet> => Dentro dessa tag sera exibido o conteudo da rota., no caso o componente informado no "Routes"
+  -->
+  <button routerLink="rota1" routerLinkActive="act">Rota 1</button>
+  <button routerLink="rota2" routerLinkActive="act">Rota 2</button>
+</div>
+<!--
+  A rota eh baseada em componentes, nessas tags de router-outlet eh aonde o componente da rota informada, nesse caso
+  a rota1 e rota2 sera exibido.
+-->
+<router-outlet></router-outlet>

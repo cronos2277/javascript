@@ -1,6 +1,3 @@
-<router-outlet>
-  Rota
-</router-outlet>
 <hr>
 <div>
   <h1> Exemplo de Angular avançado!</h1>
@@ -37,8 +34,8 @@
 </div>
 <br>
 <hr>
-<label><input type="radio" [value]="true" name="rotas_modulo"  [(ngModel)]="rotas" /> Habilitar Reactive Forms</label>
-<label><input type="radio" [value]="false" name="rotas_modulo"  [(ngModel)]="rotas" /> Desabilitar Reactive Forms</label>
+<label><input type="radio" [value]="true" name="rotas_modulo"  [(ngModel)]="rotas" /> Habilitar Exemplo de Rotas</label>
+<label><input type="radio" [value]="false" name="rotas_modulo"  [(ngModel)]="rotas" /> Desabilitar Exemplo de Rotas</label>
 <div *ngIf="rotas">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
   <app-rotas></app-rotas>  
 </div>
