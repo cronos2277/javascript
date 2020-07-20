@@ -8,7 +8,9 @@ import { FormularioModuloComponent } from './formulario-modulo/formulario-modulo
 import { ReactiveFormsComponent } from './reactive-forms/reactive-forms.component';
 import { RotasComponent } from './rotas/rotas.component';
 import {Routes, RouterModule} from "@angular/router";
-import { ParametrosComponent } from './rotas/parametros/parametros.component'; //Precisa importar se for trabalhar com rotas
+import { ParametrosComponent } from './rotas/parametros/parametros.component';
+import { NotFoundComponent } from './rotas/not-found/not-found.component';
+import { PadraoComponent } from './rotas/padrao/padrao.component'; //Precisa importar se for trabalhar com rotas
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
   /*
@@ -28,14 +30,27 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     path:"rota1", // => Aqui a rota.
     component:ReactiveFormsComponent //=> Aqui o componente que atende na rota
   },
-  {
+  { //Aqui estamos definindo a rota padrao
+    path:"padrao",
+    component:PadraoComponent
+  },
+  { //Segundo componente
     path:"rota2",
     component:FormularioModuloComponent
   },
   {
     path:"parametros/:parametro",
     component:ParametrosComponent
+  },
+  { //Aqui caso nao tenha rota definida, ou seja se estiver indo para o index
+    path:"", //Se tiver nada na url depois do '/'
+    pathMatch:"full", //Criterio para analise, ou seja se a rota for exatamente igual a "path"
+    redirectTo:"padrao" //Redirecione para a path padrao que foi definida mais acima.
   },  
+  { //Resposta de 404
+    path:"**", //Se tiver qualquer outra coisa que nao foi definida aqui.
+    component:NotFoundComponent //Carregue esse componente.
+  }
 ];
 
 @NgModule({
@@ -45,7 +60,9 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     FormularioModuloComponent,
     ReactiveFormsComponent,
     RotasComponent,
-    ParametrosComponent    
+    ParametrosComponent,
+    NotFoundComponent,
+    PadraoComponent    
   ],
   imports: [
     BrowserModule,

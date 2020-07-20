@@ -27,3 +27,6 @@ caso voce faca uso do Reactive forms, provalvelmente, tera que usar esse "**Reac
 ### Criando arquivos de rotas
 Criando rotas, em um projeto existente, caso voce tenha um sistema de rotas muito complexo ou muito grande, seria interessante, esse arquivo estar separado do **app.module.ts**
 `ng g m AppRouting -m app --flat`, no caso nesse exemplos estamos mantendo dentro do arquivo [app.modules.ts](src/app/app.module.ts)
+
+### Pegando parametros de rotas
+[Exemplo de um Arquivo TS](src/app/rotas/parametros/parametros.component.ts), aqui nesse arquivo tem um exemplo de como funciona, mas voce precisara importar `import {ActivatedRoute, ParamMap} from '@angular/router';` o **ActivatedRoute** eh um servico que funciona por meio da injecao de dependencia, com esse objeto voce vai trabalhar com parametros passado pela url, ja o **ParamMap** eh um observable dentro do **ActivatedRoute** que nao so devolve o valor pego na url no parametro da callback, como tambem monitora por mudancas. [Arquivo de template HTML](src/app/rotas/parametros/parametros.component.html)
