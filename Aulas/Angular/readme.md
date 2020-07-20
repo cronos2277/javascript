@@ -119,6 +119,18 @@ Aqui temos um exemplo de como funciona um reactive-forms: <br>
 <a href="./advancedapp/src/app/reactive-forms/reactive-forms.component.ts">reactive-forms.component.ts</a><br><br>
 <p>
 <hr>
+<h3>Rotas</h3>
+<p>Aqui temos mais um exemplo de rotas:</p>
+<p>Pasta contendo as instrucoes: <a href="./advancedapp">readme</a></p>
+<p>
+Modulo de rotas:<br>
+HTML: <a href="./advancedapp/src/app/rotas/rotas.component.html">rotas.component.html</a>
+CSS: <a href="./advancedapp/src/app/rotas/rotas.component.css">rotas.component.css</a>
+TypeScript: <a href="./advancedapp/src/app/rotas/rotas.component.ts">rotas.component.ts</a>
+</p>
+<p>Arquivo para pegar parametros: <a href="./advancedapp/src/app/rotas/parametros/parametros.component.ts">parametros.component.ts</a></p>
+<p>Aonde esta a configuracao de rota:<a href="./advancedapp/src/app/app.module.ts">app.module.ts</a></p>
+<hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
@@ -175,6 +187,9 @@ Comando: "<b>ng g c componente -m app</b>", sendo:<br>
 No caso acima usamos a pasta app, mas a pasta app poderia ser substituida por qualquer pasta de componente se fosse o caso.
 </p>
 <hr>
+
+<h2> Rotas</h2>
+<p>Aqui temos mais exemplos de rotas:</p>
 
 <h2>A respeito do NG add: </h2>
 
