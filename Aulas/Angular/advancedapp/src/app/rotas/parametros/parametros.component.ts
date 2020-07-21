@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 //Voce precisa desse import se quiser pegar parametros na url
-import {ActivatedRoute, ParamMap} from '@angular/router';
+/*
+
+  ActivatedRoute => esse objeto se faz necessario para tratar parametros.
+  ParamMap => o tipo de dado recebido pela requisicao.
+  Router => Util se quiser lidar com redirecionamentos.
+*/
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 
 @Component({
   selector: 'app-parametros',
@@ -11,7 +17,8 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 export class ParametrosComponent implements OnInit {
 
   constructor(
-    private route:ActivatedRoute //Precisamos fazer uma injecao com o ActivatedRoute
+    private route:ActivatedRoute, //Precisamos fazer uma injecao com o ActivatedRoute
+    private router:Router
     ) { }
   public parametro:string=""; //A variavel que vai exibir o parametro no template
   ngOnInit() {
@@ -26,6 +33,13 @@ export class ParametrosComponent implements OnInit {
     this.route.paramMap.subscribe(
       (data:ParamMap) => this.parametro = data.get('parametro')
     )
+  }
+
+  voltar():void{
+    /*
+      O atributo do tipo Router, faz o redirecionamento a outras rotas
+    */
+    this.router.navigate(['/padrao']);
   }
 
 }
