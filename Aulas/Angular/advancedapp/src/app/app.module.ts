@@ -10,7 +10,8 @@ import { RotasComponent } from './rotas/rotas.component';
 import {Routes, RouterModule} from "@angular/router";
 import { ParametrosComponent } from './rotas/parametros/parametros.component';
 import { NotFoundComponent } from './rotas/not-found/not-found.component';
-import { PadraoComponent } from './rotas/padrao/padrao.component'; //Precisa importar se for trabalhar com rotas
+import { PadraoComponent } from './rotas/padrao/padrao.component';
+import { FilhoComponent } from './rotas/filho/filho.component'; //Precisa importar se for trabalhar com rotas
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
   /*
@@ -32,11 +33,27 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
   },
   { //Aqui estamos definindo a rota padrao
     path:"padrao",
-    component:PadraoComponent
+    component:PadraoComponent,
+    children:[
+      {
+        /*
+          Aqui estamos criando uma rota filha, que no caso tem os mesmos atributos
+          de uma rota tradicional. Nesse exemplo de o usuario digitar "/padrao",
+          essa parte nao eh exibida, mas se o usuario digitar "/padrao/filho",
+          ai sim essa rota eh exibida, carregando assim o componente informado
+          no atributo componente no espaco aonde esta o "<router-outlet></router-outlet>"
+          do componente pai, ou seja o filho colocara o componente dentro dessa
+          tag caso o usuario entre com a url correta, ou o conteudo ficara
+          em branco caso nao tenha o caminho completo.
+        */
+        path:"filho",
+        component: FilhoComponent
+      }
+    ]    
   },
   { //Segundo componente
     path:"rota2",
-    component:FormularioModuloComponent
+    component:FormularioModuloComponent    
   },
   {
     path:"parametros/:parametro",
@@ -62,7 +79,8 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     RotasComponent,
     ParametrosComponent,
     NotFoundComponent,
-    PadraoComponent    
+    PadraoComponent,
+    FilhoComponent    
   ],
   imports: [
     BrowserModule,
