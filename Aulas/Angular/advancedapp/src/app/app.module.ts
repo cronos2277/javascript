@@ -11,7 +11,10 @@ import {Routes, RouterModule} from "@angular/router";
 import { ParametrosComponent } from './rotas/parametros/parametros.component';
 import { NotFoundComponent } from './rotas/not-found/not-found.component';
 import { PadraoComponent } from './rotas/padrao/padrao.component';
-import { FilhoComponent } from './rotas/filho/filho.component'; //Precisa importar se for trabalhar com rotas
+import { FilhoComponent } from './rotas/filho/filho.component';
+import { RoutasExternaModule } from './rotas-externa/routas-externa.module';
+import { ComponenteComponent } from './rotas-externa/componente/componente.component';
+
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
   /*
@@ -72,6 +75,10 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
 
 @NgModule({
   declarations: [
+    /*
+      Qualquer componente das rotas deve ser declarada aqui, para que o angular possa
+      carregar, exceto que o modulo esteja funcionando em modo lazy.
+    */
     AppComponent,
     HttpModuloComponent,
     FormularioModuloComponent,
@@ -80,7 +87,13 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     ParametrosComponent,
     NotFoundComponent,
     PadraoComponent,
-    FilhoComponent    
+    FilhoComponent,  
+    /* 
+      Aqui estamos declarando um componente que pertence a uma rota externa.
+      Como a rota externa nao eh definida no Objeto acima, logo temos
+      que importar aqui, ou importat no objeto acima no modo lazy. 
+    */
+    ComponenteComponent 
   ],
   imports: [
     BrowserModule,
@@ -88,6 +101,12 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     FormsModule, //Importe isso para funcionar o [(NgModel)] e o 2way databind
     ReactiveFormsModule, //Obrigatorio para o funcionamento do Reactive Forms.
     //Aplicando as rotas
+    /* 
+      A rota deve ser carregada antes, porque na rota definida aqui esta definida 
+      a rota para paginas 404.
+    
+    */
+    RoutasExternaModule, 
     RouterModule.forRoot(appRoutes) //=> Aqui eh informado as rotas
   ],
   providers: [],
