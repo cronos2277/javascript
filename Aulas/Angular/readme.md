@@ -130,6 +130,9 @@ TypeScript: <a href="./advancedapp/src/app/rotas/rotas.component.ts">rotas.compo
 </p>
 <p>Arquivo para pegar parametros: <a href="./advancedapp/src/app/rotas/parametros/parametros.component.ts">parametros.component.ts</a></p>
 <p>Aonde esta a configuracao de rota:<a href="./advancedapp/src/app/app.module.ts">app.module.ts</a></p>
+<p>
+Rota em arquivo externo, caso voce queira saber como eh a estrutura de um arquivo de rota separado do app.module.ts, veja esse arquivo <a href="./advancedapp/src/app/rotas-externa/routas-externa-routing.module.ts">routas-externa-routing.module.ts</a>
+</p>
 <hr>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
