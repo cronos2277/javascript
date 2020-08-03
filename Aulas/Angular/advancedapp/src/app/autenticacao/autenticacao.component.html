@@ -1,19 +1,11 @@
-<div id="auth-content">
-    <div *ngIf="(people$ | async) as people;else vazio" class="people">
+<div *ngIf="(users$ | async) as people;else vazio" class="people">
         <h3>People</h3>
-        <ul>
-            <li *ngFor="let person of people" class="eachPerson">Nome: {{person.name}}</li>
+        <ul  *ngFor="let person of people">
+            <li class="eachPerson">Name: {{person.name}}</li>
+            <li class="eachPerson">User: {{person.user}}</li>
+            <li class="eachPerson">Pass: {{person.pass}}</li>
         </ul>
-    </div>
-    <div *ngIf="(products$ | async) as products;else vazio" class="products">
-        <h3>Products</h3>
-        <ul *ngFor="let product of products" class="product">
-            <li>Nome: {{product.name}}</li>
-            <li>Departamento: {{product.department}}</li>
-            <li>Valor: R${{product.price}}</li>
-        </ul>
-    </div>
-</div>
+</div>   
 <ng-template #vazio>
     <p>{{mensagemErro}}</p>
 </ng-template>

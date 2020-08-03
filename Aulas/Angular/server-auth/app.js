@@ -17,10 +17,5 @@ app.use(bodyparser.urlencoded({extended:true}));
 app.use(cors());
 
 mongoose.connect(`mongodb://${params.ip}:${params.port}/${params.database}`,{useNewUrlParser:true});
-
-app.use('/api',api);
-
-app.use(function(request, response, next){
-    response.status(404).send("Not Found");
-});
+app.use('/',api);
 app.listen(params.listen);

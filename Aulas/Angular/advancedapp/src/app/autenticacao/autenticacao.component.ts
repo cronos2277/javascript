@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ServicoService } from './servico.service';
 import { Observable } from 'rxjs';
-import { Person } from './person';
-import { Product } from './product';
+import { User } from './User.model';
+
 
 @Component({
   selector: 'autenticacao',
@@ -10,15 +10,12 @@ import { Product } from './product';
   styleUrls: ['./autenticacao.component.css']
 })
 export class AutenticacaoComponent implements OnInit {
-  people$:Observable<Person[]> = null;
-  products$:Observable<Product[]> = null;
+  users$:Observable<User[]> = null;  
   mensagemErro:string = "Nenhum elemento a ser exibido";
   constructor(private servico:ServicoService) { }
 
   ngOnInit() {
-    this.people$ = this.servico.getPeople();
-    this.people$.subscribe();
-    this.products$ = this.servico.getProducts();    
+    this.users$ = this.servico.getUsers();   
   }
 
 }
