@@ -6,14 +6,16 @@ const params = {
 }
 const mongoose = require("mongoose");
 const faker = require("faker");
-const PersonModel = require("../models/PersonModel");
+const PersonModel = require("../models/model");
 mongoose.connect(`mongodb://${params.ip}:${params.port}/${params.database}`,{useNewUrlParser:true});
 
 async function add(n){
     try{
         for(let i=0;i<n;i++){
             const person = new PersonModel();
-            person.name = faker.name.firstName();            
+            person.name = faker.name.firstName();
+            person.user = faker.internet.userName();
+            person.pass = faker.internet.password();            
             await person.save();
         }
     }catch(error){
@@ -22,6 +24,6 @@ async function add(n){
 }
 
 add(100).then(_ => {
-    console.log("OK!");
+    console.log("Database with 100 records created with success!");
     mongoose.disconnect();
 })
