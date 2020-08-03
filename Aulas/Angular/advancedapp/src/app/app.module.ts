@@ -14,6 +14,7 @@ import { PadraoComponent } from './rotas/padrao/padrao.component';
 import { FilhoComponent } from './rotas/filho/filho.component';
 import { RoutasExternaModule } from './rotas-externa/routas-externa.module';
 import { ComponenteComponent } from './rotas-externa/componente/componente.component';
+import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -93,7 +94,7 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
       Como a rota externa nao eh definida no Objeto acima, logo temos
       que importar aqui, ou importat no objeto acima no modo lazy. 
     */
-    ComponenteComponent 
+    ComponenteComponent, AutenticacaoComponent 
   ],
   imports: [
     BrowserModule,
