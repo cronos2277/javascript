@@ -1,0 +1,41 @@
+.people{
+    display: flex;
+    flex-direction: column;
+    width:40%;        
+}
+.eachPerson{
+    background-color: blue;
+    box-shadow: 5px 5px 10px cyan;
+    color:white;
+    margin-right:10px;
+    margin-top: 20px;
+    list-style: none;    
+    font-size: x-large;
+    padding:10px;
+}
+.eachPerson:hover{
+    box-shadow: 5px 5px 10px gray;
+    background-color: black;
+}
+.products{
+    display: flex;
+    flex-direction: column;
+    width:40%;        
+}
+.product{
+    background-color: purple;
+    margin-left: 10px;
+    padding: 10px;
+    list-style: none;
+    box-shadow: 5px 5px 10px magenta;
+    color:white;
+}
+
+.product:hover{
+    box-shadow: 5px 5px 10px gray;
+    background-color: black;
+}
+
+#auth-content{
+    display: flex;
+}

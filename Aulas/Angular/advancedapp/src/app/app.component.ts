@@ -10,5 +10,6 @@ export class AppComponent {
   http_modulo:boolean = false;
   formulario_modulo:boolean = false;
   reactive_forms:boolean = false;
-  rotas:boolean = true;
+  rotas:boolean = false;
+  auth:boolean = true;
 }

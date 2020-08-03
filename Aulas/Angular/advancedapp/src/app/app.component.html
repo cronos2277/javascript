@@ -41,3 +41,10 @@
 </div>
 <br>
 <hr>
+<label><input type="radio" [value]="true" name="auth_modulo"  [(ngModel)]="auth" /> Habilitar Exemplo de Autenticacao</label>
+<label><input type="radio" [value]="false" name="auth_modulo"  [(ngModel)]="auth" /> Desabilitar Exemplo de Autenticacao</label>
+<div *ngIf="auth">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <autenticacao></autenticacao>  
+</div>
+<br>
+<hr>
