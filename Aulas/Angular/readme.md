@@ -139,10 +139,10 @@ Rota em arquivo externo, caso voce queira saber como eh a estrutura de um arquiv
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
 <p>
   <b>add</b> Adiciona suporte para uma biblioteca externa ao seu projeto.<br>
-  <b>analytics</b> Configura a coleta de métricas de uso da CLI angular. Veja: https://v8.angular.io/cli/usage-analytics-gathering.<br>
-  <b>build (b)</b> Compila um aplicativo Angular em um diretório de saída chamado dist / no caminho de saída especificado. Deve ser executado de dentro de um diretório da área de trabalho.<br>
-  <b>deploy (d)</b> Invoca o construtor de implementação para um projeto especificado ou para o projeto padrão na área de trabalho.<br>
-  <b>config</b> Recupera ou define valores de configuração Angular no arquivo angular.json da área de trabalho.<br>
+  <b>analytics</b> Configura a coleta de metricas de uso da CLI angular. Veja: https://v8.angular.io/cli/usage-analytics-gathering.<br>
+  <b>build (b)</b> Compila um aplicativo Angular em um diretorio de saida chamado dist / no caminho de saida especificado. Deve ser executado de dentro de um diretorio da area de trabalho.<br>
+  <b>deploy (d)</b> Invoca o construtor de implementacao para um projeto especificado ou para o projeto padrao na area de trabalho.<br>
+  <b>config</b> Recupera ou define valores de configuracao Angular no arquivo angular.json da area de trabalho.<br>
   <b>doc (d)</b> Abre a documentação oficial do Angular (angular.io) em um navegador e pesquisa uma determinada palavra-chave.<br>
   <b>e2e (e)</b> Cria e veicula um aplicativo Angular e, em seguida, executa testes de ponta a ponta usando o Transferidor.<br>
   <b>generate (g)</b> Gera e / ou modifica arquivos com base em um esquema.  <br>
@@ -154,6 +154,7 @@ Rota em arquivo externo, caso voce queira saber como eh a estrutura de um arquiv
   <b>update</b> Atualiza seu aplicativo e suas dependências. Veja: https://update.angular.io/<br>
   <b>version (v)</b> Emite a versão da CLI angular.<br>
   <b>xi18n</b> Extrai mensagens i18n do código fonte.<br>
+  
 </p>
 <hr>
 <h2>A respeito do NG Generate:</h2>
@@ -193,7 +194,10 @@ No caso acima usamos a pasta app, mas a pasta app poderia ser substituida por qu
 
 <h2> Rotas</h2>
 <p>Aqui temos mais exemplos de rotas:</p>
-
+<p>
+"<b> --routing</b>": Deve ser colocado no final do comando, por exemplo: "<b>ng g m [NOME] --routing</b>", no caso ele 
+adiciona um arquivo de rotas dentro do componente, modulo ou servico, etc... 
+</p>
 <h2>A respeito do NG add: </h2>
 
 <p>
