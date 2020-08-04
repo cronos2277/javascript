@@ -1,7 +1,13 @@
+#auth-content{
+    display: flex;     
+    height:30vh; 
+    flex-wrap: wrap;     
+}
 .people{
     display: flex;
-    flex-direction: column;
-    width:40%;        
+    flex-direction: column;              
+    height: 10vh;   
+    flex-wrap: wrap;  
 }
 .eachPerson{
     background-color: blue;
@@ -17,25 +23,41 @@
     box-shadow: 5px 5px 10px gray;
     background-color: black;
 }
-.products{
-    display: flex;
-    flex-direction: column;
-    width:40%;        
-}
-.product{
+.newForm{
     background-color: purple;
-    margin-left: 10px;
-    padding: 10px;
-    list-style: none;
     box-shadow: 5px 5px 10px magenta;
     color:white;
+    margin-right:10px;
+    margin-left: 100px;
+    margin-top: 20px;
+    list-style: none;    
+    font-size: x-large;
+    padding:10px;
+    width: 50vw;
+    min-height: 5vh;    
 }
-
-.product:hover{
-    box-shadow: 5px 5px 10px gray;
-    background-color: black;
+.inputs{
+    border: 2px solid red;
+    box-shadow: 2px 2px 5px red;
+    border-radius: 5px;
 }
-
-#auth-content{
-    display: flex;
+.right{
+    float: right;
+}
+#pass{
+    margin-left: 15px;
+}
+.btns{
+    margin-top: 10px;    
+}
+.btn{
+    padding:10px;
+    border-radius: 5px;
+    background-color: blue;
+    color:white;
+    box-shadow: 5px 5px 5px black;
+}
+.btn:hover{
+    box-shadow: none;
+    background-color: red;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServicoService } from './servico.service';
 import { Observable } from 'rxjs';
 import { User } from './User.model';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -11,11 +12,31 @@ import { User } from './User.model';
 })
 export class AutenticacaoComponent implements OnInit {
   users$:Observable<User[]> = null;  
-  mensagemErro:string = "Nenhum elemento a ser exibido";
-  constructor(private servico:ServicoService) { }
+  mensagemErro:string = "Nenhum elemento a ser exibido";     
+  formCreate:FormGroup = this.formBuilder.group({
+    'name': ['',Validators.required],
+    'user': ['',Validators.required],
+    'pass': ['',Validators.required],
+    'confirm': ['',Validators.required],
+    },{
+      validators:this.matchingPassword
+    });
+  formLogin:FormGroup = this.formBuilder.group({
+    'user': ['',Validators.required],
+    'pass': ['',Validators.required]
+  });  
+  constructor(private servico:ServicoService, private formBuilder:FormBuilder) { 
+
+  }
 
   ngOnInit() {
     this.users$ = this.servico.getUsers();   
   }
 
+  public matchingPassword(group:FormGroup){
+    const pass = group.controls['pass'].value;
+    const confirm = group.controls['confirm'].value;
+    if(pass == confirm) return null;
+    return {matching:false};
+  }
 }

@@ -1,12 +1,39 @@
-<div *ngIf="(users$ | async) as people;else vazio" class="people">
-        <h3>People</h3>
-        <ul  *ngFor="let person of people">
-            <li class="eachPerson">Name: {{person.name}}</li>
-            <li class="eachPerson">User: {{person.user}}</li>
-            <li class="eachPerson">Pass: {{person.pass}}</li>
-        </ul>
-</div>   
-<ng-template #vazio>
-    <p>{{mensagemErro}}</p>
-</ng-template>
-
+<div id="auth-content">    
+    <div *ngIf="(users$ | async) as people;else vazio" class="people">
+            <h3>People</h3>
+            <ul  *ngFor="let person of people">
+                <li class="eachPerson">Name: {{person.name}}</li>
+                <li class="eachPerson">User: {{person.user}}</li>
+                <li class="eachPerson">Pass: {{person.pass}}</li>
+            </ul>            
+    </div>    
+    <ng-template #vazio>
+        <p>{{mensagemErro}}</p>
+    </ng-template>
+</div>
+<div class="newForm">
+    <h3>Novo Usuario</h3>
+    <form [formGroup]="formCreate">
+        <div>
+            <span>Name: <input class="inputs" formControlName="name"/></span>                        
+            <span class="right">User: <input class="inputs" formControlName="user"/></span>
+        </div>        
+        <div>
+            <span>Pass: <input id="pass" class="inputs" type="password" formControlName="pass"/></span>            
+            <span class="right">Confirm: <input class="inputs" type="password" formControlName="confirm"/></span>
+        </div>
+        <div class="btns">
+            <button type="reset" class="btn">Clear</button>
+            <button class="right btn">Submit</button>
+        </div>
+        
+    </form>
+</div>  
+<div class="newForm">
+    <form [formGroup]="formLogin">
+        <h3>Login</h3>
+        <span>user: <input class="inputs" formControlName="user"></span>
+        <span style="margin-left:20%">pass: <input class="inputs" formControlName="pass"></span>
+        <button class="right btn">Submit</button>
+    </form>    
+</div>

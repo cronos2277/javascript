@@ -23,7 +23,7 @@ async function add(n){
     }
 }
 
-add(100).then(_ => {
-    console.log("Database with 100 records created with success!");
+add(5).then(_ => {
+    console.log("Database with 5 records created with success!");
     mongoose.disconnect();
 })
