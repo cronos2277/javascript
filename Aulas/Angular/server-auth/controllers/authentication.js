@@ -11,10 +11,11 @@ const salt = 10
 module.exports = {
     register: async function(request,response){
         try{
-            let user = Model.findOne({
-                email:request.body.email
-            });
-            if(!user){
+            let user = await Model.findOne({
+                user:request.body.user                
+            });    
+            const hasValue = (request.body.user && request.body.pass && request.body.name);        
+            if(!user && hasValue){
                 const user = new Model(request.body);
                 /*
                     Voce pode usar criptografia caso queira que a senha seja encriptada,
@@ -30,9 +31,14 @@ module.exports = {
                 */
                 //delete user.password;
                 response.status(200).json(user);
+            }else if(!hasValue){
+                response.status(403).json({
+                    message: "All fields are required",
+                    error: {}
+                });
             }else{
                 response.status(403).json({
-                    message: "User is already registered",
+                    message: "User is already registered!",
                     error: {}
                 });
             }
