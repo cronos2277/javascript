@@ -32,7 +32,7 @@ module.exports = {
                 response.status(200).json(user);
             }else{
                 response.status(403).json({
-                    message: "Email is already registered",
+                    message: "User is already registered",
                     error: {}
                 });
             }

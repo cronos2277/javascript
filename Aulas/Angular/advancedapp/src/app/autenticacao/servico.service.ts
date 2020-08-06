@@ -22,6 +22,10 @@ export class ServicoService {
     );    
   }
 
+  public register(user:User):Observable<User>{
+    return this.http.put<User>(`${this.url}`,user);
+  }
+
   
 } 
   

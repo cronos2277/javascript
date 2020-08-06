@@ -25,12 +25,15 @@ export class AutenticacaoComponent implements OnInit {
     'user': ['',Validators.required],
     'pass': ['',Validators.required]
   });  
-  constructor(private servico:ServicoService, private formBuilder:FormBuilder) { 
+  constructor(
+    private service:ServicoService, 
+    private formBuilder:FormBuilder    
+    ) { 
 
   }
 
   ngOnInit() {
-    this.users$ = this.servico.getUsers();   
+    this.users$ = this.service.getUsers();   
   }
 
   public matchingPassword(group:FormGroup){
@@ -38,5 +41,13 @@ export class AutenticacaoComponent implements OnInit {
     const confirm = group.controls['confirm'].value;
     if(pass == confirm) return null;
     return {matching:false};
+  }
+
+  public onRecord(){
+    let user:User = {...this.formCreate.value};
+    this.service.register(user).subscribe(
+      registred => window.alert('cadastrado com sucesso!'),
+      erro => console.error(erro.error.message)
+    );
   }
 }
