@@ -1,10 +1,11 @@
 <div id="auth-content">    
     <div *ngIf="(users$ | async) as people;else vazio" class="people">
             <h3>People</h3>
-            <ul  *ngFor="let person of people">
+            <ul  *ngFor="let person of people">                
                 <li class="eachPerson">Name: {{person.name}}</li>
                 <li class="eachPerson">User: {{person.user}}</li>
                 <li class="eachPerson">Pass: {{person.pass}}</li>
+                <li class="eachPerson right btn excluir" (click)="remove(person)">Excluir</li>
             </ul>            
     </div>    
     <ng-template #vazio>

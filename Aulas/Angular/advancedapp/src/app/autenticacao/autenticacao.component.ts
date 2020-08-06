@@ -14,17 +14,19 @@ export class AutenticacaoComponent implements OnInit {
   users$:Observable<User[]> = null;  
   mensagemErro:string = "Nenhum elemento a ser exibido";     
   formCreate:FormGroup = this.formBuilder.group({
-    'name': ['',Validators.required],
-    'user': ['',Validators.required],
-    'pass': ['',Validators.required],
-    'confirm': ['',Validators.required],
+    'name': ['',[Validators.required]],
+    'user': ['',[Validators.required]],
+    'pass': ['',[Validators.required]],
+    'confirm': ['',[Validators.required]],
     },{
-      validators:this.matchingPassword
+      validator:this.matchingPassword
     });
+
   formLogin:FormGroup = this.formBuilder.group({
-    'user': ['',Validators.required],
-    'pass': ['',Validators.required]
+    'user': ['',[Validators.required]],
+    'pass': ['',[Validators.required]]
   });  
+
   constructor(
     private service:ServicoService, 
     private formBuilder:FormBuilder    
@@ -39,8 +41,8 @@ export class AutenticacaoComponent implements OnInit {
   public matchingPassword(group:FormGroup){
     const pass = group.controls['pass'].value;
     const confirm = group.controls['confirm'].value;
-    if(pass == confirm) return null;
-    return {matching:false};
+    if(pass == confirm) return false;
+    return {matching:true};
   }
 
   public onRecord(){
@@ -49,5 +51,10 @@ export class AutenticacaoComponent implements OnInit {
       registred => window.alert('cadastrado com sucesso!'),
       erro => console.error(erro.error.message)
     );
+  }
+
+  public remove(user:User){
+    console.log("Funcao Excluir!");
+    console.log(user);
   }
 }
