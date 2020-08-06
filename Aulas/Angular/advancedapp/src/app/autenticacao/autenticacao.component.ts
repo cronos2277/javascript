@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServicoService } from './servico.service';
 import { Observable } from 'rxjs';
 import { User } from './User.model';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup,FormControl } from '@angular/forms';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class AutenticacaoComponent implements OnInit {
   users$:Observable<User[]> = null;  
   mensagemErro:string = "Nenhum elemento a ser exibido";     
   formCreate:FormGroup = this.formBuilder.group({
-    'name': ['',[Validators.required]],
+    'name': new FormControl("",[Validators.required]),
     'user': ['',[Validators.required]],
     'pass': ['',[Validators.required]],
     'confirm': ['',[Validators.required]],
@@ -42,15 +42,19 @@ export class AutenticacaoComponent implements OnInit {
     const pass = group.controls['pass'].value;
     const confirm = group.controls['confirm'].value;
     if(pass == confirm) return false;
-    return {matching:true};
+    return {matchingError:true};
   }
 
-  public onRecord(){
-    let user:User = {...this.formCreate.value};
-    this.service.register(user).subscribe(
-      registred => window.alert('cadastrado com sucesso!'),
-      erro => console.error(erro.error.message)
-    );
+  public onRecord(){    
+    if(this.formCreate.valid){
+      let user:User = {...this.formCreate.value};
+      this.service.register(user).subscribe(
+        (registred:User) => window.alert(registred.name + " was recorded with success!"),
+        erro => console.error(erro.error.message)
+      );
+    }else{      
+      alert((this.formCreate.errors)?"Password doesn't matching!":"All fields are required!");
+    }
   }
 
   public remove(user:User){
