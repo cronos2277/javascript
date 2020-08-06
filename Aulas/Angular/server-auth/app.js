@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const api = require("./routers/api");
+const auth = require('./routers/auth');
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
@@ -18,4 +19,5 @@ app.use(cors());
 
 mongoose.connect(`mongodb://${params.ip}:${params.port}/${params.database}`,{useNewUrlParser:true});
 app.use('/',api);
+app.use('/',auth);
 app.listen(params.listen);
