@@ -26,6 +26,10 @@ export class ServicoService {
     return this.http.put<User>(`${this.url}`,user);
   }
 
+  public login(credentials:{user:string, pass:string}):Observable<User>{
+    return this.http.post<User>(`${this.url}`,credentials);
+  }
+
   
 } 
   

@@ -61,4 +61,12 @@ export class AutenticacaoComponent implements OnInit {
     console.log("Funcao Excluir!");
     console.log(user);
   }
+
+  public onsbmt(){
+    console.log(this.formLogin.value)
+    this.service.login(this.formLogin.value).subscribe(
+      (user:any) => alert(`The ${user.user.name} is ${user.message}`),
+      error => alert(`${error.message}`)
+    );    
+  }
 }

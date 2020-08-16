@@ -50,6 +50,24 @@ module.exports = {
         }
     },
     login:function(request,response){
-
+        const user = request.body.user;
+        const pass = request.body.pass;
+        Model.findOne({user}).lean().exec(
+            function(error,user){
+                if(error) return response.status(500).json({message: "Internal Server Error",error});
+                const auth_error = (pass == '' || pass == null || user.pass != pass);
+                if(auth_error) return response.status(403).json({message:"Wrong e-mail or password",error:null});
+                /*
+                    Habilite isso caso voce esteja usando criptografia do bsync, Aqui eh feito a descriptografia
+                    para acessar os dados, caso voce use o sistema acima.
+                    if(bcript.compareSync(password,salt)){
+                    //Se a senha bater
+                }else{
+                    //Se nao;
+                }
+                */                                
+                response.status(200).json({message: "Logged!",error:null, user});
+            }
+        );
     }
 }
