@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor{
@@ -49,6 +51,15 @@ export class Interceptor implements HttpInterceptor{
         
         console.log("NEW REQUEST: ", newRequest);
         console.log("Returning Handle:",next)
-        return next.handle(newRequest); //Repare que a requisicao enviada eh a clonada...
+         //Repare que a requisicao enviada eh a clonada... Outra coisa o handle retorna um Observable
+        return next.handle(newRequest)
+        .pipe(
+            catchError( //Como qualquer Observable voce pode usar um operador.
+                (error) => {
+                    console.log("It's taking any errors involving  HTTP(S) request. I'm a custom error")
+                    return throwError(error);
+                }
+            )
+        );
     }    
 }

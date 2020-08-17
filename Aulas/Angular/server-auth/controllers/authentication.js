@@ -69,5 +69,14 @@ module.exports = {
                 response.status(200).json({message: "Logged!",error:null, user});
             }
         );
+    },
+    delete: function(request,response){            
+        Model.deleteOne({_id: request.params.id},  
+            (err) => {
+                if(err)
+                response.status(500).send({message:"Internal Server Error", error:err});
+                else
+                response.status(200).send({message:"User was removed!", error:null});
+            })
     }
 }

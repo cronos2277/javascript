@@ -26,6 +26,11 @@ export class ServicoService {
     return this.http.put<User>(`${this.url}`,user);
   }
 
+  public remove(user:User){
+    console.log(user)
+    return this.http.delete(`${this.url}${user._id}`);
+  }
+
   public login(credentials:{user:string, pass:string}):Observable<User>{
     return this.http.post<User>(`${this.url}`,credentials);
   }

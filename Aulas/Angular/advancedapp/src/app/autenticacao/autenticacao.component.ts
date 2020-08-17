@@ -3,6 +3,7 @@ import { ServicoService } from './servico.service';
 import { Observable } from 'rxjs';
 import { User } from './User.model';
 import { FormBuilder, Validators, FormGroup,FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,8 @@ export class AutenticacaoComponent implements OnInit {
 
   constructor(
     private service:ServicoService, 
-    private formBuilder:FormBuilder    
+    private formBuilder:FormBuilder,
+    private router:Router    
     ) { 
 
   }
@@ -57,9 +59,16 @@ export class AutenticacaoComponent implements OnInit {
     }
   }
 
-  public remove(user:User){
-    console.log("Funcao Excluir!");
-    console.log(user);
+  public remove(user:User){    
+    console.log("excluindo");
+    this.service.remove(user).subscribe(
+      (userm:any) => {
+          alert(`${user.name} ${userm.message}`);
+          window.location.href = "/";
+        },
+      error => alert(`${error.message}`)       
+    );
+
   }
 
   public onsbmt(){
