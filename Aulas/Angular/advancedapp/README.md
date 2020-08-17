@@ -39,3 +39,36 @@ Criando rotas, em um projeto existente, caso voce tenha um sistema de rotas muit
  [Arquivos de Modulos](src/app/routas-externa/routas-externa.module.ts)
 
  Rota em arquivo externo, caso voce queira saber como eh a estrutura de um arquivo de rota separado do app.module.ts, veja esse arquivo [Rotas Externas](src/app/rotas-externa/routas-externa-routing.module.ts)
+
+ ### Autenticacao
+ Arquivo de exemplo [autenticacao.interceptor.ts](src/app/autenticacao/autenticacao.interceptor.ts) nesse arquivo esta toda a logica de como funciona a interceptacao de dados a cada 
+ requisicao http. 
+ 
+ [app.module.ts](src/app/app.module.ts) voce deve fazer alteracoes nesse arquivo e colocar o seu modulo dentro do providers, la tera a instrucao para tal, que segue abaixo:
+
+Aqui estamos registrando o interceptador, quando voce cria um interceptor,
+ou um interceptador, voce precisa especifica-lo dentro de um providers.
+
+`provide` => Voce informa o que vai ser provido, nesse caso eh um "HTTP_INTERCEPTORS",
+
+`useClass` => Aqui voce informa qual o arquivo TS do seu interceptor, no caso o intercept eh
+importado com o nome de "Interceptor" e implementado aqui, esse arquivo se voce for analisar
+ele eh importado. 
+
+`multi` => permite que voce importe mais de um Interceptor da classe em questao, recomenda-se
+sempre deixar como verdadeiro, sua omissao significa false. Voce pode ter N interceptadores
+dentro da sua classe e esse modo faz com que eles possam ser executado.
+
+Montando o objeto: `{provide:HTTP_INTERCEPTORS, useClass:Interceptor, multi:true}`
+
+Colocando em um **providers**:
+
+`@NgModule({`
+
+    `providers: [`
+
+        `{provide:HTTP_INTERCEPTORS, useClass:Interceptor, multi:true}`
+
+    `]`
+    
+`});`

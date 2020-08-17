@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'; //Precisa importar
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; //Precisa importar
 import { AppComponent } from './app.component';
 import { HttpModuloComponent } from './http-modulo/http-modulo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +15,8 @@ import { FilhoComponent } from './rotas/filho/filho.component';
 import { RoutasExternaModule } from './rotas-externa/routas-externa.module';
 import { ComponenteComponent } from './rotas-externa/componente/componente.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
+import { Interceptor } from './autenticacao/autenticacao.interceptor';
+
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -110,7 +112,20 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     RoutasExternaModule, 
     RouterModule.forRoot(appRoutes) //=> Aqui eh informado as rotas
   ],
-  providers: [],
+  providers: [
+    /*
+      Aqui estamos registrando o interceptador, quando voce cria um interceptor,
+      ou um interceptador, voce precisa especifica-lo dentro de um providers.
+      provide => Voce informa o que vai ser provido, nesse caso eh um "HTTP_INTERCEPTORS",
+      useClass => Aqui voce informa qual o arquivo TS do seu interceptor, no caso o intercept eh
+      importado com o nome de "Interceptor" e implementado aqui, esse arquivo se voce for analisar
+      ele eh importado. 
+      multi => permite que voce importe mais de um Interceptor da classe em questao, recomenda-se
+      sempre deixar como verdadeiro, sua omissao significa false. Voce pode ter N interceptadores
+      dentro da sua classe e esse modo faz com que eles possam ser executado.
+    */
+   {provide:HTTP_INTERCEPTORS, useClass:Interceptor, multi:true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
