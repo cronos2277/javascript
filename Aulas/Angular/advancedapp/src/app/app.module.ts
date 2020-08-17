@@ -16,6 +16,7 @@ import { RoutasExternaModule } from './rotas-externa/routas-externa.module';
 import { ComponenteComponent } from './rotas-externa/componente/componente.component';
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 import { Interceptor } from './autenticacao/autenticacao.interceptor';
+import {RouteRules} from './rotas-externa/activate.route';
 
 
 // Exemplo Simples de rota
@@ -39,6 +40,7 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
   },
   { //Aqui estamos definindo a rota padrao
     path:"padrao",
+    canActivate: [RouteRules], //Aqui voce controla as rotas, veja nesse arquivo como funciona.
     component:PadraoComponent,
     children:[
       {
@@ -68,11 +70,11 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
   { //Aqui caso nao tenha rota definida, ou seja se estiver indo para o index
     path:"", //Se tiver nada na url depois do '/'
     pathMatch:"full", //Criterio para analise, ou seja se a rota for exatamente igual a "path"
-    redirectTo:"padrao" //Redirecione para a path padrao que foi definida mais acima.
+    redirectTo:"padrao" //Redirecione para a path padrao que foi definida mais acima.    
   },  
   { //Resposta de 404
     path:"**", //Se tiver qualquer outra coisa que nao foi definida aqui.
-    component:NotFoundComponent //Carregue esse componente.
+    component:NotFoundComponent //Carregue esse componente.   
   }
 ];
 

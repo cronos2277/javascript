@@ -133,6 +133,9 @@ TypeScript: <a href="./advancedapp/src/app/rotas/rotas.component.ts">rotas.compo
 <p>
 Rota em arquivo externo, caso voce queira saber como eh a estrutura de um arquivo de rota separado do app.module.ts, veja esse arquivo <a href="./advancedapp/src/app/rotas-externa/routas-externa-routing.module.ts">routas-externa-routing.module.ts</a>
 </p>
+<p>
+Exemplo mais complexo: <a href="./advancedapp/src/app/rotas-externa/activate.route.ts">activate.route.ts</a>
+</p>
 <h3>Interceptacao</h3>
 <p>Arquivo de exemplo,nesse arquivo esta toda a logica de como funciona a interceptacao de dados a cada 
  requisicao http. <a href="./advancedapp/src/app/autenticacao/autenticacao.interceptor.ts">autenticacao.interceptor.ts</a></p>

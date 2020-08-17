@@ -40,6 +40,8 @@ Criando rotas, em um projeto existente, caso voce tenha um sistema de rotas muit
 
  Rota em arquivo externo, caso voce queira saber como eh a estrutura de um arquivo de rota separado do app.module.ts, veja esse arquivo [Rotas Externas](src/app/rotas-externa/routas-externa-routing.module.ts)
 
+ Aqui voce tem um exemplo mais complexo, caso queira definir um controle de rota mais complexo: [arquivo Activate](src/app/rotas-externa/activate.route.ts)
+
  ### Autenticacao
  Arquivo de exemplo [autenticacao.interceptor.ts](src/app/autenticacao/autenticacao.interceptor.ts) nesse arquivo esta toda a logica de como funciona a interceptacao de dados a cada 
  requisicao http. 
