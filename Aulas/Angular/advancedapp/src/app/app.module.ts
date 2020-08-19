@@ -17,7 +17,10 @@ import { ComponenteComponent } from './rotas-externa/componente/componente.compo
 import { AutenticacaoComponent } from './autenticacao/autenticacao.component';
 import { Interceptor } from './autenticacao/autenticacao.interceptor';
 import {RouteRules} from './rotas-externa/activate.route';
-
+import {AngularFireModule} from '@angular/fire';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import { environment } from 'src/environments/environment';
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -112,7 +115,10 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     
     */
     RoutasExternaModule, 
-    RouterModule.forRoot(appRoutes) //=> Aqui eh informado as rotas
+    RouterModule.forRoot(appRoutes), //=> Aqui eh informado as rotas
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule
   ],
   providers: [
     /*

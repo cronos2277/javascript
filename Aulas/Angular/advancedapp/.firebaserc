@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "angular-aula-6b32d": {
+      "hosting": {
+        "advancedapp": [
+          "angular-aula-6b32d"
+        ]
+      }
+    }
+  }
+}

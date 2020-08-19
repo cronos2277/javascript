@@ -74,3 +74,6 @@ Colocando em um **providers**:
     `]`
     
 `});`
+
+### Firebase
+[Guia em portugues de uso basico](https://www.fabricadecodigo.com/crud-firebase-angular/)

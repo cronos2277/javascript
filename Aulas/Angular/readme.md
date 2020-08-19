@@ -213,6 +213,7 @@ adiciona um arquivo de rotas dentro do componente, modulo ou servico, etc...
   funcione bem no projeto. Segue abaixo 2 bibliotecas para frontend:<br>
   Materialize: "<b>ng add @angular/material</b>" => https://material.angular.io/components/categories <br>
   Bootstrap: "<b>ng add ngx-bootstrap</b>" => https://valor-software.com/ngx-bootstrap/#/documentation <br>
+  Firebase: "<b>npm install firebase @angular/fire --save</b>""<b>ng add @angular/fire</b>" => https://github.com/angular/angularfire <br>
 </p>
 <hr>
 <h2>Instalacao</h2>
@@ -233,4 +234,39 @@ evite usar '#', @ e qualquer outro caracter bizarro. Primeira dica.<br> segunda 
     Instalar todas as dependências novamente. "<b>npm i</b>"<br>
     Instalar a versão mais nova do rxjs. "<b>npm i rxjs</b>"<br>
     Tentar subir novamente. "<b>ng serve --open</b>"<br>
+</p>
+<h2>Erro do Tipo: Type ‘T[K]’ does not satisfy the constraint installing angular fire</h2>
+<p>
+Vai ate o arquivo tsconfig.json, ele deve ficar semelhante a isso:
+<pre>
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "skipLibCheck":true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}
+
+</pre>
+Repare que adicionamos o atributo <pre>"skipLibCheck":true,</pre> dentro de <pre>compilerOptions</pre>, voce precisa fazer isso para evitar esse problema, ou seja, reconfigurar o seu Typescript.
 </p>
