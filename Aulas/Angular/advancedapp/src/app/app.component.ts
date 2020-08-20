@@ -11,5 +11,6 @@ export class AppComponent {
   formulario_modulo:boolean = false;
   reactive_forms:boolean = false;
   rotas:boolean = false;
-  auth:boolean = true;
+  auth:boolean = false;
+  firebase:boolean = true;
 }

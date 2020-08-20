@@ -21,6 +21,7 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
+import { FirebaseComponent } from './firebase/firebase.component';
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -101,7 +102,7 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
       Como a rota externa nao eh definida no Objeto acima, logo temos
       que importar aqui, ou importat no objeto acima no modo lazy. 
     */
-    ComponenteComponent, AutenticacaoComponent 
+    ComponenteComponent, AutenticacaoComponent, FirebaseComponent 
   ],
   imports: [
     BrowserModule,

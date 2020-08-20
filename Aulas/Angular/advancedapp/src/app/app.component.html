@@ -48,3 +48,10 @@
 </div>
 <br>
 <hr>
+<label><input type="radio" [value]="true" name="fb_modulo"  [(ngModel)]="firebase" /> Habilitar Exemplo Firebase</label>
+<label><input type="radio" [value]="false" name="fb_modulo"  [(ngModel)]="firebase" /> Desabilitar Exemplo Firebase</label>
+<div *ngIf="firebase">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-firebase></app-firebase>  
+</div>
+<br>
+<hr>
