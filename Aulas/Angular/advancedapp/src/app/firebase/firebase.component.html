@@ -1,1 +1,34 @@
-<p>firebase works!</p>
+<h2>Firebase Registros</h2>
+<section id="fb-form" [formGroup]="form">
+    <div class="name">
+        <label>Name: </label>
+        <input type="text" name="name" formControlName="name" />
+    </div>
+    <div class="user">
+        <label>User: </label>
+        <input type="text" name="user" formControlName="user"/>
+    </div>
+    <div class="pass">
+        <label>Pass: </label>
+        <input type="password" name="pass" formControlName="pass"/>
+    </div>
+    <button id="send" (click)="submit()">Enviar</button>
+</section>
+<section id="fb-list" >
+<table id="fbt">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Usuarios</th>
+        <th>Senha</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of users$ | async">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.user}}</td>
+            <td>{{item.pass}}</td>
+        </tr>
+    </tbody>
+</table>
+</section>

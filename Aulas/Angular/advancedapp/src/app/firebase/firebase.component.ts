@@ -37,14 +37,26 @@ export class FirebaseComponent implements OnInit {
     }else{
       this.add(user);
     }
+    this.form.reset();
   }
 
   private add(user:User){
-    this.service.add(user);
+    if(this.form.valid){ 
+      user.id = Math.round(Math.random()* 1000000);     
+      this.service.add(user);
+    }else{
+      console.error("Error on add!");
+    }
   }
 
   private update(user:User){
-
+    if(this.form.valid){
+      //Digite o codigo de atualizacao aqui
+      
+    }else{
+      console.error("Error on update!");
+      console.log(this.form.value.id)      
+    }
   }
 
   

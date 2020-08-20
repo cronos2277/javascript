@@ -25,6 +25,7 @@ export class ServiceService {
     )
     .catch(
       _ => alert("Error on submiting the user.")
-    );
+    )   
   }
+ 
 }

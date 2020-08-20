@@ -1,0 +1,32 @@
+#fb-form{
+    background-color: gray;
+    color:white;
+    padding:10px;
+    border: 2px solid black;
+}
+.name input{
+    margin-left:10px;
+}
+.user input{
+    margin-left:18px;
+}
+.pass input{
+    margin-left:19px;
+}
+#send{
+    margin-left:80px;
+    margin-top:10px;
+}
+#fbt{
+    background-color:lightgray;
+    padding:20px;
+    border:2px solid black;
+    width:50%;
+}
+#fbt tbody tr{
+    background-color: blue;
+    color:white;
+    min-width: 50px;
+    max-width: 500px;
+    text-align: center;
+}
