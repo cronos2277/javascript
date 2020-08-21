@@ -1,20 +1,6 @@
 {
     "sqltools.connections": [
         {
-            "database": "test",
-            "driver": "MySQL",
-            "group": "Default",
-            "mysqlOptions": {
-                "authProtocol": "default"
-            },
-            "name": "Mysql",
-            "password": "",
-            "port": 3306,
-            "previewLimit": 50,
-            "server": "localhost",
-            "username": "root"
-        },
-        {
             "askForPassword": true,
             "database": "postgres",
             "driver": "PostgreSQL",
@@ -24,6 +10,20 @@
             "previewLimit": 50,
             "server": "localhost",
             "username": "postgres"
+        },
+        {
+            "database": "test",
+            "driver": "MySQL",
+            "group": "Default",
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "name": "MySQL XAMPP",
+            "password": "",
+            "port": 3306,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "root"
         }
     ]
 }
