@@ -21,6 +21,8 @@
         <th>Name</th>
         <th>Usuarios</th>
         <th>Senha</th>
+        <th>Alterar</th>
+        <th>Excluir</th>
     </thead>
     <tbody>
         <tr *ngFor="let item of users$ | async">
@@ -28,6 +30,8 @@
             <td>{{item.name}}</td>
             <td>{{item.user}}</td>
             <td>{{item.pass}}</td>
+            <td><button (click)="set(item)">Alterar</button></td>
+            <td><button (click)="delete(item)">Excluir</button></td>
         </tr>
     </tbody>
 </table>
