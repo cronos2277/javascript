@@ -117,6 +117,13 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     */
     RoutasExternaModule, 
     RouterModule.forRoot(appRoutes), //=> Aqui eh informado as rotas
+    /*
+      Voce precisa importar esses tres arquivos abaixo para que o Firebase funcione
+      corretamente, o AngularFireModule.initializeApp ele deve carregar as configuracoes
+      do servidor, aqui eh feito o carregamento do objeto firebaseConfig dentro da 
+      pasta environment, sendo carregado aqui o arquivo .prod, caso o angular rode
+      com as configuracoes de producao ao inves do de desenvolvimento.
+    */
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireDatabaseModule

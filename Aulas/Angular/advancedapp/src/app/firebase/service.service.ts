@@ -68,6 +68,12 @@ export class ServiceService {
   }
 
   public update(user:User){
+    /*
+      o .doc().set() tambem serve para atualizar, no caso como o ID ja existe o 
+      firebase fara a atualizacao ao inves de criar um novo, sim o Firebase eh 
+      programado para perceber isso, no caso o .doc("SEUID").set(entidade)
+      faz um papel semelhante ao saveOrUpdate dos JPA.
+    */
     return this.collection.doc(user.id).set(user)
     .then(
         _ => alert("The user was updated!")
@@ -77,6 +83,11 @@ export class ServiceService {
   }
 
   public delete(user:User){
+    /*    
+      Para deletar, ao inves de voce usar de o .doc().set(), voce deve usar
+      o .doc("SEUID").delete() no delete nao vai parametro, o delete ele
+      pega o valor do ID que voce passa no .doc()
+    */
     return this.collection.doc(user.id)
     .delete().then(
       _ => alert("The user was removed!")

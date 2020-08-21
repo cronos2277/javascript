@@ -63,7 +63,7 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
 <h3>Cold-Observables</h3>
 <p>Aqui temos um exemplo de cold-observables, no caso cada observer eh independente um do outro:<a href="./myapp/src/app/basicobserver/basicobserver.component.ts">basicobserver.component.ts</a>.</p>
 <h3>Hot-Observables</h3>
-<p>Aqui temos um exemplo de hot-observables, no caso o observer é disponibilizado em grupo:<a href="./myapp/src/app/hot-observables/hot-observables.component.ts">basicobserver.component.ts</a>.</p>
+<p>Aqui temos um exemplo de hot-observables, no caso o observer eh disponibilizado em grupo:<a href="./myapp/src/app/hot-observables/hot-observables.component.ts">basicobserver.component.ts</a>.</p>
 <h3>Objeto Subjects com funcao de Observable e Observer</h3>
 <p>Aqui um exemplo das entranhas do Subject: <a href="./myapp/src/app/subject/subject.component.ts">subject.component.ts</a> </p>
 <p>Observables sao uma maneira de programacao reativa no Angular, com eles voce pode monitorar o Status de cada dado e ir trabalhando seguindo os principios da programacao reativa:</p>
@@ -75,7 +75,7 @@ Servicos sao a maneira com que o Angular trabalha com as injecoes de dependencia
     <li>Message Driven: Reage aos eventos (event driven): em vez de compor
     aplicacoes por multiplas threads sincronas, sistemas sao compostos de gerenciadores de eventos assincronos e nao bloqueantes;</li>
     <li>Responsivo: Reage aos usuarios: aplicacoes que oferecem interacoes
-    ricas e “tempo real” com usuarios.</li>
+    ricas e tempo real com usuarios.</li>
 </ul>
 </p>
 <h2>Operadores RXJS</h2>
@@ -141,6 +141,12 @@ Exemplo mais complexo: <a href="./advancedapp/src/app/rotas-externa/activate.rou
  requisicao http. <a href="./advancedapp/src/app/autenticacao/autenticacao.interceptor.ts">autenticacao.interceptor.ts</a></p>
  <p>Voce precisara, alterar aqui:<a href="./advancedapp/src/app/app.module.ts">app.module.ts</a></p>
 <hr>
+<h3>Firebase</h3>
+<p>Aqui temos um exemplo de um componente usando o firebase, no caso esse componente faz o crud: <a href="./advancedapp/src/app/firebase/firebase.component.ts">firebase.component.ts</a></p>
+<p>Aqui temos um exemplo de um servico que faz a conexao com o firebase, repare que tudo funciona com apenas dois objetos: <pre>AngularFirestore</pre> e dentro dela temos um objeto
+ao qual acessamos usando o atributo collection <pre>AngularFirestoreCollection</pre>, ao qual usa de modelo dentro do diamante <a href="./advancedapp/src/app/firebase/table.model.ts">table.model.ts</a></p>
+<p>Aqui por fim temos o servico o objeto que faz efetivamente a conexao: <a href="./advancedapp/src/app/firebase/firebase.component.spec.ts">firebase.component.spec.ts</a></p>
+<p>Lembrando que se faz necessario importar modulo no arquivo <a href="./advancedapp/src/app/app.module.ts">app.module.ts</a></p>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
@@ -150,17 +156,17 @@ Exemplo mais complexo: <a href="./advancedapp/src/app/rotas-externa/activate.rou
   <b>build (b)</b> Compila um aplicativo Angular em um diretorio de saida chamado dist / no caminho de saida especificado. Deve ser executado de dentro de um diretorio da area de trabalho.<br>
   <b>deploy (d)</b> Invoca o construtor de implementacao para um projeto especificado ou para o projeto padrao na area de trabalho.<br>
   <b>config</b> Recupera ou define valores de configuracao Angular no arquivo angular.json da area de trabalho.<br>
-  <b>doc (d)</b> Abre a documentação oficial do Angular (angular.io) em um navegador e pesquisa uma determinada palavra-chave.<br>
+  <b>doc (d)</b> Abre a documentacao oficial do Angular (angular.io) em um navegador e pesquisa uma determinada palavra-chave.<br>
   <b>e2e (e)</b> Cria e veicula um aplicativo Angular e, em seguida, executa testes de ponta a ponta usando o Transferidor.<br>
   <b>generate (g)</b> Gera e / ou modifica arquivos com base em um esquema.  <br>
-  <b>lint (l)</b> Executa ferramentas de linting no código do aplicativo Angular em uma determinada pasta do projeto.<br>
-  <b>new (n)</b> Cria um novo espaço de trabalho e um aplicativo Angular inicial.<br>
-  <b>run</b> Executa um destino do Architect com uma configuração opcional do construtor personalizado definida em seu projeto.<br>
-  <b>serve (s)</b> Cria e veicula seu aplicativo, reconstruindo com alterações de arquivo.<br>
+  <b>lint (l)</b> Executa ferramentas de linting no codigo do aplicativo Angular em uma determinada pasta do projeto.<br>
+  <b>new (n)</b> Cria um novo espaco de trabalho e um aplicativo Angular inicial.<br>
+  <b>run</b> Executa um destino do Architect com uma configuracao opcional do construtor personalizado definida em seu projeto.<br>
+  <b>serve (s)</b> Cria e veicula seu aplicativo, reconstruindo com alteracoes de arquivo.<br>
   <b>test (t)</b> Executa testes de unidade em um projeto.<br>
-  <b>update</b> Atualiza seu aplicativo e suas dependências. Veja: https://update.angular.io/<br>
-  <b>version (v)</b> Emite a versão da CLI angular.<br>
-  <b>xi18n</b> Extrai mensagens i18n do código fonte.<br>
+  <b>update</b> Atualiza seu aplicativo e suas dependencias. Veja: https://update.angular.io/<br>
+  <b>version (v)</b> Emite a versao da CLI angular.<br>
+  <b>xi18n</b> Extrai mensagens i18n do codigo fonte.<br>
   
 </p>
 <hr>
@@ -217,6 +223,20 @@ adiciona um arquivo de rotas dentro do componente, modulo ou servico, etc...
 </p>
 <hr>
 <h2>Instalacao</h2>
+<h3>Pasta environments</h3>
+<p>
+  Nessa pasta se tem dois arquivos, um tem configuracoes para rodar em ambiente de desenvolvimento e outro em ambiente de producao.<br>
+  Nesse arquivo deve ficar as configuracoes do ambiente de desenvolvimento <a href="./advancedapp/src/environments/environment.ts">environment.ts</a>
+  Nesse arquivo deve ficar as configuracoes do ambiente de producao <a href="./advancedapp/src/environments/environment.prod.ts">environment.ts</a>
+</p>
+<h3>parametro --prod</h3>
+<p>
+  Quando voce usa o parametro <pre>--prod</pre>, caso voce queira usar as configuracoes do enviroment.prod.ts ao inves do arquivo que esta configurado
+  com o ambiente de desenvolvimento. ao rodar o comando <pre>ng build --prod</pre> voce compila para o ambiente de producao, e com <pre>ng serve --prod</pre>
+  voce executa o ng serve em ambiente de producao, com base nesses dois arquivos o Angular sabe se ele vai rodar com as configuracoes do ambiente de producao
+  ou desenvolvimento, entao coloque as configuracoes corretas nos arquivos correspondente. Repare que nos dois arquivos tem a mesma configuracao do firebase,
+  que sera excluido quando isso for pro github, entao la deve estar esse tipo de configuracao por exemplo
+</p>
 <p>
 Caso voce esteja baixando esse arquivo, use o "<b>npm i</b>", com o terminal dentro da pasta do projeto para instalar
 todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, como por exemplo o myapp, use o comando
@@ -224,18 +244,18 @@ todas as dependencias necessarias. Com o terminal aberto na pasta do projeto, co
 </p>
 <hr>
 <h2>Erros do tipo: <b>ERROR in Could not resolve module</b></h2>
-<p>caso você tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
+<p>caso voce tenha um erro do tipo: '<b>ERROR in Could not resolve module</b>'.
 <br>
 Nesse caso pode ser que exista algum caracter bizarro no path ate o projeto,
 evite usar '#', @ e qualquer outro caracter bizarro. Primeira dica.<br> segunda dica:<br>
-    Desinstalar a dependência rxjs do projeto."<b>npm uninstall rxjs</b>"<br>
+    Desinstalar a dependencia rxjs do projeto."<b>npm uninstall rxjs</b>"<br>
     Apagar a pasta node_modules. "<b>rm -rf node_modules</b>" <br>
     Apagar o arquivo package-json.lock e yarn.lock (se existir). "<b>rm package-json.lock yarn.lock</b>"<br>
-    Instalar todas as dependências novamente. "<b>npm i</b>"<br>
-    Instalar a versão mais nova do rxjs. "<b>npm i rxjs</b>"<br>
+    Instalar todas as dependencias novamente. "<b>npm i</b>"<br>
+    Instalar a versao mais nova do rxjs. "<b>npm i rxjs</b>"<br>
     Tentar subir novamente. "<b>ng serve --open</b>"<br>
 </p>
-<h2>Erro do Tipo: Type ‘T[K]’ does not satisfy the constraint installing angular fire</h2>
+<h2>Erro do Tipo: Type T[K] does not satisfy the constraint installing angular fire</h2>
 <p>
 Vai ate o arquivo tsconfig.json, ele deve ficar semelhante a isso:
 <pre>
