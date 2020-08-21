@@ -145,7 +145,7 @@ Exemplo mais complexo: <a href="./advancedapp/src/app/rotas-externa/activate.rou
 <p>Aqui temos um exemplo de um componente usando o firebase, no caso esse componente faz o crud: <a href="./advancedapp/src/app/firebase/firebase.component.ts">firebase.component.ts</a></p>
 <p>Aqui temos um exemplo de um servico que faz a conexao com o firebase, repare que tudo funciona com apenas dois objetos: <pre>AngularFirestore</pre> e dentro dela temos um objeto
 ao qual acessamos usando o atributo collection <pre>AngularFirestoreCollection</pre>, ao qual usa de modelo dentro do diamante <a href="./advancedapp/src/app/firebase/table.model.ts">table.model.ts</a></p>
-<p>Aqui por fim temos o servico o objeto que faz efetivamente a conexao: <a href="./advancedapp/src/app/firebase/firebase.component.spec.ts">firebase.component.spec.ts</a></p>
+<p>Aqui por fim temos o servico o objeto que faz efetivamente a conexao: <a href="./advancedapp/src/app/firebase/service.service">service.service</a></p>
 <p>Lembrando que se faz necessario importar modulo no arquivo <a href="./advancedapp/src/app/app.module.ts">app.module.ts</a></p>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
