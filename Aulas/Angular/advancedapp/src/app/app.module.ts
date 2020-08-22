@@ -25,6 +25,7 @@ import { FirebaseComponent } from './firebase/firebase.component';
 import { FileUploadFirebaseComponent } from './file-upload-firebase/file-upload-firebase.component';
 import { ListFilesComponent } from './file-upload-firebase/list-files/list-files.component';
 import { UploadComponent } from './file-upload-firebase/upload/upload.component';
+import {AngularFireStorageModule} from '@angular/fire/storage';
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -129,7 +130,12 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     */
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    /*
+      Esse modulo abaixo eh necessario para funcionar o modulo storage, ou seja
+      o de upload de arquivos.
+    */    
+    AngularFireStorageModule
   ],
   providers: [
     /*

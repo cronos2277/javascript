@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FilesService } from './files.service';
 
 @Component({
   selector: 'app-file-upload-firebase',
@@ -7,12 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FileUploadFirebaseComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private upload:FilesService
+  ) { }
 
   ngOnInit() {
   }
 
-  public ondropfiles(event){
-      console.log("ondropfiles: ",event);
+  public ondropfiles(file:FileList){
+    for(let i=0;i<file.length;i++){
+      this.upload.uploadFile(file.item(i));
+    }
+      console.log("ondropfiles: ",file);
   }
 }
