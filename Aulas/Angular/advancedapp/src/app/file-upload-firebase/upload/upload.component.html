@@ -1,3 +1,8 @@
-<div (dragover)="ondragover($event)" (dragleave)="ondragleave($event)" [class.is-dragging]="isdragging">
+<div 
+    (dragover)="ondragover($event)" 
+    (dragleave)="ondragleave($event)" 
+    [class.is-dragging]="isdragging"
+    (drop)="ondrop($event)"
+    >
 Arraste o seu arquivo aqui.
 </div>

@@ -12,4 +12,7 @@ export class FileUploadFirebaseComponent implements OnInit {
   ngOnInit() {
   }
 
+  public ondropfiles(event){
+      console.log("ondropfiles: ",event);
+  }
 }
