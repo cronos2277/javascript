@@ -55,3 +55,9 @@
 </div>
 <br>
 <hr>
+<label><input type="radio" [value]="true" name="fb_upload"  [(ngModel)]="upload" /> Habilitar Firebase File Upload</label>
+<label><input type="radio" [value]="false" name="fb_upload"  [(ngModel)]="upload" /> Desabilitar Firebase File Upload</label>
+<div *ngIf="upload">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-file-upload-firebase></app-file-upload-firebase>  
+</div>
+<br>

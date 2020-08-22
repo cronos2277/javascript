@@ -1,0 +1,15 @@
+ul{
+    background-color:blue;
+    width: 30%;
+    min-width: 200px;
+    min-height: 30vh;
+    display: inline-block;    
+    border: 3px solid black;
+    border-left-style: none;
+    box-sizing: border-box;         
+}
+li{
+    color:white;
+    list-style-type: none;
+    font-size:18px;
+}
