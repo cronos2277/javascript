@@ -12,5 +12,8 @@ div{
     border-color: red;
 }
 th:nth-child(1){
-    width: 90%;
+    width: 70%;
+}
+th:nth-child(2){
+    width: 20%;
 }

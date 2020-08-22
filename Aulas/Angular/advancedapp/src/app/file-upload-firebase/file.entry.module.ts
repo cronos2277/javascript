@@ -6,8 +6,9 @@ import { Observable } from 'rxjs';
     interface, ela vai moldar o arquivo de dados oriundo
     do firebase com base nessa interface abaixo.
 */
-export interface FileEntry{
+export interface FileEntry{    
     file:File,
+    name:string,
     task:AngularFireUploadTask,
     percentage:Observable<number>,
     uploading:Observable<boolean>,

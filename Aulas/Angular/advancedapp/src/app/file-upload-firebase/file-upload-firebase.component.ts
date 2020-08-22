@@ -1,7 +1,6 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { FilesService } from './files.service';
-import {FileEntry,EachFile} from './file.entry.module';
-import { throwIfEmpty } from 'rxjs/operators';
+import {FileEntry} from './file.entry.module';
 
 @Component({
   selector: 'app-file-upload-firebase',
@@ -10,8 +9,7 @@ import { throwIfEmpty } from 'rxjs/operators';
 })
 export class FileUploadFirebaseComponent implements OnInit {
 
-  public files:FileEntry[] = [];
-  public cli_files:FileList[] = [];
+  public files:FileEntry[] = [];  
   constructor(
     private upload:FilesService
   ) { }
@@ -20,11 +18,11 @@ export class FileUploadFirebaseComponent implements OnInit {
     
   }
 
-  public ondropfiles(file:FileList){
-    this.files.splice(0,this.files.length);
+  public ondropfiles(file:FileList){        
     for(let i=0;i<file.length;i++){
-      this.files.push({
-        file:file.item[i],
+      this.files.push({        
+        file:file[i],
+        name:file[i].name,
         percentage: null,
         uploading:null,
         bytesUploaded:null,
@@ -35,23 +33,28 @@ export class FileUploadFirebaseComponent implements OnInit {
         state:null,
         task:null
       });
-      //this.upload.uploadFile(file.item(i));            
-    }    
-      this.cli_files.push(file);
-      console.log("ondropfiles: ",this.cli_files);            
+      console.log("Array preenchido",this.files)                
+    }
+                      
   }
 
-  public reset(event){
-    this.cli_files = [];
+  public submit(event){
+    this.uploading();
+  }
+
+  private uploading(){    
+    this.files.forEach(
+      each => this.upload.upload(each)
+    )
+  }
+
+  public reset(event){    
     this.files = [];
     console.log(event);
-  } 
+  }   
   
-  public submit(event){
-    console.log(event);
+  remove(index:number){
+    this.files.splice(index,1);    
   }
-
-  public remove(file){
-    console.log(file);
-  }
+  
 }

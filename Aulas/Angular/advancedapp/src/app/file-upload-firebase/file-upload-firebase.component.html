@@ -1,12 +1,17 @@
 <section>    
         <app-upload (dropFiles)="ondropfiles($event)" (resetSignal)="reset($event)" (submitSignal)="submit($event)">                                            
-                    <tbody *ngFor="let files of cli_files">
-                        <tr *ngFor="let file of files">
-                            <td>{{file.name}}</td>                            
-                            <td><button (click)="remove(file)">Excluir</button></td>                            
-                        </tr> 
+                    <tbody *ngFor="let file of files">
+                        <tr >
+                            <td>{{file.name}}</td>  
+                            <td>{{file.bytesUploaded|async}} Bytes</td>                        
+                            <td><progress value={{file.percentage|async}}>{{file.state}}</progress></td>    
+                            <td><button (click)="remove(file.index)">Excluir</button></td>                            
+                        </tr>
+                        <h3 *ngIf="file.error|async">Erros: {{file.error}}</h3> 
+                        <h3 *ngIf="file.finished|async">Concluido</h3> 
+                        <h3 *ngIf="file.canceled|async">Cancelado</h3> 
                     </tbody>                    
         </app-upload>        
-        <app-list-files></app-list-files>
+        <app-list-files></app-list-files>       
     
 </section>
