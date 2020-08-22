@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FilesService } from './files.service';
 import {FileEntry,EachFile} from './file.entry.module';
+import { throwIfEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-file-upload-firebase',
@@ -37,12 +38,20 @@ export class FileUploadFirebaseComponent implements OnInit {
       //this.upload.uploadFile(file.item(i));            
     }    
       this.cli_files.push(file);
-      console.log("ondropfiles: ",this.cli_files);      
-      
+      console.log("ondropfiles: ",this.cli_files);            
   }
 
-  public exec(){
-    console.log(this.files);
-  }
+  public reset(event){
+    this.cli_files = [];
+    this.files = [];
+    console.log(event);
+  } 
   
+  public submit(event){
+    console.log(event);
+  }
+
+  public remove(file){
+    console.log(file);
+  }
 }

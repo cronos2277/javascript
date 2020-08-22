@@ -1,16 +1,12 @@
-<section>
-    <app-upload (dropFiles)="ondropfiles($event)">        
-            <caption>Arquivos</caption>                
-            <table>
-                <thead>
-                    <th>Nome</th>
-                </thead>
-                <tbody *ngFor="let files of cli_files">
-                    <tr *ngFor="let file of files">
-                        <td>{{file.name}}</td>
-                    </tr> 
-                </tbody>        
-            </table> 
-    </app-upload>
-    <app-list-files></app-list-files>
+<section>    
+        <app-upload (dropFiles)="ondropfiles($event)" (resetSignal)="reset($event)" (submitSignal)="submit($event)">                                            
+                    <tbody *ngFor="let files of cli_files">
+                        <tr *ngFor="let file of files">
+                            <td>{{file.name}}</td>                            
+                            <td><button (click)="remove(file)">Excluir</button></td>                            
+                        </tr> 
+                    </tbody>                    
+        </app-upload>        
+        <app-list-files></app-list-files>
+    
 </section>

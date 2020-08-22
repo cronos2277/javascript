@@ -11,3 +11,6 @@ div{
     background-color:darkgray;
     border-color: red;
 }
+th:nth-child(1){
+    width: 90%;
+}

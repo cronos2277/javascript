@@ -4,10 +4,16 @@
     [class.is-dragging]="isdragging"
     (drop)="ondrop($event)"
     >
-Arraste o seu arquivo aqui.
-
-<ng-content>
-
-</ng-content>
+<h1>Arraste o seu arquivo aqui.</h1>
+<table border="2px">
+    <thead>
+        <th>Arquivos</th>        
+        <th>Excluir</th>
+    </thead>    
+    <ng-content>
+    </ng-content>    
+</table>
+<button (click)="reset()">Limpar</button>
+<button (click)="submit()">Enviar</button>
 
 </div>

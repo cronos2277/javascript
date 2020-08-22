@@ -7,7 +7,10 @@ import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
 
-  @Output(null) dropFiles = new EventEmitter<FileList>();     
+  @Output(null) dropFiles = new EventEmitter<FileList>();  
+  @Output(null) resetSignal = new EventEmitter<string>();
+  @Output(null) submitSignal = new EventEmitter<string>();
+    
   constructor() { }
   public isdragging:boolean = false;
   ngOnInit() {
@@ -40,6 +43,14 @@ export class UploadComponent implements OnInit {
     console.log("DroppedFiles", event.dataTransfer);   
     this.dropFiles.emit(event.dataTransfer.files); 
     this.isdragging = false;        
-  } 
+  }
+  
+  public reset(){
+    this.resetSignal.emit("Reset event was triggered");
+  }
+
+  public submit(){
+    this.submitSignal.emit("Submit event was triggered");
+  }
 
 }
