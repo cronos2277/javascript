@@ -1,4 +1,7 @@
 import { Component, OnInit, Input, SimpleChange, OnChanges } from '@angular/core';
+import { FilesService } from '../files.service';
+import { Observable } from 'rxjs';
+import { EachFile } from '../file.entry.module';
 
 @Component({
   selector: 'app-list-files',
@@ -7,9 +10,20 @@ import { Component, OnInit, Input, SimpleChange, OnChanges } from '@angular/core
 })
 export class ListFilesComponent implements OnInit{
 
-  constructor() { }
+  files:Observable<EachFile[]>;
+  constructor(
+    private service:FilesService
+  ) { }
   
   ngOnInit() {    
+    this.files = this.service.getFiles();
+    this.files.subscribe(
+      e => console.log("Files cought from Firebase:",e)
+    );
   } 
+
+  public getDate(date){
+    return date(date);
+  }
 
 }

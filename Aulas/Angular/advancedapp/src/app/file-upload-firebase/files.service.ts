@@ -3,7 +3,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { FileEntry, EachFile } from './file.entry.module';
 import { map, catchError, finalize } from 'rxjs/operators';
 import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
-import { of, from } from 'rxjs';
+import { of, from, Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 @Injectable({
@@ -16,10 +16,8 @@ export class FilesService {
     private storage:AngularFireStorage,
     private firestore:AngularFirestore
   ) { 
-    this.collection = this.firestore.collection(
-      this.collectionName, 
-      ref => ref.orderBy('date','asc').where("1","==","1")
-    )
+    //ref => ref.orderBy('date','asc').where("1","==","1")
+    this.collection = this.firestore.collection(this.collectionName,ref => ref.orderBy('date'))
   }
   
   public uploadFile(file:File){
@@ -43,17 +41,17 @@ export class FilesService {
     );
     this.fillAttr(file);
     file.task.snapshotChanges().pipe(
-      finalize(() => {
+      finalize(() => {        
         if(file.task.task.snapshot.state == "success"){
           this.collection.add({
             filename:file.file.name,
             path: path,
             date: (new Date()).getTime(),
             size:file.file.size
-          })
+          });
         }
       })
-    )
+    ).subscribe();
   }
 
   public fillAttr(file:FileEntry){
@@ -64,6 +62,21 @@ export class FilesService {
     file.error = file.state.pipe(map(s => s == "error"));
     file.canceled = file.state.pipe(map(s => s == "canceled"));
     file.bytesUploaded = file.task.snapshotChanges().pipe(map(s => s.bytesTransferred));
+  }
+
+  getFiles():Observable<EachFile[]>{
+    return this.collection.snapshotChanges()
+    .pipe(
+      map((actions) => {        
+        return actions.map(a => {
+            const file:EachFile = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            const url = this.storage.ref(file.path).getDownloadURL();
+            return {id,...file,url};
+          }
+        )
+      })
+    )
   }
 
 }

@@ -1,6 +1,11 @@
-<ul>
-        <li>Arquivos</li>  
-        
-</ul>
+<div>        
+        <ul *ngFor="let file of files|async">
+                <li>Nome: {{file.filename}}</li>                  
+                <li>Tamanho: {{file.size}} Bytes</li>                  
+                <li>Data: {{file.date | date:'medium'}}</li>
+                <li>link: <a [href]="file.url|async" target="_blank"><span>Abrir</span></a></li>                             
+        </ul>
+</div>
+
 
 
