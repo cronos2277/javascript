@@ -40,6 +40,7 @@ que nesse caso eh o:
 Aqui temos um exemplo da comunicacao entre componentes, nesse arquivo temos um exemplo da estrutura <a href="myapp/src/app/mygenerated/comunication/comunication.component.html">comunication.component.html</a>, sendo o arquivo da aonde esta a classe: <a href="myapp/src/app/mygenerated/comunication/comunication.component.ts">comunication.component.ts</a>.<br>
 Esse componente assim como esses dois arquivos tem uma demonstracao de como funciona a comunicao entre componentes. Ou seja como funciona a comunicacao entre eles, tento entre componentes filhos como da mesma hierarquia.
 </p>
+<p>Aqui temos um outro exemplo, mais pratico e direto: <a href="advancedapp/src/app/file-upload-firebase/upload/upload.component.ts">upload.component.ts</a></p>
 <h3>Ciclo de vida de componentes</h3>
 <p>Aqui voce entendera como que funciona o ciclo de vida de um componente: <a href="./myapp/src/app/main-lifecycle/lifecycle-child/lifecycle-child.component.ts">lifecycle-child.component.ts</a>, os seguintes metodos sao detalhados ali:"<b> ngOnInit, ngOnChanges, ngAfterContentInit, ngAfterViewInit, ngOnDestroy</b>", Todos aqueles metodos necessarios caso voce queira manipular dados da classe do componente.</p>
 <p>Exemplos Avancados de metodos usados na vida de componentes, sendo recomendado, apenas quando os metodo acimas nao servem:<br> 
@@ -147,6 +148,20 @@ Exemplo mais complexo: <a href="./advancedapp/src/app/rotas-externa/activate.rou
 ao qual acessamos usando o atributo collection <pre>AngularFirestoreCollection</pre>, ao qual usa de modelo dentro do diamante <a href="./advancedapp/src/app/firebase/table.model.ts">table.model.ts</a></p>
 <p>Aqui por fim temos o servico o objeto que faz efetivamente a conexao: <a href="./advancedapp/src/app/firebase/service.service.ts">service.service.ts</a></p>
 <p>Lembrando que se faz necessario importar modulo no arquivo <a href="./advancedapp/src/app/app.module.ts">app.module.ts</a></p>
+<h3>Firebase Storage</h3>
+<p>Componente pai: <a href="./advancedapp/src/app/file-upload-firebase/file-upload-firebase.component.ts">file-upload-firebase.component.ts</a>, template <a href="./advancedapp/src/app/file-upload-firebase/file-upload-firebase.component.html"></a></p>
+<p>
+Componente de upload, template: <a hre="./advancedapp/src/app/file-upload-firebase/upload/upload.component.html">upload.component.html</a><br>
+Arquivo TS do componente de upload: <a href="./advancedapp/src/app/file-upload-firebase/upload/upload.component.ts">upload.component.ts</a>
+</p>
+<p>
+Dropzone template:<a href="./advancedapp/src/app/file-upload-firebase/list-files/list-files.component.html">list-files.component.html</a> <br>
+Dropzone TS:<a href="./advancedapp/src/app/file-upload-firebase/list-files/list-files.component.ts">list-files.component.ts</a>
+</p>
+<p>
+Arquivo de Service:<a href="./advancedapp/src/app/file-upload-firebase/files.service.ts">files.service.ts</a> <br>
+Arquivo modelo: <a href="./advancedapp/src/app/file-upload-firebase/file.entry.module.ts">file.entry.module.ts</a>
+</p>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>

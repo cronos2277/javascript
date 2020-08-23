@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FilesService } from './files.service';
 import {FileEntry} from './file.entry.module';
 

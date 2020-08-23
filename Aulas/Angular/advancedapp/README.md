@@ -77,3 +77,27 @@ Colocando em um **providers**:
 
 ### Firebase
 [Guia em portugues de uso basico](https://www.fabricadecodigo.com/crud-firebase-angular/)
+
+### Lembre-se @Input
+Ele recebe valores do componente pai, vamos pegar o seguinte exemplo:
+`@Input(null) variavel;` com o seletor `<app></app>`, nesse caso temos que, caso o pai
+queira passar o valor para o filho ele pode fazer dessa forma se a comunicao for como
+a exemploficada acima: `<app variavel="valor"></app>`, nesse caso a variavel teria como
+valor o valor passado pelo atributo variavel, logico que poderiamos interpolar isso:
+`<app [variavel]="variavelDoPai"></app>` => nesse caso se assumiria o valor da `variavelDoPai`
+
+### Lembre-se @Output
+`<app></app>`
+`@Output(null) variavel = new EventEmitter<any>()` 
+
+Aonde esta a variavel vai virar um evento do Angular que os componentes pais podem usar, 
+caso o valor dentro dos parenteses seja null esse evento vai se chamar variavel, ficaria
+`<app (variavel)="FuncaoDoPai()></app>"` ou se quiser chamar o parametro `<app (variavel)="funcaodoPai($event)></app>"`
+lembre-se sempre o `$event` deve ser o parametro.
+
+Se mudarmos aqui: `@Output("attr")` devemos mudar aqui tambem: `<app (attr)="FuncaoDoPai()></app>"`
+
+No diamante definimos o valor, se colocamos number aqui: `new EventEmitter<number>()` e o valor definido no
+diamante deve ser do mesmo tipo de quando o valor for omitido `dropFiles.emit(valor:number)` e tambem isso
+se altera aqui `<app (variavel)="FuncaoDoPai($event:number)></app>"`. Na mesma hora que o `.emit()` for chamado
+a `FuncaoDoPai` sera executada, ou seja ao executar o .emit no filho a `funcaoDoPai` escuta e executa.
