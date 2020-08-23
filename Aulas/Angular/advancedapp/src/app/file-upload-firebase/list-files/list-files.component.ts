@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChange, OnChanges } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FilesService } from '../files.service';
 import { Observable } from 'rxjs';
 import { EachFile } from '../file.entry.module';
@@ -22,8 +22,16 @@ export class ListFilesComponent implements OnInit{
     );
   } 
 
+  /*
+    Essa funcao ela formata a data, no caso o uso dela 
+    no template esta nessa linha:
+    <li>Data: {{file.date | date:'medium'}}</li>
+  */
   public getDate(date){
     return date(date);
   }
 
+  public delete(file:EachFile){
+    if(confirm("Do you want remove?"))this.service.deleteFile(file);
+  }
 }

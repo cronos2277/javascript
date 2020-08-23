@@ -53,6 +53,8 @@ export class FileUploadFirebaseComponent implements OnInit {
     console.log(event);
   }   
   
+  //splice apaga elemento do array, o primeiro parametro 
+  //eh o indice e o segundo a quantidade
   remove(index:number){
     this.files.splice(index,1);    
   }

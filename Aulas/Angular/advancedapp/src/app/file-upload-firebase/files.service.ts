@@ -16,12 +16,20 @@ export class FilesService {
     private storage:AngularFireStorage,
     private firestore:AngularFirestore
   ) { 
-    //ref => ref.orderBy('date','asc').where("1","==","1")
+    /*
+      Quando voce se conecta ao database do google, voce pode passar uma funcao como segundo
+      parametro e esse segundo parametro poderia ser um orderBy, ou uma clausura where como
+      o exemplo abaixo.
+      ref.orderBy('date','asc') => O primeiro e a coluna e o segundo seria asc ou desc como no SQL.
+      ref.where("1","==","1") => O primeiro e o terceiro sao os valores e o segundo seria a comparacao,
+      tipo >< ou == ou != por exemplo. Voce tembem pode encadear como no exemplo abaixo.
+      ref => ref.orderBy('date','asc').where("1","==","1")
+    */
     this.collection = this.firestore.collection(this.collectionName,ref => ref.orderBy('date'))
   }
   
   public uploadFile(file:File){
-    const path = `myfiles/${file.name}`;
+    const path = `${this.collectionName}/${file.name}`;
     const task = this.storage.upload(path,file);
     task.snapshotChanges().subscribe(
       status => {
@@ -33,7 +41,7 @@ export class FilesService {
 
   public upload(file: FileEntry,folder?:string){
     const filename = `${(new Date()).getTime()}_${file.file.name}`;
-    const path = (!folder)?`myfiles/${filename}`:`${folder}/${filename}`;
+    const path = (!folder)?`${this.collectionName}/${filename}`:`${folder}/${filename}`;
     file.task = this.storage.upload(path,file.file);
     file.state = file.task.snapshotChanges().pipe(
       map((s:UploadTaskSnapshot) => file.task.task.snapshot.state),
@@ -41,7 +49,7 @@ export class FilesService {
     );
     this.fillAttr(file);
     file.task.snapshotChanges().pipe(
-      finalize(() => {        
+      finalize(() => {         //O finilize chama a cb de conclusao.
         if(file.task.task.snapshot.state == "success"){
           this.collection.add({
             filename:file.file.name,
@@ -51,10 +59,14 @@ export class FilesService {
           });
         }
       })
-    ).subscribe();
+    ).subscribe(); //Nunca esqueca de dar subscribe eu esqueci disso a database nao era inscrita.
   }
 
   public fillAttr(file:FileEntry){
+    /*
+      Os eventos de play, pause, cancelar, assim como o progresso entre outros sao observables.
+      e das formas abaixo voce consegue pegar isso.
+    */
     file.percentage = file.task.percentageChanges();
     file.uploading = file.state.pipe(map(s => s == "running"));
     file.finished = from(file.task).pipe(map(s => s.state == "success"));
@@ -77,6 +89,11 @@ export class FilesService {
         )
       })
     )
+  }
+
+  deleteFile(file: EachFile) {
+    this.storage.ref(file.path).delete();
+    this.collection.doc(file.id).delete();
   }
 
 }

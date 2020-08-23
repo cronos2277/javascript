@@ -1,9 +1,11 @@
 <div>        
         <ul *ngFor="let file of files|async">
                 <li>Nome: {{file.filename}}</li>                  
-                <li>Tamanho: {{file.size}} Bytes</li>                  
+                <li>Tamanho: {{file.size}} Bytes</li>      
+                <!-- Essa | date usa a funcao do template como base. -->            
                 <li>Data: {{file.date | date:'medium'}}</li>
-                <li>link: <a [href]="file.url|async" target="_blank"><span>Abrir</span></a></li>                             
+                <li>Link: <a [href]="file.url|async" target="_blank"><span>Abrir</span></a></li>                             
+                <li>Excluir: <button (click)="delete(file)">Excluir</button></li>                             
         </ul>
 </div>
 
