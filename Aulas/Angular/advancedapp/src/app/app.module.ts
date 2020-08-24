@@ -26,6 +26,7 @@ import { FileUploadFirebaseComponent } from './file-upload-firebase/file-upload-
 import { ListFilesComponent } from './file-upload-firebase/list-files/list-files.component';
 import { UploadComponent } from './file-upload-firebase/upload/upload.component';
 import {AngularFireStorageModule} from '@angular/fire/storage';
+import { NgrxComponent } from './ngrx/ngrx.component';
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -106,7 +107,7 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
       Como a rota externa nao eh definida no Objeto acima, logo temos
       que importar aqui, ou importat no objeto acima no modo lazy. 
     */
-    ComponenteComponent, AutenticacaoComponent, FirebaseComponent, FileUploadFirebaseComponent, ListFilesComponent, UploadComponent 
+    ComponenteComponent, AutenticacaoComponent, FirebaseComponent, FileUploadFirebaseComponent, ListFilesComponent, UploadComponent, NgrxComponent 
   ],
   imports: [
     BrowserModule,
