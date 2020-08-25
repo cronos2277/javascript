@@ -1,5 +1,5 @@
 import { Model } from './command.model';
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, createSelector } from '@ngrx/store';
 /*
     Voce pode associar mais de um dado usando o as,
     No caso estamos dizendo, pegue todos os Objetos,
@@ -48,3 +48,19 @@ de algum componente.
 export const CmdReducers:ActionReducerMap<CmdState> = {
     model:fromReducer.reducer
 }
+
+/*
+    Voce tambem pode criar seletores customizaveis, no caso esse
+    seletor retorna a quantidade de registro que existe.
+    Esse seletor ele sera acessado com o metodo .select()
+    da instancia storage da classe de componente.
+*/
+export const count:(param:CmdState)=>number = (state:CmdState) => (state.model)?state.model.length:0;
+
+//Voce pode tambem usar um seletor como parametro de outro seletor, como no exemplo abaixo.
+
+export const last = createSelector(count, //O seletor recebe como parametro o seletor count acima.
+    function(count){ //Aqui usamos esse mesmo count como parametro de funcao.
+        return `We have ${count} register(s)`;  //Aqui nos temos o resultado da funcao usando os dados do count.
+    }
+)

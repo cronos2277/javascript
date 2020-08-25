@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Model } from './command.model';
 import { Store, select } from '@ngrx/store';
-import { CmdState } from './command.state';
+import { CmdState,count,last } from './command.state';
 import { Observable } from 'rxjs';
 import { GetterNew, GetterAll, GetterUpdate, GetterDelete } from './command.actions';
 
@@ -12,6 +12,7 @@ import { GetterNew, GetterAll, GetterUpdate, GetterDelete } from './command.acti
   styleUrls: ['./ngrx.component.css']
 })
 export class NgrxComponent implements OnInit {
+  quantity$;
   commands$:Observable<Model[]>
   constructor(
     /*
@@ -49,6 +50,21 @@ export class NgrxComponent implements OnInit {
       mais informacoes.
     */
     this.commands$ = this.store.pipe(select('model'));
+
+    /*
+      Dessa forma pegamos um seletor, o seletor ele
+      fica junto com os estados, no caso o seletor 
+      eh uma parte da informacao completa, nesse caso
+      apenas a quantidade de registros. Alem disso
+      como voce pode ver abaixo se trata de um Observable.
+    */
+    this.quantity$ = this.store.select(count);
+    /*
+      Aqui estamos pegando uma outra select, ela usa a
+      select count como base e o valor dela sera exibida
+      apenas no console.
+    */
+    this.store.select(last).subscribe(n => console.log("%c"+n,"background-color:blue;color:white;"));
   }
 
   public addNew(){        
