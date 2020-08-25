@@ -14,4 +14,5 @@ export class AppComponent {
   auth:boolean = false;
   firebase:boolean = false;
   upload:boolean = false;
+  ngrx:boolean = true;
 }

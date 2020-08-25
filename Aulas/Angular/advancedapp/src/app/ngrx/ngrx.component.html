@@ -1,1 +1,24 @@
-<p>ngrx works!</p>
+<section>
+    <table>
+        <thead>
+            <th>id</th>
+            <th>valor</th>
+            <th>data</th>
+            <th>comandos</th>            
+        </thead>
+        <tbody>
+            <tr *ngFor="let cmd of commands$|async;let i = index">
+                <td>{{cmd._id}}</td>
+                <td>{{cmd.value}}</td>
+                <td>{{cmd.date}}</td>
+                <td>
+                    <button class="alt" (click)="update(cmd,i)">Alterar</button>
+                    <button class="rem" (click)="delete(cmd)">Excluir</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <button (click)="addNew()">Add New</button>    
+    </div>
+</section>

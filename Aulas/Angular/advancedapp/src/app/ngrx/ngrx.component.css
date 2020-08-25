@@ -1,0 +1,30 @@
+table{
+    border: 2px solid black;
+    width:40%;
+    margin-top:10px;
+    margin-bottom: 20px;
+}
+thead{
+    background-color:black;
+    color:white;
+}
+tbody{
+    background-color:blue;
+    color:white;
+}
+th,td{
+    width: 33%;
+    border:2px solid black;
+    text-align: center;
+}
+.alt{
+    background-color:green;
+    color:white;
+    border:1px solid lightblue;
+}
+.rem{
+    background-color:red;
+    color:white;
+    border: 1px solid lightcoral;
+    margin-top:10px;
+}

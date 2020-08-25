@@ -61,3 +61,9 @@
   <app-file-upload-firebase></app-file-upload-firebase>  
 </div>
 <br>
+<hr>
+<label><input type="radio" [value]="true" name="fb_ngrx"  [(ngModel)]="ngrx" /> Habilitar NGRX</label>
+<label><input type="radio" [value]="false" name="fb_ngrx"  [(ngModel)]="ngrx" /> Desabilitar NGRX</label>
+<div *ngIf="ngrx">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-ngrx></app-ngrx>  
+</div>
