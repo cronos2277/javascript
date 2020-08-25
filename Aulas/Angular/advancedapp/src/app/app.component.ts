@@ -13,5 +13,5 @@ export class AppComponent {
   rotas:boolean = false;
   auth:boolean = false;
   firebase:boolean = false;
-  upload:boolean = true;
+  upload:boolean = false;
 }

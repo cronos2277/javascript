@@ -1,6 +1,6 @@
 //Voce precisa importar a interface action daqui.
 import {Action} from "@ngrx/store"; 
-import { Model } from './model';
+import { Model } from './command.model';
 
 export enum Commands{ //Aqui estamos criando a nossa action
     GETTER_ALL = "[GETTER_ALL] Get all value",
@@ -17,7 +17,7 @@ export class GetterAll implements Action{
         aqui, logo a implementacao eh simples como
         demonstrado abaixo.
     */
-    readonly type = Commands.GETTER_ALL
+    readonly type = Commands.GETTER_ALL;    
 }
 
 export class GetterNew implements Action{
@@ -33,16 +33,16 @@ export class GetterNew implements Action{
         eh justamente aqui que o NGRX vai pegar os 
         parametros.
     */
-    constructor(public payload:{model:Model}){}
+    constructor(public payload:Model){}
 }
 
 export class GetterUpdate implements Action{
     readonly type = Commands.GETTER_UPDATE;
-    constructor(public payload:{model:Model}){}
+    constructor(public payload:Model){}
 }
 export class GetterDelete implements Action{
-    readonly type = Commands.GETTER_DELETE
-    constructor(public payload:{model:Model}){}
+    readonly type = Commands.GETTER_DELETE;
+    constructor(public payload:Model){}
 }
 
 export type GetterActions = GetterAll | GetterNew | GetterUpdate | GetterDelete;
