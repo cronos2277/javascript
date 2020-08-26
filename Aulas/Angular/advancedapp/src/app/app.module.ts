@@ -29,6 +29,8 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import { NgrxComponent } from './ngrx/ngrx.component';
 import { StoreModule } from '@ngrx/store';
 import {CmdReducers} from './ngrx/command.state';
+import {StateReducers} from './ngrx-entity/entity.state';
+import { NgrxEntityComponent } from './ngrx-entity/ngrx-entity.component';
 
 // Exemplo Simples de rota
 const appRoutes:Routes = [ //Aqui esta todas as rotas.
@@ -109,7 +111,7 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
       Como a rota externa nao eh definida no Objeto acima, logo temos
       que importar aqui, ou importat no objeto acima no modo lazy. 
     */
-    ComponenteComponent, AutenticacaoComponent, FirebaseComponent, FileUploadFirebaseComponent, ListFilesComponent, UploadComponent, NgrxComponent 
+    ComponenteComponent, AutenticacaoComponent, FirebaseComponent, FileUploadFirebaseComponent, ListFilesComponent, UploadComponent, NgrxComponent, NgrxEntityComponent 
   ],
   imports: [
     BrowserModule,
@@ -141,8 +143,13 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
     AngularFireStorageModule,
     /*
       NGRX se faz necessario que voce importe o gerenciador de estado do seu Redux.
+      Caso voce implemente mais de um reducer, nao implemente os dois usando o
+      metodo forRoot, isso vai fazer com que apenas o segundo seja executado, 
+      usando o outro usando o forFeature.
     */
-    StoreModule.forRoot(CmdReducers)
+    StoreModule.forRoot(CmdReducers),
+    StoreModule.forFeature("Entity",StateReducers)
+    
   ],
   providers: [
     /*

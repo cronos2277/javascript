@@ -67,3 +67,10 @@
 <div *ngIf="ngrx">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
   <app-ngrx></app-ngrx>  
 </div>
+<br>
+<hr>
+<label><input type="radio" [value]="true" name="fb_entity"  [(ngModel)]="entity" /> Habilitar NGRX Entity</label>
+<label><input type="radio" [value]="false" name="fb_entity"  [(ngModel)]="entity" /> Desabilitar NGRX Entity</label>
+<div *ngIf="entity">  <!-- Se facil a variavel manipulada pelo http_modulo, a div eh ocultada. -->
+  <app-ngrx-entity></app-ngrx-entity>  
+</div>
