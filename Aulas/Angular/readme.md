@@ -162,6 +162,18 @@ Dropzone TS:<a href="./advancedapp/src/app/file-upload-firebase/list-files/list-
 Arquivo de Service:<a href="./advancedapp/src/app/file-upload-firebase/files.service.ts">files.service.ts</a> <br>
 Arquivo modelo: <a href="./advancedapp/src/app/file-upload-firebase/file.entry.module.ts">file.entry.module.ts</a>
 </p>
+<h3>NGRX Basico</h3>
+<p>
+  Aqui temos um exemplo de funcionamento do NGRX, no caso uma lista de arquivos abaixo:<br>
+  Actions:<a href="./advancedapp/src/app/ngrx/command.actions.ts">command.actions.ts</a> =>  Aqui temos a regra de negocio para cada acao<br>
+  Reducers:<a href="./advancedapp/src/app/ngrx/command.reducer.ts">command.reducer.ts</a> => Aqui temos as acoes de um CRUD <br>
+  States:<a href="./advancedapp/src/app/ngrx/command.state.ts">command.state.ts</a> => Aqui temos os Estados, ou seja a colecao de objetos assim como a regra de negocio para as "queries"<br>
+  Models:<a href="./advancedapp/src/app/ngrx/command.model.ts">command.model.ts</a> => Arquivo de modelo, que modela o dado, seria o Equivalente a um arquivo de template do MVC. <br>
+  Template HTML:<a href="./advancedapp/src/app/ngrx/ngrx.component.html">ngrx.component.html</a> <br>
+  Arquivo TS:<a href="./advancedapp/src/app/ngrx/ngrx.component.ts">ngrx.component.ts</a> <br>
+  Se faz necessario fazer alteracoes no app.module.ts:<a href="./advancedapp/src/app/app.module.ts">app.module.ts</a> <br>
+  Alem de tudo isso, lembre-se que o NRGX nao vem por padrao no Angular, voce precisa instalar, segue o comando para instalacao: <pre>npm install @ngrx/store --save</pre>
+</p>
 <h2>Comandos basicos do ng</h2>
 <h3>Exemplo de sintaxe:</h3>
 <p><b>ng [UM_DOS_COMANDOS_ABAIXO] [PARAMETROS]</b></p>
