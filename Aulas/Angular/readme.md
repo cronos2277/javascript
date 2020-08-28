@@ -238,6 +238,12 @@ No caso acima usamos a pasta app, mas a pasta app poderia ser substituida por qu
 "<b> --routing</b>": Deve ser colocado no final do comando, por exemplo: "<b>ng g m [NOME] --routing</b>", no caso ele 
 adiciona um arquivo de rotas dentro do componente, modulo ou servico, etc... 
 </p>
+<p>caso voce queira criar um arquivo de rota no app.module.ts, voce tem dois caminhos, o primeiro eh dar o comando <pre>ng new [aplicacao] --routing
+trocando claro o <b>[aplicacao]</b> pelo nome da sua aplicacao, dessa forma voce informa ao angular para criar um arquivo de rotas na hora da
+criacao do projeto.<br>
+O Segundo caminho eh usar o comando no projeto existente, no caso quando estiver com o projeto aberto <pre>ng generate module app-routing --flat --module=app</pre>,
+dessa forma voce consegue criar em um projeto ja existente. parâmetros: <pre>--flat<pre> para que ele seja criado dentro da pasta <b>src/app</b> e o <pre>--module=app</pre> para registrarmos ele no nosso arquivo <b>AppModule</b>.
+</p>
 <h2>A respeito do NG add: </h2>
 
 <p>
