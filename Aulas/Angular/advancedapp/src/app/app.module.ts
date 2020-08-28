@@ -148,7 +148,7 @@ const appRoutes:Routes = [ //Aqui esta todas as rotas.
       usando o outro usando o forFeature.
     */
     StoreModule.forRoot(CmdReducers),
-    StoreModule.forFeature("Entity",StateReducers)
+    StoreModule.forFeature("template",StateReducers)
     
   ],
   providers: [

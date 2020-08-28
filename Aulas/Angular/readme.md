@@ -247,7 +247,8 @@ adiciona um arquivo de rotas dentro do componente, modulo ou servico, etc...
   Materialize: "<b>ng add @angular/material</b>" => https://material.angular.io/components/categories <br>
   Bootstrap: "<b>ng add ngx-bootstrap</b>" => https://valor-software.com/ngx-bootstrap/#/documentation <br>
   Firebase: "<b>npm install firebase @angular/fire --save</b>""<b>ng add @angular/fire</b>" => https://github.com/angular/angularfire <br>
-  NGRX: "<b>npm install @ngrx/store --save</b>" "<b>ng add @ngrx/store@latest</b>"=> https://ngrx.io/
+  NGRX: "<b>npm install @ngrx/store --save</b>" "<b>ng add @ngrx/store@latest</b>"=> https://ngrx.io/ <br>
+  O NGRX tem o Entity que facilita e muito a criacao de um NGRX: <b>"npm install @ngrx/entity --save"</b>
 </p>
 <hr>
 <h2>Instalacao</h2>

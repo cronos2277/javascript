@@ -13,16 +13,22 @@ export class ActionAll implements Action{
 
 export class ActionNew implements Action{
     readonly type = Actions.ACTION_NEW;   
-    constructor(public payload:Template){}
+    constructor(public payload:{template:Template}){}
 }
 
 export class ActionUpdate implements Action{
     readonly type = Actions.ACTION_UPDATE;
-    constructor(public payload:{id:string,changes:Partial<Template>}){}
+    /*
+        O Update muda um pouco se voce for usar entidades, no caso
+        voce precisa usar o changes para isso o changes eh um objeto
+        do tipo partial contendo dentro do diamante o tipo do seu
+        template. O Partial eh um Generics
+    */
+    constructor(public payload:{_id:string,changes:Partial<Template>}){}
 }
 export class ActionDelete implements Action{
     readonly type = Actions.ACTION_DELETE;
-    constructor(public payload:Template){}
+    constructor(public payload:{_id:string,template:Template}){}
 }
 
 export type ActionsAll = ActionAll | ActionNew | ActionUpdate | ActionDelete;
