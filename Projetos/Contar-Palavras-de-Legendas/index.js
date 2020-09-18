@@ -12,7 +12,10 @@ fn.readDir(option.folder).then(
         )
 )
 .then(fn.readFiles)
-.then(fn.joinArrayToString)
+.then(fn.joinArrayInString)
 .then(fn.splitAll)
+.then(fn.removeEmpty)
+.then(lines => fn.removeByPattern(lines,'-->'))
+.then(fn.removeNumberLine)
 .then(console.log);
 

@@ -25,7 +25,10 @@ function readFile(path){
 
 const filterBy = (allFiles,pattern) => allFiles.filter(eachFile => eachFile.endsWith(pattern));
 const readFiles = paths => Promise.all(paths.map(path => readFile(path)));
-const joinArrayToString = arr => arr.join('\n');
+const joinArrayInString = arr => arr.join('\n');
 const splitAll = str => str.split('\n');
+const removeEmpty = arr => arr.filter(a => !!a.trim());
+const removeByPattern = (arr,pattern) => arr.filter(e => !e.includes(pattern));
+const removeNumberLine = arr => arr.filter(e => isNaN(parseInt(e)));
 
-module.exports = {readDir,filterBy,readFiles,joinArrayToString,splitAll};
+module.exports = {readDir,filterBy,readFile,readFiles,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine};
