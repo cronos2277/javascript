@@ -14,5 +14,7 @@ fn.readDir(option.folder)
 .then(fn.removeEmpty)
 .then(fn.removeByPattern('-->'))
 .then(fn.removeNumberLine)
+.then(fn.removeChars)
+.then(fn.removeTags)
 .then(console.log);
 
