@@ -6,16 +6,13 @@ const option = {
 
 
 const fn = require(option.functionsFile);
-fn.readDir(option.folder).then(
-    files => fn.filterBy(
-        files,option.extension
-        )
-)
+fn.readDir(option.folder)
+.then(fn.filterBy(option.extension))
 .then(fn.readFiles)
 .then(fn.joinArrayInString)
 .then(fn.splitAll)
 .then(fn.removeEmpty)
-.then(lines => fn.removeByPattern(lines,'-->'))
+.then(fn.removeByPattern('-->'))
 .then(fn.removeNumberLine)
 .then(console.log);
 
