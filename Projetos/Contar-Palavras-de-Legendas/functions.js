@@ -25,5 +25,7 @@ function readFile(path){
 
 const filterBy = (allFiles,pattern) => allFiles.filter(eachFile => eachFile.endsWith(pattern));
 const readFiles = paths => Promise.all(paths.map(path => readFile(path)));
+const joinArrayToString = arr => arr.join('\n');
+const splitAll = str => str.split('\n');
 
-module.exports = {readDir,filterBy,readFiles,readFile};
+module.exports = {readDir,filterBy,readFiles,joinArrayToString,splitAll};
