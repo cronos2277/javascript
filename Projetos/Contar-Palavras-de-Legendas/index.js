@@ -10,4 +10,7 @@ fn.readDir(option.folder).then(
     files => fn.filterBy(
         files,option.extension
         )
-).then(console.log);
+)
+.then(fn.readFiles)
+.then(console.log);
+
