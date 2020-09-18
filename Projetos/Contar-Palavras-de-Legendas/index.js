@@ -20,4 +20,5 @@ fn.readDir(option.folder)
 .then(fn.byWord)
 .then(fn.removeEmpty)
 .then(fn.countElements)
+.then(fn.ordering('q'))
 .then(console.log);

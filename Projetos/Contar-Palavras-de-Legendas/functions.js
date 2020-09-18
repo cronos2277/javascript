@@ -45,4 +45,6 @@ const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));
 const removeNumberLine = arr => arr.filter(e => isNaN(parseInt(e)));
 const byWord = arr => arr.join(' ').split(' ');
 
-module.exports = {readDir,removeChars,removeTag,filterBy,readFile,readFiles,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine,byWord,countElements};
+const ordering = attr => arr => arr.sort((o1,o2) => o2[attr] - o1[attr]);
+
+module.exports = {readDir,removeChars,removeTag,filterBy,readFile,readFiles,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine,byWord,countElements,ordering};

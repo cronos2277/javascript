@@ -30,3 +30,5 @@ Essa apliação pega uma legenda, conta as palavras de toda a legenda e as exibe
 `byWord` => Pega um texto e transforma em um array de palavras.
 
 `countElements` => Retorna o número de ocorrência de uma String dentro de um array.
+
+`ordering` => conta o número de ocorrência com base no valor passado no parametro.
