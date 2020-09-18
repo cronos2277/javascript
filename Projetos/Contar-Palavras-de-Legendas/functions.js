@@ -3,8 +3,8 @@ const path = require('path');
 function readDir(folderName){
     return new Promise((resolve,reject)=>{
         try{
-            let tmp = fs.readdirSync(`${folderName}`);
-            files = tmp.map(file => path.join(__dirname,folderName,file));
+            const tmp = fs.readdirSync(`${folderName}`);
+            const files = tmp.map(file => path.join(__dirname,folderName,file));
             resolve(files);    
         }catch(error){
             reject(error);
@@ -25,8 +25,8 @@ function readFile(path){
 
 const countElements = elements => Object.values(elements.reduce(
     (accumulator,element) => {
-        let e = element.toLowerCase();
-        q = (accumulator[e])?accumulator[e].q+1:1;  
+        const e = element.toLowerCase();
+        const q = (accumulator[e])?accumulator[e].q+1:1;  
         accumulator[e] = {e,q};
         return accumulator;
     },
