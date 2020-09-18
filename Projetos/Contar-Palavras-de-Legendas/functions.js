@@ -25,10 +25,9 @@ function readFile(path){
 
 
 const regexSymbols =  /[\d|\r|\-|\?|\-|\,|\"|_|♪|%|\[|\]|\(|\)|\{|\}]/igm;
-const regexTags = /\<.*\>/igm;
+const regexTags = arr => new RegExp(`\<\/?${arr.join('|')}\>`,"igm");
 const removeChars = arr => arr.map(element => element.split(regexSymbols).join(''));
-const removeTags = arr => arr.map(element => element.split(regexTags).join(''));
-
+const removeTags = names => arr => arr.map(element => element.split(regexTags(names)).join(''));
 const filterBy = pattern => allFiles => allFiles.filter(eachFile => eachFile.endsWith(pattern));
 const readFiles = paths => Promise.all(paths.map(path => readFile(path)));
 const joinArrayInString = arr => arr.join('\n');
