@@ -10,11 +10,12 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { RouterModule } from '@angular/router';
-
+import {PeopleComponent} from './main/people/people.component';
+import {MainModule} from './main/main.module';
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent        
+    NotFoundComponent,              
   ],
   imports: [
     BrowserModule,
@@ -23,7 +24,10 @@ import { RouterModule } from '@angular/router';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,    
-    AppRoutingModule,    
+    RouterModule,       
+    AppRoutingModule,
+    MainModule,
+    PeopleComponent,  
   ],
   providers: [],
   bootstrap: [AppComponent]  

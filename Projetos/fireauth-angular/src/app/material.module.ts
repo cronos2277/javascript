@@ -40,6 +40,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+
 } from '@angular/material';
 
 
@@ -83,7 +84,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-
+    CommonModule
   ],
   declarations: []
 })

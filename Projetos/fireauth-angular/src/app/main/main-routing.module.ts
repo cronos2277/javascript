@@ -4,7 +4,7 @@ import { PeopleComponent } from './people/people.component';
 
 
 const routes: Routes = [
-  {path:"",redirectTo:"people"},
+  {path:"",pathMatch:'full',redirectTo:"people"},
   {path:"people",component:PeopleComponent}
 ];
 

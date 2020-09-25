@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from './auth/user';
 
@@ -10,4 +10,5 @@ import { User } from './auth/user';
 export class AppComponent {
   user$:Observable<User>;
   authenticated$:Observable<boolean>;
+  
 }

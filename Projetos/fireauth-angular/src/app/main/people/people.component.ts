@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { MainService } from '../main.service';
 import { Observable } from 'rxjs';
 import { Person } from '../person';
@@ -9,6 +9,7 @@ import * as faker from 'faker';
   templateUrl: './people.component.html',
   styleUrls: ['./people.component.css']
 })
+@NgModule()
 export class PeopleComponent implements OnInit {
   people$:Observable<Person[]>
   constructor(
