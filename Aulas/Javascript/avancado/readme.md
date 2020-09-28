@@ -137,3 +137,67 @@ Você também pode associar uma função durante ao processo de achatamento, no 
     
 #### Output
 Nesse exemplo, o output seria: `[ 2, 4, 6, 8, 10, 12 ]`, ou seja o valor é achatado ou planificado e depois cada valor é dobrado devido a função ` funcaoFlatMap = e => e*2;` passada por parametro.
+
+## Observer
+[Exemplo](Observer.js)
+### O que é?
+O Observer é a base da programação reativa e executada as funções ou métodos inscritos no momento que um evento programado é executado.
+
+### Evento
+    const readline = require('readline');
+    function evento(pergunta){
+        const line = readline.createInterface(
+            {
+                input:process.stdin,
+                output:process.stdout
+            });
+        return new Promise((resolver,rejeitar) => {
+            try{
+                line.question(pergunta, function resposta(digitado){
+                    resolver(digitado);
+                    line.close();
+                });
+            }catch(error){
+                rejeitar(error);
+            }
+        });
+    }
+#### Sobre a função
+Esse é o evento que será monitorado, no caso a entrada de dados por meio do teclado. Quando a função evento retornar alguma coisa dependendo do que retornar algo será feito. Todo o Observer tem um evento a ser monitorado e esse evento pode ser qualquer coisa, quando esse evento tem uma reação, ai o subscribe reage acionando o Observer.
+
+### Inscrições
+    async function inscricoes(pergunta,observadores){
+        try{
+            const resposta = await evento(pergunta);
+            let continuar = true;              
+            while(continuar){
+                if(resposta.toLowerCase() === 's' || resposta.toLowerCase() === 'y'){
+                    (observadores || []).forEach(element => element ({resposta, data: Date.now()}));
+                    continuar = false;
+                    inscricoes(pergunta,observadores);                
+                }else if(resposta.toLowerCase() === 'n'){
+                    continuar = false;
+                    inscricoes(pergunta,observadores);
+                }else{
+                    continuar = false;
+                }
+            }       
+        }catch(error){
+            console.error(error);
+        }
+    }
+
+#### Sobre a Inscrição.
+Nessa função acima que o objeto ou função será inscrito, a classe de inscrição será a classe que irá monitorar o evento e caso ocorra algo no evento, a inscricao avisa o observer.
+
+### Observador
+    const  observador1 = objeto => console.log("Observador 1", objeto);
+    const  observador2 = objeto => console.log("Observador 2", objeto);
+
+### Sobre o observador
+Esses são os métodos que o **subscribe**, no caso a função **inscricoes** deve executar quando o evento ocorrer.
+
+### Executando
+    inscricoes("Voce deseja executar o evento? Respostas(S => Sim /N => Nao /X => Sair)",[observador1,observador2]);
+
+Inscrições recebe a mensagem a ser exibida pedindo a interação dos usuário e mostrando entre os parenteses as opções como primeiro parametro, após isso no segundo parametro temos um array contendo os Observer que devem ser executados, caso o evento ocorra.
