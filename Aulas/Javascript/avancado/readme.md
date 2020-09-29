@@ -240,4 +240,64 @@ Aqui paramos a execução da inscrição, ou seja após 10 segundos é dado a de
         10000
     );
 
+#### Output
+    0
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    12
+    13
+    14
+    15
+    16
+    17
+    18
+    [Done] exited with code=0 in 10.11 seconds
 
+### Streaming envolvendo array
+[Exemplo Streaming](Streaming.js)
+#### Função
+    function streaming(array){
+        return{
+            iniciar(fn,tempo = 500,comecarPor = 0){
+                const intervalo = setInterval(
+                    () => {
+                        if(array.length > comecarPor){
+                            fn(array[comecarPor++]),
+                            tempo
+                        }else{
+                            clearInterval(intervalo);
+                        }
+                    },tempo                
+                )            
+            }        
+        }
+    }
+#### O que essa função faz?
+A função eleva ao quadrado todos os números de um array dentro de um intervalo e posição especificada.
+
+#### Chamando a função acima    
+    streaming([0,1,2,3,4,5,6,7,8,9,10]).iniciar(e => console.log(`${e}² = ${e*e}`));
+
+#### Output dessa função envolvendo arrays.
+
+    0² = 0
+    1² = 1
+    2² = 4
+    3² = 9
+    4² = 16
+    5² = 25
+    6² = 36
+    7² = 49
+    8² = 64
+    9² = 81
+    10² = 100
+    [Done] exited with code=0 in 6.115 seconds
