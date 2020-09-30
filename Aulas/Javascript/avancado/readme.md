@@ -351,3 +351,69 @@ No caso existe um método que é responsável pelo unsubscribe: `intervalo_inscr
 
 ### Explicando
 O from funciona com base em um array, no caso passamos um array cuja o seu valor é um numero inteiro aleatório entre 0 e 100. Na inscrição foi passado uma callback que vai imprimir esse valor no console e pois fim já é feito a desinscrição automaticamente.
+
+## Usando Observable
+### Importando
+    const {Observable} = require("rxjs");
+
+### Observable vs Promise.
+O promise ele retorna um valor uma vez quando você chama o **resolve** ou retorna um erro quando você retorna um **reject**. No caso o Observable pode retornar **N** resolve através do **next**, sendo cada next o equivalente a um resolve das promises e  o complete que o método que é chamado quando o Observable for concluído.
+
+#### new Observable(callback);
+    const observable1 = new Observable(
+        subject => {
+            subject.next("Acao 11");
+            subject.next("Acao 12");
+            subject.next("Acao 13");
+            if(Math.random() > 0.5){
+                subject.complete();
+            }else{
+                subject.error("Erro Controlado 1.");
+            }
+        }
+    );
+
+##### usando o observable
+    observable1.subscribe(
+        console.log,
+        console.error,
+        () => console.warn("Concluido com sucesso 1!")
+    );
+
+#### subscribe
+O *subscribe* recebe três callback, uma que será usada nos *next*, que seria os vários *then* do *observable*, a segunda que seria o *error*, no caso a caso de erro será chamado essa, que será executando quando for sinalizado um erro dentro do observable. Quando for concluido sem erros será chamado a terceira callback.
+
+### Usando o metodo create
+
+    const observable2 = Observable.create(
+        subject => {
+            subject.next("Acao 21");
+            subject.next("Acao 22");
+            subject.next("Acao 23");
+            if(Math.random() > 0.5){
+                subject.complete();
+            }else{
+                subject.error("Erro Controlado 2.");
+            }
+        }
+    );
+
+#### método create
+você pode instanciar e passar a callback como parametro ou fazer isso através do método create.
+
+#### dando subscribe passando objeto
+
+    observable2.subscribe({
+        next(valor){
+            console.log(valor)
+        },
+        error(erro){
+            console.error(erro)
+        },
+        complete(){
+            console.warn("Concluido com sucesso 2!")
+        }
+    })
+
+##### Explicando
+Além de passar três callback, você pode passar um objeto que contenha o metodo **error**, **complete** e o **next**.
