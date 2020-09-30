@@ -301,3 +301,53 @@ A função eleva ao quadrado todos os números de um array dentro de um interval
     9² = 81
     10² = 100
     [Done] exited with code=0 in 6.115 seconds
+
+## Usando a Biblioteca Rxjs.
+[Exemplo Básico](rxjs/basico.js)
+### Instalação
+Para instalar essa biblioteca `npm i rxjs` o nome do pacote é **rxjs**.
+
+### interval
+    const {interval} = require('rxjs');
+
+    const intervalo = interval(500);
+    const intervalo_inscricao = intervalo.subscribe(
+        e => console.log(`e = ${e}`), 
+    );
+
+    setTimeout(
+        () => intervalo_inscricao.unsubscribe(),
+        5000
+        );
+
+##### Explicando:
+Aqui chamamos a biblioteca `const {interval} = require('rxjs');`, aqui começamos a usa-la `const intervalo = interval(500);`, o **500** é a quantidade de milissegundos, esse Observable ele é semelhante a um *foreach*, porém você pode definir o tempo entre uma interação e outra, no caso a cada *500 milisegundos* ele irá incrementar um valor numérico e inteiro que começará em zero, no caso esse valor seria uma variavél contadora que será incrementada apartir da inscrição: 
+
+    const intervalo_inscricao = intervalo.subscribe(
+        e => console.log(`e = ${e}`), 
+    );
+
+##### Explicando a callback acima.
+No caso a cada 500 milisegundos será realizado uma iteração e essa calback recebe o valor que é a variável contadora, incrementada a cada *500 milissegundos*, nesse exemplo, com o valor **e** começando com zero e aumentando o seu valor em um a cada iteração que no exemplo ocorre a cada *500 milissegundos*.. 
+
+#### Unsubscribe
+
+    setTimeout(
+        () => intervalo_inscricao.unsubscribe(),
+        5000
+    );
+
+No caso existe um método que é responsável pelo unsubscribe: `intervalo_inscricao.unsubscribe()`, essas funções retornam esse método. No caso usamos o *setTimeout* para fazer isso após cinco segundos.
+
+### From encadeado
+
+    from([
+        parseInt(Math.random() * 100),parseInt(Math.random() * 100),
+        parseInt(Math.random() * 100),parseInt(Math.random() * 100),
+        parseInt(Math.random() * 100),parseInt(Math.random() * 100)
+    ]).subscribe(
+        e => console.log(`From ${e}`)
+    ).unsubscribe();
+
+### Explicando
+O from funciona com base em um array, no caso passamos um array cuja o seu valor é um numero inteiro aleatório entre 0 e 100. Na inscrição foi passado uma callback que vai imprimir esse valor no console e pois fim já é feito a desinscrição automaticamente.
