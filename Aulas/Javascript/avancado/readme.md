@@ -417,3 +417,14 @@ você pode instanciar e passar a callback como parametro ou fazer isso através 
 
 ##### Explicando
 Além de passar três callback, você pode passar um objeto que contenha o metodo **error**, **complete** e o **next**.
+
+##### Output
+    Acao 11
+    Acao 12
+    Acao 13
+    Erro Controlado 1.
+    Acao 21
+    Acao 22
+    Acao 23
+    Concluido com sucesso 2!
+    [Done] exited with code=0 in 0.179 seconds
