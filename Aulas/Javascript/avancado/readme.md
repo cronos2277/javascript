@@ -428,3 +428,154 @@ Além de passar três callback, você pode passar um objeto que contenha o metod
     Acao 23
     Concluido com sucesso 2!
     [Done] exited with code=0 in 0.179 seconds
+
+### OF
+#### Exemplo
+    of(1,2,3,4,5,6,7,8,9)
+    .subscribe(
+        e => console.log(`${e}³ = ${e*e*e}`)
+    );
+
+#### Output
+    1³ = 1
+    2³ = 8
+    3³ = 27
+    4³ = 64
+    5³ = 125
+    6³ = 216
+    7³ = 343
+    8³ = 512
+    9³ = 729
+#### Explicando
+o Operador **Of** funciona com dados, ele é semelhante ao *From*, porém o *From* recebe um array e o *of* recebe **n** parametros.
+
+### AJAX com RXJS
+[Exemplo de Ajax](rxjs/ajax.js)
+#### Explicando
+Inicialmente importamos o módulo que gera observable com base no ajax `const {ajax} = require('rxjs/ajax')`, alem disso também precisamos importar um módulo para fazer a requisição ajax, uma vez que o node não faz isso por padrão, no caso se quiser fazer solicitação ajax no node js precisamos importar `const {XMLHttpRequest} = require('xmlhttprequest');`.
+
+##### console.log: const {ajax} = require('rxjs/ajax');
+    [Function: create] {
+        get: [Function: ajaxGet],
+        post: [Function: ajaxPost],
+        delete: [Function: ajaxDelete],
+        put: [Function: ajaxPut],
+        patch: [Function: ajaxPatch],
+        getJSON: [Function: ajaxGetJSON]
+    }
+
+##### console.log: const {XMLHttpRequest} = require('xmlhttprequest');
+    {
+        UNSENT: 0,
+        OPENED: 1,
+        HEADERS_RECEIVED: 2,
+        LOADING: 3,
+        DONE: 4,
+        readyState: 0,
+        onreadystatechange: null,
+        responseText: '',
+        responseXML: '',
+        status: null,
+        statusText: null,
+        withCredentials: false,
+        open: [Function],
+        setDisableHeaderCheck: [Function],
+        setRequestHeader: [Function],
+        getResponseHeader: [Function],
+        getAllResponseHeaders: [Function],
+        getRequestHeader: [Function],
+        send: [Function],
+        handleError: [Function],
+        abort: [Function],
+        addEventListener: [Function],
+        removeEventListener: [Function],
+        dispatchEvent: [Function]
+    }
+
+#### Usando o módulo do ajax
+##### Exemplo de uso
+    const {XMLHttpRequest} = require('xmlhttprequest');
+    const {ajax} = require('rxjs/ajax');
+    ajax({
+        method:"get",
+        url: "https://httpbin.org/get",
+        createXHR: () => new XMLHttpRequest()
+    }).subscribe(console.log,console.error);
+
+##### Explicando os parametros da função ajax:
+    ajax({
+        method:"get",
+        url: "https://httpbin.org/get",
+        createXHR: () => new XMLHttpRequest()
+    })
+
+`method` => método da requisição, nesse exemplo usamos o get, mas poderia ser *post*, *delete*, *update*, etc... Padrão é **GET** se omitido.
+
+`url` => A url ao qual será deve ser feita a requisição.
+
+`createXHR` => Aqui passamos uma função callback que vai construir o objeto ao qual fará a requisição, se fosse o caso poderiamos fazer costumização aqui `new XMLHttpRequest()`.
+
+### Operadores PIPE
+[Arquivo com exemplo de operadores](rxjs/operadores.js)
+
+##### Código
+    const {noop,map,concatAll} = require('rxjs/Operators');
+    const {Observable} = require('rxjs');
+    const observable$ = new Observable(
+        subscribe => {
+            try{
+                let array = [];
+                for(let i=0;i<3;i++){
+                    array[i] = i;
+                }
+                subscribe.next(array);
+            }catch(error){
+                subscribe.error(error)
+            }finally{
+                subscribe.complete()
+            }
+        }
+    );
+    observable$
+    .pipe(
+        map(e => e), //Aplica uma funcao aos dados, no caso nao faz nada
+        concatAll(), //Aqui esta sendo usando para planificar o array que recebe.
+    )
+    .subscribe(
+        e => console.log(`dado: ${e}`),
+        noop, //Esse operador faz com que nada seja executado, ele eh o no operations
+        noop
+    );
+
+##### Focaremos aqui
+    observable$
+        .pipe(
+            map(e => e), //Aplica uma funcao aos dados, no caso nao faz nada
+            concatAll(), //Aqui esta sendo usando para planificar o array que recebe.
+        )
+        .subscribe(
+            e => console.log(`dado: ${e}`),
+            noop, //Esse operador faz com que nada seja executado, ele eh o no operations
+            noop
+        );
+
+`noop` => Faz com que não seja executado nada, quando esse evento for chamado, seria como colocar um `null` ali.
+
+`map` => Aplica uma função em cada dado passado pelo Pipe.
+
+`first` => Pega o primeiro valor do observable.
+
+`last` => Pega o ultimo valor do observable.
+
+#### concatAll
+`concatAll` => Executa um spread nos dados.
+
+##### Output em um array [0,1,2] Com esse operador concatAll
+    dado: 0
+    dado: 1
+    dado: 2
+    [Done] exited with code=0 in 0.241 seconds
+
+##### Sem esse operador
+    dado: 0,1,2
+    [Done] exited with code=0 in 0.245 seconds
