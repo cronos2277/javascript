@@ -579,3 +579,100 @@ Inicialmente importamos o módulo que gera observable com base no ajax `const {a
 ##### Sem esse operador
     dado: 0,1,2
     [Done] exited with code=0 in 0.245 seconds
+
+## Assincronismo
+[Arquivo de exemplo](rxjs/Assincronismo.js)
+##### Código
+    const { from, asyncScheduler,queueScheduler,asapScheduler } = require('rxjs');
+    const {observeOn} = require('rxjs/operators');
+    console.time("#tempo");
+    console.log("Iniciando...");
+
+    const observer$ = from([0,1,2,3]);
+
+    observer$.pipe(    
+        observeOn(asyncScheduler)    
+    ).subscribe(
+        console.log,
+        console.error,
+        () => console.log('asyncScheduler assincrono concluido\n\n')
+    );
+
+    observer$
+    .pipe(
+        observeOn(queueScheduler)
+    ).subscribe(
+        console.log,
+        console.error,
+        () => console.log("queueScheduler assincrono concluido\n\n")
+    );
+
+    observer$
+    .pipe(
+        observeOn(asapScheduler	)
+    ).subscribe(
+        console.log,
+        console.error,
+        () => console.log("asapScheduler assincrono concluido\n\n")
+    );
+    console.log("Finalizando...")
+    console.timeEnd("#tempo");
+
+##### Output
+    Iniciando...
+
+    0
+    1
+    2
+    3
+    queueScheduler assincrono concluido
+
+    Finalizando...
+    #tempo: 6.571ms
+
+    0
+    1
+    2
+    3
+    asapScheduler assincrono concluido
+
+    0
+    1
+    2
+    3
+
+    asyncScheduler assincrono concluido
+    [Done] exited with code=0 in 0.246 seconds
+
+### Importando
+    const { from, asyncScheduler,queueScheduler,asapScheduler } = require('rxjs');
+    const {observeOn} = require('rxjs/operators');
+
+O observeOn será usado usando um desses operadores por exemplo `asyncScheduler,queueScheduler,asapScheduler`. Como nesse exemplo abaixo.
+
+    observer$
+    .pipe(
+        observeOn(asapScheduler	)
+    ).subscribe(
+        console.log,
+        console.error,
+        () => console.log("asapScheduler assincrono concluido\n\n")
+    );
+
+### observeOn
+Esse operador faz com que o observable seja executado me maneira assincrona e pode ser importado dessa forma: `const {observeOn} = require('rxjs/operators');`
+
+#### Sobre os operadores a serem usados no observeOn
+
+`null` => As notificações são entregues de forma síncrona e recursiva.
+
+`queueScheduler` => Programações em uma fila na estrutura de eventos atual. Use isso para operações de iteração.
+
+`asapScheduler` => Programações na fila de microtarefas, que é a mesma fila usada para promessas. Basicamente após o trabalho atual, mas antes do próximo trabalho. Use isso para conversões assíncronas.
+
+`asyncScheduler` => Os agendamentos funcionam com setInterval. Use isso para operações baseadas em tempo.
+
+`animationFrameScheduler` => Agenda a tarefa que acontecerá antes do próximo quadro do navegador. Pode ser usado para criar animações de navegador suaves.
+
+### Informações
+[Para mais informações](https://rxjs-dev.firebaseapp.com/guide/scheduler)
