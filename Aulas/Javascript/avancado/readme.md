@@ -676,3 +676,72 @@ Esse operador faz com que o observable seja executado me maneira assincrona e po
 
 ### Informações
 [Para mais informações](https://rxjs-dev.firebaseapp.com/guide/scheduler)
+
+## Subjects
+[Arquivo Subject](rxjs/subject.js)
+#### Código completo
+    const {Observable, Subject} = require('rxjs');
+
+    function getObservable(){
+        return new Observable(
+            function(subscribe){
+                subscribe.next(Math.random());
+                subscribe.complete();
+            }
+        );
+    }
+
+    const obs1 = getObservable();
+    obs1.subscribe(e => console.log(`Obs1 = ${e}`));
+    const obs2 = getObservable();
+    obs2.subscribe(e => console.log(`Obs2 = ${e}`));
+
+    //Exemplo com Subject
+    const subject = new Subject(); 
+    const numero = Math.random();
+    subject.subscribe({
+        next: callback => callback(numero)
+    });        
+
+    subject.next(e => console.log(`sub1 = ${e}`));
+    subject.next(e => console.log(`sub2 = ${e}`));
+#### Output completo
+    [Running] node "c:\Users\crono\OneDrive\Área de Trabalho\javascript\Aulas\Javascript\avancado\rxjs\subject.js"
+    Obs1 = 0.2909042459565543
+    Obs2 = 0.6400543893082804
+    sub1 = 0.7825865903683205
+    sub2 = 0.7825865903683205
+
+    [Done] exited with code=0 in 0.186 seconds
+
+#### Parte do output com numero aleatório referente ao Subject
+sub1 = 0.7825865903683205
+sub2 = 0.7825865903683205
+
+#### Parte do output com numero aleatório referente ao Observable
+Obs1 = 0.2909042459565543
+Obs2 = 0.6400543893082804
+
+### Código apenas com o subject
+    //Exemplo com Subject
+    const subject = new Subject(); 
+    const numero = Math.random();
+    subject.subscribe({
+        next: callback => callback(numero)
+    });        
+
+    subject.next(e => console.log(`sub1 = ${e}`));
+    subject.next(e => console.log(`sub2 = ${e}`));
+
+### Como funciona
+Um subject funciona de maneira oposta ao Observable, no caso você dá um subscribe no subject  `subject.subscribe({next: callback => callback(numero)}); ` e após o subscribe, você pode chamar o **next**, ou o **error** ou o **complete** que na hora que for chamado irá executar de maneira uniforme, ou seja irá passar o mesmo dado para todos o **next**, como nesse exemplo abaixo:
+##### Exemplo
+``subject.next(e => console.log(`sub1 = ${e}`));`` => sub1 = 0.7825865903683205
+    
+``subject.next(e => console.log(`sub2 = ${e}`));`` => sub2 = 0.7825865903683205
+
+### Multicast
+O subject é interessante caso queira passar o exato mesmo dados a todas as fontes como é esse exemplo, que executa o next com o mesmo dado aleatório nos dois next diferente do Observable que distribui um dado diferente para cada requisição.
+
+### subscribe primeiro, next, error ou complete depois...
+Inicialmente voce cria a função geradora de dados dentro do subscribe com um objeto ou passando 3 callbacks como argumento, como o **subscribe** do *Observable*, uma vez que eles se assemelham na forma mas se diferem no comportamento, após isso você usa o **.next** para passar o dado, toda vez que você executar o *next*, será executado a callback do next e o mesmo acontece com o error que pode estar em um bloco catch, ou até mesmo o complete quando o processamento terminar e você não quiser mais emtir o mesmo dado. Um subscribe pode ser interessante para criar um **Hot Observable**, ou seja um Observable que compartilha o mesmo dado com todos os seus inscritos.
