@@ -30,22 +30,6 @@ function readDir(folderName){
     });    
 }
 
-function readFile(){
-    return createPipeableOperator(
-        subs => ({
-                next(path){
-                    try{
-                        const content = fs.readFileSync(path,{encoding:"utf-8"});
-                        subs.next(content); 
-                        subs.complete();
-                    }catch(e){
-                        subs.error(e);
-                    }
-                }
-            })
-    );
-}
-
 const filterBy = pattern => createPipeableOperator(
     subs => ({
             next(text){
@@ -55,6 +39,31 @@ const filterBy = pattern => createPipeableOperator(
             }
         })
 );
+
+function readFile(){
+    return createPipeableOperator(
+        subs => ({
+                next(path){
+                    try{
+                        const content = fs.readFileSync(path,{encoding:"utf-8"});
+                        subs.next(content);                         
+                    }catch(e){
+                        subs.error(e);
+                    }
+                }
+            })
+    );
+}
+
+function splitAll(symbol){
+    return createPipeableOperator(subs =>({
+        next(texts){
+            texts.split(symbol).forEach(
+                text => subs.next(text)
+            )            
+        }
+    }));
+}
 
 
 const countElements = elements => Object.values(elements.reduce(
@@ -71,7 +80,7 @@ const regexTag = tag => new RegExp(`\<\/?${tag}\>`,"igm");
 const removeChars = arr => arr.map(element => element.split(regexSymbols).join(''));
 const removeTag = name => arr => arr.map(element => element.split(regexTag(name+'.*')).join(''));
 const joinArrayInString = arr => arr.join('\n');
-const splitAll = str => str.split('\n');
+//const splitAll = str => str.split('\n');
 const removeEmpty = arr => arr.filter(a => !!a.trim());
 const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));
 const removeNumberLine = arr => arr.filter(e => isNaN(parseInt(e)));
