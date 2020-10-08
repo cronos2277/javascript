@@ -20,8 +20,7 @@ function createPipeableOperator(callback){
 
 function readDir(folderName){
     return new Observable(subscriber =>{
-        try{
-            
+        try{            
             const tmp = fs.readdirSync(`${folderName}`);            
             tmp.map(file => subscriber.next(path.join(__dirname,folderName,file)));       
             subscriber.complete();
@@ -31,16 +30,32 @@ function readDir(folderName){
     });    
 }
 
-function readFile(path){
-    return new Observable(subscriber => {
-        try{
-            const content = fs.readFileSync(path,{encoding:'utf-8'});            
-            subscriber.next(content.toString());
-        }catch(error){
-            subscriber.error(error);
-        }
-    });
+function readFile(){
+    return createPipeableOperator(
+        subs => ({
+                next(path){
+                    try{
+                        const content = fs.readFileSync(path,{encoding:"utf-8"});
+                        subs.next(content); 
+                        subs.complete();
+                    }catch(e){
+                        subs.error(e);
+                    }
+                }
+            })
+    );
 }
+
+const filterBy = pattern => createPipeableOperator(
+    subs => ({
+            next(text){
+                if(text.endsWith(pattern)){
+                    subs.next(text)
+                }
+            }
+        })
+);
+
 
 const countElements = elements => Object.values(elements.reduce(
     (accumulator,element) => {
@@ -55,19 +70,6 @@ const regexSymbols =  /[\d|\r|\-|\?|\-|\,|\"|_|♪|%|\[|\]|\(|\)|\{|\}|\!|\.]/ig
 const regexTag = tag => new RegExp(`\<\/?${tag}\>`,"igm");
 const removeChars = arr => arr.map(element => element.split(regexSymbols).join(''));
 const removeTag = name => arr => arr.map(element => element.split(regexTag(name+'.*')).join(''));
-const filterBy = pattern => createPipeableOperator(
-    subscription => ({
-            next(text){
-                if(text.endsWith(pattern)){
-                    subscription.next(text)
-                }
-            }
-        })
-);
-
-
-
-const readFiles = paths => Promise.all(paths.map(path => readFile(path)));
 const joinArrayInString = arr => arr.join('\n');
 const splitAll = str => str.split('\n');
 const removeEmpty = arr => arr.filter(a => !!a.trim());
@@ -77,4 +79,4 @@ const byWord = arr => arr.join(' ').split(' ');
 
 const ordering = attr => arr => arr.sort((o1,o2) => o2[attr] - o1[attr]);
 
-module.exports = {readDir,removeChars,removeTag,filterBy,readFile,readFiles,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine,byWord,countElements,ordering};
+module.exports = {readDir,removeChars,removeTag,filterBy,readFile,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine,byWord,countElements,ordering};
