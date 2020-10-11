@@ -75,13 +75,22 @@ const countElements = elements => Object.values(elements.reduce(
     },
 {}));
 
+function removeEmpty(){
+    return createPipeableOperator(subs =>({
+        next(text){
+            if(text.trim()){
+                subs.next(text);
+            }   
+        }
+    }));
+}
+
+
 const regexSymbols =  /[\d|\r|\-|\?|\-|\,|\"|_|♪|%|\[|\]|\(|\)|\{|\}|\!|\.]/igm;
 const regexTag = tag => new RegExp(`\<\/?${tag}\>`,"igm");
 const removeChars = arr => arr.map(element => element.split(regexSymbols).join(''));
 const removeTag = name => arr => arr.map(element => element.split(regexTag(name+'.*')).join(''));
 const joinArrayInString = arr => arr.join('\n');
-//const splitAll = str => str.split('\n');
-const removeEmpty = arr => arr.filter(a => !!a.trim());
 const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));
 const removeNumberLine = arr => arr.filter(e => isNaN(parseInt(e)));
 const byWord = arr => arr.join(' ').split(' ');
