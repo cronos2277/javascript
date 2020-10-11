@@ -677,6 +677,59 @@ Esse operador faz com que o observable seja executado me maneira assincrona e po
 ### Informações
 [Para mais informações](https://rxjs-dev.firebaseapp.com/guide/scheduler)
 
+### Map, MergeMap
+[Arquivo com exemplos](rxjs/mergemap.js)
+#### Código
+    const {from} = require('rxjs')
+    const {mergeMap,map} = require('rxjs/operators')
+    const obs1 = from(['A','B','C','D','E']);
+    const obs2 = from([1,2,3,4,5]);
+    obs1
+    .pipe(
+        mergeMap(n1 => obs2.pipe(map(n2 => `${n1} => ${n2}`)))    
+    )
+    .subscribe(console.log);
+
+#### Output:
+    A => 1
+    A => 2
+    A => 3
+    A => 4
+    A => 5
+    B => 1
+    B => 2
+    B => 3
+    B => 4
+    B => 5
+    C => 1
+    C => 2
+    C => 3
+    C => 4
+    C => 5
+    D => 1
+    D => 2
+    D => 3
+    D => 4
+    D => 5
+    E => 1
+    E => 2
+    E => 3
+    E => 4
+    E => 5
+
+    [Done] exited with code=0 in 0.241 seconds
+
+#### Explicação
+O operador Map permite que um cada elemento de um array seja manipulado e retornado, assim como qualquer método **.map** de um array do javascript. Porém o operador **mergeMap** ele permite com que seja possível combinar dois, de modo que cada elemento do primeiro observable possa interagir individualmente com cada elemento do segundo observable. Nesse caso tivemos dois observables, um contendo um array de letras e outro de números, com o auxilio de um operador map, foi possível fazer com que os dois operadores pudessem interagir.
+    
+    mergeMap(n1 => obs2.pipe(map(n2 => `${n1} => ${n2}`))) 
+
+`mergeMap(callback)` => O parametro essa callback, corresponde ao atual valor do observable, ou seja o valor atual emitido pelo **next**.
+
+Uma vez feito isso dentro da `callback` você da um pipe, mas sem se inscrever no segundo observable, você apenas chama o método pipe: `obs2.pipe(outracb)`.
+
+`outracb` => Dentro dessa callback você faz a interação entre o valor atual do primeiro observable e o valor atual do segundo observable, ou seja dessa forma é possível sincronizar o next dois dois observables, como ocorre aqui: ``n2 => `${n1} => ${n2}``
+
 ## Subjects
 [Arquivo Subject](rxjs/subject.js)
 #### Código completo
