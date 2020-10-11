@@ -85,6 +85,15 @@ function removeEmpty(){
     }));
 }
 
+function removeNumberLine(){
+    return createPipeableOperator(subs =>({
+        next(text){
+            if(isNaN(parseInt(text))){
+                subs.next(text);
+            }
+        }
+    }));
+}
 
 const regexSymbols =  /[\d|\r|\-|\?|\-|\,|\"|_|♪|%|\[|\]|\(|\)|\{|\}|\!|\.]/igm;
 const regexTag = tag => new RegExp(`\<\/?${tag}\>`,"igm");
@@ -92,7 +101,6 @@ const removeChars = arr => arr.map(element => element.split(regexSymbols).join('
 const removeTag = name => arr => arr.map(element => element.split(regexTag(name+'.*')).join(''));
 const joinArrayInString = arr => arr.join('\n');
 const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));
-const removeNumberLine = arr => arr.filter(e => isNaN(parseInt(e)));
 const byWord = arr => arr.join(' ').split(' ');
 
 const ordering = attr => arr => arr.sort((o1,o2) => o2[attr] - o1[attr]);

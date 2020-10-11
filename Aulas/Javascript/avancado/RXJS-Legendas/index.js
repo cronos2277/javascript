@@ -1,4 +1,4 @@
-const { filterBy,readFile,splitAll,removeEmpty } = require("./functions");
+const { filterBy,readFile,splitAll,removeEmpty,removeNumberLine } = require("./functions");
 
 const option = {
     folder: "./subtitles",
@@ -12,6 +12,7 @@ fn.readDir(option.folder)
     filterBy(option.extension),
     readFile(),
     splitAll('\n'),
-    removeEmpty()
+    removeEmpty(),
+    removeNumberLine()
 )
 .subscribe(console.log);
