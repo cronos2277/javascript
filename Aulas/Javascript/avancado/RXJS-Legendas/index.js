@@ -1,4 +1,5 @@
-const {toArray} = require("rxjs/operators");
+const {toArray,map} = require("rxjs/operators");
+const _ = require('lodash')
 const { 
         filterBy,readFile,splitAll,removeEmpty,
         removeNumberLine,removeChars,removeTag,
@@ -25,6 +26,7 @@ fn.readDir(option.folder)
     byWord(),
     removeEmpty(),
     toArray(),
-    countElements()
+    countElements(),
+    map(array => _.sortBy(array, el => -el.q))
 )
 .subscribe(console.log);

@@ -128,8 +128,4 @@ function countElements(){
 ));
 }
 
-const joinArrayInString = arr => arr.join('\n');
-const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));
-const ordering = attr => arr => arr.sort((o1,o2) => o2[attr] - o1[attr]);
-
-module.exports = {readDir,removeChars,removeTag,filterBy,readFile,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine,byWord,countElements,ordering};
+module.exports = {readDir,removeChars,removeTag,filterBy,readFile,splitAll,removeEmpty,removeNumberLine,byWord,countElements};
