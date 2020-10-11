@@ -65,16 +65,6 @@ function splitAll(symbol){
     }));
 }
 
-
-const countElements = elements => Object.values(elements.reduce(
-    (accumulator,element) => {
-        const e = element.toLowerCase();
-        const q = (accumulator[e])?accumulator[e].q+1:1;  
-        accumulator[e] = {e,q};
-        return accumulator;
-    },
-{}));
-
 function removeEmpty(){
     return createPipeableOperator(subs =>({
         next(text){
@@ -121,6 +111,22 @@ function byWord(){
     ));
 }
 
+function countElements(){
+    return createPipeableOperator(subs =>({            
+        next(elements){                
+            const grouped = Object.values(elements.reduce(
+                (accumulator,element) => {
+                    const e = element.toLowerCase();
+                    const q = (accumulator[e])?accumulator[e].q+1:1;  
+                    accumulator[e] = {e,q};
+                    return accumulator;
+                },
+            {}));
+            subs.next(grouped);
+        }                                       
+    }
+));
+}
 
 const joinArrayInString = arr => arr.join('\n');
 const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));

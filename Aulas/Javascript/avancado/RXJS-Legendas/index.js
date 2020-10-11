@@ -1,7 +1,8 @@
+const {toArray} = require("rxjs/operators");
 const { 
         filterBy,readFile,splitAll,removeEmpty,
         removeNumberLine,removeChars,removeTag,
-        byWord
+        byWord,countElements
     } = require("./functions");
 
 const option = {
@@ -22,6 +23,8 @@ fn.readDir(option.folder)
     removeTag('i'),
     removeTag('font.*'),
     byWord(),
-    removeEmpty()
+    removeEmpty(),
+    toArray(),
+    countElements()
 )
 .subscribe(console.log);
