@@ -94,15 +94,36 @@ function removeNumberLine(){
         }
     }));
 }
+function removeChars(){
+    const regexSymbols =  /[\d|\r|\-|\?|\-|\,|\"|_|♪|%|\[|\]|\(|\)|\{|\}|\!|\.]/igm;
+    return createPipeableOperator(subs =>({
+            next:text => subs.next(text.split(regexSymbols).join(''))                         
+        }
+    ));
+}
 
-const regexSymbols =  /[\d|\r|\-|\?|\-|\,|\"|_|♪|%|\[|\]|\(|\)|\{|\}|\!|\.]/igm;
-const regexTag = tag => new RegExp(`\<\/?${tag}\>`,"igm");
-const removeChars = arr => arr.map(element => element.split(regexSymbols).join(''));
-const removeTag = name => arr => arr.map(element => element.split(regexTag(name+'.*')).join(''));
+function removeTag(tag = ""){  
+    const regexTag = param => new RegExp(`\<\/?${param}\>`,"igm");  
+    return createPipeableOperator(subs =>({
+            next: element => subs.next(element.split(regexTag(tag)).join(''))                                     
+        }
+    ));
+}
+
+function byWord(){      
+    return createPipeableOperator(subs =>({            
+            next(texts){                
+                texts.split(' ').forEach(
+                    text => subs.next(text)
+                )    
+            }                                       
+        }
+    ));
+}
+
+
 const joinArrayInString = arr => arr.join('\n');
 const removeByPattern = pattern => arr => arr.filter(e => !e.includes(pattern));
-const byWord = arr => arr.join(' ').split(' ');
-
 const ordering = attr => arr => arr.sort((o1,o2) => o2[attr] - o1[attr]);
 
 module.exports = {readDir,removeChars,removeTag,filterBy,readFile,joinArrayInString,splitAll,removeEmpty,removeByPattern,removeNumberLine,byWord,countElements,ordering};
