@@ -798,3 +798,6 @@ O subject é interessante caso queira passar o exato mesmo dados a todas as font
 
 ### subscribe primeiro, next, error ou complete depois...
 Inicialmente voce cria a função geradora de dados dentro do subscribe com um objeto ou passando 3 callbacks como argumento, como o **subscribe** do *Observable*, uma vez que eles se assemelham na forma mas se diferem no comportamento, após isso você usa o **.next** para passar o dado, toda vez que você executar o *next*, será executado a callback do next e o mesmo acontece com o error que pode estar em um bloco catch, ou até mesmo o complete quando o processamento terminar e você não quiser mais emtir o mesmo dado. Um subscribe pode ser interessante para criar um **Hot Observable**, ou seja um Observable que compartilha o mesmo dado com todos os seus inscritos.
+
+## Lambda Functions
+[Arquivo de exemplo](lambda/basico.js)
