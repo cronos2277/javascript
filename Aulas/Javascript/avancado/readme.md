@@ -802,4 +802,4 @@ Inicialmente voce cria a função geradora de dados dentro do subscribe com um o
 ## Lambda Functions
 [Arquivo de exemplo](lambda.js)
 ### Explicando
-No arquivo acima tem exemplo com lambda e como criar valores booleanos com base em função, tudo isso com base na função que retorna o primeiro argumento, outra que retorna o ultimo e com base nisso sao construidas funções que retornam em base de: **AND**, **OR**, **XOR**, **XNOR**
+No arquivo acima tem exemplo com lambda e como criar valores booleanos com base em função, tudo isso com base na função que retorna o primeiro argumento, outra que retorna o ultimo e com base nisso sao construidas funções que retornam em base de: **AND**, **OR**, **XOR**, **XNOR**.

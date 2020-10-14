@@ -80,11 +80,43 @@ output(AND(T)(T)) //Output: Verdadeiro
     query b, agora se for passado dois parametros
     ultima F, logo retornara o ultimo F, uma vez 
     que a funcao ultima F retornara o ultimo elemento
-    que eh a ultima F.
+    que eh a ultima F. Repare que eh o exato oposto da AND.
 */
 const OR = a => b => a(T)(b);
 output(OR(F)(F)); //Output: Falso
 
+//Criando um ou exclusivo
+/*
+    No caso o ou exclusivo opera da seginte forma,
+    se voce passar a funcao primeira T como primeiro
+    argumento, ele vai retornar a funcao do segundo currying
+    processado com o NOT, se for a ultima como ultimo parametro
+    ele retorna a negacao que eh o primeira T, se nao ele retorna
+    a negacao do primeira T, que seria o ultima F.
+    Se passado a funcao ultima F como primeiro parametro, ele
+    vai retornar o segundo parametro do currying sem processamento
+    do not, no caso, se o segundo argumento for primeira T, ele
+    retorna a primeira T, se for o ultima F, retornara o ultimo F.
+*/
+const XOR = a => b => a(NOT(b))(b);
+output(XOR(T)(T)); //Output: Falso
+
 //Criando Bi-condicional
-const EQ = a => b => b(a)(T)
-output(EQ(T)(F))
+/*
+    No caso aqui temos uma bi-condicional, nesse caso
+    se passarmos o primeiro T, ele retorna o segundo
+    parametro do Currying, se for primeiro T, como segundo,
+    argumento, retorna o primeiro T, se o segundo parametro
+    for Primeiro T tambem, retorna o primeiro T, se nao
+    retorna o ultimo F.Agora se passarmos como primeiro
+    parametro o ultimo F, logo o segundo argumento sera
+    invertido, nesse caso o ultimo F no primeiro com
+    o primeiro T no segundo argumento, sera retornado
+    primeiro T processado pela funcao NOT, que no caso
+    eh o ultimo F, caso os dois sejam ultimo F, nesse
+    caso sera executado o segundo parametro com a funcao
+    NOT, retornando assim o primeiro T. No caso o XNOR
+    eh o oposto do XOR.
+*/
+const XNOR = a => b => a(b)(NOT(b))
+output(XNOR(F)(F)) //Output: Verdadeiro
