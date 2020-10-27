@@ -6,5 +6,11 @@ import { Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  
+
+  public valor:number = 0; //Variavel definido via TS
+
+  //Funcao estruturado em TS
+  public aumentaValor():void{
+    this.valor += 1;
+  }
 }

@@ -1,4 +1,9 @@
 <div>
   <p>Ola mundo</p>
   <h1 tag>HOOP</h1>
+  <!-- 
+      a cada clique desse botao, eh aumentado valor no atributo value e no label do botao, 
+      ambos estao ligados a variavel valor.
+  -->
+  <button [value]="valor" (click)="aumentaValor()">Clique: {{valor}}</button>
 </div>
