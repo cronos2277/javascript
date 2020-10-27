@@ -48,8 +48,10 @@
         para que voce possa aplicar um css ou fazer um js que com base na presenca dessas classes execute uma logica, algo que
         pode ser util em projetos mais simples, mas para os mais complexos, recomenda-se o uso do reactive-form que ja eh pronta para
         otimizar esses eventos e gerenciar isso.
+        Sempre o ideal eh pegar o valor pelo TS, nesse caso pela variavel cor se precisar aplicar alguma regra de negocio nela, mas
+        se precisar do valor desse elemento html, voce pode pegar o valor do atributo "ng-reflect-model" de qualquer um deles.        
   -->
    Valor no TS: {{cor}}   <br>
   <input type="color" [(ngModel)]="cor"/>
-  <input type [(ngModel)]="cor" />
+  <input type [(ngModel)]="cor" (change)='validar(this)'/>
 </div>

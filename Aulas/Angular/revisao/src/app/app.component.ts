@@ -16,6 +16,13 @@ export class AppComponent {
   }
 
   // A variavel do 2 way databinding no HTML
-  public cor:string = 'black'
+  public cor:string = '#000000'
+  validar(elemento){
+    const texto:string = elemento.cor;
+    console.log(
+      (/^#[\da-fA-F]{6}$/.test(texto))
+        ?"Valor Valido":"Valor invalido"
+      )     
+  }
   
 }
