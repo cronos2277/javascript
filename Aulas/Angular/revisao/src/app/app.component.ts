@@ -17,12 +17,17 @@ export class AppComponent {
 
   // A variavel do 2 way databinding no HTML
   public cor:string = '#000000'
-  validar(elemento){
+  // A funcao ligado ao input do 2 way databind do HTML
+  // Caso o valor inserido no input nao bata com a regex manda invalido
+  //A regex avalia se o campo inserido no input text eh valido para input color
+  validar(elemento):boolean{
     const texto:string = elemento.cor;
     console.log(
       (/^#[\da-fA-F]{6}$/.test(texto))
         ?"Valor Valido":"Valor invalido"
-      )     
+      )    
+      return this.validoInputCor = /^#[\da-fA-F]{6}$/.test(texto);
   }
   
+  public validoInputCor:boolean = true;
 }
