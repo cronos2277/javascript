@@ -1,9 +1,55 @@
 <div>
   <p>Ola mundo</p>
+  <!-- O Atributo tag eh uma diretiva, definido no arquivo tag.directive.ts-->
   <h1 tag>HOOP</h1>
   <!-- 
       a cada clique desse botao, eh aumentado valor no atributo value e no label do botao, 
       ambos estao ligados a variavel valor.
+      [] => interpola, ou seja o atributo passa a pontar para uma variavel que tem o nome igual ao valor informado, 
+      semelhante a um ponteiro no C ou ao $$ no PHP.
+      () => procura por funcao, no caso isso eh usado por evento, ou seja quando for executado o evento, execute tal funcao. 
+      * => Faz referencia a uma diretiva estrutural, ou seja que tem o poder de remover ou adicionar um elemento, nesse
+      exemplo ele esta exibindo o botao de acordo com uma expressao booleana, voce tambem poderia ao inves de passar uma
+      expressao booleana apontar a uma variavel que possui esse valor booleano.      
   -->
-  <button [value]="valor" (click)="aumentaValor()">Clique: {{valor}}</button>
+  <button *ngIf="1 == 1" [value]="valor" (click)="aumentaValor()">Clique: {{valor}}</button>
+  <span tag *ngIf="falso">Não Exiba essa SPAN</span> <!-- Aqui o ngIf esta apontando para uma variavel que tem um valor boolean -->
+</div>
+<br>
+<div>
+  <!-- 
+    Two Way data bind. Para fazer uso desse popular recurso do Angular, inicialmente você precisa importar o modulo
+    FormsModule, no caso isso foi feito em app.module.ts, esse modulo vem de: 
+      import { FormsModule } from '@angular/forms';
+    e dentro de:
+      imports:[
+          FormsModule, // <-- Aqui esta
+          BrowserModule,
+          AppRoutingModule
+      ],
+      Sem esse import o "ngModel" simplesmente nao funciona, uma vez feito isso voce coloca o ngModel e a variavel la
+      no arquivo TS que vai estar sincronizada com os elementos setados pelo ngModel.
+      No caso estamos sincronizando um input para color e o input text, ambos a variavel cor la do arquivo TS.
+      Como eh de se esperar isso eh util para formularios, quando voce quer sincronizar
+      um campo com uma variavel la da classe TS, de modo que qualquer mudanca na variavel la reflete aqui no elemento, algo que
+      o one way data bind permite tambem, mas o que caracteriza o two way data bind eh que esse componente visual aqui,
+      seja o input de texto ou cor, tambem modificam a variavel do cor do arquivo TS. Ou seja uma comunicacao em duas vias,
+      mexeu la reflete aqui, mexeu aqui reflete la na variavel cor por exemplo, mas nao esqueca do import e tambem nao esqueca
+      que a sintaxe eh a da caixa de banana, repare que isso [()] um colchete com parenteses dentro parece uma caixa de banana
+      e dentro dessa "penca" deve estar a diretiva ngModel. 
+        No caso o gerenciamento do valor deve ser feito no TS e nao aqui e eh adicionado a esse elemento as classes
+        ng-untouched ou ng-touched ng-pristine ou ng-dirty ng-valid ou ng-invalid, sendo a presenca delas com base no criterio abaixo:
+          ---------------
+        ou ng-untouched ou ng-touched => O Usuario interagiu, mesmo que nao tenha alterado o valor? Se sim: ng-touched, nao: ng-untouched
+        ou ng-touched ou ng-pristine => O valor foi modificado, tivemos um "onchange"? Se sim: ng-pristine, se nao: ng-dirty
+        ou ng-valid ou ng-invalid => O valor inserido eh valido para esse campo? Se sim: ng-valid, se nao: ng-invalid 
+        -----------------
+        Lembrando sempre que o elemento nao pode ter a classe ng-valid e ng-invalid ao mesmo tempo por exemplo, essas classes servem
+        para que voce possa aplicar um css ou fazer um js que com base na presenca dessas classes execute uma logica, algo que
+        pode ser util em projetos mais simples, mas para os mais complexos, recomenda-se o uso do reactive-form que ja eh pronta para
+        otimizar esses eventos e gerenciar isso.
+  -->
+   Valor no TS: {{cor}}   <br>
+  <input type="color" [(ngModel)]="cor"/>
+  <input type [(ngModel)]="cor" />
 </div>

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TagDirective } from './tag.directive';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { TagDirective } from './tag.directive';
     TagDirective
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule
   ],
