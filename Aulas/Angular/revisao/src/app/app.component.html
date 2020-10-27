@@ -61,3 +61,14 @@
   <!-- Essa funcao manda verifica se o valor inserido nesse input abaixo eh valido tambem para o input de color acima.-->
   <input type [(ngModel)]="cor" (change)='validar(this)'/>  
 </div>
+<div>
+  <h2>Angular pipes</h2>
+  <!-- 
+      O Angular trabalha com pipes, ou seja funcionalidades que formatam o dado, nesse caso a data de maneira bruta,
+    sao os milissegundos que se passaram que passaram desde 1/1/1970 as 00:00:00:01, esse seria o valor 1 e para cada
+    milissegundos apos essa data esse numero eh acrescido de um, no caso esse numero eh pego, formatado para uma data
+    com dia da semana, mes dia e ano e depois eh formatado para maiusculo com o uppercase, sendo que o primeiro pipe
+    tem parametro e o segundo nao.
+  -->
+  <h4>Data de Hoje: {{data | date: 'fullDate' | uppercase}}</h4>
+</div>
