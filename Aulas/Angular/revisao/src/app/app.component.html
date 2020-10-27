@@ -11,6 +11,9 @@
       * => Faz referencia a uma diretiva estrutural, ou seja que tem o poder de remover ou adicionar um elemento, nesse
       exemplo ele esta exibindo o botao de acordo com uma expressao booleana, voce tambem poderia ao inves de passar uma
       expressao booleana apontar a uma variavel que possui esse valor booleano.      
+      {{}} => Double mustache, ou seja essa sintaxe é chamada de duplo bigode em ingles e tem por objetivo processar,
+      no caso ele processa como comando javascript tudo que estiver ai dentro, seria o equivalente a <?= do php ou <%= do Java e ASP,
+      porem eh limitado a funcoes,variaveism, arrays, etc... e objetos publicas do arquivo TS, expressoes.
   -->
   <button *ngIf="1 == 1" [value]="valor" (click)="aumentaValor()">Clique: {{valor}}</button>
   <span tag *ngIf="falso">Não Exiba essa SPAN</span> <!-- Aqui o ngIf esta apontando para uma variavel que tem um valor boolean -->
@@ -52,8 +55,9 @@
         se precisar do valor desse elemento html, voce pode pegar o valor do atributo "ng-reflect-model" de qualquer um deles.        
   -->
     <p>Valor no TS: {{cor}}</p>
+    <!-- Tambem eh possivel por uma expressao ou uma funcao dentro do {{}}-->
     <p>o valor do digitado no input: <strong>{{(validoInputCor)?"Eh Valido":"Nao Valido"}}</strong>, para o input de cor </p>
   <input type="color" [(ngModel)]="cor"/> <br> <br>
   <!-- Essa funcao manda verifica se o valor inserido nesse input abaixo eh valido tambem para o input de color acima.-->
-  <input type [(ngModel)]="cor" (change)='validar(this)'/>
+  <input type [(ngModel)]="cor" (change)='validar(this)'/>  
 </div>

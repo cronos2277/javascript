@@ -24,10 +24,12 @@ export class AppComponent {
     const texto:string = elemento.cor;
     console.log(
       (/^#[\da-fA-F]{6}$/.test(texto))
-        ?"Valor Valido":"Valor invalido"
+        ?"%cValor Valido":"%cValor invalido",
+        'background-color:black;color:white;font-size:14px'
       )    
       return this.validoInputCor = /^#[\da-fA-F]{6}$/.test(texto);
   }
   
+  //Essa variavel eh responsavel por exibir se o valor informado, serve para um input color. 
   public validoInputCor:boolean = true;
 }
