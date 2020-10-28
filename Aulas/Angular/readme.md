@@ -1,5 +1,7 @@
 <h1>Angular 2</h1>
 <h2>Revisao</h2>
+<p>Segue a pasta para uma rápida revisao: <a href="./revisao/">revisao</a>, contem exemplos com os conceitos mais basico do angular.
+<h2>Exemplo basico</h2>
 <p>A pasta <a href="./myapp/">myapp</a>, contem os exemplos mais basicos envolvendo Angular 2</p>
 <h3>Basico</h3>
 <p>
