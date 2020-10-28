@@ -1,0 +1,20 @@
+button{
+    margin-right: 10px;
+    background-color: purple;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 5px 5px 20px purple;
+    border-color: purple;
+}
+
+button:hover{
+    background-color: blue;
+    box-shadow: none;
+}
+
+.routers{
+    box-shadow: 10px 10px 10px black;
+    padding-bottom: 20px;
+    background-color: gray;    
+}

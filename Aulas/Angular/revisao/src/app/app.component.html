@@ -72,3 +72,16 @@
   -->
   <h4>Data de Hoje: {{data | date: 'fullDate' | uppercase}}</h4>
 </div>
+<div class="routers">
+  <!-- 
+      Nesse router outlet eh o espaco determinado para o carregamento de componentes. Caso haja a necessidade
+      de carregar um componente, ele ficara aqui nesse espaco abaixo. Dessa forma voce recarrega apenas o elemento
+      sem mexer na pagina, garantindo dessa forma o Single page application.
+  -->
+  <router-outlet></router-outlet> 
+  <br>  
+  <button routerLink="">Limpar</button>
+  <button routerLink="ret1">Retangulo Vermelho</button>
+  <button routerLink="ret2">Retangulo Verde</button>
+  <button routerLink="ret3">Retangulo Azul</button>
+</div>
