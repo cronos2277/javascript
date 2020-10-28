@@ -1,9 +1,12 @@
 # Revisão
-## Diretivas
+## Arquivos
+#### Arquivo template
 [arquivo template](src/app/app.component.html)
-
+#### Arquivo de diretivas
 [arquivo de tag](src/app/tag.directive.ts)
 
+## Diretivas
+Nesses arquivos [diretiva](#arquivo-de-diretivas) e [template](#arquivo-template) você acompanha com mais detalhes o que é explicado aqui.
 ### O que é?
 Diretivas são seletores criados (pode ser um id, classe, tag, etc... ) que quando aplicado em um elemento, ele modifica o estilo ou o comportamento.
 
