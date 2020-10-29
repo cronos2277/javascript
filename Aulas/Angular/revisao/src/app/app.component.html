@@ -85,3 +85,13 @@
   <button routerLink="ret2">Retangulo Verde</button>
   <button routerLink="ret3">Retangulo Azul</button>
 </div>
+<div class="observable" *ngIf="serv.observable$ | async">  
+  <h3>Observable$</h3>
+  <span class='obs' *ngFor="let obs of serv.observable$ | async">{{obs}}</span>  
+</div>
+<h2>Seu IP <span>{{ip}}</span></h2>
+
+<div>  
+  <span class='obs'>{{header?.Origin}}</span>    
+  <span class='obs'>{{header?.Accept}}</span>
+</div>

@@ -106,3 +106,63 @@ Você deve informar dentro de um array as rotas, dentro desse array deve conter 
     
 #### Explicando:
 O routerlink ele seria o equivalente ao *href*, mas com a vantagem de ser entegrado a API do angular, logo recomenda-se o uso do `routerLink`.
+
+## Ciclo de vida de componentes
+[Exemplo](src/app/app.component.ts)
+### ngOnInit, ngAfterContentInit, ngAfterViewInit, ngOnDestroy
+`ngOnChanges` monitora alterações em qualquer elemento com a anotação `@Input`, `ngOnInit` é inicializado logo após o carregamento do construtor, geralmente usado para carregamentos de componentes na primeira oportunidade possível, mas depois que o componente passa a existir, ou seja, depois de instanciado. Já o `ngAfterContentInit` é executado quando o componente é carregado, logo em seguida temos o `ngAfterViewInit`, que é executado depois que os templates e o componente filho é executado, e claro o Angular tem um destrutor no caso um `ngOnDestroy`.
+
+### ngDoCheck, ngAfterContentChecked, ngAfterViewChecked
+Esses três métodos são de varreduras, ou seja eles monitoram o objeto **document** do javascript, então qualque alteração, todos esses três são acionados, logo eles fazem uma varredura em todos os componentes dentro de document. Podem ser útil para a criação de eventos customizáveis. A diferença entre esses três eventos, se dá na primeira vez que são executados, o `doCheck` é executado logo após o `ngOnInit`, o `ngAfterContentChecked` é executado depois de carregado o componente, mas antes de ser carregado o template e os componentes filhos, já o `ngAfterViewChecked` começa a varredura depois de carregado tudo.
+
+### ngOnChanges
+Esse método monitora qualquer valor mapeado com `@Input`, permitindo com que se faça analise dos valores com base em um objeto chamado chamado `SimpleChanges`, ao qual contém o valor novo, o antigo e se é ou não a primeira vez que foi modificado.
+
+## Serviços
+[Serviço exemplo](src/app/serv.service.ts)
+
+[Interface](src/app/format.ts)
+### Como funciona.
+Um serviço funciona com base na injeção de dependencia, logo aqui é o local ideal para programar as regras de negócios referente ao backend e tambem para colocar os códigos que devem ser reaproveitados pelos componentes.
+
+### Decorando
+    @Injectable({
+        providedIn: 'root'
+    })
+#### Explicando
+Todo o serviço deve ser decorado com `@Injectable`, aqui `providedIn: 'root'` você informa o escopo do serviço, no caso por ser *root*, esse seria um alias para toda a aplicação, você deve informar um *alias* ou um componente, módulo ou diretiva para ao qual pode ser injetado e com base nesse escopo se tem um controle de instancias.
+
+### HTTP Module
+#### Importando
+##### import app.module.ts
+    import { HttpClientModule } from '@angular/common/http';
+
+##### adicionando no array no app.module.ts
+    imports: [
+        FormsModule,
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule
+    ],
+
+##### import no arquivo service: 
+    import { HttpClient } from '@angular/common/http';
+
+##### Esse módulo usa a injeção de dependencia.
+    constructor(private http:HttpClient) { }
+
+#### Usando o método GET
+    return this.http.get('http://ip.jsontest.com/');
+
+##### Explicando
+Esse método retorna um Observable, nesse método você deve informar a url para a requisição.
+
+#### Usando o método POST
+    return this.http.post('http://headers.jsontest.com/',{valor1:'valor1',valor2:'valor2'})
+    .pipe(
+        tap(e => console.log(`%c Origem da requisicao: ${e['Origin']}`,'background-color:black;color:white')),
+        tap(e => console.log(`%c Navegador: ${e['User-Agent']}`,'background-color:black;color:white'))
+    );
+
+##### Explicando
+Já no caso do post além da url você deve informar também os campos da requisição body. Também foi usado operadores pipe para exibir dados no console do navegador.

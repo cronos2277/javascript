@@ -18,3 +18,22 @@ button:hover{
     padding-bottom: 20px;
     background-color: gray;    
 }
+
+.observable{
+    margin-top: 40px;
+}
+
+.obs{
+    padding:10px;
+    border:1px solid black;
+}
+.obs:nth-child(even){
+    background-color: red;
+    color:white;
+}
+.obs:nth-child(odd){
+    background-color: cyan;    
+}
+h2 span{
+    color:red;    
+}

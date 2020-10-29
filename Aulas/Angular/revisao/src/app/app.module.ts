@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRet1 } from './ret1.component';
 import { AppRet2 } from './ret2.component';
 import { AppRet3 } from './ret3.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,8 @@ import { AppRet3 } from './ret3.component';
   imports: [
     FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
