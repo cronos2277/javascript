@@ -45,6 +45,9 @@ Aqui definimos o [seletor](#informação-no-decorator), no caso a lógica aqui �
     <button *ngIf="1 == 1" [value]="valor" (click)="aumentaValor()">Clique: {{valor}}</button>
 o asterisco refere-se a uma diretiva que inclui ou exclue um elemento html, nesse caso `*ngIf="1 == 1"` se verdadeiro, como é o caso ele é exibido, se falso sequer é renderizado, `[value]="valor"` isso aqui significa interpolação, no caso o atributo *value* tem como valor o resultado da variavél *valor*, no caso o funcionamento disso se assemelha com um ponteiro, `(click)` indica evento=função, no caso seria algo como `onclick=aumentaValor()`, ou seja você pode mapear eventos a funções usando diretivas envolto de parentes. `{{valor}}` aqui temos a área de processamento, no caso isso seria equivalente ao `<?php=` ou a `<%=` ou seja só deve ser passado valores ali que são imprimíveis.
 
+#### Diretivas estruturais
+A diretiva estrutural é mais complexa, aqui está um arquivo explicando: [structure](src/app/structure.directive.ts)
+
 ## Angular pipes
     <h4>Data de Hoje: {{data | date: 'fullDate' | uppercase}}</h4>
 ### O que é?
@@ -116,7 +119,15 @@ O routerlink ele seria o equivalente ao *href*, mas com a vantagem de ser entegr
 Esses três métodos são de varreduras, ou seja eles monitoram o objeto **document** do javascript, então qualque alteração, todos esses três são acionados, logo eles fazem uma varredura em todos os componentes dentro de document. Podem ser útil para a criação de eventos customizáveis. A diferença entre esses três eventos, se dá na primeira vez que são executados, o `doCheck` é executado logo após o `ngOnInit`, o `ngAfterContentChecked` é executado depois de carregado o componente, mas antes de ser carregado o template e os componentes filhos, já o `ngAfterViewChecked` começa a varredura depois de carregado tudo.
 
 ### ngOnChanges
-Esse método monitora qualquer valor mapeado com `@Input`, permitindo com que se faça analise dos valores com base em um objeto chamado chamado `SimpleChanges`, ao qual contém o valor novo, o antigo e se é ou não a primeira vez que foi modificado.
+Esse método monitora qualquer valor mapeado com `@Input`, permitindo com que se faça analise dos valores com base em um objeto chamado chamado `SimpleChanges`, ao qual contém o valor novo, o antigo e se é ou não a primeira vez que foi modificado, Exemplo: [arquivo](src/app/structure.directive.ts).
+#### Estrutura do parametro do metodo ngOnChanges:
+    ngOnChanges(objeto:SimpleChanges)
+##### Interior do Objeto SimpleChanges
+`SimpleChange.currentValue` => Nesse subatributo de `SimpleChange` dentro de `SimpleChanges`, apresenta o valor mais novo informado
+
+`SimpleChange.firstChange` => Nesse subatributo de `SimpleChange` dentro de `SimpleChanges`, retorna um valor booleano informando se foi ou não alterado o valor.
+
+`SimpleChange.previousValue` => Nesse subatributo de `SimpleChange` dentro de `SimpleChanges`, apresenta o valor mais antigo informado
 
 ## Serviços
 [Serviço exemplo](src/app/serv.service.ts)

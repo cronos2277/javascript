@@ -37,3 +37,28 @@ button:hover{
 h2 span{
     color:red;    
 }
+
+.h3repeat{
+    margin-top: 24px;
+}
+
+.repeat{            
+    color:white;
+    padding:10px;
+    display: inline-block;
+}
+
+.repeat:nth-child(odd){
+    border: 2px solid blue;
+    background-color: blue;
+}
+
+.repeat:nth-child(even){
+    border: 2px solid red;
+    background-color: red;
+}
+
+.repeat span{
+    font-size: larger;
+    font-weight: 600;    
+}
