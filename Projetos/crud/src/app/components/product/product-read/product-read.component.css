@@ -1,3 +1,14 @@
 table{
     width: 100%;
 }
+i.edit,i.delete{
+    color:white;
+}
+
+tr:nth-child(even){
+    background-color: darkgray;    
+}
+
+tr:nth-child(even) > td{
+    color:black;
+}
