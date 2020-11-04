@@ -20,7 +20,7 @@ export class ProductReadComponent implements OnInit {
     .subscribe(
         p => this.products = p,
         console.error,
-        () => console.log(this.products)
+        () => console.info('Produtos carregados com sucesso!')
     );
   }
 

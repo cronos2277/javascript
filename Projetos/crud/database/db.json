@@ -14,6 +14,31 @@
       "id": 3,
       "name": "Sansung S20+ Ultra",
       "price": "7520.89"
+    },
+    {
+      "name": "Mochila Temática",
+      "price": "59.99",
+      "id": 4
+    },
+    {
+      "name": "Cola Super",
+      "price": "3.99",
+      "id": 5
+    },
+    {
+      "name": "Lápis Básico",
+      "price": "1.59",
+      "id": 6
+    },
+    {
+      "name": "Caderno Temático",
+      "price": "15.60",
+      "id": 7
+    },
+    {
+      "name": "Livro Didático",
+      "price": "22.30",
+      "id": 8
     }
   ]
 }
