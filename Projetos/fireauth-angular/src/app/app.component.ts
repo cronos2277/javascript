@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from './auth/user';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +6,5 @@ import { User } from './auth/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  user$:Observable<User>;
-  authenticated$:Observable<boolean>;
-  
+  title = 'fireauth-angular';
 }
