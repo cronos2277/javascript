@@ -1,23 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Message } from './message';
 import {SocketIoService} from './socket-io.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
   nickname:string;
   message:string;
+  messages:Message[] = [];
+  private subscription:Subscription;
 
   constructor(
     private socket:SocketIoService
   ){}
 
   ngOnInit(){
-    this.socket.messages().subscribe(
-      console.log
+    this.subscription = this.socket.messages().subscribe(
+      msg => this.messages.push(msg),
+      console.error
     );
-  }
+  }  
 
   public send():void{
     this.socket.send({
@@ -25,5 +30,9 @@ export class AppComponent {
       from:this.nickname
     });
     this.message = '';
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe()
   }
 }

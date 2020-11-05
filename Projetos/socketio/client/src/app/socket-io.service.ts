@@ -5,18 +5,16 @@ import { Message } from './message';
 @Injectable({
   providedIn: 'root'
 })
-export class SocketIoService {
+export class SocketIoService{
 
-  private readonly ip:string = '127.0.0.1';
-  private readonly tcp:number = 4444;
-  private readonly url:string =`http://${this.ip}:${this.tcp}`;
+  private readonly ip:string = 'localhost';
+  private readonly tcp:string = '4444';
+  private readonly url:string =`http://${this.ip}:${this.tcp}`;  
   private socket = socketio(this.url);
   private subjectMessages:Subject<Message> = new Subject<Message>(); 
 
-  constructor() {
-    this.socket.on('message',function(msg:Message){
-      this.subjectMessages.next(msg);
-    });
+  constructor() {        
+    this.socket.on('message',(msg:Message) => this.subjectMessages.next(msg));
   }
 
   public send(msg:Message):void{

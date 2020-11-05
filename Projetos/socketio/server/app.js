@@ -10,7 +10,7 @@ const io = require('socket.io')(http);
 io.on('connection', socket => socket.on(settings.clientEventName,
     function message(msg){
         console.log(msg);
-        io.emit('event',msg);
+        io.emit(settings.clientEventName,msg);
     }
 ));
 
