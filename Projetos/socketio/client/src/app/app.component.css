@@ -1,0 +1,15 @@
+.msg-from-me{
+    background-color: lightblue;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+.msg-from-other{
+    background-color: lightcoral;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.chat-messages{
+    overflow: auto;
+    background-color: lightgray;
+}
