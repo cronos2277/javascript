@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren,AfterViewInit } from '@angular/core';
+import { MatList, MatListItem } from '@angular/material/list';
 import { Subscription } from 'rxjs';
 import { Message } from './message';
 import {SocketIoService} from './socket-io.service'
@@ -7,11 +8,15 @@ import {SocketIoService} from './socket-io.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit{
   nickname:string;
   message:string;
   messages:Message[] = [];
   private subscription:Subscription;
+  private moving:Subscription;
+
+  @ViewChild(MatList, {read:ElementRef, static:true}) list:ElementRef;
+  @ViewChildren(MatListItem) listItems:QueryList<MatListItem>;
 
   constructor(
     private socket:SocketIoService
@@ -32,7 +37,14 @@ export class AppComponent implements OnInit, OnDestroy{
     this.message = '';
   }
 
+  ngAfterViewInit(){
+    this.moving = this.listItems.changes.subscribe(
+      _ => this.list.nativeElement.scrollTop = this.list.nativeElement.scrollHeight
+    );
+  }
+
   ngOnDestroy(){
-    this.subscription.unsubscribe()
+    this.subscription.unsubscribe();
+    this.moving.unsubscribe();
   }
 }
