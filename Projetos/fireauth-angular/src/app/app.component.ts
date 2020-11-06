@@ -9,5 +9,5 @@ import { User } from './auth/user';
 })
 export class AppComponent {
   user$: Observable<User>;
-  autenticated$:Observable<boolean>;
+  authenticated$:Observable<boolean>;
 }
