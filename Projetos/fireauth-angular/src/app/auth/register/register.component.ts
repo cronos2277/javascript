@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { User } from '../user';
 
 @Component({
@@ -29,7 +32,12 @@ export class RegisterComponent implements OnInit {
     "SE", "SP", "TO"
   ];
 
-  constructor(private fb:FormBuilder) { }
+  constructor(
+      private fb:FormBuilder,
+      private authService:AuthService,
+      private snackBar:MatSnackBar,
+      private router:Router
+      ) { }
 
   ngOnInit(): void {
   }
@@ -37,12 +45,12 @@ export class RegisterComponent implements OnInit {
   matchingPasswords(group: FormGroup):{matching:boolean}{
     if(group){
       const pass1 = group.controls['password1'].value;
-      const pass2 = group.controls['password2'].value;
-      return (pass1 == pass2) ?{matching:true}:{matching:false};
-    }else{
-      return {matching:false};
+      const pass2 = group.controls['password2'].value;    
+      if(pass1 == pass2) return null;    
     }
+    return {matching:false};
   }
+
   onSubmit(){
     const newUser:User = {
       firstName: this.formRegister.value.firstname,
@@ -55,6 +63,16 @@ export class RegisterComponent implements OnInit {
       email: this.formRegister.value.email,
       password: this.formRegister.value.password1            
     }
-
+    this.authService.register(newUser)
+    .subscribe(
+      u =>{
+            this.snackBar.open('Successfully registered!','OK',{duration:3000});
+            this.router.navigateByUrl('/auth/login');
+          },
+      error => {
+        console.error(error);
+        this.snackBar.open("Error! You are not registered!",'OK',{duration:3000});
+      }
+    )
   }
 }
