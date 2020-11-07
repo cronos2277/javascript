@@ -50,10 +50,6 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         }
       );
-  }
-
-  public loginGoogle():void{
-
-  }
+  }  
 
 }
