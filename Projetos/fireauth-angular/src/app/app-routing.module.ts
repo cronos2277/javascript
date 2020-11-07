@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './auth/auth-guard.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 const routes: Routes = [
   {path:'',pathMatch:'full',redirectTo:'/main/people'},
-  {path:'main',loadChildren:() => import('src/app/main/main.module').then(m => m.MainModule)},
+  {path:'main',loadChildren:() => import('src/app/main/main.module').then(m => m.MainModule), canActivate:[AuthGuardService]},
   {path:'**', component:NotFoundComponent}
 ];
 
