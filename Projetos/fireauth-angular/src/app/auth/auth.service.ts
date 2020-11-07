@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable,from, throwError } from 'rxjs';
+import { Observable,from, throwError, of } from 'rxjs';
 import { User } from './user';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, switchMap,map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class AuthService {
     return from(this.afAuth.signInWithEmailAndPassword(email,password))
     .pipe(
       switchMap(u => {
-        return this.userCollection.doc<User>(u.user.uid).valueChanges
+        return this.userCollection.doc<User>(u.user.uid).valueChanges()
       }),
       catchError(() => throwError('Invalid credentials or not registered!'))
     )
@@ -40,5 +40,17 @@ export class AuthService {
 
   public logout():void{
     this.afAuth.signOut();
+  }
+
+  public getUser():Observable<User>{
+    return this.afAuth.authState
+    .pipe(
+      switchMap(u => u ? this.userCollection.doc<User>(u.uid).valueChanges():of(null))
+    )
+  }
+
+  public authenticated():Observable<boolean>{
+    return this.afAuth.authState
+    .pipe(map(u => (u)?true:false))
   }
 }
