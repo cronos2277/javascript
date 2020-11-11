@@ -1,5 +1,11 @@
 # IONIC
 [Documentação](https://ionicframework.com/docs)
+
+[Básico Angular](./basico/)
+
+## Exemplo Básico com o Angular
+Aqui temos um exemplo de **Ionic** fazendo uso do **Angular**. [LINK](./basico/)
+
 ## Resumo
  Caso você queira criar um projeto padrão em branco usando o IONIC, pode-se usar o comando `ionic start [nome] blank`, o comando seria o `ionic start`, o `[name]` seria o nome do projeto sendo sempre bom evitar o uso de caracteres especiais e por fim o template que é o `blank`, que nesse caso é sem template. Nas configurações padrões você tem o Angular rodando abaixo do capô, mas se preferir você pode usar o react por exemplo, passando a tag **type** como por exemplo: `ionic start [nome] blank --react`. para inicializar com as configurações use `ionic serve`, nesse caso o ip será o **localhost** e a porta **8100**, tudo rodando nas configurações padrões, se quiser mais detalhes de como inicializar um novo projeto ou executar um projeto existente, basta descer.
 
