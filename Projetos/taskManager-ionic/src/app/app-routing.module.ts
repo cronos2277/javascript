@@ -12,8 +12,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'page',
-    loadChildren: () => import('./page/page.module').then( m => m.PagePageModule)
+    path: 'login',
+    loadChildren: () => import('./auth/pages/login/login.module').then( m => m.LoginPageModule)
   },
 ];
 

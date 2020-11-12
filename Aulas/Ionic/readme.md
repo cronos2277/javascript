@@ -96,3 +96,34 @@ Aqui temos um exemplo de **Ionic** fazendo uso do **Angular**. [LINK](./basico/)
     $ ionic serve --external
     $ ionic serve --lab
 
+## Gerando componentes
+
+    ionic g - Criar recursos de estrutura automaticamente
+
+    Este comando usa a CLI Angular para gerar recursos como páginas, componentes, diretivas, serviços, etc.
+
+    - Para obter uma lista completa dos tipos disponíveis, use npx ng g --help
+    - Para obter uma lista de opções de tipos, use npx ng g <type> --help
+
+    Você pode especificar um caminho para aninhar seu recurso em qualquer número de subdiretórios. Por exemplo, especifique um nome de "pages / New Page" para gerar arquivos de página em src / app / pages / new-page /.
+
+    Para testar um gerador antes de fazer modificações no arquivo, use a opção --dry-run.
+
+  Uso:
+
+    $ ionic g <tipo> <nome>
+
+  Entradas:
+
+    tipo ............................ O tipo de recurso (por exemplo, página, componente, diretiva, serviço)
+    nome ............................ O nome / caminho do elemento que está sendo gerado
+
+  Exemplos:
+
+    $ ionic g
+    $ ionic g page
+    $ ionic g page contact
+    $ ionic g component contact/form
+    $ ionic g component login-form --change-detection=OnPush
+    $ ionic g directive ripple --skip-import
+    $ ionic g service api/user
