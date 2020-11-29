@@ -5,15 +5,20 @@ import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-logi
 import {User} from '../user.model';
 import {Providers} from '../providers.enum';
 import {Login} from '../login.model'
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  public authState$: Observable<any> 
   constructor(
         private afAuth:AngularFireAuth,
         private authService: SocialAuthService  
-      ) {}
+      ) {
+        this.authState$ = this.afAuth.authState;
+        this.authState$.subscribe(user => user.)
+      }
 
   public autenticate({isSignIn,user,provider}:Login):Promise<any>{
     let operation:Promise<any>
