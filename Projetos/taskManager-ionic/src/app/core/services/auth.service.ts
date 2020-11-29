@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import {User} from '../user.model';
+import {Providers} from '../providers.enum';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,11 +16,11 @@ export class AuthService {
     
   }
 
-  private signInWithEmail({email,password}):Promise<any>{
+  private signInWithEmail({email,password}:User):Promise<any>{
     return this.afAuth.signInWithEmailAndPassword(email,password);    
   }
 
-  private signUpWithEmail({email,password, name, photoURL = null}):Promise<any>{
+  private signUpWithEmail({email,password, name, photoURL = null}:User):Promise<any>{
     return this.afAuth.createUserWithEmailAndPassword(email,password)
     .then(credentials => credentials.user.updateProfile(
           {displayName: name, photoURL:photoURL}
@@ -26,12 +28,12 @@ export class AuthService {
     )    
   }
 
-  private signInWithPopup(provider:string):Promise<any>{
-    let signInProvider = null;
+  private signInWithPopup(provider:Providers):Promise<any>{
+    let signInProvider = null;    
     switch(provider){
-      case 'facebook': signInProvider = this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
+      case Providers.facebook: signInProvider = this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
         break;
-      case 'google': signInProvider = this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      case Providers.google: signInProvider = this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
         break
     }
 
