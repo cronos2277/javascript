@@ -4,6 +4,7 @@ import { SocialAuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 import {User} from '../user.model';
 import {Providers} from '../providers.enum';
+import {Login} from '../login.model'
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +13,16 @@ export class AuthService {
   constructor(
         private afAuth:AngularFireAuth,
         private authService: SocialAuthService  
-      ) {
-    
+      ) {}
+
+  public autenticate({isSignIn,user,provider}:Login):Promise<any>{
+    let operation:Promise<any>
+      if(provider !== Providers.Email){
+        operation = this.signInWithPopup(provider);
+      }else{
+        operation = (isSignIn)?this.signInWithEmail(user):this.signUpWithEmail(user);
+      }
+    return operation;
   }
 
   private signInWithEmail({email,password}:User):Promise<any>{
