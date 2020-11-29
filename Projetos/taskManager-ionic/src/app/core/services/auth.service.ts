@@ -6,6 +6,7 @@ import {User} from '../user.model';
 import {Providers} from '../providers.enum';
 import {Login} from '../login.model'
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,8 +17,11 @@ export class AuthService {
         private afAuth:AngularFireAuth,
         private authService: SocialAuthService  
       ) {
-        this.authState$ = this.afAuth.authState;
-        this.authState$.subscribe(user => user.)
+        this.authState$ = this.afAuth.authState;        
+      }
+
+      get isAutenticated():Observable<boolean>{
+        return this.authState$.pipe(map(user => user !== null));
       }
 
   public autenticate({isSignIn,user,provider}:Login):Promise<any>{
