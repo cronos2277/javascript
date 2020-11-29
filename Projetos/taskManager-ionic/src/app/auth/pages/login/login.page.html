@@ -8,6 +8,16 @@
 
 <ion-content color="light">  
   <form [formGroup]="authForm" (submit)="onSubmit()">
+
+    <ng-container *ngIf="!configs.isSingIn">
+        <ion-item>
+          <ion-icon name="person-add" color='medium' slot="start"></ion-icon>
+          <ion-input type='text' placeholder='Name' formControlName="name"></ion-input>
+          <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('required')">Require</ion-note>
+          <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('minlength')">Min 4 characters</ion-note>
+        </ion-item>
+    </ng-container>
+
     <ion-item>
       <ion-icon name="mail" color='medium' slot="start" ></ion-icon>
       <ion-input type='email' placeholder='Email' formControlName="email" inputmode="email" autofocus="true"></ion-input>
@@ -24,13 +34,13 @@
     
     <ion-button expand="block" color="primary" [disabled]="authForm.invalid" type="submit">
       <ion-icon name="chevron-forward-circle" slot="end"></ion-icon>
-      Login
+      {{configs.action}}
     </ion-button>  
   </form>
   
-  <ion-button expand="block" fill="clear" color="medium">
-    <ion-icon name="person-add" slot="end"></ion-icon>  
-    Create account
+  <ion-button expand="block" fill="clear" color="medium" (click)="changeAuthAction()">
+    <ion-icon name="person" slot="end"></ion-icon>  
+    {{configs.actionChange}}
   </ion-button>
   <ion-button expand="full"  color="primary">
     <ion-icon name="logo-facebook" slot="end"></ion-icon>
