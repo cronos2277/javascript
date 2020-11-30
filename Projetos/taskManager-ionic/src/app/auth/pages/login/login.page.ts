@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { OverlayService } from 'src/app/core/services/overlay.service';
 import {Providers} from '../../../core/providers.enum';
 
 @Component({
@@ -21,7 +23,7 @@ export class LoginPage implements OnInit {
 
   private nameControl = new FormControl('',[Validators.required,Validators.minLength(4)]);
 
-  constructor(private fb:FormBuilder, private authService:AuthService) { }
+  constructor(private fb:FormBuilder, private authService:AuthService, private overlayService:OverlayService) { }
 
   ngOnInit():void {
     this.createForm();
@@ -58,7 +60,8 @@ export class LoginPage implements OnInit {
       }
   }
 
-  public async onSubmit(provider: Providers):Promise<void>{
+  public async onSubmit(provider: Providers):Promise<void>{    
+    const loading = await this.overlayService.loading();
     try{
       const credentials = await this.authService.autenticate({
         isSignIn: this.configs.isSingIn,
@@ -69,6 +72,9 @@ export class LoginPage implements OnInit {
       console.log('redirect');
     }catch(e){
       console.error('Auth error',e);
+      await this.overlayService.toast({message:e.message});
+    }finally{
+      loading.dismiss();
     }
   }
 
