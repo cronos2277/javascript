@@ -1,3 +1,3 @@
 export enum Providers{
-    'Email', 'facebook', 'google'
+    'email', 'facebook'
 }

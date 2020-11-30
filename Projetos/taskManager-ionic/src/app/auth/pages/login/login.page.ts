@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/core/services/auth.service';
+import {Providers} from '../../../core/providers.enum';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +17,11 @@ export class LoginPage implements OnInit {
     actionChange: 'Create account'
   };
 
+  public authProviders = Providers
+
   private nameControl = new FormControl('',[Validators.required,Validators.minLength(4)]);
 
-  constructor(private fb:FormBuilder) { }
+  constructor(private fb:FormBuilder, private authService:AuthService) { }
 
   ngOnInit():void {
     this.createForm();
@@ -54,8 +58,18 @@ export class LoginPage implements OnInit {
       }
   }
 
-  public onSubmit():void{
-    console.log(this.authForm.value);
+  public async onSubmit(provider: Providers):Promise<void>{
+    try{
+      const credentials = await this.authService.autenticate({
+        isSignIn: this.configs.isSingIn,
+        user: this.authForm.value,
+        provider: provider
+      });
+      console.warn('Autenticated:',credentials);
+      console.log('redirect');
+    }catch(e){
+      console.error('Auth error',e);
+    }
   }
 
 }
