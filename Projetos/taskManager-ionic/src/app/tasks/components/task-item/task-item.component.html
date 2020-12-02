@@ -4,7 +4,7 @@
         <ion-toggle 
             slot="end" 
             color="primary" 
-            [checked="task.done"]
+            [checked]="task.done"
             (ionChange)="done.emit(task)"
             (click)="$event.stopPropagation()"
             >
