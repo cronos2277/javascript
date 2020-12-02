@@ -11,7 +11,7 @@ export abstract class Firestore<T extends {id:string}> {
         this.collection = path ? this.db.collection(path, queryFn):null;
     }
 
-    public getAll():Observable<T[]>{
+    public getAll():Observable<T[]>{        
         return this.collection.valueChanges();
     }
 
