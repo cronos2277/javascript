@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
-
 import { TasksListPageRoutingModule } from './tasks-list-routing.module';
 
 import { TasksListPage } from './tasks-list.page';
+import { RouterModule, Routes } from '@angular/router';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ComponentsModule } from '../../components/components.module';
+
+const routes: Routes = [{path:'',component:TasksListPage}]
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TasksListPageRoutingModule
+    SharedModule,
+    ComponentsModule,
+    //TasksListPageRoutingModule,
+    RouterModule.forChild(routes)
   ],
   declarations: [TasksListPage]
 })
