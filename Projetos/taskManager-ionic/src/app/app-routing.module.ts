@@ -12,8 +12,8 @@ const routes: Routes = [
     loadChildren:'./auth/auth.module#AuthModule'
   },
   {
-    path: 'tasks-list',
-    loadChildren: () => import('./tasks/pages/tasks-list/tasks-list.module').then( m => m.TasksListPageModule)
+    path: 'tasks',
+    loadChildren: './tasks/tasks.module#TasksModule'
   },
 ];
 
