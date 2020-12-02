@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
@@ -20,7 +21,7 @@ import {FacebookLoginProvider} from 'angularx-social-login';
   imports: [
       BrowserModule, IonicModule.forRoot(),AngularFireModule, 
       AngularFireModule.initializeApp(environment.firebase),
-      AngularFireAuthModule ,AppRoutingModule,SocialLoginModule],
+      AngularFireAuthModule ,AppRoutingModule,SocialLoginModule,AngularFirestoreModule],
   providers: [
     {
       provide: 'SocialAuthServiceConfig',
