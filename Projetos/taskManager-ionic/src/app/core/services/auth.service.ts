@@ -17,7 +17,7 @@ export class AuthService {
         private afAuth:AngularFireAuth,
         private authService: SocialAuthService  
       ) {
-        this.authState$ = this.afAuth.authState;        
+        this.authState$ = this.afAuth.authState;              
       }
 
       get isAutenticated():Observable<boolean>{
