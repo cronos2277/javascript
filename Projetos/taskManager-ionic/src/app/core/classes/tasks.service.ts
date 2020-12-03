@@ -3,7 +3,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Task } from 'src/app/tasks/models/task.model';
 import { AuthService } from '../services/auth.service';
 import { Firestore } from './firestore.class';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +17,10 @@ export class TasksService extends Firestore<Task>{
     this.authService.authState$.subscribe(
       user => {
           if(user){
-            this.setCollection(`/users/${user.uid}/tasks`);
+              this.setCollection(`/users/${user.uid}/tasks`, (ref) => 
+                  ref.orderBy('done','asc').orderBy('title','asc')
+              );
+          //this.setCollection(`/users/${user.uid}/tasks`);
             return;
           }
           this.setCollection(null);

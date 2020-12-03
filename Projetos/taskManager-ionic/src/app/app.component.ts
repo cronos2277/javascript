@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Page } from './tasks/models/page.model';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,13 @@ export class AppComponent {
     this.initializeApp();
   }
 
+  public pages:Page[];
+
   initializeApp() {
+    this.pages = [
+      {url:'/tasks/create', direction:'forward', icon:'add',text:'New Task'},
+      {url:'/tasks', direction:'back', icon:'bookmark',text:'All Tasks'},
+    ];
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
