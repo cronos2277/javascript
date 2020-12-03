@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Button } from 'protractor';
 import { Observable, of } from 'rxjs';
 import { TasksService } from 'src/app/core/classes/tasks.service';
+import { OverlayService } from 'src/app/core/services/overlay.service';
 import { Task } from '../../models/task.model';
 
 @Component({
@@ -15,7 +17,8 @@ export class TasksListPage {
 
   constructor(
     private tasksService:TasksService,
-    private navCtrl:NavController
+    private navCtrl:NavController,
+    private overlayService:OverlayService
     ) { }
 
   public ionViewDidEnter():void {
@@ -24,6 +27,23 @@ export class TasksListPage {
 
   public onUpdate(task: Task):void{
     this.navCtrl.navigateForward(`/tasks/edit/${task.id}`);
+  }
+
+  public async onDelete(task:Task):Promise<void>{
+    await this.overlayService.alert({
+      message: `Do you really want to delete the task "${task.title}"?`,
+      buttons: [
+        {
+          text:'Yes',
+          handler: async () =>{
+              await this.tasksService.delete(task);
+              await this.overlayService.toast({
+                message: `Task "${task.title}" was deleted!`
+              });
+          } 
+        },'No'
+      ]
+    });
   }
 
 }
