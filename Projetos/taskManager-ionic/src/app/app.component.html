@@ -1,12 +1,15 @@
 <ion-app>
   <ion-menu contentId="menu" menuId="main-menu">
   <ion-header>
-    <ion-toolbar color="medium">      
+    <ion-toolbar color="primary">      
       <ion-title>Start Menu</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
+        <ion-list-header *ngIf="user" color="medium">
+          Account: {{user.displayName}}
+        </ion-list-header>
         <ion-menu-toggle autoHide="false">
           <ion-item button 
             *ngFor="let page of pages" 
