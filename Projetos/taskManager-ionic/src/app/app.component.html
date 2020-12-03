@@ -1,4 +1,7 @@
-<ion-app>
+<ion-split-pane
+  contentId="menu"
+  when="md"
+>
   <ion-menu 
       contentId="menu" 
       menuId="main-menu"
@@ -10,7 +13,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-        <ion-list-header *ngIf="user" color="medium">
+        <ion-list-header *ngIf="user">
           Account: {{user.displayName}}
         </ion-list-header>
         <ion-menu-toggle autoHide="false">
@@ -27,5 +30,5 @@
 </ion-menu>
   <ion-router-outlet id="menu">
   </ion-router-outlet>
-</ion-app>
+</ion-split-pane>
 
