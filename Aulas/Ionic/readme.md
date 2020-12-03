@@ -127,3 +127,135 @@ Aqui temos um exemplo de **Ionic** fazendo uso do **Angular**. [LINK](./basico/)
     $ ionic g component login-form --change-detection=OnPush
     $ ionic g directive ripple --skip-import
     $ ionic g service api/user
+
+## Ionic Codificando
+O IONIC funciona sobre um outro framework javascript, podendo ser **React**, **Vue**, **Angular** ou até mesmo no próprio **vanilla**, nas novas versões do IONIC sobre o Angular o próprio IONIC gerencia as rotas usando a tag:
+
+    <ion-router-outlet id="menu"></ion-router-outlet>
+
+[documentação sobre rotas](https://ionicframework.com/docs/api/router)
+
+### Menus
+[documentação](https://ionicframework.com/docs/api/menu)
+
+>O componente Menu é uma gaveta de navegação que desliza do lado da visualização atual. Por padrão, ele desliza da esquerda, mas o lado pode ser substituído. O menu será exibido de forma diferente com base no modo, no entanto, o tipo de exibição pode ser alterado para qualquer um dos tipos de menu disponíveis. O elemento de menu deve ser irmão do elemento de conteúdo raiz. Pode haver qualquer número de menus anexados ao conteúdo. Eles podem ser controlados a partir dos modelos ou programaticamente usando o MenuController.
+
+Não se faz necessário ter um *id*, exceto que queira criar um menu, ai se faz necessário que o Menu seja irmão do router. Segue um exemplo desse menu:
+
+    <ion-app>
+    <ion-menu contentId="menu" menuId="main-menu">
+    <ion-header>    
+      <ion-toolbar color="primary">      
+        <ion-title>Start Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+          <ion-menu-toggle autoHide="false">
+            <ion-item button 
+              *ngFor="let page of pages" 
+              [routerLink]="page.url"
+              [routerDirection]="page.direction">        
+            <ion-icon slot="start" [name]="page.icon"></ion-icon>
+            <ion-label>{{page.text}}</ion-label>
+          </ion-item>
+      </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+    </ion-menu>
+      <ion-router-outlet id="menu">
+      </ion-router-outlet>
+    </ion-app>
+
+
+`<ion-app>` => Container que envolve o menu e as rotas, lembre-se um precisa ser irmão do outro, segundo a documentação:
+
+  >App é um elemento de contêiner para um aplicativo Ionic. Deve haver apenas um elemento `<ion-app>` por projeto. Um aplicativo pode ter muitos componentes Ionic, incluindo menus, cabeçalhos, conteúdo e rodapés. Os componentes de sobreposição são anexados ao `<ion-app>` quando são apresentados.
+
+  `<ion-menu contentId="menu" menuId="main-menu">` tag referente ao menu, faz necessário ter um *menuId* caso haja mais de um menu ou mais de uma forma de chamada, assim como precisa de um **contentId**, sendo que esse ultimo serve para referenciar o arquivo de rota, no caso esse menu faz referencia a `<ion-router-outlet id="menu">`
+
+  ### Headers
+  O IONIC tem uma tag específica para header, para isso: ` <ion-header> ` ` <\ion-header>` tudo que estiver no header ficará no topo da página [documentação](https://ionicframework.com/docs/api/header).
+
+  >Cabeçalho é um componente pai que contém o componente da barra de ferramentas. É importante observar que o ion-header precisa ser um dos três elementos raiz de uma página
+
+    <ion-header>    
+      <ion-toolbar color="primary">      
+        <ion-title>Start Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+
+  `<ion-toolbar>` => Cria um componente para destacar o **header** do conteúdo.
+  >As barras de ferramentas são posicionadas acima ou abaixo do conteúdo. Quando uma barra de ferramentas é colocada em um `<ion-header>`, ela aparecerá fixada na parte superior do conteúdo e, quando estiver em um `<ion-footer>`, aparecerá fixada na parte inferior. O conteúdo da tela inteira irá rolar atrás de uma barra de ferramentas em um cabeçalho ou rodapé. Quando colocadas em um `<ion-content>`, as barras de ferramentas rolarão com o conteúdo.
+
+  
+  `<ion-title>` => Use essa tag caso queira exibir algum titulo no header.
+  >ion-title é um componente que define o título da barra de ferramentas.
+
+### Content
+O content seria como se fosse o *body* do IONIC. [Documentação](https://ionicframework.com/docs/api/content)
+
+    <ion-content>
+      <ion-list>
+          <ion-menu-toggle autoHide="false">
+            <ion-item button 
+              *ngFor="let page of pages" 
+              [routerLink]="page.url"
+              [routerDirection]="page.direction">        
+            <ion-icon slot="start" [name]="page.icon"></ion-icon>
+            <ion-label>{{page.text}}</ion-label>
+          </ion-item>
+      </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+
+`<ion-list>` usado para criar lista de elementos a serem renderizados.[Documentação](https://ionicframework.com/docs/api/list)
+>As listas são compostas por várias linhas de itens que podem conter texto, botões, alternadores, ícones, miniaturas e muito mais. As listas geralmente contêm itens com conteúdo de dados semelhante, como imagens e texto. As listas suportam várias interações, incluindo deslizar itens para revelar opções, arrastar para reordenar itens na lista e excluir itens.
+
+#### ion-menu-toggle
+>O componente MenuToggle pode ser usado para alternar um menu aberto ou fechado. Por padrão, só é visível quando o menu selecionado está ativo. Um menu está ativo quando pode ser aberto / fechado. Se o menu estiver desabilitado ou estiver sendo apresentado como um painel dividido, o menu é marcado como não ativo e a tecla de alternância do menu de íons se oculta. Caso seja desejado manter o botão ion-menu-toggle sempre visível, a propriedade autoHide pode ser configurada como false. [documentação](https://ionicframework.com/docs/api/menu-toggle)
+
+#### ion-item
+>Itens são elementos que podem conter texto, ícones, avatares, imagens, entradas e quaisquer outros elementos nativos ou personalizados. Geralmente, eles são colocados em uma lista com outros itens. Os itens podem ser deslizados, excluídos, reordenados, editados e muito mais.
+
+##### Itens clicáveis
+>Um item é considerado "clicável" se tiver um conjunto de propriedades href ou botão. Os itens clicáveis ​​têm algumas diferenças visuais que indicam que podem interagir com eles. Por exemplo, um item clicável recebe o efeito cascata ao ser ativado no modo md, tem um destaque quando ativado no modo ios e tem uma seta de detalhes por padrão no modo ios.
+
+##### Setas de Detalhe
+>Por padrão, os itens clicáveis ​​exibirão um ícone de seta para a direita no modo ios. Para ocultar o ícone de seta para a direita em elementos clicáveis, defina a propriedade **detail** como *false*. Para mostrar o ícone de seta para a direita em um item que não o exibe naturalmente, defina a propriedade **detail** como *true.*
+
+##### Posicionamento de item
+>O item usa slots nomeados para posicionar o conteúdo. Essa lógica torna possível escrever um item complexo com marcação simples e compreensível, sem ter que se preocupar com estilização e posicionamento dos elementos.
+
+Propiedades para **Slot**, Ex: `<ion-item slot='start'></ion-item>`
+
+`start` **=>**	Coloca à esquerda de todos os outros conteúdos.
+
+`end`   **=>**	Coloca à direita de todos os outros conteúdos.
+
+`none`  **=>**	Coloca dentro do invólucro de entrada.
+
+##### Icones
+Sobre os ícones você pode verificar uma [lista deles aqui.](https://ionicons.com/), escolhido o ícone, você informa o nome dele no atributo name `<ion-icon slot="start" [name]="page.icon"></ion-icon>`, passando para a diretiva *name* o nome do icone a ser carregado, além disso é possível usar ícones de terceiros.
+
+##### routerDirection
+Essa propriedade define a animação, se será renderizado a animação de avançar ou voltar por exemplo no *IOS* ou *Android*, valores: *foward* => animação de avanção, *back* animação de recúo.
+
+#### Cores
+>O Ionic tem nove cores padrão que podem ser usadas para alterar a cor de muitos componentes. Cada cor é, na verdade, uma coleção de várias propriedades, incluindo um tom e um tom, usados ​​em todo o Ionic.
+
+>Uma cor pode ser aplicada a um componente Ionic para alterar as cores padrão usando o atributo color. Observe nos botões abaixo que o texto e o fundo mudam com base no conjunto de cores. Quando não há cor definida no botão, ele usa a cor primária por padrão.
+
+    <ion-button>Default</ion-button>
+    <ion-button color="primary">Primary</ion-button>
+    <ion-button color="secondary">Secondary</ion-button>
+    <ion-button color="tertiary">Tertiary</ion-button>
+    <ion-button color="success">Success</ion-button>
+    <ion-button color="warning">Warning</ion-button>
+    <ion-button color="danger">Danger</ion-button>
+    <ion-button color="light">Light</ion-button>
+    <ion-button color="medium">Medium</ion-button>
+    <ion-button color="dark">Dark</ion-button>
+
+>Cada cor consiste nas seguintes propriedades: base, contraste, tonalidade e tonalidade. As cores de base e contraste também requerem uma propriedade rgb que é a mesma cor, apenas no formato rgb. Veja The Alpha Problem para uma explicação de por que a propriedade rgb também é necessária. [Documentação Completa](https://ionicframework.com/docs/theming/colors)
