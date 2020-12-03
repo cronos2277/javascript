@@ -1,1 +1,0 @@
-# Exemplo Básico usando o Ionic com Angular
