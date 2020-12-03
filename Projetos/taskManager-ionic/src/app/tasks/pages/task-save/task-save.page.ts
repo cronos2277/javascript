@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TasksService } from 'src/app/core/classes/tasks.service';
 
 @Component({
   selector: 'app-task-save',
@@ -10,7 +11,10 @@ export class TaskSavePage implements OnInit {
 
   public taskForm:FormGroup;
 
-  constructor(private fb:FormBuilder) { }
+  constructor(
+    private fb:FormBuilder, 
+    private tasksService:TasksService
+  ) { }
 
   ngOnInit():void {
     this.createForm();
@@ -24,8 +28,13 @@ export class TaskSavePage implements OnInit {
 
   }
 
-  public onSubmit():void{
-    console.log(this.taskForm.value);
+  public async onSubmit():Promise<void>{
+    try{
+      const task = await this.tasksService.create(this.taskForm.value);
+      console.log('task');
+    }catch(error){
+      console.error(error);
+    }
   }
 
 }
