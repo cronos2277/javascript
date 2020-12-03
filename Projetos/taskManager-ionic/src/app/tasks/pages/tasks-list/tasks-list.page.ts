@@ -15,7 +15,7 @@ export class TasksListPage {
   constructor(private tasksService:TasksService) { }
 
   public ionViewDidEnter():void {
-    this.tasks$ = this.tasksService.getAll();
+    this.tasks$ = this.tasksService.getAll();    
   }
 
 }
