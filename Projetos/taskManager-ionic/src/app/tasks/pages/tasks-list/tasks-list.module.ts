@@ -11,8 +11,7 @@ const routes: Routes = [{path:'',component:TasksListPage}]
 @NgModule({
   imports: [
     SharedModule,
-    ComponentsModule,
-    //TasksListPageRoutingModule,
+    ComponentsModule,    
     RouterModule.forChild(routes)
   ],
   declarations: [TasksListPage]
