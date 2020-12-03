@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Button } from 'protractor';
 import { Observable, of } from 'rxjs';
 import { TasksService } from 'src/app/core/classes/tasks.service';
 import { OverlayService } from 'src/app/core/services/overlay.service';
@@ -11,15 +10,24 @@ import { Task } from '../../models/task.model';
   templateUrl: './tasks-list.page.html',
   styleUrls: ['./tasks-list.page.scss'],
 })
-export class TasksListPage {
+export class TasksListPage implements OnInit,AfterViewInit {
 
   public tasks$:Observable<Task[]>;
+  private loading:Promise<HTMLIonLoadingElement>;
 
   constructor(
     private tasksService:TasksService,
     private navCtrl:NavController,
     private overlayService:OverlayService
     ) { }
+
+  public async ngOnInit(){
+      this.loading = this.overlayService.loading();
+  }
+
+  public async ngAfterViewInit(){
+      await (await this.loading).dismiss();
+  }
 
   public ionViewDidEnter():void {
     this.tasks$ = this.tasksService.getAll();    
@@ -43,6 +51,14 @@ export class TasksListPage {
           } 
         },'No'
       ]
+    });
+  }
+
+  public async onDone(task:Task):Promise<void>{
+    const taskToUpdate = {... task, done: !task.done };
+    await this.tasksService.update(taskToUpdate);
+    await this.overlayService.toast({
+      message: `Task "${task.title}" was ${taskToUpdate.done ? 'completed': 'updated'}!`
     });
   }
 
