@@ -10,7 +10,7 @@
     <ng-container *ngIf="tasks.length > 0; else noTasks">
       <app-task-item 
           *ngFor="let task of tasks" 
-          [task]="task">
+          [task]="task" (update)="onUpdate($event)">
       </app-task-item>
     </ng-container>
     <ng-template #noTasks>
