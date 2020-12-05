@@ -1,0 +1,99 @@
+# React
+## React JS
+[Arquivo do projeto](./reactjs)
+### Exemplo Básico
+    import ReactDOM from 'react-dom';
+    import React from 'react'
+
+    ReactDOM.render(
+        <h1>Ola Mundo</h1>,
+        document.getElementById('root')
+    );
+
+#### import ReactDOM from 'react-dom'
+Esse import permite acesso ao renderização do **DOM**, dentre eles esse:
+
+    ReactDOM.render(
+        <h1>Ola Mundo</h1>,
+        document.getElementById('root')
+    );
+
+O primeiro parametro é o componente a ser renderizado e o segundo é aonde esse componente deve ser renderizado, no caso dentro de uma div que tenha o id root, esse arquivo está dentro da pasta [public](./reactjs/public/), no caso o arquivo na [public](./reactjs/public/) o arquivo [index.html](./reactjs/public/index.html).
+
+#### HTML dentro de um arquivo JS
+Não há aspas nesse código `<h1>Ola Mundo</h1>`, ou seja você escreve como se fosse um html, mesmo no caso essa tag é renderizada e depois convertido para html, uma vez que mesmo  dentro do contexto de um arquivo react é um código javascript mesmo parecendo um código HTML.
+Para renderizar esses códigos, deve obrigatóriamente ser importado essa biblioteca `import React from 'react'`, todo código que tiver esses template deve obrigatóriamente ter isso implementado, pois é essa biblioteca que vai permitir que o react interprete o código, lembrando que deve ser **React** com a letra maíusculo, qualquer coisa diferente disso pode dar problema ao interpretar os html.
+
+### Exemplo com Componentes
+    import ReactDOM from 'react-dom';
+    import React from 'react';
+    import Primeiro from './components/1basico'; 
+    import Segundo from './components/2basico';
+
+    ReactDOM.render(
+        (
+            <div>
+                const titulo = <h1>Titulo</h1>;
+                <Primeiro></Primeiro>
+                <Segundo></Segundo>
+            </div>
+        ),
+        document.getElementById('root')
+    );
+
+Um componente é importado no react como tag, repare esse componente [import Primeiro from './components/1basico';](reactjs/src/components/1basico.js), que foi nomeado `<Primeiro>` como  se refere a esse:
+
+    export default function (){
+        return "Retornando uma String basica"
+    }
+
+ e no caso ele é usado aqui:
+
+    ReactDOM.render(
+        (
+            <div>
+                const titulo = <h1>Titulo</h1>;
+                <Primeiro></Primeiro>
+                <Segundo></Segundo>
+            </div>
+        ),
+        document.getElementById('root')
+    );
+
+Com relação ao segundo import [import Segundo from './components/2basico';](reactjs/src/components/2basico.js), sendo o conteudo desse componente:
+
+    import React from 'react';
+    export default function(){
+        return (<h3> Segundo Basico</h3>);
+    }
+
+Repare que nesse segundo é exportado uma tag html: `return (<h3> Segundo Basico</h3>);`, recomenda-se sempre colocar esse html envolto de parenteses `()`, pois o parenteses representa bloco e isso permite que o componente ocupe mais de uma linha, igual a comparação entre backtips e aspas por exemplo, no caso, graças aos parenteses, poderia ficar assim:
+
+    return(
+            <h3> 
+                Segundo Basico
+            </h3>
+          );
+
+Fora de parenteses poderia dar problema para renderizar o código acima, logo usando parenteses evita-se esse problema. E claro como se trata de renderização de componente precisa importar isso: `import React from 'react';`.
+
+#### Sobre componentes
+
+    <div>
+        const titulo = <h1>Titulo</h1>;
+        <Primeiro></Primeiro>
+        <Segundo></Segundo>
+    </div>
+
+Componentes são sempre usados como se fossem tags html `<Primeiro></Primeiro>` e `<Segundo></Segundo>`.
+
+#### Interpolando variáveis
+Você pode colocar tags html dentro de uma variável no react, como foi feito aqui `const titulo = <h1>Titulo</h1>;` e para usar o componente, você deve renderizar ele dentro de chaves `{}`, conforme foi feito aqui `{titulo}`. Sempre que for usar um componente interpolado por chaves, deve-se usar dentro de uma tag e não solta, pois isso pode dar problema de renderização, nesse caso o `{titulo}` está dentro de uma *div*, e como está envolto de parentes pode-se usar alinhamento com enter e tabs devido a isso como no exemplo abaixo:
+
+    (
+        <div>
+            {titulo}
+            <Primeiro></Primeiro>
+            <Segundo></Segundo>
+        </div>
+    ),
