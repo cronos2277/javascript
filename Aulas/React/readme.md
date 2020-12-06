@@ -153,4 +153,48 @@ Repare que todos os parametros são compressados dentro de um único objeto, que
         );
     }
 
-Também é possível usar a extensão *.jsx*, nesse caso não muda nada para o react, mas ajuda a *IDE* a identificar os arquivos e além disso ajuda na organização, mas apenas isso.
+Também é possível usar a extensão *.jsx*, nesse caso não muda nada para o react, mas ajuda a *IDE* a identificar os arquivos e além disso ajuda na organização, mas apenas isso, além disso parametros passado para componentes funcionais, não podem ser modificados, eles estão em modo somente leitura.
+
+#### Criando componentes com React.Fragment
+Todos os componentes devem estar envolto de um componente raiz, sem esse componente raiz, o react não renderiza, geralmente isso é resolvendo tudo colocando dentro de uma div, mas caso isso não seja possível e os elementos devem estar fora de qualquer outro elemento e na raiz da pagina, devido uma estilização, ou pelo fato de ambos deverem ser irmãos e raiz, para isso existe o React.Fragment, a primeira forma de usar isso é colocar tudo envolto de `<>` e `</>`, porém desse método não é possível passar propriedade ao `<>`:
+
+    import ReactDOM from 'react-dom';
+    import React from 'react';
+    import Primeiro from './components/1funcional'; 
+    import Segundo from './components/2funcional';
+    import Terceiro from './components/3funcional';
+    import Quarto from './components/4funcional';
+
+    const titulo = <h1>Titulo</h1>;
+
+    ReactDOM.render(
+        (
+            <>
+                {titulo}
+                <Primeiro></Primeiro>
+                <hr />
+                <Segundo></Segundo>
+                <hr />
+                <Terceiro 
+                        prop1="valor1"
+                        prop2={9.8}
+                        prop3={true}
+                        prop4={{'a':1,'b':2}}
+                        prop5={[9,3,5]}>
+                </Terceiro>
+                <hr />
+                <Quarto titulo="Título Quarto" subtitulo="Subtitulo do elemento 4" />
+            </>
+        ),
+        document.getElementById('root')
+    );
+
+Além disso o elemento pode ficar sem corpo se não tiver um outro componente dentro dele, como esse `<Quarto titulo="Título Quarto" subtitulo="Subtitulo do elemento 4" />`, além disso uma outra forma de envolver componentes raiz, pode ser usando a tag `<React.Fragment><\React.Fragment>`, esse ja aceita propriedades como por exemplo `<React.Fragment prop={1}>` , como no exemplo abaixo com o arquivo [4functional](reactjs/src/components/4funcional.jsx):
+
+    import React from 'react';
+    export default props => (
+        <React.Fragment>
+            <h1>{props.titulo}</h1>
+            <h3>{props.subtitulo}</h3>
+        </React.Fragment>
+    );

@@ -3,12 +3,13 @@ import React from 'react';
 import Primeiro from './components/1funcional'; 
 import Segundo from './components/2funcional';
 import Terceiro from './components/3funcional';
+import Quarto from './components/4funcional';
 
 const titulo = <h1>Titulo</h1>;
 
 ReactDOM.render(
     (
-        <div>
+        <>
             {titulo}
             <Primeiro></Primeiro>
             <hr />
@@ -21,7 +22,9 @@ ReactDOM.render(
                     prop4={{'a':1,'b':2}}
                     prop5={[9,3,5]}>
             </Terceiro>
-        </div>
+            <hr />
+            <Quarto titulo="Título Quarto" subtitulo="Subtitulo do elemento 4" />
+        </>
     ),
     document.getElementById('root')
 );
