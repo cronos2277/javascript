@@ -4,6 +4,7 @@ import Primeiro from './components/1funcional';
 import Segundo from './components/2funcional';
 import Terceiro from './components/3funcional';
 import Quarto from './components/4funcional';
+import Container from './components/5funcional';
 
 const titulo = <h1>Titulo</h1>;
 
@@ -24,6 +25,9 @@ ReactDOM.render(
             </Terceiro>
             <hr />
             <Quarto titulo="Título Quarto" subtitulo="Subtitulo do elemento 4" />
+            <Container title="Ola Mundo">
+                <Primeiro></Primeiro>                
+            </Container>
         </>
     ),
     document.getElementById('root')

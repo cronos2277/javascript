@@ -198,3 +198,28 @@ Além disso o elemento pode ficar sem corpo se não tiver um outro componente de
             <h3>{props.subtitulo}</h3>
         </React.Fragment>
     );
+
+### Exemplo com componentes funcionais em forma de container
+Para que se tenha um componente dentro do outro, se faz necessário usar o atributo children que é um array que fica disponível quando se tem alguma coisa no corpo do componente, ao exemplo de:
+
+            <Container title="Ola Mundo">
+                <Primeiro></Primeiro>                
+            </Container>
+
+sendo o arquivo de Container, [arquivo](./reactjs/src/components/5funcional.jsx):
+
+    import React from 'react';
+    import './5funcional.css';
+    export default props => {
+        return(        
+            <div className='classe'>
+                <h1>{props.title}</h1>
+                {props.children}
+            </div>        
+        );
+    }
+
+Nesse caso o `props.title` seria isso aqui `title="Ola Mundo"` e esse componente interno `<Primeiro></Primeiro>`, é acessado através dessa parte aqui `{props.children}`, lembrando que *children* é um array, uma vez que é o coletivo de *child*.
+
+#### className
+a palavra class é reservada no javascript, logo não se pode usar essa palavra alí, logo se faz necessário usar o `className` caso queira usar uma classe para aplicar estilo, como esta aqui [arquivo](./reactjs/src/components/5funcional.css):
