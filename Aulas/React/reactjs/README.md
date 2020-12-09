@@ -1,6 +1,5 @@
 # React
 ## React JS
-[Arquivo do projeto](./reactjs)
 ### Exemplo Básico
     import ReactDOM from 'react-dom';
     import React from 'react'
@@ -18,7 +17,7 @@ Esse import permite acesso ao renderização do **DOM**, dentre eles esse:
         document.getElementById('root')
     );
 
-O primeiro parametro é o componente a ser renderizado e o segundo é aonde esse componente deve ser renderizado, no caso dentro de uma div que tenha o id root, esse arquivo está dentro da pasta [public](./reactjs/public/), no caso o arquivo na [public](./reactjs/public/) o arquivo [index.html](./reactjs/public/index.html).
+O primeiro parametro é o componente a ser renderizado e o segundo é aonde esse componente deve ser renderizado, no caso dentro de uma div que tenha o id root, esse arquivo está dentro da pasta [public](./public/), no caso o arquivo na [public](./public/) o arquivo [index.html](./public/index.html).
 
 #### HTML dentro de um arquivo JS
 Não há aspas nesse código `<h1>Ola Mundo</h1>`, ou seja você escreve como se fosse um html, mesmo no caso essa tag é renderizada e depois convertido para html, uma vez que mesmo  dentro do contexto de um arquivo react é um código javascript mesmo parecendo um código HTML.
@@ -41,7 +40,7 @@ Para renderizar esses códigos, deve obrigatóriamente ser importado essa biblio
         document.getElementById('root')
     );
 
-Um componente é importado no react como tag, repare esse componente [import Primeiro from './components/1funcional';](reactjs/src/components/1funcional.js), que foi nomeado `<Primeiro>` como  se refere a esse:
+Um componente é importado no react como tag, repare esse componente [import Primeiro from './components/1funcional';](src/components/1funcional.js), que foi nomeado `<Primeiro>` como  se refere a esse:
 
     export default function (){
         return "Retornando uma String basica"
@@ -60,7 +59,7 @@ Um componente é importado no react como tag, repare esse componente [import Pri
         document.getElementById('root')
     );
 
-Com relação ao segundo import [import Segundo from './components/2funcional';](reactjs/src/components/2funcional.js), sendo o conteudo desse componente:
+Com relação ao segundo import [import Segundo from './components/2funcional';](src/components/2funcional.js), sendo o conteudo desse componente:
 
     import React from 'react';
     export default function(){
@@ -107,7 +106,7 @@ Você pode colocar tags html dentro de uma variável no react, como foi feito aq
             prop5={[9,3,5]}>
     </Terceiro>
 
-Você pode usar aspas para passar valores por string ou interpolar usando `{}`, lembrando que a passagem de valor deve ser dessa forma, aqui temos um exemplo de passagem de String `prop1="valor1"`, numérico com ponto flutuante `prop2={9.8}`, booleano `prop3={true}`, objeto `prop4={{'a':1,'b':2}}`, no caso do objeto deve-se usar duas chaves, um para o objeto e outro para a interpolação, array: `prop5={[9,3,5]}`, segue um exemplo de como é um componente, arquivo [3functional](reactjs/src/components/3funcional.jsx):
+Você pode usar aspas para passar valores por string ou interpolar usando `{}`, lembrando que a passagem de valor deve ser dessa forma, aqui temos um exemplo de passagem de String `prop1="valor1"`, numérico com ponto flutuante `prop2={9.8}`, booleano `prop3={true}`, objeto `prop4={{'a':1,'b':2}}`, no caso do objeto deve-se usar duas chaves, um para o objeto e outro para a interpolação, array: `prop5={[9,3,5]}`, segue um exemplo de como é um componente, arquivo [3functional](src/components/3funcional.jsx):
 
     import React from 'react';
     export default function(propriedade){
@@ -189,7 +188,7 @@ Todos os componentes devem estar envolto de um componente raiz, sem esse compone
         document.getElementById('root')
     );
 
-Além disso o elemento pode ficar sem corpo se não tiver um outro componente dentro dele, como esse `<Quarto titulo="Título Quarto" subtitulo="Subtitulo do elemento 4" />`, além disso uma outra forma de envolver componentes raiz, pode ser usando a tag `<React.Fragment><\React.Fragment>`, esse ja aceita propriedades como por exemplo `<React.Fragment prop={1}>` , como no exemplo abaixo com o arquivo [4functional](reactjs/src/components/4funcional.jsx):
+Além disso o elemento pode ficar sem corpo se não tiver um outro componente dentro dele, como esse `<Quarto titulo="Título Quarto" subtitulo="Subtitulo do elemento 4" />`, além disso uma outra forma de envolver componentes raiz, pode ser usando a tag `<React.Fragment><\React.Fragment>`, esse ja aceita propriedades como por exemplo `<React.Fragment prop={1}>` , como no exemplo abaixo com o arquivo [4functional](src/components/4funcional.jsx):
 
     import React from 'react';
     export default props => (
@@ -206,7 +205,7 @@ Para que se tenha um componente dentro do outro, se faz necessário usar o atrib
                 <Primeiro></Primeiro>                
             </Container>
 
-sendo o arquivo de Container, [arquivo](./reactjs/src/components/5funcional.jsx):
+sendo o arquivo de Container, [arquivo](/src/components/5funcional.jsx):
 
     import React from 'react';
     import './5funcional.css';
@@ -222,7 +221,7 @@ sendo o arquivo de Container, [arquivo](./reactjs/src/components/5funcional.jsx)
 Nesse caso o `props.title` seria isso aqui `title="Ola Mundo"` e esse componente interno `<Primeiro></Primeiro>`, é acessado através dessa parte aqui `{props.children}`, lembrando que *children* é um array, uma vez que é o coletivo de *child*.
 
 #### className
-a palavra class é reservada no javascript, logo não se pode usar essa palavra alí, logo se faz necessário usar o `className` caso queira usar uma classe para aplicar estilo, como esta aqui [arquivo](./reactjs/src/components/5funcional.css):
+a palavra class é reservada no javascript, logo não se pode usar essa palavra alí, logo se faz necessário usar o `className` caso queira usar uma classe para aplicar estilo, como esta aqui [arquivo](src/components/5funcional.css):
 
 ### Herança entre componentes
 
@@ -237,7 +236,7 @@ a palavra class é reservada no javascript, logo não se pode usar essa palavra 
             <Quarto titulo="Elemento 4"/>
     </ElementoPai>
 
-No caso esse atributo aqui `subtitulo="Titulo herdado do Elemento Pai"`, vai ser passado para o elemento filho, que no caso é o **Quarto**. Para isso temos no [componente pai](./reactjs/src/components/6funcional.jsx)
+No caso esse atributo aqui `subtitulo="Titulo herdado do Elemento Pai"`, vai ser passado para o elemento filho, que no caso é o **Quarto**. Para isso temos no [componente pai](src/components/6funcional.jsx)
 
     import React from 'react';
     export default props => {
@@ -277,7 +276,7 @@ Aqui temos um exemplo contendo mais de um elemento:
                     <Quarto titulo="Elemento Filho 3"/>
             </ElementoPais>
 
-Segue a lógica referente ao componente:
+Segue a lógica referente ao componente, [link para o arquivo](src/components/7funcional.jsx):
 
     import React from 'react';
     export default props => {
