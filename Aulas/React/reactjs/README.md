@@ -205,7 +205,7 @@ Para que se tenha um componente dentro do outro, se faz necessário usar o atrib
                 <Primeiro></Primeiro>                
             </Container>
 
-sendo o arquivo de Container, [arquivo](/src/components/5funcional.jsx):
+sendo o arquivo de Container, [arquivo](src/components/5funcional.jsx):
 
     import React from 'react';
     import './5funcional.css';

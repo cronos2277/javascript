@@ -1,5 +1,5 @@
 # Primeiros passos para Criar aplicativo com React JS
-[Exemplos envolvendo React JS](reactjs/readme.md)
+[Exemplos envolvendo React JS](reactjs)
 
 [React Native](#react-native)
 
