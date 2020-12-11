@@ -297,3 +297,38 @@ Segue a lógica referente ao componente, [link para o arquivo](src/components/7f
     }
 
 A nova linha altera é essa: `props.children.map(el => React.cloneElement(el,props))`, aqui estamos tratando o `props.children` como um array contendo **N** filhos e devido a isso temos acesso ao método `.map()`. Nesse caso cada elemento é retornado e a todos os filhos é passado o atributo a todos os filhos como feito aqui `React.cloneElement(el,props)`.
+
+#### Com componente interno
+
+    <Se test={(Math.random() > 0.499)?true:false}>       
+        <Quarto titulo="Vardadeiro"/>
+        <Senao>
+            <Quarto titulo="Falso"/>
+        </Senao>
+    </Se>
+
+Esse componente acima, com base na resolução dessa expressão `Math.random() > 0.499)?true:false`, ele exibi aleatóriamente verdadeiro ou falso, segue abaixo um exemplo de como funciona o componente:
+
+    import React from 'react';
+    export function Se(props){
+        const senao = (Array.isArray(props.children)) ? props.children.filter(
+            child => child.type && child.type.name === 'Senao'
+        )[0]:(props.children.type.name === 'Senao') && props.children;
+
+        const se = (Array.isArray(props.children)) ? props.children.filter(
+            (child) => child !== senao
+        ): (props.children !== senao) && props.children;
+
+        if(props.test){
+            return <div style={{backgroundColor:'blue',color:'white',padding:'10px'}}>{se}</div>;
+        }else{
+            return senao;
+        }
+    }
+
+    export const Senao = props => <div style={{backgroundColor:'red',color:'white',padding:'10px'}}>{props.children}</div>;
+
+    export default {Se,Senao};
+
+##### Explicando
+Detalhe importante, inicialmente estamos exportando dois componentes `export default {Se,Senao};` , que deverão ser importados da seguinte forma `import {Se,Senao} from './components/8funcional';`, além disso temos isso aqui `child.type.name === 'Senao'`, no caso o atributo `type.name` do componente pode ser usado caso você queira saber o nome da tag do componente que o usuário usou, nesse caso se houver algum com nome de `Senao`, a condição é atendida. Também temos isso aqui `(props.children.type.name === 'Senao') && props.children;`, quando se usa o operador `||` significa se o primeiro valor for `null`, `undefined`, `{}`, `[]` ou até mesmo `0` ou `false` é pego o valor a direita da expressão, por exemplo `a = false || 1`, nesse caso como o primeiro valor é falso o valor atribuído a variável `a` será o `1`. Alem disso temos o operador `&&`, esse operador é o seguinte, se o primeiro valor é verdadeiro, é atribuído o segundo valor a variável. Por exemplo `b = false && 1` nesse caso o `b` **NÃO** terá valor algum, pois a primeira expressão é falsa, agora se fosse `c = true && 1` nesse caso o `c` recebe o valor `1`, uma vez que a primeira expressão é verdadeira, lembre-se disso quando for usar o `&&` ou `||`, além disso temos o `(expressão booleana)?(condição verdadeira):(condição falsa);`, essa funciona como qualquer expressão ternária, segue o arquivo exemplo [8funcional.jsx](./src/components/8funcional.jsx).
