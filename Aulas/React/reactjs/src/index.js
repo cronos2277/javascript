@@ -7,6 +7,8 @@ import Quarto from './components/4funcional';
 import Container from './components/5funcional';
 import ElementoPai from './components/6funcional';
 import ElementoPais from './components/7funcional';
+import {Se,Senao} from './components/8funcional';
+import Repetir, {Lista} from './components/9funcional';
 
 const titulo = <h1>Titulo</h1>;
 
@@ -53,6 +55,16 @@ ReactDOM.render(
                     <Quarto titulo="Elemento Filho 2"/>
                     <Quarto titulo="Elemento Filho 3"/>
             </ElementoPais>
+
+            <Se test={(Math.random() > 0.499)?true:false}>       
+                    <Quarto titulo="Vardadeiro"/>
+                <Senao>
+                    <Quarto titulo="Falso"/>
+                </Senao>
+            </Se>
+            <Repetir repeat={parseInt(Math.random() * 5)}>             
+                <Lista value='repetição'/>              
+            </Repetir>
         </>
     ),
     document.getElementById('root')

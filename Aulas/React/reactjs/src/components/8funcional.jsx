@@ -1,24 +1,21 @@
 import React from 'react';
-export function se(props){    
-    if(props && props.test && props.children){
-        if(Array.isArray(props.children)){
-            return(
-                <>
-                {props.children.map(el => React.cloneElement(el,props))}
-                </>
-            );            
-        }else if(props && !props.test){
-            return(
-                <>
-                    {React.cloneElement(props.children,props)}
-                </>
-            );
-        }else{
-            return(<></>);
-        }
+export function Se(props){
+    const senao = (Array.isArray(props.children)) ? props.children.filter(
+        child => child.type && child.type.name === 'Senao'
+    )[0]:(props.children.type.name === 'Senao') && props.children;
+
+    const se = (Array.isArray(props.children)) ? props.children.filter(
+        (child) => child !== senao
+    ): (props.children !== senao) && props.children;
+
+    if(props.test){
+        return <div style={{backgroundColor:'blue',color:'white',padding:'10px'}}>{se}</div>;
     }else{
-        return(<></>);
-    }    
+        return senao;
+    }
 }
 
-export default {se};
+export const Senao = props => <div style={{backgroundColor:'red',color:'white',padding:'10px'}}>{props.children}</div>;
+
+export default {Se,Senao};
+    
