@@ -8,7 +8,7 @@ import Container from './components/5funcional';
 import ElementoPai from './components/6funcional';
 import ElementoPais from './components/7funcional';
 import {Se,Senao} from './components/8funcional';
-import Repetir, {Lista} from './components/9funcional';
+import Repetir from './components/9funcional';
 
 const titulo = <h1>Titulo</h1>;
 
@@ -63,7 +63,7 @@ ReactDOM.render(
                 </Senao>
             </Se>
             <Repetir repeat={parseInt(Math.random() * 5)}>             
-                <Lista value='repetição'/>              
+                <span value='repetição'/>              
             </Repetir>
         </>
     ),
