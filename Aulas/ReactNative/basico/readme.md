@@ -354,3 +354,36 @@ Se você quiser imprimir algo no documento, fazer uma espécie de `document.writ
     }
 
 [Arquivo 9funcional](./src/components/9funcional.jsx), nesse caso o react está criando uma chave para o elemento de maneira automática, mas nem sempre isso é possível e por isso é bom ficar de olho no console do navegador.
+
+### Componente controlado e funcional com Estado
+[state.jsx](./src/complex/state.jsx)
+
+#### Chamando o Componente
+    <State value="valor padrao"/>
+
+#### Arquivo JSX
+    import React from 'react';
+    export default function(props){
+        const [variavel,funcao] = React.useState(props.value);    
+        const mudanca = event => funcao(event.target.value);
+        return(
+            <div style={{
+                    backgroundColor:'purple',
+                    color:'white',
+                    border:'2px solid violet',
+                    boxShadow:'0px 0px 25px violet',
+                    padding:'10px'                
+                }}>        
+                <h2>{variavel}</h2>
+                <input type='text' value={variavel} onChange={mudanca}/>            
+            </div>
+        );
+    }
+
+Inicialmente sempre que for criar um componente é bom usar como padrão um nome capitalizado, todos os componentes devem ser capitalizados, ao passo que os componentes com letra minuscula sempre será renderizado como um HTML.
+
+#### Estado
+`const [variavel,funcao] = React.useState(props.value);` Aqui temos um exemplo de Estado, no caso o método **useState**, ele está presente apartir da versão 16.8 do react. No caso esse método recebe como parametro o valor inicial e retorna um array, contendo a variável para leitura e uma função ao qual atualiza o valor e atravé desse método você atualiza o valor de alguma variável, em resumo: aqui criamos uma variavel com status cuja o valor inicial vem de **props.value** `const [variavel,funcao] = React.useState(props.value)`. o primeiro elemento retornado do array é o `variavel`, essa deve ser a variável para a leitura, toda vez que você quiser ler o valor de uma variável, você vai usar esse primeiro valor criado pelo array. No segundo você tem uma função **setter** para fazer alguma atualização caso necessário, no caso essa atualização é feita aqui `const mudanca = event => funcao(event.target.value);`, no caso a função `mudanca` pega o atributo `value` dentro de `target` e dentro da variável passada, será usada como argumento para a função **setter** definida aqui `const [variavel,funcao] = React.useState(props.value)`. Por fim aqui nesse componente `<input type='text' value={variavel} onChange={mudanca}/> ` fazemos o uso da leitura de valor e a função onchange faz a mudança.
+
+#### Componente Controlado
+No caso um componente do tipo input, ou deve ter um evento onchange tratado com uma função ou ser um componente somente leitura ou até mesmo ter como value o valor `undefined`, no primeiro caso temos um componente com estado que altera valor, isso quando o valor é atualizado, no segundo caso temos um componente que apenas recebe o valor, por fim temos o caso com o undefined no valor que significa que esse campo não deve ser mapeado pelo react, especificamente o `undefined` e não `null` ou `false`, nesse caso essa equivalência não existe.

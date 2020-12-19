@@ -9,6 +9,7 @@ import ElementoPai from './components/6funcional';
 import ElementoPais from './components/7funcional';
 import {Se,Senao} from './components/8funcional';
 import Repetir from './components/9funcional';
+import State from './complex/state';
 
 const titulo = <h1>Titulo</h1>;
 
@@ -65,7 +66,7 @@ ReactDOM.render(
             <Repetir repeat={parseInt(Math.random() * 9)}>
                 <li>{"Repetição"}</li>
             </Repetir>                    
-            
+            <State value="valor padrao"/>
         </>
     ),
     document.getElementById('root')
