@@ -289,14 +289,14 @@ Segue a lógica referente ao componente, [link para o arquivo](src/components/7f
                 'boxSizing':props.boxsizing
             }}>
                 {
-                    props.children.map(el => React.cloneElement(el,props))
+                    props.children.map((el,i) => React.cloneElement(el,{...props,key:i}))
                 }
 
             </div>
         );
     }
 
-A nova linha altera é essa: `props.children.map(el => React.cloneElement(el,props))`, aqui estamos tratando o `props.children` como um array contendo **N** filhos e devido a isso temos acesso ao método `.map()`. Nesse caso cada elemento é retornado e a todos os filhos é passado o atributo a todos os filhos como feito aqui `React.cloneElement(el,props)`.
+A nova linha altera é essa: `props.children.map(el => React.cloneElement(el,props))`, aqui estamos tratando o `props.children` como um array contendo **N** filhos e devido a isso temos acesso ao método `.map()`. Nesse caso cada elemento é retornado e a todos os filhos é passado o atributo a todos os filhos como feito aqui `React.cloneElement(el,props)`. Além disso temos o **key** que deve sempre ser informado, para que o react possa exercer um controle sobre esse elemento.
 
 #### Com componente interno
 
@@ -332,3 +332,25 @@ Esse componente acima, com base na resolução dessa expressão `Math.random() >
 
 ##### Explicando
 Detalhe importante, inicialmente estamos exportando dois componentes `export default {Se,Senao};` , que deverão ser importados da seguinte forma `import {Se,Senao} from './components/8funcional';`, além disso temos isso aqui `child.type.name === 'Senao'`, no caso o atributo `type.name` do componente pode ser usado caso você queira saber o nome da tag do componente que o usuário usou, nesse caso se houver algum com nome de `Senao`, a condição é atendida. Também temos isso aqui `(props.children.type.name === 'Senao') && props.children;`, quando se usa o operador `||` significa se o primeiro valor for `null`, `undefined`, `{}`, `[]` ou até mesmo `0` ou `false` é pego o valor a direita da expressão, por exemplo `a = false || 1`, nesse caso como o primeiro valor é falso o valor atribuído a variável `a` será o `1`. Alem disso temos o operador `&&`, esse operador é o seguinte, se o primeiro valor é verdadeiro, é atribuído o segundo valor a variável. Por exemplo `b = false && 1` nesse caso o `b` **NÃO** terá valor algum, pois a primeira expressão é falsa, agora se fosse `c = true && 1` nesse caso o `c` recebe o valor `1`, uma vez que a primeira expressão é verdadeira, lembre-se disso quando for usar o `&&` ou `||`, além disso temos o `(expressão booleana)?(condição verdadeira):(condição falsa);`, essa funciona como qualquer expressão ternária, segue o arquivo exemplo [8funcional.jsx](./src/components/8funcional.jsx).
+
+#### Componente para repetir elementos
+
+    <Repetir repeat={parseInt(Math.random() * 5)}>
+        <li>{"valor"}</li>
+    </Repetir>         
+
+Se você quiser imprimir algo no documento, fazer uma espécie de `document.write`, você pode usar a estratégia do `{""}`, esse componente repete o componente interno de uma a nove vezes aleatóriamente.
+
+##### O Conteúdo do componente que faz as repetições de elementos
+
+    import React from 'react';
+    export default function(props){        
+        const times = props.repeat || 1;
+        const child = [props.children];
+        for(let i=1;i<times;i++){
+            child[i] = props.children;
+        }
+        return(<ol>{child}</ol>);                
+    }
+
+[Arquivo 9funcional](./src/components/9funcional.jsx), nesse caso o react está criando uma chave para o elemento de maneira automática, mas nem sempre isso é possível e por isso é bom ficar de olho no console do navegador.

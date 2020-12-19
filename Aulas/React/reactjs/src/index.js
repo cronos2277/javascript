@@ -62,9 +62,10 @@ ReactDOM.render(
                     <Quarto titulo="Falso"/>
                 </Senao>
             </Se>
-            <Repetir repeat={parseInt(Math.random() * 5)}>             
-                <span value='repetição'/>              
-            </Repetir>
+            <Repetir repeat={parseInt(Math.random() * 9)}>
+                <li>{"Repetição"}</li>
+            </Repetir>                    
+            
         </>
     ),
     document.getElementById('root')

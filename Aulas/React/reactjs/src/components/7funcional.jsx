@@ -9,7 +9,7 @@ export default props => {
             'boxSizing':props.boxsizing
         }}>
             {
-                props.children.map(el => React.cloneElement(el,props))
+                props.children.map((el,i) => React.cloneElement(el,{...props,key:i}))
             }
 
         </div>
