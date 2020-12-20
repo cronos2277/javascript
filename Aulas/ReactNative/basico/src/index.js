@@ -11,6 +11,7 @@ import {Se,Senao} from './components/8funcional';
 import Repetir from './components/9funcional';
 import State from './complex/state';
 import Classe from './complex/class';
+import Mega from './complex/desafio';
 
 const titulo = <h1>Titulo</h1>;
 
@@ -69,6 +70,8 @@ ReactDOM.render(
             </Repetir>                    
             <State value="valor padrao"/>
             <Classe value={0} step={1}/>
+            <hr/>
+            <Mega qtde={6}/>
         </>
     ),
     document.getElementById('root')
