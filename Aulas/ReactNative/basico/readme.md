@@ -387,3 +387,59 @@ Inicialmente sempre que for criar um componente é bom usar como padrão um nome
 
 #### Componente Controlado
 No caso um componente do tipo input, ou deve ter um evento onchange tratado com uma função ou ser um componente somente leitura ou até mesmo ter como value o valor `undefined`, no primeiro caso temos um componente com estado que altera valor, isso quando o valor é atualizado, no segundo caso temos um componente que apenas recebe o valor, por fim temos o caso com o undefined no valor que significa que esse campo não deve ser mapeado pelo react, especificamente o `undefined` e não `null` ou `false`, nesse caso essa equivalência não existe.
+
+### Componente de classe
+
+    import React from 'react';
+    export default class Classe extends React.Component{
+        state = {
+            value: this.props.start || 0,
+            step: this.props.step || 1
+        };
+
+        render(){
+            return(
+                <div style={{
+                    backgroundColor:"cyan",
+                    padding:"20px",
+                    border:'5px solid blue',
+                    boxShadow:'10px 10px 50px blue'                                
+                }}>
+                    <h1>{this.state.value}</h1>
+                    <button onClick={() => this.setState({value:this.state.value + 1})}>{'+'}</button>
+                    <button onClick={() => this.setState({value:this.state.value - 1})}>{'-'}</button>
+                </div>
+            );
+        }
+    }
+
+#### Explicando
+Todo componente de conteúdo extende de `React.Componente`, como visto aqui `export default class Classe extends React.Component`, dessa classe vem o atributo `state` e o método `render`. Antes os componentes funcionais não eram capazes de guardar estado, porém hoje eles tem hooks, no entanto a diferença desse tipo de componente para um componente funcional, é que o componente de classe permite controlar o ciclo de vida de um componente.
+
+##### Atributo state
+
+    state = {
+        value: this.props.start || 0,
+        step: this.props.step || 1
+    };
+
+O atributo state cria atributos de estado no react. Ou seja todo os valores que trabalham com estado precisam ficar dentro desse atributo, que no caso pode ser um objeto, como é o caso, mas poderia ser array ou um outro valor qualquer, mas geralmente se usa como um objeto. Caso queira alterar algum valor, existe o `setState` do método pai, como visto aqui `() => this.setState({value:this.state.value + 1})}` ou aqui `() => this.setState({value:this.state.value - 1})`, lembrando que o arrow function é usado pois ele amarra o contexto léxico do this, e nesses métodos é feito a atualização dos valores que tem estado, que no caso é o objeto passado no atributo state.
+
+##### Método Render
+
+    render(){
+            return(
+                <div style={{
+                    backgroundColor:"cyan",
+                    padding:"20px",
+                    border:'5px solid blue',
+                    boxShadow:'10px 10px 50px blue'                                
+                }}>
+                    <h1>{this.state.value}</h1>
+                    <button onClick={() => this.setState({value:this.state.value + 1})}>{'+'}</button>
+                    <button onClick={() => this.setState({value:this.state.value - 1})}>{'-'}</button>
+                </div>
+            );
+        }
+
+Todos os componentes de classe deve reescrever esse método, pois é ele que retorna o componente, esse método é equivalente ao **return** dos componentes funcionais.

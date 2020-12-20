@@ -10,6 +10,7 @@ import ElementoPais from './components/7funcional';
 import {Se,Senao} from './components/8funcional';
 import Repetir from './components/9funcional';
 import State from './complex/state';
+import Classe from './complex/class';
 
 const titulo = <h1>Titulo</h1>;
 
@@ -67,6 +68,7 @@ ReactDOM.render(
                 <li>{"Repetição"}</li>
             </Repetir>                    
             <State value="valor padrao"/>
+            <Classe value={0} step={1}/>
         </>
     ),
     document.getElementById('root')
