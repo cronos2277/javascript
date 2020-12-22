@@ -186,7 +186,7 @@ Não se faz necessário ter um *id*, exceto que queira criar um menu, ai se faz 
     </ion-header>
 
 
-  `<ion-toolbar>` => Cria um componente para destacar o **header** do conteúdo.
+  `<ion-toolbar>` => Cria um componente para destacar o conteúdo.
   >As barras de ferramentas são posicionadas acima ou abaixo do conteúdo. Quando uma barra de ferramentas é colocada em um `<ion-header>`, ela aparecerá fixada na parte superior do conteúdo e, quando estiver em um `<ion-footer>`, aparecerá fixada na parte inferior. O conteúdo da tela inteira irá rolar atrás de uma barra de ferramentas em um cabeçalho ou rodapé. Quando colocadas em um `<ion-content>`, as barras de ferramentas rolarão com o conteúdo.
 
   
@@ -259,3 +259,79 @@ Essa propriedade define a animação, se será renderizado a animação de avan�
     <ion-button color="dark">Dark</ion-button>
 
 >Cada cor consiste nas seguintes propriedades: base, contraste, tonalidade e tonalidade. As cores de base e contraste também requerem uma propriedade rgb que é a mesma cor, apenas no formato rgb. Veja The Alpha Problem para uma explicação de por que a propriedade rgb também é necessária. [Documentação Completa](https://ionicframework.com/docs/theming/colors)
+
+### ion-footer
+
+      <ion-footer>
+        <ion-toolbar color="dark">   
+          <ion-button color="light" (click)="changeBgColor('primary')">BG Color: primary</ion-button>
+          <ion-button color="light" (click)="changeBgColor('secondary')">BG Color: secondary</ion-button>
+          <ion-button color="light" (click)="changeBgColor('tertiary')">BG Color: tertiary</ion-button>
+          <ion-button color="light" (click)="changeBgColor('success')">BG: success</ion-button>
+          <ion-button color="light" (click)="changeBgColor('warning')">BG: warning</ion-button>
+          <ion-button color="light" (click)="changeBgColor('danger')">BG: danger</ion-button>
+          <ion-button color="light" (click)="changeBgColor('medium')">BG: medium</ion-button>
+          <ion-button color="light" (click)="changeBgColor('dark')">BG: dark</ion-button>
+          <ion-button color="light" (click)="changeBgColor('light')">BG: light</ion-button>
+        </ion-toolbar>
+    </ion-footer>
+
+Coloca um footer na aplicação, [segue a documentação](https://ionicframework.com/docs/api/footer)
+
+### ion-botao
+renderiza um botão, [segue a documentação dos botões](https://ionicframework.com/docs/api/buttons), no exemplo abaixo estamos trabalhando com o evento **click** deles.
+
+    <ion-button color="light" (click)="changeBgColor('primary')">BG Color: primary</ion-button>
+    <ion-button color="light" (click)="changeBgColor('secondary')">BG Color: secondary</ion-button>
+    <ion-button color="light" (click)="changeBgColor('tertiary')">BG Color: tertiary</ion-button>
+    <ion-button color="light" (click)="changeBgColor('success')">BG: success</ion-button>
+    <ion-button color="light" (click)="changeBgColor('warning')">BG: warning</ion-button>
+    <ion-button color="light" (click)="changeBgColor('danger')">BG: danger</ion-button>
+    <ion-button color="light" (click)="changeBgColor('medium')">BG: medium</ion-button>
+    <ion-button color="light" (click)="changeBgColor('dark')">BG: dark</ion-button>
+    <ion-button color="light" (click)="changeBgColor('light')">BG: light</ion-button>
+
+### Menu select
+
+    <ion-list >
+        <ion-item [color]="selectColor">
+          <ion-label>Selecione o tipo da lista</ion-label>
+            <ion-select 
+                (ionChange)="message('Valor alterado')" 
+                (ionCancel)="message('Clicado no botão cancelar')"
+                (ionBlur)="selectBlurFocus(true)"
+                (ionFocus)="selectBlurFocus(false)"
+                  cancelText="Cancel!"
+                  okText="Confirm!"                   
+                  [(ngModel)] = "selectInterface"             
+                  [interface]="selectInterface"  
+                  multiple="false"                             
+                  >            
+              <ion-select-option  value="alert">interface = 'alert'</ion-select-option>
+              <ion-select-option  value="action-sheet">interface = 'action-sheet'</ion-select-option>
+              <ion-select-option  value="popover">interface = 'popover'</ion-select-option>
+              <ion-select-option  value="0" disabled="true">DISABLED</ion-select-option>
+          </ion-select> 
+        </ion-item>    
+      </ion-list>
+
+#### ion-label dentro do select
+`<ion-label>Selecione o tipo da lista</ion-label>` => Esse componente adiciona uma label no select.
+
+`(ionChange)` => Evento ativado quando é alterado o valor no componente.
+
+`(ionCancel)` => Executa função que ocorre quando clica em cancelar.
+
+`(ionBlur)` => Executa função que ocorre quando o componente perde o foco.
+
+`(ionFocus)` => Executa função que ocorre quando o componente ganha foco.
+
+`cancelText` => label do botão de cancelar.
+
+`okText` => label do botão OK.
+
+`interface` => Como o menu deve se comportar, ou seja se ele deve aparece como um modal `alert`, ou um pop up encima do elemento `popover`, ou se ele deve aparecer como um menu que aparece da parte inferior da aplicação `action-sheet`, o valor padrão se omitido é `alert`.
+
+`multiple` => Se o select vai aceitar mais de um valor, por padrão é `false`
+
+[Documentação sobre o ion-select](https://ionicframework.com/docs/api/select) e o [ion-option](https://ionicframework.com/docs/api/select-option), o ion-option aceita dois atributos, o primeiro se está desabilitado `<ion-select-option  value="0" disabled="true">DISABLED</ion-select-option>`, `false` para habilitado e `true` para desabilitado, padrão é false. Além disso tem o valor que é o valor da opção, no caso esse componente trabalha com o ngModel `[(ngModel)] = "selectInterface"  `, logo talvez seja necessário fazer a importação do módulo de formulário para permitir o **2 way databind**.
