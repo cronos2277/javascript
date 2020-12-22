@@ -108,7 +108,7 @@
         <ion-label>Avatar Chip</ion-label>
         <ion-icon name="close-circle"></ion-icon>
       </ion-chip>
-      <ion-datetime 
+      <ion-datetime     
           displayFormat="DD/MMMM/YYYY - HH:mm" 
           [value]="agora" 
           cancelText="Cancel!" 
@@ -118,10 +118,20 @@
           (ionBlur)="selectBlurFocus(true)"
           (ionFocus)="selectBlurFocus(false)"
           ></ion-datetime>
+          
     </ion-item>
-
-    
-
+    <ion-item color="dark">
+      <ion-label>text</ion-label>
+      <ion-input value="custom" color="primary" pattern="\D"></ion-input>
+      <ion-label>Number</ion-label>
+      <ion-input value="1" color="primary" type="number" step=3></ion-input>
+      <ion-label>Password</ion-label>
+      <ion-input value="custom" color="primary" type="password"></ion-input>
+      <ion-label>Email</ion-label>
+      <ion-input value="custom@custom.com" color="primary" type="email"></ion-input>
+      <ion-label>Telefone</ion-label>
+      <ion-input value="+55 330 123-1234" color="primary" type="tel"></ion-input>
+    </ion-item>
   </div>
 </ion-content>
 

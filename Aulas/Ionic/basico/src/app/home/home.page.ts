@@ -17,7 +17,7 @@ export class HomePage {
         new Date().getDate()       
         ).toDateString();
   
-  constructor() {console.log(this.agora)}
+  constructor() {}
 
   public changeBgColor(color:string):void{
     this.bgColor = color;

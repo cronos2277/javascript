@@ -477,7 +477,7 @@ O `ion-datetime` é uma forma de criar um input customizável para datas, [segue
     ></ion-datetime>
 
 #### displayFormat
-Aqui é informado a estrutura de como a data deve aparecer. `D` dia com um ou dois dígitos, `DD` data sempre com dois dígitos, dias menores que 10, tem o zero na frente, `DDD` dia da semana abreviado, tipo **tue**, **wed**, etc... `DDDD` dia da semana por extenso, tipo **monday**, **wednesday**, etc... A mesma lógica se aplica com o mês, sendo `M` ou `MM` para data numéricas e `MMM` e `MMMM` para meses por extenso, seguindo a mesma lógica dos dias. Nos anos temos `YY` para os dois ultimos dígitos, por exemplo **20** para *2020* e **19** para *2019*, com quatro dígitos de **Y** `YYYY` já pego o ano completo. Sobre horas e minutos, temos `HH` para horas de 24 horas e `hh` para horas com 12, nesse caso sempre com dois dígitos, e `H` e `h` com os zeros a esquerda omitidos, no caso dos minutos `m` minusculo, com apenas um **m** minúsculo o zero é omitido, com dois **m** minúsculo `mm` é com o zero a mostra.
+Aqui é informado a estrutura de como a data deve aparecer. `D` dia com um ou dois dígitos, `DD` data sempre com dois dígitos, dias menores que 10, tem o zero na frente, `DDD` dia da semana abreviado, tipo **tue**, **wed**, etc... `DDDD` dia da semana por extenso, tipo **monday**, **wednesday**, etc... A mesma lógica se aplica com o mês, sendo `M` ou `MM` para data numéricas e `MMM` e `MMMM` para meses por extenso, seguindo a mesma lógica dos dias. Nos anos temos `YY` para os dois ultimos dígitos, por exemplo **20** para *2020* e **19** para *2019*, com quatro dígitos de **Y** `YYYY` já pego o ano completo. Sobre horas e minutos, temos `HH` para horas de 24 horas e `hh` para horas com 12, nesse caso sempre com dois dígitos, e `H` e `h` com os zeros a esquerda omitidos, no caso dos minutos `m` minusculo, com apenas um **m** minúsculo o zero é omitido, com dois **m** minúsculo `mm` é com o zero a mostra, para horas com o padrão 12, você pode usar o `a` para indicar se é **pm** ou **am** ou `A` para **PM** e **AM**, você também pode usar o `Z` maíusculo mesmo, para indicar o timezone, além do `s` para segundo com o zero a esquerda omitido e o `ss` com o zero esquerdo a amostra para os segundos.
 
 #### Atributos
 `value` => insere um valor padrão para uma data.
@@ -488,3 +488,40 @@ Aqui é informado a estrutura de como a data deve aparecer. `D` dia com um ou do
 
 #### Eventos
 Esses métodos dispara os seguintes eventos: `(ionChange)`, `(ionCancel)`, `(ionBlur)` e `(ionFocus)`, para respectivamente tratar mudanças, o ato de cancelamento, o blur e o focus.
+
+#### No arquivo TS
+
+    public agora = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()       
+    ).toDateString();
+
+Caso esse valor seja para colocar valor padrão no `[value]="agora" ` precisa estar em formato de string, algo feito por esse método aqui `.toDateString();`. [Data](https://ionicframework.com/docs/api/datetime)
+
+### input
+[ion-input](https://ionicframework.com/docs/api/input)
+#### Exemplo
+
+    <ion-item color="dark">
+        <ion-label>text</ion-label>
+        <ion-input value="custom" color="primary" pattern="\D"></ion-input>
+        <ion-label>Number</ion-label>
+        <ion-input value="1" color="primary" type="number" step=3></ion-input>
+        <ion-label>Password</ion-label>
+        <ion-input value="custom" color="primary" type="password"></ion-input>
+        <ion-label>Email</ion-label>
+        <ion-input value="custom@custom.com" color="primary" type="email"></ion-input>
+        <ion-label>Telefone</ion-label>
+        <ion-input value="+55 330 123-1234" color="primary" type="tel"></ion-input>
+      </ion-item>
+
+`value` => empoõe um valor padrão ao elemento.
+
+`color` => define a cor do elemento.
+
+`pattern` => regex que o elemento deve seguir no ato do submit.
+
+`step` => incrementa e decrementa valor com base nesse step.
+
+`type` => Aqui define o tipo de dados, que pode ser: email, telefone, password, etc...
