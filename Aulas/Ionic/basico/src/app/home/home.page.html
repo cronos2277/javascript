@@ -77,7 +77,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-item>
+    <ion-item color="light">
 
       <ion-chip>
         <ion-label>Default</ion-label>
@@ -108,10 +108,24 @@
         <ion-label>Avatar Chip</ion-label>
         <ion-icon name="close-circle"></ion-icon>
       </ion-chip>
-      
+      <ion-datetime 
+          displayFormat="DD/MMMM/YYYY - HH:mm" 
+          [value]="agora" 
+          cancelText="Cancel!" 
+          doneText="Confirm"
+          (ionChange)="message('data alterada')" 
+          (ionCancel)="message('data no botão cancelar')"
+          (ionBlur)="selectBlurFocus(true)"
+          (ionFocus)="selectBlurFocus(false)"
+          ></ion-datetime>
     </ion-item>
+
+    
+
   </div>
 </ion-content>
+
+
 
 <ion-footer>
   <ion-toolbar color="dark">   

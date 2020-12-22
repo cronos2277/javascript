@@ -459,3 +459,32 @@ o `<ion-chip>` coloca um botão arrendondado que pode conter ícone, você pode 
 
 ### Ion-avatar
 O `<ion-avatar>` carrega uma imagem e formata do avatar, o avatar funciona com base no e-mail ou até mesmo com base em algum token e com base nisso develve uma imagem salva do usuário.
+
+### Input para data
+O `ion-datetime` é uma forma de criar um input customizável para datas, [segue a documentação](https://ionicframework.com/docs/api/datetime)
+
+#### Template
+
+    <ion-datetime 
+            displayFormat="DD/MMMM/YYYY - HH:mm" 
+            [value]="agora" 
+            cancelText="Cancel!" 
+            doneText="Confirm"
+            (ionChange)="message('data alterada')" 
+            (ionCancel)="message('data no botão cancelar')"
+            (ionBlur)="selectBlurFocus(true)"
+            (ionFocus)="selectBlurFocus(false)"
+    ></ion-datetime>
+
+#### displayFormat
+Aqui é informado a estrutura de como a data deve aparecer. `D` dia com um ou dois dígitos, `DD` data sempre com dois dígitos, dias menores que 10, tem o zero na frente, `DDD` dia da semana abreviado, tipo **tue**, **wed**, etc... `DDDD` dia da semana por extenso, tipo **monday**, **wednesday**, etc... A mesma lógica se aplica com o mês, sendo `M` ou `MM` para data numéricas e `MMM` e `MMMM` para meses por extenso, seguindo a mesma lógica dos dias. Nos anos temos `YY` para os dois ultimos dígitos, por exemplo **20** para *2020* e **19** para *2019*, com quatro dígitos de **Y** `YYYY` já pego o ano completo. Sobre horas e minutos, temos `HH` para horas de 24 horas e `hh` para horas com 12, nesse caso sempre com dois dígitos, e `H` e `h` com os zeros a esquerda omitidos, no caso dos minutos `m` minusculo, com apenas um **m** minúsculo o zero é omitido, com dois **m** minúsculo `mm` é com o zero a mostra.
+
+#### Atributos
+`value` => insere um valor padrão para uma data.
+
+`cancelText` => o texto do botão cancelar, quando o usuário for alterar a data.
+
+`doneText` => o texto do botão done, quando o usuário for alterar a data.
+
+#### Eventos
+Esses métodos dispara os seguintes eventos: `(ionChange)`, `(ionCancel)`, `(ionBlur)` e `(ionFocus)`, para respectivamente tratar mudanças, o ato de cancelamento, o blur e o focus.
