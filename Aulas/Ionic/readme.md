@@ -377,3 +377,85 @@ Aqui deve ficar o conteúdo do card.
         </ion-item>
 
 Esse componente coloca um retangulo com a cor informado envolta do valor, ele também interege com o `ion-label` caso colocando-os combinados se feito dentro de um `ion-iten`, documentação [ion-badge](https://ionicframework.com/docs/api/badge)
+
+### Checkbox
+
+    <ion-item  slot="end">
+      <ion-label slot="start" color="primary">Checkbox</ion-label>
+      <ion-checkbox 
+            color="success" 
+            slot="end"
+            indeterminate="true"
+            value="check"
+            disabled = "false"
+            checked = "false"
+            (ionBlur) = "message('Blur no checkbox')"
+            (ionChange) = "message('valor do checkbox alterado')"
+            (ionFocus) = "message('Focus no checkbox')"
+            ></ion-checkbox>
+    </ion-item>
+
+Inicialmente se você quiser colocar um texto em uma checkbox, você vai precisar de um label `<ion-label slot="start" color="primary">Checkbox</ion-label>` e claro ambos dentro de um `ion-item`
+
+#### Eventos
+O checkbox trata três eventos, o blur `(ionBlur)`, o focus `(ionFocus)` e o change `(ionChange)`.
+
+`color` => A cor do checkbox.
+
+`slot` => posição do checkbox dentro do `ion-item`.
+
+`checked` => valor padrão para o checkbox, que deve ser booleano.
+
+`indeterminate` => caso o valor do checkbox seja padrão, independete se é verdadeiro ou falso, sendo o valor padrão definido em `checked` ou falso caso seja omitido, ao renderizar o valor padrão será rederizado um traço ao invés de um check ou de deixa-lo em branco.
+
+`value` => O valor da caixa de seleção não significa se ela está marcada ou não, use a propriedade marcada para isso. O valor de uma caixa de seleção é análogo ao valor de um `<input type = "checkbox">`, ele só é usado quando a caixa de seleção participa de um `<form>` nativo.
+
+`disabled` => Se ativado, desativa o checkbox.
+
+[Documentação checkbox](https://ionicframework.com/docs/api/checkbox)
+### Chip
+
+    <ion-item>
+
+        <ion-chip>
+          <ion-label>Default</ion-label>
+        </ion-chip>
+
+        <ion-chip color="secondary">
+          <ion-label color="dark">Secondary w/ Dark label</ion-label>
+        </ion-chip>
+        
+        <ion-chip [disabled]="true" color="secondary">
+          <ion-label>Disabled Chip</ion-label>
+        </ion-chip>
+
+        <ion-chip color="secondary">
+          <ion-icon name="heart" color="dark"></ion-icon>
+          <ion-label>Default</ion-label>
+        </ion-chip>
+        
+        <ion-chip color="secondary">
+          <ion-label>Button Chip</ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+
+        <ion-chip color="secondary">
+          <ion-avatar>
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-avatar>
+          <ion-label>Avatar Chip</ion-label>
+          <ion-icon name="close-circle"></ion-icon>
+        </ion-chip>
+      </ion-item>
+
+#### Explicando
+o `<ion-chip>` coloca um botão arrendondado que pode conter ícone, você pode usar em seu interior um label `<ion-label>`, icone `<ion-icon>`, ou até mesmo um avatar `ion-avatar`, [documentação](https://ionicframework.com/docs/api/chip)
+
+  >Chips representam entidades complexas em pequenos blocos, como um contato. Um chip pode conter vários elementos diferentes, como avatares, texto e ícones.
+
+`color` => define a dor de fundo.
+
+`disabled` => desabilita o ion-chip.
+
+### Ion-avatar
+O `<ion-avatar>` carrega uma imagem e formata do avatar, o avatar funciona com base no e-mail ou até mesmo com base em algum token e com base nisso develve uma imagem salva do usuário.

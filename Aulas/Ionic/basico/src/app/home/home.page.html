@@ -11,6 +11,20 @@
 
       Exemplo      
     </ion-title>
+    <ion-item  slot="end">
+      <ion-label slot="start" color="primary">Checkbox</ion-label>
+      <ion-checkbox 
+            color="success" 
+            slot="end"
+            indeterminate="true"
+            value="on"
+            disabled = "false"
+            checked = "false"
+            (ionBlur) = "message('Blur no checkbox')"
+            (ionChange) = "message('valor do checkbox alterado')"
+            (ionFocus) = "message('Focus no checkbox')"
+            ></ion-checkbox>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -58,11 +72,44 @@
       </ion-card-header>
     
       <ion-card-content>
-        Keep close to Nature's heart... and break clear away, once in awhile,
-        and climb a mountain or spend a week in the woods. Wash your spirit clean.
+        Fique perto do coração da Natureza ... e se afaste, de vez em quando,
+        e escalar uma montanha ou passar uma semana na floresta. Limpe o seu espírito.
       </ion-card-content>
     </ion-card>
 
+    <ion-item>
+
+      <ion-chip>
+        <ion-label>Default</ion-label>
+      </ion-chip>
+
+      <ion-chip color="secondary">
+        <ion-label color="dark">Secondary w/ Dark label</ion-label>
+      </ion-chip>
+      
+      <ion-chip [disabled]="true" color="secondary">
+        <ion-label>Disabled Chip</ion-label>
+      </ion-chip>
+
+      <ion-chip color="secondary">
+        <ion-icon name="heart" color="dark"></ion-icon>
+        <ion-label>Default</ion-label>
+      </ion-chip>
+      
+      <ion-chip color="secondary">
+        <ion-label>Button Chip</ion-label>
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-chip>
+
+      <ion-chip color="secondary">
+        <ion-avatar>
+          <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        </ion-avatar>
+        <ion-label>Avatar Chip</ion-label>
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-chip>
+      
+    </ion-item>
   </div>
 </ion-content>
 

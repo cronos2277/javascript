@@ -10,7 +10,8 @@ export class HomePage {
   public selectColor:string = 'light';
   public random:number = Math.round(Math.random() * (9 - 1) + 1);
   public selectInterface = 'alert';
-  
+  public checkbox:string;
+
   constructor() {}
 
   public changeBgColor(color:string):void{
@@ -27,7 +28,6 @@ export class HomePage {
   }
 
   public message(value):void{
-    console.log(value);
-    console.log('interface:', this.selectInterface)
+    console.log(value);    
   }
 }
