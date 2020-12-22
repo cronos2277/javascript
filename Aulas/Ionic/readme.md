@@ -335,3 +335,45 @@ renderiza um botão, [segue a documentação dos botões](https://ionicframework
 `multiple` => Se o select vai aceitar mais de um valor, por padrão é `false`
 
 [Documentação sobre o ion-select](https://ionicframework.com/docs/api/select) e o [ion-option](https://ionicframework.com/docs/api/select-option), o ion-option aceita dois atributos, o primeiro se está desabilitado `<ion-select-option  value="0" disabled="true">DISABLED</ion-select-option>`, `false` para habilitado e `true` para desabilitado, padrão é false. Além disso tem o valor que é o valor da opção, no caso esse componente trabalha com o ngModel `[(ngModel)] = "selectInterface"  `, logo talvez seja necessário fazer a importação do módulo de formulário para permitir o **2 way databind**.
+
+### Card
+
+    <ion-card color="medium" button="true" href="https://github.com/cronos2277" target="_blank" type="button">
+        <ion-card-header>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+          <ion-card-title>Card Title</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          Keep close to Nature's heart... and break clear away, once in awhile,
+          and climb a mountain or spend a week in the woods. Wash your spirit clean.
+        </ion-card-content>
+      </ion-card>
+
+`<ion-card color="medium">` => Cria um card, tudo que for relativo ao card deve estar envolto dessa tag, a cor padrão é o branco, mas é possível mudar a cor como o indicado.
+
+`button=true` => Faz com que o card se comporte como um botão e torna-se clicável.
+
+`href` => Caso o card se torne um botão, ele irá a esse link quando for clicado.
+
+`target` => o frame alvo, se colocado `_blank` abre em uma nova aba.
+
+`type` => o Comportamento do botão caso habilitado, opções válidas: `button`, `reset`, `submit`
+
+#### ion-card-header
+Aqui informamos o cabeçalho do card, no caso ele pois dois children, o primeiro é o título `<ion-card-title>` e o segundo o subtítulo `<ion-card-subtitle>`, que permite uma ordenação do cabeçalho do card e aqui deve ficar o conteúdo do card `<ion-card-content>`.
+
+#### ion-card-content
+Aqui deve ficar o conteúdo do card.
+
+[Documentação dos cards](https://ionicframework.com/docs/api/card)
+
+### ion-badge
+
+        <ion-item>
+          <ion-badge slot="start">{{random}}</ion-badge>
+          <ion-label>ion-Badge: numero randomico do componente</ion-label>
+          <ion-badge slot="end" color="warning">{{random}}</ion-badge>
+        </ion-item>
+
+Esse componente coloca um retangulo com a cor informado envolta do valor, ele também interege com o `ion-label` caso colocando-os combinados se feito dentro de um `ion-iten`, documentação [ion-badge](https://ionicframework.com/docs/api/badge)

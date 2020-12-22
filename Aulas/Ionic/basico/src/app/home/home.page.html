@@ -22,6 +22,7 @@
   </ion-header>
 
   <div id="">
+
     <ion-list >
       <ion-item [color]="selectColor">
         <ion-label>Selecione o tipo da lista</ion-label>
@@ -41,8 +42,27 @@
             <ion-select-option  value="popover">interface = 'popover'</ion-select-option>
             <ion-select-option  value="0" disabled="true">DISABLED</ion-select-option>
         </ion-select> 
-      </ion-item>    
+      </ion-item> 
+      
+      <ion-item>
+        <ion-badge slot="start">{{random}}</ion-badge>
+        <ion-label>ion-Badge: numero randomico do componente</ion-label>
+        <ion-badge slot="end" color="warning">{{random}}</ion-badge>
+      </ion-item>
     </ion-list>
+
+    <ion-card color="medium" button="true" href="https://github.com/cronos2277" target="_blank" type="button">
+      <ion-card-header>
+        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        <ion-card-title>Card Title</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Keep close to Nature's heart... and break clear away, once in awhile,
+        and climb a mountain or spend a week in the woods. Wash your spirit clean.
+      </ion-card-content>
+    </ion-card>
+
   </div>
 </ion-content>
 

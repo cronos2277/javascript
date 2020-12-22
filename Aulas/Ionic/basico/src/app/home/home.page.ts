@@ -8,12 +8,10 @@ import { Component } from '@angular/core';
 export class HomePage {
   public bgColor:string = 'light';
   public selectColor:string = 'light';
-  private random:number = Math.round(Math.random() * (9 - 1) + 1);
+  public random:number = Math.round(Math.random() * (9 - 1) + 1);
   public selectInterface = 'alert';
   
-  constructor() {
-    console.log(this.random)
-  }
+  constructor() {}
 
   public changeBgColor(color:string):void{
     this.bgColor = color;
