@@ -213,6 +213,21 @@
       </ion-segment-button>
     </ion-segment>
   </div>
+
+  <ion-text color="tertiary">
+    <h3>H3: The quick brown fox jumps over the lazy dog</h3>
+  </ion-text>
+
+  <ion-fab vertical="center" horizontal="center">
+    <ion-fab-button 
+      type="button"      
+      (ionBlur)='message($event)'
+      (ionFocus)='message($event)'
+      >
+      <ion-icon name="arrow-back-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer>

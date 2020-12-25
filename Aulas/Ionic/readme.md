@@ -662,3 +662,69 @@ Aqui vai a configuração do botão, [documentação](https://ionicframework.com
 
 `type` => pode ser `reset`, `submit` ou até mesmo `button`, nesse caso você define o comportamento do botão.
 
+### ion-text
+
+    <ion-text color="tertiary">
+      <h3>H3: The quick brown fox jumps over the lazy dog</h3>
+    </ion-text>
+
+Dessa forma você coloca um texto mais customizável no texto: `<ion-text color="tertiary">`, [ion-text](https://ionicframework.com/docs/api/text).
+
+### ion-fab - Botão flutuante
+
+    <ion-fab vertical="top" horizontal="center" >
+      <ion-fab-button>
+        <ion-fab-button 
+          type="button"      
+          (ionBlur)='message($event)'
+          (ionFocus)='message($event)'
+      >
+      </ion-fab-button>
+    </ion-fab>
+
+[Documentação](https://ionicframework.com/docs/api/fab) no caso esse botão fica na tela flutuando e acompanhando o usuário, dois campos são obrigatórios para `ion-fab`.
+
+`vertical` => define a posição vertical do botão, podendo ser: `"bottom" | "center" | "top" | undefined`, esse atributo especifica a posição vertical desse botão.
+
+`horizontal` => define a posição horizontal desse botão, podendo ser: `"center" | "end" | "start" | undefined`, **start** é a esquerda e **end** é a posição direita.
+
+#### ion-fab-button
+Esse botão tem o evento de blur e focus, além disso ele tem os mesmos atributos que os botões [segue a documentação](https://ionicframework.com/docs/api/fab-button), `type` pode ser `reset`, `submit` e `button` e tem as mesmas propriedades que os outros itens clicáveis.
+
+### ion-searchbar
+
+    <ion-searchbar color="medium" 
+        (ionBlur)="search($event)"
+        (ionCancel)="search($event)"
+        (ionChange)="search($event)"
+        (ionClear)="search($event)"
+        (ionFocus)="search($event)"
+        (ionInput)="search($event)" ></ion-searchbar>
+
+Cria uma barra de pesquisa no site, dentro do elemento que você criou [Documentação](https://ionicframework.com/docs/api/searchbar)
+
+## Eventos do Ionic
+Todos os eventos Ion geram um objeto do tipo `CustomEvent`, segue um exemplo da estrutura:
+
+    CustomEvent {isTrusted: false, detail: null, type: "ionFocus", target: ion-searchbar.sc-ion-searchbar-md-h.sc-ion-searchbar-md-s.ion-color.ion-color-medium.md.searchbar-l…, currentTarget: ion-searchbar.sc-ion-searchbar-md-h.sc-ion-searchbar-md-s.ion-color.ion-color-medium.md.searchbar-l…, …}
+    bubbles: true
+    cancelBubble: false
+    cancelable: true
+    composed: true
+    currentTarget: null
+    defaultPrevented: false
+    detail: null
+    eventPhase: 0
+    isTrusted: false
+    path: (17) [ion-searchbar.sc-ion-searchbar-md-h.sc-ion-searchbar-md-s.ion-color.ion-color-medium.md.searchbar-l…, slot, div.toolbar-content, div.toolbar-container, document-fragment, ion-toolbar.md.in-toolbar.hydrated.toolbar-searchbar, ion-footer.md.footer-md.hydrated, app-home.ion-page, slot, document-fragment, ion-router-outlet#menu.menu-content.menu-content-overlay.hydrated, ion-app.md.ion-page.hydrated, app-root, body, html.plt-desktop.md.hydrated, document, Window]
+    returnValue: true
+    srcElement: ion-searchbar.sc-ion-searchbar-md-h.sc-ion-searchbar-md-s.ion-color.ion-color-medium.md.searchbar-left-aligned.hydrated
+    target: ion-searchbar.sc-ion-searchbar-md-h.sc-ion-searchbar-md-s.ion-color.ion-color-medium.md.searchbar-left-aligned.hydrated
+    timeStamp: 13191.10499999988
+    type: "ionFocus"
+    __proto__: CustomEvent
+
+Com base nesse valor você faz a manipulação dos eventos, no caso ` type: "ionFocus"` com base no type você consegue descobrir a origem do evento, dentro do `detail.value`, você resgata o valor informado ou produzido pelo cliente, seja um input ou algo que ele selecionou, no caso dentro do atributo `detail` tem um subatributo `value` e nesse atributo `value` está o valor gerado pelo cliente, Nesse exemplo o detail está nulo: `detail: null`. Esse padrão acontece em, qualquer evento com **ion** na frente, como: `(ionBlur), (ionCancel), (ionChange), (ionClear), (ionFocus), (ionInput)`.
+
+## ngModel
+Sempre que você quiser usar o **2 way data bind** você deve usar isso, o value serve apenas para passar um valor padrão ao componente, seja no Angular, seja no Ionic com angular, caso você crie uma pagina com o ionic cli, você não terá problemas em trabalhar como o ngModel, mas lembre-se o `[value]` não opera como 2way data bind, mas o `[(ngModel)]` sim.
