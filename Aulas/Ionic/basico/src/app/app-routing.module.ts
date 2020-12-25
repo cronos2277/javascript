@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'grid',
+    loadChildren: () => import('./grid/grid.module').then( m => m.GridPageModule)
+  },
 ];
 
 @NgModule({

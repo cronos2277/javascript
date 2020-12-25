@@ -1,0 +1,65 @@
+ion-grid{
+    margin-top: 20px;    
+}
+
+.bg1 ion-col{
+    background-color: black;
+    color:white;
+    border: 2px solid white;
+}
+
+.bg2{
+    background-color: darkgray;
+    color:white;
+}
+
+.child2{
+    border: 2px solid white;
+}
+
+.child2 > :nth-child(odd){
+    background-color: gray;
+    color:white;
+}
+
+.bg3{
+    background-color: purple;
+    color: cyan;
+}
+
+.child3 > :nth-child(odd){    
+    background-color: rgba($color: #FeF, $alpha: .3);
+}
+
+.bg4{
+    background-color: cyan;
+    color: black;
+    box-shadow: 10px 10px darkcyan;
+}
+
+.child4 > :nth-child(even){    
+    background-color: rgba($color: #FeF, $alpha: .7);
+}
+
+.bg5{
+    background-color: green;
+    color: white;
+    box-shadow: 10px 10px darkgreen;
+}
+
+.bg5 > :nth-child(even){    
+    background-color: rgba($color: #F3F, $alpha: .7);
+}
+
+.bg5 ion-col{
+    border: 2px solid white;
+    background: black;
+}
+
+.bg6{
+    background-color:red;
+}
+
+.bg6  ion-col{
+    border:2px solid white;
+}

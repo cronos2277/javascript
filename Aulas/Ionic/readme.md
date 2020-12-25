@@ -728,3 +728,131 @@ Com base nesse valor você faz a manipulação dos eventos, no caso ` type: "ion
 
 ## ngModel
 Sempre que você quiser usar o **2 way data bind** você deve usar isso, o value serve apenas para passar um valor padrão ao componente, seja no Angular, seja no Ionic com angular, caso você crie uma pagina com o ionic cli, você não terá problemas em trabalhar como o ngModel, mas lembre-se o `[value]` não opera como 2way data bind, mas o `[(ngModel)]` sim.
+
+## Sistema de Grid
+### Exemplo Básico com 12 colunas
+
+    <ion-grid>
+      <ion-row>
+        <ion-col><div>01</div></ion-col>
+        <ion-col><div>02</div></ion-col>
+        <ion-col><div>03</div></ion-col>
+        <ion-col><div>04</div></ion-col>
+        <ion-col><div>05</div></ion-col>
+        <ion-col><div>06</div></ion-col>
+        <ion-col><div>07</div></ion-col>
+        <ion-col><div>08</div></ion-col>
+        <ion-col><div>09</div></ion-col>
+        <ion-col><div>10</div></ion-col>
+        <ion-col><div>11</div></ion-col>
+        <ion-col><div>12</div></ion-col>
+      </ion-row>
+    </ion-grid>
+
+Aqui temos um exemplo de como funciona o sistema de grid, funciona como no bootstrap isso, no caso você tem essa tag para a criação de grid `<ion-grid>`, e então você tem uma tag para linhas `<ion-row>` e essa tag para colunas `<ion-col>`.
+
+### Exemplo com 4 colunas de tamanhos diferentes
+
+    <ion-grid>
+      <ion-rows>
+        <ion-col size="4"><div>Horizontal 1 of 4</div></ion-col>
+        <ion-col size="2"><div>Horizontal 2 of 4</div></ion-col>
+        <ion-col size="2"><div>Horizontal 3 of 4</div></ion-col>
+        <ion-col size="4"><div>Horizontal 4 of 4</div></ion-col>
+      </ion-rows>
+    </ion-grid>
+
+Através desse atributo `size=` você consegue fazer com que uma determinada coluna ocupe mais espaço, nesse exemplo o `size="4"` ocupa o espaço de 4 colunas e esta `size="2"` apenas duas colunas.
+
+### Exemplo que ocupa toda o espaço horizontal
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12"><div>Vertical 1 of 4</div></ion-col>
+        <ion-col size="12"><div>Vertical 2 of 4</div></ion-col>
+        <ion-col size="12"><div>Vertical 3 of 4</div></ion-col>
+        <ion-col size="12"><div>Vertical 4 of 4</div></ion-col>
+      </ion-row>
+    </ion-grid>
+
+Nesse caso como o grid é com 12 colunas, logo quando se informa `size="12"`, basicamente faz com que se ocupe toda a linha.
+
+### Alinhamento horizontal das colunas
+
+    <ion-grid>
+      <ion-row>
+          <ion-col class="ion-align-self-start"><div>class="ion-align-self-start"</div></ion-col>
+          <ion-col class="ion-align-self-center"><div>class="ion-align-self-center"</div></ion-col>
+          <ion-col class="ion-align-self-end"><div>class="ion-align-self-end"</div></ion-col>    
+          <ion-col>
+            <div>           
+              TOP <br>
+              MIDDLE <br>
+              BUTTON
+            </div>
+          </ion-col>    
+      </ion-row>
+    </ion-grid>
+
+`class="ion-align-self-start"` => alinhas o **eixo Y** da coluna ao topo, a classe vai na coluna, vai em `ion-col`.
+
+`class="ion-align-self-center"` => alinhas o **eixo Y** da coluna ao centro, a classe vai na coluna, vai em `ion-col`.
+
+`class="ion-align-self-end"` => alinhas o **eixo Y** da coluna abaixo, a classe vai na coluna, vai em `ion-col`.
+
+### Alinhamento vertical das colunas
+
+    <ion-grid class="bg5">
+
+        <ion-row class="ion-justify-content-start">
+          <ion-col size="3"><div>class="ion-justify-content-start"</div></ion-col>
+          <ion-col size="3"><div>class="ion-justify-content-start"</div></ion-col>
+        </ion-row>
+    
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="3"><div>class="ion-justify-content-center"</div></ion-col>
+          <ion-col size="3"><div>class="ion-justify-content-center"</div></ion-col>
+        </ion-row>
+    
+        <ion-row class="ion-justify-content-end">
+          <ion-col size="3"><div>class="ion-justify-content-end"</div></ion-col>
+          <ion-col size="3"><div>class="ion-justify-content-end"</div></ion-col>
+        </ion-row>
+    
+        <ion-row class="ion-justify-content-around">
+          <ion-col size="2"><div>class="ion-justify-content-around"</div></ion-col>
+          <ion-col size="2"><div>class="ion-justify-content-around"</div></ion-col>
+          <ion-col size="2"><div>class="ion-justify-content-around"</div></ion-col>
+        </ion-row>
+    
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="2"><div>class="ion-justify-content-between"</div></ion-col>
+          <ion-col size="2"><div>class="ion-justify-content-between"</div></ion-col>
+          <ion-col size="2"><div>class="ion-justify-content-between"</div></ion-col>
+        </ion-row>
+    </ion-grid>
+
+`class="ion-justify-content-start"` => Renderiza as colunas da esquerda para a direita, essa classe deve ir nos `ion-row`.
+
+`class="ion-justify-content-center"` => Centraliza as colunas no centro, essa classe deve ir nos `ion-row`.
+
+`class="ion-justify-content-end"` => Renderiza as colunas da direita para a esquerda, essa classe deve ir nos `ion-row`.
+
+`class="ion-justify-content-around"` => Centraliza as colunas, porém distribui as colunas vazias entre as colunas renderizadas, ou seja caso tenha apenas 3 colunas a primeira é renderizada na esquerda na posição 1, a segunda na direita na posição 12 e a terceira na esquerda na posição 6, e assim vai, sempre na sequência esquerda, direita e centro. Porém essa estratégia deixa uma margem nas extremidades
+
+`class="ion-justify-content-between"` => Centraliza as colunas vazias e renderiza as colunas nas beiradas, ou seja caso tenha apenas 3 colunas a primeira é renderizada na esquerda na posição 1, a segunda na direita na posição 12 e a terceira na esquerda na posição 6, e assim vai, sempre na sequência esquerda, direita e centro, sem deixar margem nas extremidades.
+
+### offset
+
+    <ion-grid class="bg6">
+        <ion-row>
+          <ion-col>1</ion-col>
+          <ion-col offset="3">2</ion-col>
+          <ion-col>3</ion-col>        
+        </ion-row>
+      </ion-grid>
+
+O *offset* permite dar um espaço em branco entre os elementos, no caso antes dessa coluna `<ion-col offset="3">2</ion-col>` e após essa `<ion-col>1</ion-col>`, existirá um espaço em branco, lembre-se que o *offset* sempre opera a esquerda do elemento, ou seja é o espaço entre ela e o componente anterior, sendo no primeiro o *offset* o primeiro componente ocupa o segundo espaço.
+
+### Mais
+Além disso isso foi o grid básico, também tem o grid customizável para tamanho dos dispositivos, que pode ser consultado na [documentação](https://ionicframework.com/docs/api/grid)

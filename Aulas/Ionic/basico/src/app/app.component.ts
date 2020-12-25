@@ -21,10 +21,11 @@ export class AppComponent {
   ) {
     this.initializeApp();
   }
-
+  
   initializeApp() {
     this.pages = [
-      {url:'/', direction:'forward', icon:'add',text:'Exemplo'},      
+      {url:'/', direction:'forward', icon:'information-circle-outline',text:'Exemplo'},   
+      {url:'/grid',direction:'forward',icon:'grid-outline',text:'Grid'}   
     ];
 
     this.platform.ready().then(() => {
