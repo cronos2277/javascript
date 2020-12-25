@@ -16,6 +16,10 @@
           <ion-label>{{page.text}}</ion-label>
         </ion-item>
     </ion-menu-toggle>
+    <br>
+    <ion-button (click)="presentAlert()" color="secondary">Alert</ion-button>
+    <ion-button (click)="presentAlertConfirm()" color="secondary">Multiple</ion-button>
+    <ion-button (click)="presentAlertPrompt()" color="secondary">Form</ion-button>
     </ion-list>
   </ion-content>
 </ion-menu>

@@ -855,4 +855,263 @@ Nesse caso como o grid é com 12 colunas, logo quando se informa `size="12"`, ba
 O *offset* permite dar um espaço em branco entre os elementos, no caso antes dessa coluna `<ion-col offset="3">2</ion-col>` e após essa `<ion-col>1</ion-col>`, existirá um espaço em branco, lembre-se que o *offset* sempre opera a esquerda do elemento, ou seja é o espaço entre ela e o componente anterior, sendo no primeiro o *offset* o primeiro componente ocupa o segundo espaço.
 
 ### Mais
-Além disso isso foi o grid básico, também tem o grid customizável para tamanho dos dispositivos, que pode ser consultado na [documentação](https://ionicframework.com/docs/api/grid)
+Além disso isso foi o grid básico, também tem o grid customizável para tamanho dos dispositivos, que pode ser consultado na:
+
+[GRID](https://ionicframework.com/docs/api/grid)
+
+[Row](https://ionicframework.com/docs/api/row)
+
+[col](https://ionicframework.com/docs/api/col)
+
+## Mensagens no Ionic
+
+### Alert
+Essa funcionalidade vem do objeto `AlertController` que é oriundo de `import { AlertController } from '@ionic/angular';`, você pode acompanhar na documentação do [alert](https://ionicframework.com/docs/api/alert)
+#### Exemplo Simples
+##### Template
+    <ion-button (click)="presentAlert()">Alert</ion-button>
+
+##### Arquivo TS
+
+    async presentAlert() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Alert',
+        subHeader: 'Subtitle',
+        message: 'This is an alert message.',
+        buttons: ['OK']
+      });
+
+      await alert.present();
+    }
+
+##### Exemplicando
+Primeiramente, aqui estamos trabalhando com promise e isso fica bem claro aqui `async presentAlert()`, caso a execução do método não seja de forma sincrona, a mensagem pode não esperar por uma resposta do usuário e devido a isso `await alert.present();`. O método create desse objeto cria um popup modal e o mesmo aceita um objeto como parametro como visto abaixo:
+
+    {
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: ['OK']
+    }
+
+`cssClass` => aqui você pode colocar uma classe para fazer uma customização do modal.
+
+`header` => título da modal.
+
+`subHeader` => subtítulo do modal.
+
+`message` => a mensagem que deve ser exibido ao usuário.
+
+`buttons` => Aqui você passa um array de botões para a modal, o primeiro seria o botão de **OK** o padrão é **Done**, porém é possível adicionar mais botões e esses outros botões seguem uma estrutura diferente de uma simples string como esse, no caso se tiver apenas um botão de ok, pode-se usar uma estrutura como essa: `buttons: ['OK']`, você até pode colocar mais botões `['Cancel', 'Open Modal', 'Delete']`, porém dessa forma todos eles terão o mesmo comportamento padrão, exceto se houver uma callback associado a eles, e então dessa forma o comportamento é o de executar a callback, como não é esse caso `['Cancel', 'Open Modal', 'Delete']`.
+
+#### Modal com botões customizáveis
+
+    async presentAlertConfirm() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Confirm!',
+        message: 'Message <strong>text</strong>!!!',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+              console.log('Confirm Cancel: blah');
+            }
+          }, {
+            text: 'Okay',
+            handler: () => {
+              console.log('Confirm Okay');
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+    }
+
+##### a diferença está aqui:
+
+    buttons: 
+      [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+
+##### Explicando
+Além de uma string, você pode passar um objeto com as configurações aos botões customizáveis, no caso `buttons:[{text,role,cssClass,handler}]`.
+
+`text` => label do botão.
+
+`role` => aplica uma regra ao botão, no exemplo que é usado ao clicar no botão ele gera eventos para cancelamento, como nesse caso `role: 'cancel'`
+
+`cssClass` => Classe que o botão deve ter, no caso é possível especificar uma classe para o botão.
+
+`handler` => Aqui a callback a ser executado, quando o usuário clicar nesse botão, nesse exemplo é impresso uma mensagem no console do navegador.
+
+#### Exemplo mais complexo, modal com formulário
+
+    async presentAlertPrompt() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Prompt!',
+        inputs: [
+          {
+            name: 'name',
+            type: 'text',
+            placeholder: 'Placeholder 1',          
+          },        
+          // multiline input.
+          {
+            name: 'paragraph',
+            id: 'paragraph',
+            type: 'textarea',
+            placeholder: 'Placeholder 3'
+          },        
+          {
+            name: 'day',
+            type: 'date',
+            min: '2020-01-01',
+            max: '2030-31-12'
+          },        
+          {
+            name: 'value',
+            type: 'number',
+            min: -10,
+            max: 10
+          },        
+          {
+            name: 'pass',
+            type: 'password',
+            placeholder: 'Advanced Attributes',
+            cssClass: 'specialClass',
+            attributes: {
+              maxlength: 4,
+              inputmode: 'decimal'
+            }
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (data) => {
+              console.log('Confirm Cancel');
+              console.log(data);
+            }
+          }, {
+            text: 'Ok',
+            handler: (data) => {
+              console.log('Confirm Ok:');   
+              console.log(data);
+            }
+          }
+        ]
+      });
+      
+      await alert.present();
+    }
+
+##### inputs
+Nesse exemplo temos um **input**, que permite extrair dados do usuário por meio de um formulário dentro da modal.
+
+    inputs: [
+          {
+            name: 'name',
+            type: 'text',
+            placeholder: 'Placeholder 1',          
+          }
+    ] 
+
+`name` => o nome do atributo, no caso esse atributo é obrigatório, ao submit desse formulário a variavel com o nome em base do name, vai receber o valor inserido.
+
+`type` => aqui temos o tipo de input, que pode ser `text`, `checkbox`, `radio`, etc...
+
+`placeholder` => O texto a ser exibido quando o campo estiver em branco.
+
+    inputs:[
+      {
+              name: 'day',
+              type: 'date',
+              min: '2020-01-01',
+              max: '2030-31-12'
+            },        
+            {
+              name: 'value',
+              type: 'number',
+              min: -10,
+              max: 10
+            },       
+    ]
+
+No caso de números e datas você pode definir um valor máximo e mínimo respectivamente com `min` e `max`, segue a mesma lógica que o de um input normal, ou seja um checkbox tem a propriedade `checked` que aceita um booleano, esse number também aceitaria um `step`, enfim...
+
+    {
+      name: 'pass',
+      type: 'password',
+      placeholder: 'Advanced Attributes',
+      cssClass: 'specialClass',
+      attributes: {
+        maxlength: 4,
+        inputmode: 'decimal'
+      }
+    }
+
+`cssClass` => Classe CSS para customizar o input.
+
+`attributes` => Aqui você adiciona atributos avançados ao input.
+
+##### Depois de preenchido...
+    buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (data) => {
+                console.log('Confirm Cancel');
+                console.log(data);
+              }
+            }, {
+              text: 'Ok',
+              handler: (data) => {
+                console.log('Confirm Ok:');   
+                console.log(data);
+              }
+            }
+          ]
+
+Depois de preenchido você pode usar a callback do botão para resgatar o valor, nesse caso devido a callback ser:
+
+###### para botão cancel
+
+    handler: (data) => {
+      console.log('Confirm Cancel');
+      console.log(data);
+    }
+
+###### para botão OK
+
+    handler: (data) => {
+      console.log('Confirm Ok:');   
+      console.log(data);
+    }
+
+##### Exemplo de conteúdo da variável data da callback handler do botão OK
+    {name: "asas", paragraph: "asas", day: "", value: "", pass: ""}
+
+Ou seja é na callback de `handler` dentro de cada `buttons[]` que você trata os dados inseridos pelo usuário no formulário da Modal, no caso do cancel os dados não são enviados para o data devido a essa regra `role: 'cancel'` que está setada no botão de cancelamento, logo ai está a importancia dela, esse `role` auxilia no tratamento de dados e sendo que o `role: 'cancel'` gera um *undefined* para o data ao invés de enviar um array como o de cima. Cada atributo desse array é definido com base nesse valor `name`, como por exemplo `name: 'name'` ou `name:paragraph` lá na [definição dos inputs](#exemplo-mais-complexo-modal-com-formulário), para acessar a [documentação](https://ionicframework.com/docs/api/alert#inputs)
