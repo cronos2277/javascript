@@ -20,9 +20,9 @@
             value="on"
             disabled = "false"
             checked = "false"
-            (ionBlur) = "message('Blur no checkbox')"
-            (ionChange) = "message('valor do checkbox alterado')"
-            (ionFocus) = "message('Focus no checkbox')"
+            (ionBlur) = "message('Blur no checkbox');message($event)"
+            (ionChange) = "message('valor do checkbox alterado');message($event)"
+            (ionFocus) = "message('Focus no checkbox');message($event)"
             ></ion-checkbox>
     </ion-item>
   </ion-toolbar>
@@ -113,41 +113,128 @@
           [value]="agora" 
           cancelText="Cancel!" 
           doneText="Confirm"
-          (ionChange)="message('data alterada')" 
+          (ionChange)="message($event)" 
           (ionCancel)="message('data no botão cancelar')"
           (ionBlur)="selectBlurFocus(true)"
           (ionFocus)="selectBlurFocus(false)"
-          ></ion-datetime>
-          
-    </ion-item>
+          ></ion-datetime>                
+          <ion-toggle color="danger" [checked]="toggle" (ionChange)="message($event)"></ion-toggle>   
+        </ion-item>
     <ion-item color="dark">
       <ion-label>text</ion-label>
-      <ion-input value="custom" color="primary" pattern="\D"></ion-input>
+      <ion-input value="custom" color="primary" pattern="\D" (ionChange)="message($event)"></ion-input>
       <ion-label>Number</ion-label>
-      <ion-input value="1" color="primary" type="number" step=3></ion-input>
+      <ion-input value="1" color="primary" type="number" step=3 (ionChange)="message($event)"></ion-input>
       <ion-label>Password</ion-label>
-      <ion-input value="custom" color="primary" type="password"></ion-input>
+      <ion-input value="custom" color="primary" type="password" (ionChange)="message($event)"></ion-input>
       <ion-label>Email</ion-label>
-      <ion-input value="custom@custom.com" color="primary" type="email"></ion-input>
+      <ion-input value="custom@custom.com" color="primary" type="email" (ionChange)="message($event)"></ion-input>
       <ion-label>Telefone</ion-label>
-      <ion-input value="+55 330 123-1234" color="primary" type="tel"></ion-input>
+      <ion-input value="+55 330 123-1234" color="primary" type="tel" (ionChange)="message($event)"></ion-input>
     </ion-item>
+
+    <ion-list>      
+      
+        <ion-radio-group slot="start" [(ngModel)]="radio" (ionChange)="message($event)" allowEmptySelection="true">
+          <ion-list-header>
+            <ion-label>
+              Radio Button
+            </ion-label>
+          </ion-list-header>
+      
+          <ion-item>
+            <ion-label>Valor 1</ion-label>
+            <ion-radio value="valor1"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Valor 2</ion-label>
+            <ion-radio value="valor2"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Valor 3</ion-label>
+            <ion-radio value="valor3"></ion-radio>
+          </ion-item>        
+        </ion-radio-group>       
+    </ion-list>
+    
+    <ion-item>
+      <ion-range color="danger" pin="true" (ionChange)="message($event)"></ion-range>
+
+      <ion-range 
+        dualKnobs="true"
+        min="21" 
+        max="72" 
+        value="30,60"
+        step="3"         
+        snaps="true"
+        (ionChange)="message($event)"
+        ></ion-range>
+
+        <ion-range 
+          min="1000" 
+          max="2000"
+          step="100"
+          snaps="false"
+          ticks="true"
+          color="secondary"
+          (ionChange)="message($event)"
+          ></ion-range>
+
+          <ion-range min="20" max="80" step="2" (ionChange)="message($event)">
+            <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+            <ion-icon slot="end" name="sunny"></ion-icon>
+          </ion-range>
+
+    </ion-item>    
+    
+    <ion-segment (ionChange)="segmentChanged($event)" color="warning">
+      <ion-segment-button value="friends">
+        <ion-label>Friends</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="enemies" disabled="true">
+        <ion-label>Enemies</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="sunny">
+        <ion-label>Sunny</ion-label>
+        <ion-icon name="sunny"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="rainy">
+        <ion-label>Rainy</ion-label>
+        <ion-icon name="rainy"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="dogs" layout="icon-end">
+        <ion-icon name="star"></ion-icon>
+        <ion-label>Dogs</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cats">
+        <ion-label>Cats</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </div>
 </ion-content>
 
-
-
 <ion-footer>
-  <ion-toolbar color="dark">   
-    <ion-button color="light" (click)="changeBgColor('primary')">BG Color: primary</ion-button>
-    <ion-button color="light" (click)="changeBgColor('secondary')">BG Color: secondary</ion-button>
-    <ion-button color="light" (click)="changeBgColor('tertiary')">BG Color: tertiary</ion-button>
-    <ion-button color="light" (click)="changeBgColor('success')">BG: success</ion-button>
-    <ion-button color="light" (click)="changeBgColor('warning')">BG: warning</ion-button>
-    <ion-button color="light" (click)="changeBgColor('danger')">BG: danger</ion-button>
-    <ion-button color="light" (click)="changeBgColor('medium')">BG: medium</ion-button>
-    <ion-button color="light" (click)="changeBgColor('dark')">BG: dark</ion-button>
-    <ion-button color="light" (click)="changeBgColor('light')">BG: light</ion-button>
+  <ion-toolbar color="dark" layout="icon-start">       
+    <ion-button color="light" (click)="changeBgColor('primary');message($event)">BG Color: primary</ion-button>
+    <ion-button color="light" (click)="changeBgColor('secondary');message($event)">BG Color: secondary</ion-button>
+    <ion-button color="light" (click)="changeBgColor('tertiary');message($event)">BG Color: tertiary</ion-button>
+    <ion-button color="light" (click)="changeBgColor('success');message($event)">BG: success</ion-button>
+    <ion-button color="light" (click)="changeBgColor('warning');message($event)">BG: warning</ion-button>
+    <ion-button color="light" (click)="changeBgColor('danger');message($event)">BG: danger</ion-button>
+    <ion-button color="light" (click)="changeBgColor('medium');message($event)">BG: medium</ion-button>
+    <ion-button color="light" (click)="changeBgColor('dark');message($event)">BG: dark</ion-button>
+    <ion-button color="light" (click)="changeBgColor('light');message($event)">BG: light</ion-button>
+  </ion-toolbar>
+  <ion-toolbar layout="icon-end">
+    <ion-searchbar color="medium" 
+      (ionBlur)="search($event)"
+      (ionCancel)="search($event)"
+      (ionChange)="search($event)"
+      (ionClear)="search($event)"
+      (ionFocus)="search($event)"
+      (ionInput)="search($event)" ></ion-searchbar>
   </ion-toolbar>
 </ion-footer>
 

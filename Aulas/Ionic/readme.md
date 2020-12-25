@@ -334,7 +334,7 @@ renderiza um botão, [segue a documentação dos botões](https://ionicframework
 
 `multiple` => Se o select vai aceitar mais de um valor, por padrão é `false`
 
-[Documentação sobre o ion-select](https://ionicframework.com/docs/api/select) e o [ion-option](https://ionicframework.com/docs/api/select-option), o ion-option aceita dois atributos, o primeiro se está desabilitado `<ion-select-option  value="0" disabled="true">DISABLED</ion-select-option>`, `false` para habilitado e `true` para desabilitado, padrão é false. Além disso tem o valor que é o valor da opção, no caso esse componente trabalha com o ngModel `[(ngModel)] = "selectInterface"  `, logo talvez seja necessário fazer a importação do módulo de formulário para permitir o **2 way databind**.
+[Documentação sobre o ion-select](https://ionicframework.com/docs/api/select) e o [ion-option](https://ionicframework.com/docs/api/select-option), o ion-option aceita dois atributos, o primeiro se está desabilitado `<ion-select-option  value="0" disabled="true">DISABLED</ion-select-option>`, `false` para habilitado e `true` para desabilitado, padrão é false. Além disso tem o valor que é o valor da opção, no caso esse componente trabalha com o ngModel `[(ngModel)] = "selectInterface"  `, logo talvez seja necessário fazer a importação do módulo de formulário para permitir o **2 way databind** e o value é apenas para setar um valor também.
 
 ### Card
 
@@ -516,7 +516,7 @@ Caso esse valor seja para colocar valor padrão no `[value]="agora" ` precisa es
         <ion-input value="+55 330 123-1234" color="primary" type="tel"></ion-input>
       </ion-item>
 
-`value` => empoõe um valor padrão ao elemento.
+`value` => impõe um valor padrão ao elemento.
 
 `color` => define a cor do elemento.
 
@@ -525,3 +525,140 @@ Caso esse valor seja para colocar valor padrão no `[value]="agora" ` precisa es
 `step` => incrementa e decrementa valor com base nesse step.
 
 `type` => Aqui define o tipo de dados, que pode ser: email, telefone, password, etc...
+
+### ion-toggle
+Existe um botão toggle que pode ser usado `<ion-toggle color="danger" [checked]="toggle" (ionChange)="message('alterou o toggle')"></ion-toggle>`. [documentação](https://ionicframework.com/docs/api/toggle)
+ 
+ `color` => a cor para o toggle quando ativado.
+
+ `check` => indica se por padrão o toggle fica ativado ou não, no caso está sendo interpolado a variável toggle.
+
+ ### Radio Button
+
+    <ion-radio-group slot="start" [(ngModel)]="radio" (ionChange)="message('radio mudança')" allowEmptySelection="true" >
+        <ion-list-header>
+          <ion-label>
+            Radio Button
+          </ion-label>
+        </ion-list-header>
+    
+        <ion-item>
+          <ion-label>Cord</ion-label>
+          <ion-radio value="cord"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Duesenberg</ion-label>
+          <ion-radio value="duesenberg"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Hudson</ion-label>
+          <ion-radio value="hudson"></ion-radio>
+        </ion-item>        
+    </ion-radio-group>       
+
+#### ion-radio-group 
+Os radio buttons deve estar dentro de um grupo `<ion-radio-group slot="start" [(ngModel)]="radio" (ionChange)="message('radio mudança')" allowEmptySelection="true">`, essa propriedade `allowEmptySelection` permite ou não de acordo com o valor booleano se o campo é obrigatório. *True* significa que preencher isso é opcional. [Documentação](https://ionicframework.com/docs/api/radio-group).
+
+#### ion-radio
+
+    <ion-item>
+        <ion-label>Valor 1</ion-label>
+        <ion-radio value="valor1"></ion-radio>
+    </ion-item>
+
+Esse renderiza o campo de radio `<ion-radio value="valor1">`, no caso esse valor é passado aqui `[(ngModel)]="radio"`, ou seja você passa o valor do radio para o `ion-radio-group`, [segue a documentação](https://ionicframework.com/docs/api/radio).
+
+### ion-range
+Também existe componentes de range no Ionic, [documentação](https://ionicframework.com/docs/api/range)
+
+    <ion-range color="danger" pin="true">
+    </ion-range>
+
+      <ion-range 
+        dualKnobs="true"
+        min="21" 
+        max="72" 
+        step="3" 
+        value="30,60"
+        snaps="true">
+      </ion-range>
+
+        <ion-range 
+          min="1000" 
+          max="2000"
+          step="100"
+          snaps="true"
+          ticks="false"
+          color="secondary">
+        </ion-range>
+
+          <ion-range min="20" max="80" step="2">
+            <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+            <ion-icon slot="end" name="sunny"></ion-icon>
+          </ion-range>
+
+`pin` => Essa propriedade `pin` se verdadeiro, ele exibe o valor quando o usuário arrasta o indicador, ou seja no evento de drag o valor do desse range é exibido.
+
+`min` => o valor mínimo aceito.
+
+`max` => o valor step aceito.
+
+`step` => define o valor a ser somado ou subtraído para incremento ou decremento.
+
+`ticks` => funciona com base no `step`, se verdadeiro ele exibe um risco na linha para cada valor marcado pelo `step`, por exemplo se o `min` for zero e o `max` for 10, e o `step` for 2, nesse exemplo todos os valores pares na barra estaria marcados com um risquinho vertical.
+
+`snaps` => Permite ou não selecionar valores que não são multiplos do step. No exemplo de um `min` com zero e `max` com 10 e um `step` com base em 2, se o valor do snaps for true permite-se selecionar um valor impar, se não apenas os valores multiplos do step, nesse caso os pares.
+
+`dualKnobs` => se o valor for true, ele permite selecionar um intervalo de valores, ao invés de selecionar um único valor. A extrema esquerda irá ter um indicador e na extrema direita também e os valores são todos que estiverem nesse range, e essa é uma forma de determinar o range padrão `value="30,60"`.
+
+#### Icones
+
+    <ion-range min="20" max="80" step="2">
+        <ion-icon size="small" slot="start" name="sunny"></ion-icon>
+        <ion-icon slot="end" name="sunny"></ion-icon>
+    </ion-range>
+
+Você também pode colocar ícones no range, no caso o ícone com slot start fica a esquerda `<ion-icon size="small" slot="start" name="sunny">` e o ícone com o slot end fica a direita `<ion-icon slot="end" name="sunny">`.
+
+### Ion-segment
+
+    <ion-segment (ionChange)="segmentChanged($event)" color="warning">
+      <ion-segment-button value="friends">
+        <ion-label>Friends</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="enemies" disabled="true">
+        <ion-label>Enemies</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="sunny">
+        <ion-label>Sunny</ion-label>
+        <ion-icon name="sunny"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="rainy">
+        <ion-label>Rainy</ion-label>
+        <ion-icon name="rainy"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="dogs" layout="icon-end">
+        <ion-icon name="star"></ion-icon>
+        <ion-label>Dogs</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cats">
+        <ion-label>Cats</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+#### ion-segment
+O Ion-segment é um container de segments que cria uma linha de botões que quando executado executam uma função, segue a documentação do [ion-segments](https://ionicframework.com/docs/api/segment), esse container `ion-segments` pode passar o valor do botão clicado para dentro do evento, ou seja com o ion-segment seria uma espécie de container de botões, que quando clicados mudam o valor do container `ion-segments`.
+
+#### ion-segment-button
+Aqui vai a configuração do botão, [documentação](https://ionicframework.com/docs/api/segment-button)
+
+`value` => Aqui você define o valor do botão.
+
+`layout` => A posição do ícone se houver.
+
+`disabled` => Se verdadeiro, o usuário não pode clicar no botão.
+
+`type` => pode ser `reset`, `submit` ou até mesmo `button`, nesse caso você define o comportamento do botão.
+
