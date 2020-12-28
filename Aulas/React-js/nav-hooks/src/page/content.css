@@ -1,0 +1,9 @@
+article{    
+    background-color: #fefefe;    
+    box-shadow: 0px 0px 50px darkgrey;
+    height: 90vh;   
+    margin-left: 15vw; 
+    padding-left:20px;
+    padding-top: 20px;
+    min-width: 400px;
+}

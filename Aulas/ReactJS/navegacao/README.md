@@ -1,2 +1,0 @@
-# React Navegação
-Inicialmente se faz necessário, para usar rotas no react, instalar a biblioteca **react-router-dom**, para isso no terminal, já dentro do diretório da aplicação: `npm i react-router-dom`
