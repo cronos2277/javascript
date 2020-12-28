@@ -1,0 +1,32 @@
+.state{
+    background-color: lightblue;
+    padding: 20px;    
+    box-shadow: 0px 0px 20px blue;
+}
+
+.state-getter{
+    margin-left: 10px;
+    color:black;
+    text-shadow: 2px 2px gray;
+}
+
+.state-input{
+    background-color: lightslategray;
+    padding:20px;
+    width:500px;
+    box-shadow: 5px 5px 0px black;
+    margin: 20px;
+}
+
+.state-btn{
+    width: 50px;
+    margin-right: 20px;
+    margin-left: 100px;
+    border-radius: 20px;
+    padding:10px;
+    background-color: cadetblue;
+    color:white;
+    font-weight: 700;
+    border: none;
+    box-shadow: 5px 5px black;
+}

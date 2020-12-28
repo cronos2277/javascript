@@ -98,7 +98,9 @@ Agora analisando esse componente `<Param />`, de:
         <Param />
     </Route>
 
-##### useParams
+
+## Hooks
+### useParams
 [Arquivo](./src/components/useParams.jsx)
 
     import {useParams} from 'react-router-dom';
@@ -111,3 +113,34 @@ Agora analisando esse componente `<Param />`, de:
     }
 
 Inicialmente não recomenda-se o uso desse hookie `import {useParams} from 'react-router-dom';` com esses `import {Switch, Route } from 'react-router-dom';`, pois ao usar dessa estratégia o useParams pode não ser devidamente processado e retornar um valor *undefined*, logo é uma estratégia mais útil criar um componente para isso como feito aqui `<Param />` a função *useParams* retorna um objeto contendo todos os parametros passado na url, usa-se dessa forma `const {param} = useParams();`, como a rota que esse componente responde `<Route path='/exemplo/:param'>` é apenas um parametro chamado `:param`, logo essa função `useParams()` deve retornar `{param:"valor no parametro"}`, ou seja, é com esse hookie que você pega os valores vindos da url.
+
+
+
+### useState
+[Arquivo](./src/components/useState.jsx)
+
+    import React from 'react';
+    export default function State(props){
+        const [getter,setter] = React.useState(0);
+        return(
+            <div className="state">
+                <h2>Componente controlado</h2>
+                <div className="state-input">
+                    <h2 className="state-getter">{getter}</h2>
+                    <input value={getter} onChange={e => setter(e.target.value)} />
+                </div>
+                <button className="state-btn" onClick={() => setter(() => getter - 1)}>-1</button>            
+                <button className="state-btn" onClick={() => setter(() => getter + 1)}>+1</button>
+            </div>
+        );
+    }
+
+O `useState` é um hook que permite aos componentes funcionais ter estado, o seu uso é feito nessa linha `const [getter,setter] = React.useState(0);`, o método `useState` retorna um array com 2 elementos, sendo o primeiro uma constante para leitura e o segundo parametro uma callback que faz a alteração do valor, no caso pense no primeiro elemento desse array, que nesse exemplo é o `getter`, que funciona como o `getSeuValor` e o segundo que nesse exemplo é o `setter` que nesse exemplo seria algo do tipo `setSeuValor`. Um segundo ponto a ser notado é que o elemento pode ter um valor inicial, como nesse caso `React.useState(0)`, quando passado um valor ao método `useState`, nesse caso o valor passado como argumento se torna o valor padrão do elemento.
+
+#### função do setter
+` <input value={getter} onChange={e => setter(e.target.value)} />` => Aqui você pode passar um valor diretamente a função pega do `useState` como aqui.
+
+`<button className="state-btn" onClick={() => setter(() => getter - 1)}>-1</button>` => além de valor, você também pode passar uma callback como feito aqui `setter(() => getter - 1)`.
+
+#### getter
+Como é possível perceber aqui por exemplo `<input value={getter} onChange={e => setter(e.target.value)} />` o `{getter}` está tendo o seu valor lido, ou seja o valor mais recente, alterado em tempo real pela callback que altera o valor, do mesmo modo você percebe aqui `setter(() => getter + 1)` que o valor da variavel com estado é lida e depois incrementada.
