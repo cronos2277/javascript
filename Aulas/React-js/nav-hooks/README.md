@@ -177,6 +177,7 @@ O useEffect é interessante caso tenha como objetivo monitorar uma variável e c
 Sendo um método do objeto `React`, assim como qualquer hook, o mesmo aceita 2 argumentos, sendo o primeiro uma função a ser executada e o segundo um array dos valores a serem monitorados e uma vez que esses valores dentro do array seja modificados, será disparado a callback passado como parametro. Nesse exemplo toda vez que ocorre uma mudança nesse input `<input type="number" value={num} onChange={event => setNum(event.target.value)} />`, ou seja é adicionado um novo número, é atualizado um state de um outro componente que é esse aqui `const [sqrt,setSqrt] = React.useState(1);`, em resumo, esse hook é interessante caso você queira que a mudança de valor de uma variável impacte em outra, nesse caso quando o usuário coloca um novo valor, a função do useEffect recalcula a raiz quadrada.
 
 ### useRef
+[useRef](./src/components/useRef.jsx)
 
     import React from 'react';
 
@@ -216,3 +217,95 @@ Um uso muito comum é usar para referenciar um componente, seria o mesmo que col
         console.log(count)
 
 No caso é perfeitamente possível atualizar um componente com o *useRef* fora de um escopo de função callback criado pelo *useEffect*, se você tentar usar o método **set** do *useState*, vai dar um problema de loop infinito, uma vez que os estados criados com o *useState* é sempre renderizado e atualizado o valor, ao passo que um estado criado com o *useRef*, altera-se o valor, mas sem ter que renderizar o componente.
+
+### useMemo
+[useMemo](./src/components/useMemo.jsx)
+
+    import React from 'react';
+    export default function(props){
+
+        let [num1,setNum1] = React.useState(0);
+        let [num2,setNum2] = React.useState(0);
+        const soma = React.useMemo(function(){
+            console.log(num1,num2);
+            return (parseFloat(num1) || 0) + (parseFloat(num2) || 0);
+        },[num1,num2]);
+
+        return(
+            <div className="memo">
+                <div className="memo-result">
+                    <h2>Soma: {soma}</h2>
+                </div>
+                <div className="memo-btn">
+                    <label>Valor 1: </label>
+                    <input onChange={event => setNum1(event.target.value)} type="number"/>
+                </div>
+                <div className="memo-btn">
+                    <label>Valor 2: </label>
+                    <input onChange={event => setNum2(event.target.value)} type="number"/>
+                </div>
+            </div>
+        );
+    }
+
+o *useMemo* é o equivalente ao *useState* com o *useEffect* combinado, no caso esse método do *React* aceita dois argumentos, o primeiro é o *callback* e o segundo é um array contendo as dependências. Nessa exemplo abaixo:
+
+    const soma = React.useMemo(function(){
+        console.log(num1,num2);
+        return (parseFloat(num1) || 0) + (parseFloat(num2) || 0);
+    },[num1,num2]);
+
+No caso a variável som recebe um valor que será atualizado toda vez que `,[num1,num2]` for alterado, usando a callback para fazer isso e esse valor pode ser lido conforme visto aqui `<h2>Soma: {soma}</h2>`. O **useMemo** é útil quando você quer criar uma variável, que depende se outras variáveis com estado, de modo que alterações nessas outras variaáveis são percebidos e retornado a variável que recebeu o **useMemo**.
+
+### useCallback
+[useCallback](./src/components/useCallback.jsx)
+#### Componente Pai
+
+    export default function (props){   
+        console.log('%crenderizando componente PAI','background-color:blue;color:white;font-size:14px;padding:10px');
+        const [dados,setDados] = React.useState(ajax());    
+        const fn = React.useCallback(function(){
+            setDados(ajax());
+        },[setDados]);
+
+        console.log(dados.responseText);
+        return(
+            <div>
+                <h2>Data: {dados.responseText}</h2>
+                <Inner fn={fn} />
+            </div>
+        );
+    }
+
+ O componente pai tem uma função ajax `ajax()` e um componente filho `<Inner fn={fn} />`
+
+ #### Função ajax
+
+    function ajax(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('get','http://time.jsontest.com/',false);
+        xhr.send();
+        return xhr;
+    }
+
+#### Componente filho criado com React memo
+
+    const Inner = React.memo(function MyComponent(props) {
+        console.log('%crenderizando FILHO, repare que será apenas uma vez','background-color:green;color:white;font-size:14px;padding:10px');
+        return <div><button onClick={props.fn}>Atualizar</button></div>
+    });
+
+Primeiramente o componente na pratica ele permite que o componente pai seja renderizado, sem renderizar os componentes filhos, ou seja se o componente pai exibir algo na tela e o componente filho conter botões, não faz sentido os componentes filhos atualizarem junto com os pais, uma que os botões não precisam ser atualizados junto com a tela, exatamente como é o caso aqui, o componente pai carrega o resultado de um json, ao passo que o componente filho é um botão, e nesse caso apenas o componente pai precisar ser renderizado a cada solicitação, algo que é dispensável ao compenente filho, abaixo é feito isso:
+
+    const [dados,setDados] = React.useState(ajax()); 
+    const fn = React.useCallback(function(){
+        setDados(ajax());
+    },[setDados]);
+
+o método `useCallback` retorna uma função, ao qual deve ser passado aos componentes filhos por meio dos props, no caso nesse exemplo o useCallback trabalha em conjunto com o `useState`, conforme visto aqui `const [dados,setDados] = React.useState(ajax());`, quando a função é alterada, ou seja quando a definição da função é altera, ai sim altera a função registrada no `fn`, enquanto essa variável não mudar `[setDados]` essa aqui não altera `const fn`, o que evita o recarregamento do componente filho caso o componente pai seja atualizado. Como a função `setDados` é constante, logo a lógica da função não muda, não mudando a lógica, por isso fn se mantém estático a atualizações, fazendo com que o componente filho se mantenha estático também.
+#### React.memo
+    const Inner = React.memo(function MyComponent(props) {        
+        return <div><button onClick={props.fn}>Atualizar</button></div>
+    });
+
+o *useCallback* trabalha em conjunto com o `React.memo`, para isso você coloca uma callback que retorna um componente do react dentro dela, feito isso o componente passar a estar envolto do método memo e o react sabendo que o componente é estático e tem memória, o mesmo só será renderizado quando os valores do `props` forem alterados, ou seja, componentes envoltos do método memo apenas se altera quando os seus atributos, seja os `props` ou os `props.children` se alteram, e como a função passada não se altera, pois é constante, logo o componente filho é carregado apenas uma vez.

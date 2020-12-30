@@ -14,6 +14,7 @@ ReactDOM.render(
             <Link to="/effect">Hook: useEffect</Link>
             <Link to="/ref">Hook: useRef</Link>
             <Link to="/memo">Hook: useMemo</Link>
+            <Link to="/callback">Hook: useCallback</Link>
         </Menu>,
         <Content/>       
     </BrowserRouter>,
