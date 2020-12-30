@@ -62,3 +62,27 @@
     border-radius: 10px;
     text-align: center;
 }
+
+.ref{
+    padding: 50px;
+    background-color: rgb(120, 240, 240);
+    width: 90%;
+    box-shadow: 10px 10px darkcyan;
+    color:blue;
+    font-size: 24px;
+}
+
+.ref-inner {
+    background-color: darkslategray;
+    padding: 30px;
+    color:whitesmoke;
+    text-shadow: 1px 1px white;
+}
+
+.ref-inner .ref-btn{
+    width: 10vw;
+    box-shadow: 5px 5px black;
+    background-color: brown;
+    color:white;
+    margin-right: 20px;
+}

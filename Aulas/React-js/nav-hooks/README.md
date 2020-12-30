@@ -175,3 +175,44 @@ O useEffect é interessante caso tenha como objetivo monitorar uma variável e c
         },[num]);
 
 Sendo um método do objeto `React`, assim como qualquer hook, o mesmo aceita 2 argumentos, sendo o primeiro uma função a ser executada e o segundo um array dos valores a serem monitorados e uma vez que esses valores dentro do array seja modificados, será disparado a callback passado como parametro. Nesse exemplo toda vez que ocorre uma mudança nesse input `<input type="number" value={num} onChange={event => setNum(event.target.value)} />`, ou seja é adicionado um novo número, é atualizado um state de um outro componente que é esse aqui `const [sqrt,setSqrt] = React.useState(1);`, em resumo, esse hook é interessante caso você queira que a mudança de valor de uma variável impacte em outra, nesse caso quando o usuário coloca um novo valor, a função do useEffect recalcula a raiz quadrada.
+
+### useRef
+
+    import React from 'react';
+
+    export default function(props){
+        const count = React.useRef(0);
+        const element = React.useRef(null);    
+        React.useEffect(function(){
+            console.log('contador: ',count);
+            console.log('element: ',element)
+        },[count])
+
+        console.log(count)
+        return(
+            <div className="ref">
+                <div className="ref-inner">
+                    Contador: {count.current}, Aqui não muda mas no console muda.
+                    <hr/>                
+                    <button className="ref-btn" onClick={() => count.current += 1} ref={element}>Mudar Referencia</button>
+                </div>
+            </div>
+        );
+    }
+
+#### Usando estados em componentes que não devem ser renderizados novamente.
+O Useref faz algo semelhante ao `useState` e permite o uso de estado, porém, ele não renderiza o componente, ou seja: `{count.current}` ele altera esse valor mas sem renderiza-lo, ou seja, o componente altera o estado, mas isso não é perceptível ao usuário final, uma vez que o mesmo não é renderizado, nesse exemplo o `{count.current}` muda de valor, mas não de maneira visível, uma vez que não renderiza. No caso aqui é criado um valor com estado `const count = React.useRef(0);` e o valor fica dentro do atributo `current`, ou seja o objeto `count` passa a ter um atributo `.current` contendo o valor passado como parametro `.useRef(0)`, nesse caso `count.current` valeria zero, nesse exemplo.
+
+#### Usando para referencia um componente.
+Um uso muito comum é usar para referenciar um componente, seria o mesmo que colocar o resultado de um `document.getElementById` dentro de uma variável. Nesse exemplo criamos um componente com referencia `const element = React.useRef(null);` e ai referenciamos ele a um elemento HTML, como feito aqui `<button className="ref-btn" onClick={() => count.current += 1} ref={element}>Mudar Referencia</button>`, aonde o `ref={element}` faz referencia a `const element = React.useRef(null);`, ou seja você pode usar isso para referenciar um componente e manipular ele.
+
+#### Peculiaridades
+
+    React.useEffect(function(){
+        console.log('contador: ',count);
+        console.log('element: ',element)
+    },[count])
+
+        console.log(count)
+
+No caso é perfeitamente possível atualizar um componente com o *useRef* fora de um escopo de função callback criado pelo *useEffect*, se você tentar usar o método **set** do *useState*, vai dar um problema de loop infinito, uma vez que os estados criados com o *useState* é sempre renderizado e atualizado o valor, ao passo que um estado criado com o *useRef*, altera-se o valor, mas sem ter que renderizar o componente.
