@@ -144,3 +144,34 @@ O `useState` é um hook que permite aos componentes funcionais ter estado, o seu
 
 #### getter
 Como é possível perceber aqui por exemplo `<input value={getter} onChange={e => setter(e.target.value)} />` o `{getter}` está tendo o seu valor lido, ou seja o valor mais recente, alterado em tempo real pela callback que altera o valor, do mesmo modo você percebe aqui `setter(() => getter + 1)` que o valor da variavel com estado é lida e depois incrementada.
+
+### useEffect
+[Arquivo exemplo](./src/components/useEffect.jsx)
+
+    import React from 'react';
+    export default function(props){
+        const [num,setNum] = React.useState(1);
+        const [sqrt,setSqrt] = React.useState(1);
+        React.useEffect(function(){         
+            setSqrt(Math.sqrt(num));
+        },[num]);
+
+        return(
+            <div className="effect">
+                <div className="effect-show">
+                    A raiz quadrada de {num}: {sqrt}
+                </div>
+                <div className="effect-input">
+                    <input type="number" value={num} onChange={event => setNum(event.target.value)} />
+                </div>
+            </div>
+        );
+    }
+
+O useEffect é interessante caso tenha como objetivo monitorar uma variável e caso haja alguma alteração executar uma função, vamos ao exemplo:
+
+    React.useEffect(function(){         
+            setSqrt(Math.sqrt(num));
+        },[num]);
+
+Sendo um método do objeto `React`, assim como qualquer hook, o mesmo aceita 2 argumentos, sendo o primeiro uma função a ser executada e o segundo um array dos valores a serem monitorados e uma vez que esses valores dentro do array seja modificados, será disparado a callback passado como parametro. Nesse exemplo toda vez que ocorre uma mudança nesse input `<input type="number" value={num} onChange={event => setNum(event.target.value)} />`, ou seja é adicionado um novo número, é atualizado um state de um outro componente que é esse aqui `const [sqrt,setSqrt] = React.useState(1);`, em resumo, esse hook é interessante caso você queira que a mudança de valor de uma variável impacte em outra, nesse caso quando o usuário coloca um novo valor, a função do useEffect recalcula a raiz quadrada.

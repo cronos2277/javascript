@@ -30,3 +30,35 @@
     border: none;
     box-shadow: 5px 5px black;
 }
+
+.effect{
+    background-color: lightcoral;
+    box-shadow: 10px 10px coral;
+    padding: 25px;
+    max-width: 90%;
+}
+
+.effect-show{
+    background-color: chocolate;
+    padding-top:25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 24px;
+    color:black;
+    margin-left:20px;    
+}
+
+.effect-input{
+    margin-left: 30px;    
+}
+
+.effect-input > input{
+    width: 10%;
+    height: 50px;
+    font-size: 24px;
+    border:none;
+    border-radius: 10px;
+    text-align: center;
+}

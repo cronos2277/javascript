@@ -3,6 +3,7 @@ import React from 'react';
 import {Switch, Route } from 'react-router-dom';
 import Param from '../components/useParams';
 import State from '../components/useState';
+import Effect from '../components/useEffect';
 
 export default function(props){           
     return(
@@ -18,6 +19,9 @@ export default function(props){
                     </Route>
                     <Route path="/state">
                         <State />
+                    </Route>
+                    <Route path="/effect">
+                        <Effect />
                     </Route>
                     <Route exact path="/">
                         <h1>Página Raiz</h1>
