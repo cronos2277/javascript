@@ -5,6 +5,7 @@ import Param from '../components/useParams';
 import State from '../components/useState';
 import Effect from '../components/useEffect';
 import Ref from '../components/useRef';
+import Memo from '../components/useMemo';
 
 export default function(props){           
     return(
@@ -26,6 +27,9 @@ export default function(props){
                     </Route>
                     <Route path="/ref">
                         <Ref />
+                    </Route>
+                    <Route path="/memo">
+                        <Memo />
                     </Route>
                     <Route exact path="/">
                         <h1>Página Raiz</h1>

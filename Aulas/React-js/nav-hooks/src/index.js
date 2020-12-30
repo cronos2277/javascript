@@ -11,8 +11,9 @@ ReactDOM.render(
             <Link to="/exemplo">Exemplo</Link>                        
             <Link to={"/exemplo/"+Math.random()}>Parametros</Link>
             <Link to="/state">Hook: useState</Link>
-            <Link to="/effect">Hook useEffect</Link>
-            <Link to="/ref">Hook useRef</Link>
+            <Link to="/effect">Hook: useEffect</Link>
+            <Link to="/ref">Hook: useRef</Link>
+            <Link to="/memo">Hook: useMemo</Link>
         </Menu>,
         <Content/>       
     </BrowserRouter>,
