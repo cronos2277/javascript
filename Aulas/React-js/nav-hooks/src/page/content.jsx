@@ -7,6 +7,7 @@ import Effect from '../components/useEffect';
 import Ref from '../components/useRef';
 import Memo from '../components/useMemo';
 import Callback from '../components/useCallback';
+import Context from '../components/useContext';
 
 export default function(props){           
     return(
@@ -34,6 +35,9 @@ export default function(props){
                     </Route>
                     <Route path="/callback">
                         <Callback />
+                    </Route>
+                    <Route path="/context">
+                        <Context />
                     </Route>
                     <Route exact path="/">
                         <h1>Página Raiz</h1>

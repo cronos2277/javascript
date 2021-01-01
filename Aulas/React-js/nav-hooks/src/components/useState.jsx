@@ -1,7 +1,6 @@
 import React from 'react';
-
 export default function State(props){
-    const [getter,setter] = React.useState(0);
+    const [getter,setter] = React.useState(0);      
     return(
         <div className="state">
             <h2>Componente controlado</h2>
