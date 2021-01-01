@@ -309,3 +309,97 @@ o método `useCallback` retorna uma função, ao qual deve ser passado aos compo
     });
 
 o *useCallback* trabalha em conjunto com o `React.memo`, para isso você coloca uma callback que retorna um componente do react dentro dela, feito isso o componente passar a estar envolto do método memo e o react sabendo que o componente é estático e tem memória, o mesmo só será renderizado quando os valores do `props` forem alterados, ou seja, componentes envoltos do método memo apenas se altera quando os seus atributos, seja os `props` ou os `props.children` se alteram, e como a função passada não se altera, pois é constante, logo o componente filho é carregado apenas uma vez.
+
+### Trabalhando com context
+#### Criando context
+[Arquivo de criação](./src/components/createContext.jsx)
+
+    import React from 'react';
+
+    export const value = {
+        number:0,
+        text:""
+    }
+
+    export const Context = React.createContext(null);
+    export default function(props){
+        const [state,setState] = React.useState(value);
+        const setNumber = number => setState({...state,number}); 
+        const getNumber = () => state.number;
+        const setText = text => setState({...state,text});
+        const getText = () => state.text;    
+        return(
+            <Context.Provider value={{setNumber,getNumber,setText,getText}} >
+                {props.children}
+            </Context.Provider>
+        )
+    } 
+
+Inicialmente você precisa criar um context, para isso você usa o `export const Context = React.createContext(null)`, como é passado um valor nulo logo não tem valor padrão. Esse componente deve estar visível a outros componentes, pois é através dele que os valores serão recuperados, uma vez que em algum lugar requisite o componente `Context` ele devolverá os valores salvos por `React.createContext(null)`, essa no caso seria uma estratégia para criar uma variável global que pode ser acessada em qualquer componente da aplicação, mas lembre-se de duas coisas, primeiro que o contexto deve ser criado usando o método `createContext`, do `React`. Além disso o resultado deve estar preparado para exportar, pois é com base nele que o valor será acessado.
+
+    export default function(props){
+            const [state,setState] = React.useState(value);
+            const setNumber = number => setState({...state,number}); 
+            const getNumber = () => state.number;
+            const setText = text => setState({...state,text});
+            const getText = () => state.text;    
+            return(
+                <Context.Provider value={{setNumber,getNumber,setText,getText}} >
+                    {props.children}
+                </Context.Provider>
+            )
+        } 
+
+Aqui acima temos a definição do componente, repare que o mesmo deve estar envolto de um Provider, como feito aqui:
+
+    <Context.Provider value={{setNumber,getNumber,setText,getText}} >
+            {props.children}
+    </Context.Provider>
+
+#### Definindo como componente raiz
+[Arquivo index](src/index.js)
+
+Esse componente que está sendo retornado `</Context.Provider>` é criado com base nesse `export const Context = React.createContext(null);`, repare que a variável salva se chama *Context*, conforme explicitado aqui `export const Context`. Vale dizer que esse componente está envolvendo toda a aplicação, logo todos os filhos dele, que no conforme demonstrado abaixo, uma vez que esse componente será a raiz da aplicação, conforme ilustrado abaixo:
+
+    import Context from  './components/createContext';
+    ReactDOM.render(    
+        <Context>
+            <BrowserRouter>        
+                <Menu>
+                    <Link to="/exemplo">Exemplo</Link>                        
+                    <Link to={"/exemplo/"+Math.random()}>Parametros</Link>
+                    <Link to="/state">Hook: useState</Link>
+                    <Link to="/effect">Hook: useEffect</Link>
+                    <Link to="/ref">Hook: useRef</Link>
+                    <Link to="/memo">Hook: useMemo</Link>
+                    <Link to="/callback">Hook: useCallback</Link>
+                    <Link to="/context">Hook: useContext</Link>
+                </Menu>,
+                <Content/>       
+            </BrowserRouter>
+        </Context>
+        ,
+        document.getElementById('root')
+    );
+
+Repare que todos os valores passados aqui no atributo *value* `<Context.Provider value={{setNumber,getNumber,setText,getText}} >` e como no arquivo index o componente engloba tudo, logo qualquer componente pois é o componente `<Context></Context>` tem condições de acessar o valor, uma vez que qualquer componente dessa aplicação decende dela, além disso é permitido alterações pelos componentes filhos, mas para isso precisa usar as funções, uma vez que o que é exportado aqui são as funções `value={{setNumber,getNumber,setText,getText}}`.
+
+#### useContext
+[Use Context](./src/components/useState.jsx)
+
+    import React from 'react';
+    import {Context} from  './createContext'
+
+    export default function(props){
+        const state = React.useContext(Context);    
+        console.log(`Numero: ${state.getNumber()}`);
+        console.log(`Texto: ${state.getText()}`);
+        return(
+            <div className="context">
+                <input value={state.getNumber()} onChange={e => state.setNumber(e.target.value)} type="number" />
+                <input value={state.getText()} onChange={e => state.setText(e.target.value)} type="text" />
+            </div>
+        )
+    }
+
+para usar e acessar o valor, se faz necessário importar a biblioteca, conforme feito aqui `import {Context} from  './createContext'` depois de feito isso você deve usar dessa forma `const state = React.useContext(Context)`, aqui no caso será retornado o valor definido aqui `<Context.Provider value={{setNumber,getNumber,setText,getText}} >`, que será esse objeto `{setNumber,getNumber,setText,getText}` nesse exemplo.

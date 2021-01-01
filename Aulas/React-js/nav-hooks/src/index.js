@@ -5,6 +5,8 @@ import Menu from './page/menu';
 import Content from './page/content';
 import {BrowserRouter,Link} from 'react-router-dom';
 import Context from  './components/createContext';
+import Footer from './page/footer';
+
 ReactDOM.render(    
     <Context>
         <BrowserRouter>        
@@ -18,7 +20,8 @@ ReactDOM.render(
                 <Link to="/callback">Hook: useCallback</Link>
                 <Link to="/context">Hook: useContext</Link>
             </Menu>,
-            <Content/>       
+            <Content/>,
+            <Footer />       
         </BrowserRouter>
     </Context>
     ,
