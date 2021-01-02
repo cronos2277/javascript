@@ -1,0 +1,17 @@
+.global{
+    background-color: violet;    
+    width: 100vw;
+    box-shadow:0px 0px 25px purple; 
+    padding: 10px;   
+    height: 10vh;
+}
+
+.global-text{
+    color:black;
+    font-size:24px;
+}
+
+.global-span-end{
+    position: relative;
+    left: 25%;
+}
