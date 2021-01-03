@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Vue Básico</title>
+</head>
+<body>
+    <main>
+        <div id="basico" >
+            <h1>{{header}}</h1>
+            <hr />
+            <h2>{{content}}</h2>
+            <br />
+            <p>{{text}}</p>
+        </div>
+    </main>
+    <script>
+        const vue = new Vue(
+            {
+                el: "#basico",
+                data:{
+                    header:'Exemplo de Título',
+                    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                    text:'Valor inicial'
+                },
+
+                beforeCreate: () => console.log('%cbeforeCreate',"font-size:14px;background-color:blue;color:white;padding:10px"),
+                created: () => console.log('%ccreated',"font-size:14px;background-color:red;color:white;padding:10px"),
+                beforeMount: () => console.log('%cbeforeMount',"font-size:14px;background-color:green;color:white;padding:10px"),
+                mounted: () => console.log('%cmounted',"font-size:14px;background-color:yellow;color:black;padding:10px"),
+                beforeUpdate: () => console.log('%cbeforeUpdate',"font-size:14px;background-color:black;color:white;padding:10px"),
+                updated: () => console.log('%cupdated',"font-size:14px;background-color:darkgray;color:white;padding:10px"),
+                beforeDestroy: () => console.log('%cbeforeDestroy',"font-size:14px;background-color:pink;color:black;padding:10px"),
+                destroyed: () => console.log('%cdestroyed',"font-size:14px;background-color:cyan;color:black;padding:10px"),
+            }
+        );    
+    
+        setTimeout(function(){
+            console.log("\nAlterando valor");
+            vue._data.text = "valor alterado";
+        },2000);
+
+        setTimeout(function(){
+            console.log("\nDestruindo objeto");
+            vue.$destroy();
+        },5000);
+    </script>
+</body>
+</html>
