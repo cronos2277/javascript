@@ -129,3 +129,38 @@ div.context input{
     height:50px;
     font-size: 36px;
 }
+
+.reduce{
+    background-color: cadetblue;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    box-shadow: 10px 10px darkgreen;
+    width: 90%;    
+    font-size: 36px;    
+}
+
+.reduce-display:nth-child(1){
+    color: white;
+    margin-bottom: 20px;
+}
+
+.reduce-inputs > input,textarea{
+    margin-bottom: 30px;    
+    font-size:14px;
+}
+
+.reduce-inputs > input{
+    width: 100px;
+    height: 50px;
+    font-size: 36px;
+    border: 2px solid greenyellow;
+    box-shadow: 5px 5px greenyellow;
+}
+
+.reduce-inputs > textarea{
+    border: 2px solid greenyellow;
+    box-shadow: 5px 5px greenyellow;
+    width: 90%;
+    height: 50px;
+}

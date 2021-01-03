@@ -403,3 +403,58 @@ Repare que todos os valores passados aqui no atributo *value* `<Context.Provider
     }
 
 para usar e acessar o valor, se faz necessário importar a biblioteca, conforme feito aqui `import {Context} from  './createContext'` depois de feito isso você deve usar dessa forma `const state = React.useContext(Context)`, aqui no caso será retornado o valor definido aqui `<Context.Provider value={{setNumber,getNumber,setText,getText}} >`, que será esse objeto `{setNumber,getNumber,setText,getText}` nesse exemplo.
+
+### useReduce
+[Arquivo](./src/components/useReduce.jsx)
+
+    export default function(props){
+        const [state,dispatch] = React.useReducer(func, initial);
+        return(
+            <div className="reduce">
+                <div className="reduce-display">
+                    <p>Número informado no reducer: {state.number}</p>
+                    <p>{state.text}</p>
+                </div>
+                <hr />
+                <div className="reduce-inputs">
+                    <input type="number" value={state.number} onChange={e => dispatch({payload:e.target.value,type:'number'})} />
+                    <br />
+                    <textarea type="text" value={state.text} onChange={e => dispatch({payload:e.target.value,type:'text'})} />
+                </div>
+            </div>
+        );
+    }
+
+O `useReducer` é uma função que retona um array com uma constante para leitura na posição zero e uma função na posição um, como argumento é aceito inicialmente uma função que trabalhará na alteração desse dado e no segundo argumento um dado que pode ser usado como valor inicial: `const [state,dispatch] = React.useReducer(func, initial);`, abaixo a função referente a *func*, conforme analisado aqui `React.useReducer(func, initial)`.
+
+    const func = function(state,action){
+        switch(action.type){
+            case 'number': return {...state, number: action.payload};
+            case 'text': return {...state, text: action.payload};
+            default: return state;
+        }
+    }
+
+Essa função a ser passado como parametro do método `useReducer` deve aceitar dois argumentos, o primeiro argumento é o dado nesse caso o *state* e o segundo uma action, que seria o dado recebido na requisição, conforme visto aqui `function(state,action)`. Nesse caso `state` é o dado com as mudanças feitas até agora, não necessáriamente o objeto inicial, apenas é o objeto inicial, apenas se não foi feito uma requição ainda. O segundo argumento é a requisição enviada pelo usuário, ou seja o dado enviado. Dentro de uma action espera-se que tenha um atributo chamado *type* e com base nesse atributo é feito uma *alteração* no estado, que a bem da verdade essa *alteração*, seria mais uma **evolução**, ou seja entra um  objeto na função e sai um outro objeto alterado, ou seja função deve retornar um estado, e esse retorno será o novo estado. Se o atributo de type for number, altera-se o atributo number e retorne e o mesmo ocorre com o text. Caso não tenha o atributo type, ou até mesmo tenha um valor nçao tratado no switch, ele retorna o próprio state sem alterar nada. Essa função acima é passada como o primeiro parametro do `const [state,dispatch] = React.useReducer(func, initial);`, lembre-se que a função deve ter dois argumentos, o primeiro o dado com o valor atual e o segundo um objeto contendo a requisição do usuário, segue abaixo o objeto padrão correspondente a `initial`.
+
+    const initial = {
+        number: 0,
+        text: ""
+    }
+
+Abaixo temos um exemplo do uso da variável e função criado aqui `const [state,dispatch] = React.useReducer(func, initial);`.
+
+    <div className="reduce">
+        <div className="reduce-display">
+            <p>Número informado no reducer: {state.number}</p>
+            <p>{state.text}</p>
+        </div>
+        <hr />
+        <div className="reduce-inputs">
+            <input type="number" value={state.number} onChange={e => dispatch({payload:e.target.value,type:'number'})} />
+            <br />
+            <textarea type="text" value={state.text} onChange={e => dispatch({payload:e.target.value,type:'text'})} />
+        </div>
+    </div>
+
+A leitura é feito aqui `{state.number}` e aqui `{state.text}`, no caso estamos pegando o valor corrente do estado após todos as suas alterações processadas na função `func`, além disso aqui temos a alteração desses estados `onChange={e => dispatch({payload:e.target.value,type:'number'})}` e aqui `onChange={e => dispatch({payload:e.target.value,type:'text'})}`, quando queremos evoluir um objeto informamos o valor `payload:e.target.value` e aqui informamos ao switch da função e o que deve ser atualizado aqui `type:'number'` e aqui `type:'text'`.
