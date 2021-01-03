@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <style>
+            .red{
+                color:red
+            }
+            #bck{
+                background-color: aqua;
+            }
+        </style>
+        <title>Exemplo2</title>
+    </head>
+    <body>
+        <main>
+            <!-- v-html -->
+            <div v-html="title"></div>
+
+            <!-- if, else, else if -->
+            <span v-if="number < 4">IF: {{number}}</span>
+            <span v-else-if="number > 3 && number < 7">Else If: {{number}}</span>
+            <span v-else="number > 7">Else: {{number}}</span>
+            
+            <!-- v-bind -->
+            <h2 :class="style" v-bind:id="id">{{random}}</h2>
+
+            <!-- v-for -->
+            <ul>
+                <li v-for="(item,index) in list">{{index}} - {{item}}</li>
+            </ul>
+
+            <!-- v-show -->
+            <h3 v-show="number % 2 == 0">Exibindo o v-show</h3>
+        </main>
+        <script>
+            const vue = new Vue({
+                el:'main',
+                data:{
+                    title:'<h1>Segundo Exemplo diretivas básicas</h1><hr />',
+                    number:parseInt(Math.random() * 10),
+                    random: Math.random() * 100,
+                    style:'red',
+                    id:"bck",
+                    list:['item1','item2','item3','item4']
+                }
+            });
+
+            console.log(vue.list);
+        </script>
+    </body>
+</html>
