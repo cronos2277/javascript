@@ -322,3 +322,75 @@ As funções arrows amarram o *this* e devido a isso o método deixa de funciona
     </script>
 
 Toda a instancia de `vue` possui esses métodos e podem ser acessados, o método `.$on` ele faz com que o vue possa escutar eventos emitido pelo método `.$emit`, conforme feito aqui, aonde o vue passa a ouvir um evento *somar* `vue.$on('somar',vue.inc);`, que quando emitido `vue.$emit('somar');` dispara o evento relacionado ao *somar* nesse caso. O método `.$once` ouve o evento e depois de escutar uma única vez ele deixa de ouvir, ou seja, o evento é escutado apenas uma vez, ao passo que os eventos registrados no método `.$on` eles irão sempre escutar, enquanto não for chamado o `.$off`, esse serve para fazer com que eventos não sejam mais escutados. Outra coisa, no caso essa função aqui tem parametros `vue.$once('subtrair',vue.sub);` uma vez que esse método faz referência a esse `sub: function(e){this.count -= parseInt(e)},`, logo os parametros passados do segundo argumento adiante, como feito aqui `vue.$emit('subtrair',2);`. Lembre-se que usar o `.$off` em eventos criados com `.$on` e que isso não se faz necessário para eventos criados com `.$once` e que esses métodos sempre têm o *$* na frente no nome, ou seja ` $on `, `$off`, `$emit`, `$once`.
+
+### Filtros
+[arquivo](filtros.html)
+
+    <body>
+        <div main>
+            <h1>{{message | upper}}</h1>
+        </div>
+        <script>
+            Vue.filter('upper', e => e.toUpperCase())
+            const vue = new Vue({
+                el:"[main]",
+                data:{
+                    message:"Mensagem Exemplo"
+                }
+            });
+        </script>
+    </body>
+
+#### Filtro Global
+Você tem duas formas de fazer um filtro e uma delas é o filtro global, ao qual qualquer instancia do Vue poderia usar, no caso todo o filtro deve receber pelo menos um argumento e retornar alguma coisa, no caso: `Vue.filter('upper', e => e.toUpperCase())`, aqui é criado um filtro chamado `'upper'`, que recebe um texto `e` e retorna em maiúsculo `e.toUpperCase()`, uma vez que se trata de uma arrow function, algo que aqui não tem problema, uma vez que está sendo usado na classe do **Vue**, logo o *this* aponta para a própria instancia que o chama. Resumindo: um filtro deve ter no mínimo um argumento e deve retornar alguma coisa e por fim caso você queira criar um filtro para classe, se faz necessário definir-lo através do método `.filter` antes de instanciar qualquer objeto, uma vez que se algum objeto for instanciado antes da criação do filtro, o objeto criado não vai enxergar-lo. Para chamar-lo `{{message | upper}}` você usa o operador *pipe* seguido do nome do filtro criado no caso `| upper` depois do valor a ser filtrado.
+
+#### Filtro de Instância
+
+    <body>
+        <div main>
+            <h1>{{message | upper | reverse}}</h1>
+        </div>
+        <script>
+            Vue.filter('upper', e => e.toUpperCase())
+            const vue = new Vue({
+                el:"[main]",
+                data:{
+                    message:"Mensagem Exemplo"
+                },
+                filters:{
+                    reverse: function(text){return text.split('').reverse().join('')}
+                }
+            });
+        </script>
+    </body>
+
+##### No caso:
+
+    filters:{
+        reverse: function(text){return text.split('').reverse().join('')}
+    }
+
+Caso queira criar um filtro de instância, deve-se colocar-los dentro do atributo *filters*, segue a mesma estrutura que o filtro *global*, apesar que na instancia se usa o método *filters* no plural e na classe o método em singular *filter* e tem uma estrutura diferente, e relembrando um filtro deve ter no mínimo 1 argumento e deve retornar alguma coisa, além disso os filtros de métodos não se dão bem com o **this**, além disso é possível encadear um filtro de modo que a saída de um filtro seja a entrada de dados para outro, conforme visto aqui `{{message | upper | reverse}}`
+
+#### Filtro com parâmetros
+
+    <body>
+        <div main>
+            <h1>{{message | upper | reverse | cut(1,5)}}</h1>
+        </div>
+        <script>
+            Vue.filter('upper', e => e.toUpperCase())
+            const vue = new Vue({
+                el:"[main]",
+                data:{
+                    message:"Mensagem Exemplo"
+                },
+                filters:{
+                    reverse: function(text){return text.split('').reverse().join('')},
+                    cut:function(text,index1,index2){return text.slice(index1,index2)}
+                }
+            });
+        </script>
+    </body>
+
+Um filtro pode receber parametros como nesse caso `{{message | upper | reverse | cut(1,5)}}` e isso vale tanto para o filtro de classe como o de instância. Nesse caso do filtro `cut:function(text,index1,index2){return text.slice(index1,index2)}` o **1** vai como segundo parametro do filtro, no caso o parametro *index1* e o segundo parametro do filtro equivale-se ao terceiro da função o *index2* e por ai vai. O primeiro argumento é a entrada do filtro e do segundo em diante são os argumentos passados ao filtro.

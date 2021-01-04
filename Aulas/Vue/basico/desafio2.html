@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Vue.js</title>
+</head>
+<body>
+
+<div id="app1" >
+	<button @click="trigger">Click Me</button>
+</div>
+
+<hr>
+
+<div id="app2" >
+	My Value = {{ myValue }}
+</div>
+
+<script src="https://unpkg.com/vue/dist/vue.js" ></script>
+
+<script>
+
+var app1 = new Vue({
+	el: '#app1',
+	methods:{
+		trigger:function(){
+			this.$emit('event',Math.random())
+		}
+	}
+})
+
+var app2 = new Vue({
+	el: '#app2',
+	data: {
+		myValue: ''
+	},
+	methods:{
+		event: function(e){this.myValue = e}
+	}
+})
+
+app1.$on('event',app2.event);
+</script>
+</body>
+</html>

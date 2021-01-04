@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js" ></script>
+    <title>Filtros</title>
+</head>
+<body>
+    <div main>
+        <h1>{{message | upper | reverse | cut(1,5)}}</h1>
+    </div>
+    <script>
+        Vue.filter('upper', e => e.toUpperCase())
+        const vue = new Vue({
+            el:"[main]",
+            data:{
+                message:"Mensagem Exemplo"
+            },
+            filters:{
+                reverse: function(text){return text.split('').reverse().join('')},
+                cut:function(text,index1,index2){return text.slice(index1,index2)}
+            }
+        });
+    </script>
+</body>
+</html>
