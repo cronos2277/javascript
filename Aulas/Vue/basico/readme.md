@@ -47,6 +47,7 @@ Seguindo a lógica do Angular todos os valores dentro do *double mustache*, ou s
         }
 
 ### Ciclo de vida do Vue
+[Arquivo 2](exemplo2.html)
 
     <script>
         const vue = new Vue(
@@ -113,6 +114,7 @@ Repare que foi acessado o valor usando o `vue._data.text`, mas valores dentro do
         vue.$destroy();
     },5000);
 
+Com essa função você pode destruir o objeto criado e com isso ativar os eventos de destruição.
 ### Diretivas Básicas
 
      <body>
@@ -217,3 +219,106 @@ o `v-show` funciona de maneira semelhante ao `v-if`, porém ao invés de não re
     list:['item1','item2','item3','item4']
 
 O `v-for` é um laço de repetição cuja a sintaxe pode ser `[variavelInterpolavel] in [suaLista]` e com base nisso você consegue interpolar como no *foreach*.
+
+## Eventos
+[Arquivo](eventos.html)
+
+    <main>
+        <h1>{{message}}</h1>
+        <h2>Contador {{count}}</h2>
+        <hr>
+        <button v-on:click="inc">Incrementar</button>
+        <button @click="dec">Incrementar</button>
+        <label for="sum">
+            Somar
+            <input id="sum" type="number" v-on:change="sum($event.target.value)" :value="count"/>
+        </label>
+        <label for="sub">
+            Subtrair
+            <input type="number" @change="sub($event.target.value)" :value="count"/>
+        </label>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:"main",
+            data:{
+                message:"texto a ser exibido",
+                count:0
+            },
+            methods:{
+                inc: function(){this.count++},
+                dec: function(){this.count--},
+                sum: function(e){this.count += parseInt(e)},
+                sub: function(e){this.count -= parseInt(e)},
+                
+            }
+        });
+    </script>
+
+### v-on
+
+    <button v-on:click="inc">Incrementar</button>
+    <button @click="dec">Incrementar</button>
+    <label for="sum">
+        Somar
+        <input id="sum" type="number" v-on:change="sum($event.target.value)" :value="count"/>
+    </label>
+    <label for="sub">
+        Subtrair
+        <input type="number" @change="sub($event.target.value)" :value="count"/>
+    </label>
+
+Caso você queira fazer uso de algum evento do javascript, você deve seguir a seguinte estrutura, por exemplo a `onclick`, você basicamente coloca o `v-on` na frente ou o `@` e depois segue com o nome do evento como `click` ou `change`, ficando `v-on:click` a forma extensa e `@click` e forma abreviada. No caso você pode passar a função como referência caso não tenha parametro, como no caso `v-on:click="inc"` ou `@click="dec"` e envocando a função na string caso precise passar o valor `v-on:change="sum($event.target.value)"` ou `@change="sub($event.target.value)"`, enfim passe por referência quando não houver argumentos na função a invoque-a quando precisar passar parametros, no caso segue a função *inc*, *dec*, *sum*, *sub* abaixo, dentro do atributos **methods**:
+
+    const vue = new Vue({
+            el:"main",
+            data:{
+                message:"texto a ser exibido",
+                count:0
+            },
+            methods:{
+                inc: function(){this.count++},
+                dec: function(){this.count--},
+                sum: function(e){this.count += parseInt(e)},
+                sub: function(e){this.count -= parseInt(e)},
+                
+            }
+        });
+
+### Methods
+Tudo que estiver dentro de *data* se torna um atributo e pode ser acessado de maneira direta como um atributo, como por exemplo os valores de data poderiam ser acessados nesse exemplo dessa forma:`vue.message` e `vue.count`, a mesma lógica funciona com o `methods` porém aqui é aonde fica os métodos a serem envocados e nesse exemplo ficaria `vue.inc()` ou `vue.dec()`, ou seja tudo que está em methods pode ser envocado e se torna método da instância de vue.
+
+#### Evite arrow functions dentro de Methods.
+As funções arrows amarram o *this* e devido a isso o método deixa de funcionar, logo toda vez que for passar uma função no atributo `methods`, deve-se usar a sintaxe padrão e não a arrow.
+
+### Emitindo eventos
+
+    <script>
+        const vue = new Vue({
+            el:"main",
+            data:{
+                message:"texto a ser exibido",
+                count:0
+            },
+            methods:{
+                inc: function(){this.count++},
+                dec: function(){this.count--},
+                sum: function(e){this.count += parseInt(e)},
+                sub: function(e){this.count -= parseInt(e)},
+                
+            }
+        });
+
+        vue.$on('somar',vue.inc);
+        vue.$once('subtrair',vue.sub);
+
+        setTimeout(function(){
+            console.log('Somando...');
+            vue.$emit('somar');
+            vue.$off('somar');            
+            console.log('subtraindo...');
+            vue.$emit('subtrair',2);
+        },3000)
+    </script>
+
+Toda a instancia de `vue` possui esses métodos e podem ser acessados, o método `.$on` ele faz com que o vue possa escutar eventos emitido pelo método `.$emit`, conforme feito aqui, aonde o vue passa a ouvir um evento *somar* `vue.$on('somar',vue.inc);`, que quando emitido `vue.$emit('somar');` dispara o evento relacionado ao *somar* nesse caso. O método `.$once` ouve o evento e depois de escutar uma única vez ele deixa de ouvir, ou seja, o evento é escutado apenas uma vez, ao passo que os eventos registrados no método `.$on` eles irão sempre escutar, enquanto não for chamado o `.$off`, esse serve para fazer com que eventos não sejam mais escutados. Outra coisa, no caso essa função aqui tem parametros `vue.$once('subtrair',vue.sub);` uma vez que esse método faz referência a esse `sub: function(e){this.count -= parseInt(e)},`, logo os parametros passados do segundo argumento adiante, como feito aqui `vue.$emit('subtrair',2);`. Lembre-se que usar o `.$off` em eventos criados com `.$on` e que isso não se faz necessário para eventos criados com `.$once` e que esses métodos sempre têm o *$* na frente no nome, ou seja ` $on `, `$off`, `$emit`, `$once`.

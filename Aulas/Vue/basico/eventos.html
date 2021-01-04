@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Eventos</title>
+</head>
+<body>
+    <main>
+        <h1>{{message}}</h1>
+        <h2>Contador {{count}}</h2>
+        <hr>
+        <button v-on:click="inc">Incrementar</button>
+        <button @click="dec">Incrementar</button>
+        <label for="sum">
+            Somar
+            <input id="sum" type="number" v-on:change="sum($event.target.value)" :value="count"/>
+        </label>
+        <label for="sub">
+            Subtrair
+            <input type="number" @change="sub($event.target.value)" :value="count"/>
+        </label>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:"main",
+            data:{
+                message:"texto a ser exibido",
+                count:0
+            },
+            methods:{
+                inc: function(){this.count++},
+                dec: function(){this.count--},
+                sum: function(e){this.count += parseInt(e)},
+                sub: function(e){this.count -= parseInt(e)},
+                
+            }
+        });
+
+        vue.$on('somar',vue.inc);
+        vue.$once('subtrair',vue.sub);
+
+        setTimeout(function(){
+            console.log('Somando...');
+            vue.$emit('somar');
+            vue.$off('somar');            
+            console.log('subtraindo...');
+            vue.$emit('subtrair',2);
+        },3000)
+    </script>
+</body>
+</html>

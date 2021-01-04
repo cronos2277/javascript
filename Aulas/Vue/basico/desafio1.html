@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <ul v-for="tab in [2,4,6,8,10]">
+                <li>5 x {{tab}} = {{tab * 5}}</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const vue = new Vue({
+            el:"#app"            
+        });
+    </script>
+</body>
+</html>
