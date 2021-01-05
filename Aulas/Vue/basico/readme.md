@@ -577,3 +577,73 @@ Repare que esse componente tem uma referencia chamado *segundo*, no caso `ref="s
     vue.$refs.segundo
 
 Todas as referencias fica dentro de um atributo chamado `$refs` dos **OBJETOS**, ou seja não dá para acessar-lo de maneira estática, no caso a referencia desse dentro de `$refs` é o `segundo` em função do valor passado a ref aqui `ref="segundo"`, uma vez pego a referência, nesse exemplo `vue.$refs.segundo`, com isso você tem acesso a todos os atributos declarados em `data` e os metodos declarados em `methods` e toda e qualquer propriedade, método, filtro, props e etc... relacionado a esse componente.
+
+#### Componente filho
+Por padrão o que está dentro do componente não é renderizado, mas essa limitação pode ser superada com o uso do `<slot>`, componente:
+
+    <container>
+        <h3 slot="h3">Ola Mundo</h3>
+        <h4 slot="h4">Olha o olá mundo denovo</h4>
+    </container>
+
+sendo renderizado por:
+
+    Vue.component('container',{
+        template:`
+            <div>                    
+                <slot name="h4"></slot>
+                <slot name="h3"></slot>
+            </div>
+        `
+    });
+
+No caso esse slot `slot="h3"` faz referencia a esse `<slot name="h3"></slot>` e esse `<h4 slot="h4">Olha o olá mundo denovo</h4>` a esse aqui `<slot name="h4"></slot>`. Nesse exemplo o **h4** será impresso acima do **h3**, ou seja o atributo *name* no componente assim como o atributo *slot* no template, ajudam a posicionar o elemento filho dentro do elemento, no caso tanto o *name* e *slot* podem ser omitidos e nesse caso o componente renderizaria os filhos na ordem em que foram declarado, o que pode ser resolvido por meio da combinação dos atributos *slot* e *name*, lembrando que o valor desses dois atributos devem corresponder um ao outro.
+
+#### escopo do componente
+
+##### componente
+    Vue.component('temp',{
+            template:`
+                <div>
+                    <slot :compText="textInstance"></slot>
+                    <slot name="instancia"></slot>
+                </div>
+            `,
+            data:function(){
+                return {
+                    textInstance:'Nada de Olá mundo'
+                }
+            }
+        });
+
+Perceba-se que esse bind `<slot :compText="textInstance"></slot>`, no caso `:compText="textInstance"` que faz referencia a essa variável ` textInstance:'Nada de Olá mundo'`, que também está sendo usado pela instancia, conforme ilustrado abaixo:
+
+    const vue = new Vue({
+        el:"main",
+        data:{
+            textInstance:"Ola mundo"                
+        },
+        methods:{
+            sensor:function(e){
+                console.log("componente interno alterado: ",e);
+            }
+        }
+    });   
+
+Repare que ambos os tanto a instancia, quanto o componente usam a variável `textInstance`
+##### template
+
+    <temp>
+        <template slot-scope="props">
+            <h4>textInstance do Componente: {{props.compText}}</h4>
+        </template>
+        <h4 slot="instancia">textInstance da instancia: {{textInstance}}</h4>
+    </temp>
+
+Você pode usar o template quando você quer usar uma variável do escopo atual, no caso a tag template deve estar dentro do componente, aqui é usado a variável da instancia `<h4 slot="instancia">textInstance da instancia: {{textInstance}}</h4>` e abaixo a variável do componente:
+
+    <template slot-scope="props">
+        <h4>textInstance do Componente: {{props.compText}}</h4>
+    </template>
+
+`slot-scope` aqui definimos o escopo que no caso é próprio componente e aqui fazemos referência a variável **textInstance**, no caso `{{props.compText}}`. O `slot-scope` substituí o `scope`.

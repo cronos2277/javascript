@@ -12,6 +12,16 @@
         <app-secound num=1 :text='textInstance' ref="segundo"></app-secound>
         <hr>
         <app-third @change="sensor($event)"></app-third>
+        <container>
+            <h3 slot="h3">Ola Mundo</h3>
+            <h4 slot="h4">Olha o olá mundo denovo</h4>
+        </container>
+        <temp>
+            <template slot-scope="props">
+                <h4>textInstance do Componente: {{props.compText}}</h4>
+            </template>
+            <h4 slot="instancia">textInstance da instancia: {{textInstance}}</h4>
+        </temp>
     </main>
     <script>
         Vue.component('my-first',{
@@ -51,6 +61,30 @@
                 }
             }
         });
+
+        Vue.component('container',{
+            template:`
+                <div>                    
+                    <slot name="h4"></slot>
+                    <slot name="h3"></slot>
+                </div>
+            `
+        });
+
+        Vue.component('temp',{
+            template:`
+                <div>
+                    <slot :compText="textInstance"></slot>
+                    <slot name="instancia"></slot>
+                </div>
+            `,
+            data:function(){
+                return {
+                    textInstance:'Nada de Olá mundo'
+                }
+            }
+        });
+
         const vue = new Vue({
             el:"main",
             data:{

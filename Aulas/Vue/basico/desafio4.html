@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Desafio 4</title>
+</head>
+<body>
+    <main>
+        <rotate>            
+            <input/>
+        </rotate>
+        
+        <rotate>            
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+        </rotate>
+
+    </main>
+    <script>
+        Vue.component('rotate',{
+            template:`
+            <div>
+                <button @click='action' name="btn">Rotate</button>
+                <br/>
+                <div ref="intern">                    
+                    <slot></slot>
+                </div>
+            </div>`,
+            data:function(){
+                return{                    
+                    angle:0
+                };
+            },
+            methods:{
+                action:function(){
+                    this.angle = (this.angle >= 360)?0:this.angle + 90;                    
+                    this.$refs.intern.style.transform = 'rotate('+this.angle+'deg)';                     
+                }
+            }
+        });
+
+        const vue = new Vue({el:"main"});
+    </script>
+</body>
+</html>
