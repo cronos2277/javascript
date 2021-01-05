@@ -394,3 +394,186 @@ Caso queira criar um filtro de instância, deve-se colocar-los dentro do atribut
     </body>
 
 Um filtro pode receber parametros como nesse caso `{{message | upper | reverse | cut(1,5)}}` e isso vale tanto para o filtro de classe como o de instância. Nesse caso do filtro `cut:function(text,index1,index2){return text.slice(index1,index2)}` o **1** vai como segundo parametro do filtro, no caso o parametro *index1* e o segundo parametro do filtro equivale-se ao terceiro da função o *index2* e por ai vai. O primeiro argumento é a entrada do filtro e do segundo em diante são os argumentos passados ao filtro.
+
+### Componentes
+[Arquivo exemplo de componentes](Componente.html)
+
+    <body>
+        <main>
+            <my-first message="Olá como vai" name="Usuário"></my-first>
+            <hr>
+        </main>
+        <script>
+            Vue.component('my-first',{
+                template:'<h1>{{message}} {{name}} ?</h1>',
+                props:['message','name']
+            });
+
+            const vue = new Vue({
+                el:"main",
+                data:{
+                    textInstance:"Ola mundo"
+                }
+            });
+        </script>
+    </body>
+
+Você cria componentes da seguinte forma `Vue.component('[nome]',objeto)` o `[nome]` deve ser substituido seguindo a lógica do `document.querySelect`, nesse caso o `my-first` do jeito que foi definido o componente em questão foi esse `<my-first></my-first>`, renderizado com base com que está dentro do atributo *template*, conforme visto aqui ` template:'<h1>{{message}} {{name}} ?</h1>',`, resumindo, essa tag `<my-first></my-first>` será substituida pelo que está aqui `template:'<h1>{{message}} {{name}} ?</h1>',`, repare que também o componente é feito na classe, ou seja os componentes devem ser declarados antes de instanciar objetos que precisem lidar com esses componentes.
+
+#### props
+Aqui no props você trata das propriedades passado no componenente, por exemplo `<my-first message="Olá como vai" name="Usuário"></my-first>`, aqui temos a propriedade *message* e *name* que estão aqui, são registrados aqui `props:['message','name']` e que pode ser interpolado no template `template:'<h1>{{message}} {{name}} ?</h1>',`. Lembrando que esse componente é registrado na classe e as instruções para renderização dos componentes segue para os objetos instanciados.
+
+##### props com tipagem amarrada
+
+    <main>
+        <my-first message="Olá como vai" name="Usuário"></my-first>
+        <app-secound num=1 :text='textInstance'></app-secound>
+        <hr>
+    </main>
+    <script>
+        Vue.component('my-first',{
+            template:'<h1>{{message}} {{name}} ?</h1>',
+            props:['message','name']
+        });
+
+        Vue.component('app-secound',{
+            template:'<h2>{{num}}. {{text}}</h2>',
+            props:{
+                text: String,
+                num: [Number,String],
+            }
+        });
+
+        const vue = new Vue({
+            el:"main",
+            data:{
+                textInstance:"Ola mundo"
+            }
+        });
+    </script>
+
+Você pode amarrar os tipos aceitos pelo componente através da propriedade props conforme visto aqui:
+
+     Vue.component('app-secound',{
+            template:'<h2>{{num}}. {{text}}</h2>',
+            props:{
+                text: String,
+                num: [Number,String],
+            }
+        });
+
+No caso você pode passar a props um objeto sendo a chave o nome do atributo e o valor o tipo aceito, conforme visto aqui `text: String,`, ou colocar uma lista de tipos aceitos, conforme aceito aqui `num: [Number,String],`, sendo os tipos aceitos: `String` `Number` `Boolean` `Array` `Object` `Function` `Promise`. 
+
+#### Eventos com componentes
+
+    <body>
+    <main>       
+        <app-third @change="sensor($event)"></app-third>
+    </main>
+    <script>   
+
+        Vue.component('app-third',{
+            template:`
+                <div>
+                    <h3>{{title}}</h3>
+                    <p>{{text}}</p>                    
+                    <button @click="mudar" v-if="isWorking">Mudar Texto</button>                    
+                </div>
+            `,
+            data:function(){                
+                return{
+                    title:"Título",
+                    isWorking:true,
+                    text: "Bresaola dolore et velit boudin, dolor jowl fugiat tenderloin elit pork loin pastrami"
+                }
+            },
+            methods: 
+            {
+                mudar:function(){
+                    this.isWorking = false;
+                    this.text = 'Dolore pork loin strip steak hamburger.';
+                    this.$emit('change','Valor Enviado pelo filho!');
+                }
+            }
+        });
+        const vue = new Vue({
+            el:"main",
+            data:{
+                textInstance:"Ola mundo"                
+            },
+            methods:{
+                sensor:function(e){
+                    console.log("componente interno alterado: ",e);
+                }
+            }
+        });       
+
+Inicialmente o atributo data dentro de um componente deve ser sempre uma função que retorna dados, ou seja, seja faz necessário que esteja envolto de uma função como visto aqui:
+
+    data:function(){                
+        return{
+            title:"Título",
+            isWorking:true,
+            text: "Bresaola dolore et velit boudin, dolor jowl fugiat tenderloin elit pork loin pastrami"
+        }
+    },
+
+Que no caso eles terão esse valor definido a eles e dessa forma será usado no template
+
+    template:`
+        <div>
+            <h3>{{title}}</h3>
+            <p>{{text}}</p>                    
+            <button @click="mudar" v-if="isWorking">Mudar Texto</button>                    
+        </div>
+            `,
+
+Sendo essa função mudar:
+
+    methods: 
+        {
+            mudar:function(){
+                this.isWorking = false;
+                this.text = 'Dolore pork loin strip steak hamburger.';
+                this.$emit('change','Valor Enviado pelo filho!');
+            }
+        }
+
+Repare que essa função mudar acima, chamado pelo botão `<button @click="mudar" v-if="isWorking">Mudar Texto</button> ` emite um evento do tipo **onchange** `this.$emit('change','Valor Enviado pelo filho!');` e ainda passa um valor que é o `'Valor Enviado pelo filho!'`, no caso o componente está escutando um valor emitido pelo filho, conforme o componente abaixo:
+
+    <app-third @change="sensor($event)"></app-third>
+
+O elemento pai está escutando um evento change, que ao clicar no botão é emitido pelo componente filho através da função *mudar*, conforme visto aqui `this.$emit('change','Valor Enviado pelo filho!');` e assim que acionado, o componente pai vai ouvir esse evento emitido pelo change e enviar essa emissão ao método **sensor** `@change="sensor($event)"`, segue o método listener:
+
+    const vue = new Vue({
+            el:"main",
+            data:{
+                textInstance:"Ola mundo"                
+            },
+            methods:{
+                sensor:function(e){
+                    console.log("componente interno alterado: ",e);
+                }
+            }
+        });      
+
+Repare aqui:
+
+    methods:{
+        sensor:function(e){
+            console.log("componente interno alterado: ",e);
+        }
+    }
+
+No caso esse método vai exibir o resultado no console, mas repare que você pode emitir eventos do javascript também como o `onchange` por exemplo, no caso para emitir um evento do tipo `onchange` o componente pai precisar estar com a propriedade `@change` ou `v-on:change`, com essa propriedade, basta o componente interno usar o método `$emit('change')` para chamar a função que escuta nesse evento.
+
+#### Acessando um componente
+No caso quando quisermos acessar um componente, basta colocar uma propriedade nele chamado `ref` e com base nessa propriedade, será acessado o componente, sem precisar recorrer ao acesso ao *DOM*, caso queira fazer alguma alteração ou acessar alguma propriedade, no caso: 
+
+    <app-secound num=1 :text='textInstance' ref="segundo"></app-secound>
+
+Repare que esse componente tem uma referencia chamado *segundo*, no caso `ref="segundo"`, logo para acessar esse componente:
+
+    vue.$refs.segundo
+
+Todas as referencias fica dentro de um atributo chamado `$refs` dos **OBJETOS**, ou seja não dá para acessar-lo de maneira estática, no caso a referencia desse dentro de `$refs` é o `segundo` em função do valor passado a ref aqui `ref="segundo"`, uma vez pego a referência, nesse exemplo `vue.$refs.segundo`, com isso você tem acesso a todos os atributos declarados em `data` e os metodos declarados em `methods` e toda e qualquer propriedade, método, filtro, props e etc... relacionado a esse componente.

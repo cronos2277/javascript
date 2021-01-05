@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js" ></script>
+    <title>Componente</title>
+</head>
+<body>
+    <main>
+        <my-first message="Olá como vai" name="Usuário"></my-first>
+        <app-secound num=1 :text='textInstance' ref="segundo"></app-secound>
+        <hr>
+        <app-third @change="sensor($event)"></app-third>
+    </main>
+    <script>
+        Vue.component('my-first',{
+            template:'<h1>{{message}} {{name}} ?</h1>',
+            props:['message','name']
+        });
+
+        Vue.component('app-secound',{
+            template:'<h2>{{num}}. {{text}}</h2>',
+            props:{
+                text: String,
+                num: [Number,String],
+            }
+        });        
+
+        Vue.component('app-third',{
+            template:`
+                <div>
+                    <h3>{{title}}</h3>
+                    <p>{{text}}</p>                    
+                    <button @click="mudar" v-if="isWorking">Mudar Texto</button>                    
+                </div>
+            `,
+            data:function(){                
+                return{
+                    title:"Título",
+                    isWorking:true,
+                    text: "Bresaola dolore et velit boudin, dolor jowl fugiat tenderloin elit pork loin pastrami"
+                }
+            },
+            methods: 
+            {
+                mudar:function(){
+                    this.isWorking = false;
+                    this.text = 'Dolore pork loin strip steak hamburger.';
+                    this.$emit('change','Valor Enviado pelo filho!');
+                }
+            }
+        });
+        const vue = new Vue({
+            el:"main",
+            data:{
+                textInstance:"Ola mundo"                
+            },
+            methods:{
+                sensor:function(e){
+                    console.log("componente interno alterado: ",e);
+                }
+            }
+        });   
+        
+        console.log(vue.$refs.segundo)
+    </script>
+</body>
+</html>
