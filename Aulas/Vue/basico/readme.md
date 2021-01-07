@@ -647,3 +647,75 @@ Você pode usar o template quando você quer usar uma variável do escopo atual,
     </template>
 
 `slot-scope` aqui definimos o escopo que no caso é próprio componente e aqui fazemos referência a variável **textInstance**, no caso `{{props.compText}}`. O `slot-scope` substituí o `scope`.
+
+### Propriedades Computadas
+[Arquivo](computadas.html)
+
+    <body>
+        <main>    
+            <h1>{{text}}</h1>
+            <hr>       
+            <input type="text" :value="textInit" @Change="change($event,true)"/>
+            <input type="text" :value="textFinal" @Change="change($event,false)"/>
+        </main>
+        <script>
+            const vue = new Vue({
+                el:"main",
+                data:{
+                    textInit: "exemplo",
+                    textFinal: "texto",
+                },
+                computed:{
+                    text:{
+                        get:function(){
+                            console.log("lendo valor: "+this.textInit+" "+this.textFinal)
+                            return this.textInit+" "+this.textFinal;
+                        },
+                        set:function(params){
+                            console.log('Alterando valor para: '+params)
+                            const param = params.split(' ');
+                            this.textInit = param[0] || this.textInit;
+                            this.textFinal = param[1] || this.textFinal;
+                        }
+                    }
+                },
+                methods:{
+                    change:function(param,isFirst){
+                        if(isFirst){
+                            this.textInit = param.target.value;
+                        }else{
+                            this.textFinal = param.target.value;
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+
+Propriedades computadas são recomendadas para variáveis que exigem processamento, seja na entrada, ou seja na saída, a vantagem dos métodos computados sobre a criação de atributos direto no data, é que as propriedades computadas elas apenas fazem um novo processamento quando os seus valores são alterados, do contrário não é feito um novo processamento, o que garante mais performace. Abaixo temos um exemplo de uma propriedade calculada:
+
+    computed:{
+            text:{
+                get:function(){
+                    console.log("lendo valor: "+this.textInit+" "+this.textFinal)
+                    return this.textInit+" "+this.textFinal;
+                },
+                set:function(params){
+                    console.log('Alterando valor para: '+params)
+                    const param = params.split(' ');
+                    this.textInit = param[0] || this.textInit;
+                    this.textFinal = param[1] || this.textFinal;
+                }
+            }
+        }
+
+Por padrão as propriedades calculadas são somente leituras, caso coloque um valor ou função como resultado, mas quando são definidas com um objeto contendo o *get* e o *set*, o mesmo funciona tanto para leitura, como para escrita, no caso como dentro da função *set* é usado para compor o valor de *text*, se faz necessário a combinação de valores entre *textInit* e *textFinal*, conforme visto abaixo:
+
+    set:function(params){
+        console.log('Alterando valor para: '+params)
+        const param = params.split(' ');
+        this.textInit = param[0] || this.textInit;
+        this.textFinal = param[1] || this.textFinal;
+    }
+
+Mais especificamente `this.textInit = param[0] || this.textInit;`, `this.textFinal = param[1] || this.textFinal;` ou seja qualquer valor que ocorra em uma das variáveis que o *text* exige, como nesse exemplo, o processamento é refeito, mas apenas nessa situação.
