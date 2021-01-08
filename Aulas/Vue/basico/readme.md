@@ -655,8 +655,8 @@ Você pode usar o template quando você quer usar uma variável do escopo atual,
         <main>    
             <h1>{{text}}</h1>
             <hr>       
-            <input type="text" :value="textInit" @Change="change($event,true)"/>
-            <input type="text" :value="textFinal" @Change="change($event,false)"/>
+            <input type="text" :value="textInit" @keyup="change($event,true)" class="textInit"/>
+            <input type="text" :value="textFinal" @keyup="change($event,false)" class="textFinal"/>
         </main>
         <script>
             const vue = new Vue({
@@ -719,3 +719,55 @@ Por padrão as propriedades calculadas são somente leituras, caso coloque um va
     }
 
 Mais especificamente `this.textInit = param[0] || this.textInit;`, `this.textFinal = param[1] || this.textFinal;` ou seja qualquer valor que ocorra em uma das variáveis que o *text* exige, como nesse exemplo, o processamento é refeito, mas apenas nessa situação.
+
+### Watch
+[Arquivo](watchers.html)
+
+    <body>
+        <main>        
+            <h1>Output: {{output}}</h1>
+        </main>
+        <script>
+            const vue = new Vue({
+                el:"main",
+                data:{ 
+                    trigger:false,               
+                    output: "Esperando pelo gatilho em 3s"
+                },
+                watch:{
+                    trigger:function(){     
+                        console.log('Executando api fetch.');
+                        fetch('https://jsonplaceholder.typicode.com/todos/1')
+                        .then(response => response.json())
+                        .then(json => this.output = json);
+                        console.log('Promise concluído!');                                      
+                    }
+                }
+            });       
+            
+            console.log('Executando setTimeout');
+            setTimeout(function(){            
+                vue.trigger = true;            
+            },3000);
+        </script>
+    </body>
+
+O Watch é ativado quando o atributo observado é alterado, ao passo que a propriedade computada analisa os valores que o compões, o watch observa um atributo e quando ele alterado, essa mudança é gatilho para alterar outra variável. No caso essa estrutura é ideal para *Promise* ou *Observer*. No caso qualquer alteração no atributo *trigger*, o mesmo ativa uma mudança na variável *output*.
+
+    setTimeout(function(){            
+        vue.trigger = true;            
+    },3000);
+
+Essa função é gatilho para alteração do valor *output*, no caso depois de 3 segundos o valor é *trigger* é mudado para verdadeiro, e depois desse tempo é disparado a api fetch e após a conclusão desse processo o output é alterado, que inicialmente está com esse valor ` output: "Esperando pelo gatilho em 3s"`.
+
+    watch:{
+        trigger:function(){     
+            console.log('Executando api fetch.');
+            fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then(response => response.json())
+            .then(json => this.output = json);
+            console.log('Promise concluído!');                                      
+        }
+    }
+
+E quando a promise é resolvida o valor de output recebe o valor da promise `.then(json => this.output = json);`, porém a um detalhe que se deve ficar atento é que a **watch** deve ser usada para monitorar o atributo de gatilho, conforme aqui `trigger:function(){`, uma vez que esse método será monitorado e é esse atributo que servirá como gatilho para que o valor de `output` seja atualizado. A grande diferença do *watch* para o *computed* é que a *watch* aceita com que o valor seja resolvido depois, ao passo que a *computed* entrega o que tem e não espera resolver.

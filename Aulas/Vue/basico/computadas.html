@@ -5,13 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <title>Computed</title>
+        <style>
+            .textInit,.textFinal{
+                height: 50px;
+                font-size: 20px;
+                border:none;
+                box-shadow: 10px 10px darkgray;
+                margin-right: 30px;
+                padding-left: 10px;
+            }
+        </style>
     </head>
     <body>
         <main>    
             <h1>{{text}}</h1>
             <hr>       
-            <input type="text" :value="textInit" @Change="change($event,true)"/>
-            <input type="text" :value="textFinal" @Change="change($event,false)"/>
+            <input type="text" :value="textInit" @keyup="change($event,true)" class="textInit"/>
+            <input type="text" :value="textFinal" @keyup="change($event,false)" class="textFinal"/>
         </main>
         <script>
             const vue = new Vue({

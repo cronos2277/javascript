@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Watchers</title>
+</head>
+<body>
+    <main>        
+        <h1>Output: {{output}}</h1>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:"main",
+            data:{ 
+                trigger:false,               
+                output: "Esperando pelo gatilho em 3s"
+            },
+            watch:{
+                trigger:function(){     
+                    console.log('Executando api fetch.');
+                    fetch('https://jsonplaceholder.typicode.com/todos/1')
+                    .then(response => response.json())
+                    .then(json => this.output = json);
+                    console.log('Promise concluído!');                                      
+                }
+            }
+        });       
+        
+        console.log('Executando setTimeout');
+        setTimeout(function(){            
+            vue.trigger = true;            
+        },3000);
+    </script>
+</body>
+</html>
