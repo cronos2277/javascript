@@ -771,3 +771,137 @@ Essa função é gatilho para alteração do valor *output*, no caso depois de 3
     }
 
 E quando a promise é resolvida o valor de output recebe o valor da promise `.then(json => this.output = json);`, porém a um detalhe que se deve ficar atento é que a **watch** deve ser usada para monitorar o atributo de gatilho, conforme aqui `trigger:function(){`, uma vez que esse método será monitorado e é esse atributo que servirá como gatilho para que o valor de `output` seja atualizado. A grande diferença do *watch* para o *computed* é que a *watch* aceita com que o valor seja resolvido depois, ao passo que a *computed* entrega o que tem e não espera resolver.
+
+### Diretivas
+[Arquivo](Diretivas.html)
+
+     <main>
+        <div v-custom ref="div">
+            <input v-custom ref="input"/>
+        </div>
+        <br/>
+        <h2>Verifique o console do navegador...</h2>
+    </main>
+    <script>
+        Vue.directive('custom',{
+            bind:function(param,bind){
+                console.log('%cbind','background-color:blue;color:white;');
+                console.log('%c-------Element-------------','background-color:blue;color:white;')
+                console.log(param)
+                console.log('%c---------Bind-----------','background-color:blue;color:white;')
+                console.log(bind)
+                console.log('%c--------------------','background-color:blue;color:white;')
+            },
+            inserted:function(param,bind){
+                console.log('%cinserted','background-color:red;color:white;');
+                console.log('%c-------Element-------------','background-color:red;color:white;')
+                console.log(param)
+                console.log('%c---------Bind-----------','background-color:red;color:white;')
+                console.log(bind)
+                param.value = "inserted"
+                console.log('%c--------------------','background-color:red;color:white;')
+            },
+            update:function(param,bind){
+                console.log('%cupdate','background-color:black;color:white;');
+                console.log('%c-------Element-------------','background-color:black;color:white;')                
+                console.log(param)                
+                console.log('%c---------Bind-----------','background-color:black;color:white;')
+                console.log(bind)
+                console.log('%c--------------------','background-color:black;color:white;')
+            },
+            componentUpdated:function(param, bind){
+                console.log('%componentUpdated','background-color:green;color:white;');
+                console.log('%c-------Element-------------','background-color:green;color:white;')
+                console.log(param)
+                console.log('%c---------Bind-----------','background-color:green;color:white;')
+                console.log(bind)                
+                console.log('%c--------------------','background-color:green;color:white;')
+            },
+            unbind:function(param, bind){
+                console.log('%cunbind','background-color:purple;color:white;');
+                console.log('%c-------Element-------------','background-color:purple;color:white;')
+                console.log(param)  
+                console.log('%c---------Bind-----------','background-color:purple;color:white;')
+                console.log(bind)              
+                console.log('%c--------------------','background-color:purple;color:white;')
+            }
+        });        
+        const vue = new Vue({
+            el:"main"
+        });
+        console.log("Dando um update forçado em 5 segundos")
+        setTimeout(function(){
+            vue.$forceUpdate();
+        },5000);
+    </script>
+
+Dessa forma você define novas diretivas `Vue.directive('custom',{`, no caso apesar do *custom* , a forma como você chama é `<div v-custom ref="div">`, ou seja `v-custom`.
+
+`bind` **=>** chamado apenas uma vez, quando a diretiva for ligada pela primeira vez ao elemento
+
+`inserted` **=>** chamado quando o elemento com a diretiva for inserido no elemento pai
+
+`update` **=>** chamado após o conteúdo do componente ter sido atualizado
+
+`componentUpdated` **=>** chamado após o conteúdo do componente e de seus filhos terem sidos atualizados
+
+`unbind` **=>** chamado apenas uma vez, quando a diretiva for desconectada do elemento
+
+#### Forma abreviada
+##### Botão
+    <button v-collor="{bg:'blue',color:'white',box:'5px 5px darkblue'}">Botao</button>
+
+##### código da diretiva v-collor
+
+    Vue.directive('collor',function(element,binding){
+        element.style.backgroundColor = binding.value.bg;
+        element.style.color = binding.value.color;
+        element.style.boxShadow = binding.value.box;
+        element.style.border = 'none';
+        element.style.padding= "20px";
+        element.onclick = () => alert('Voce clicou no botao!');
+    });
+
+Você pode passar uma função para a configuração da diretiva `Vue.directive('collor',function(element,binding)`, assim que carregado a diretiva esses ajustes são aplicados ao elemento que tem essa diretiva. A função recebe dois argumentos, sendo o primeiro um **node Html** e o segundo o **binding** ao qual você pode passar valores, nesse exemplo configuramos estilo e mudando o visual do componente, conforme visto aqui `element.style.backgroundColor = binding.value.bg;` ao qual recebe o valor passado a diretiva no template `v-collor="{bg:'blue',color:'white',box:'5px 5px darkblue'}"`, nesse exemplo o valor de *bg*, além disso é definido um comportamento ao botão, como visto aqui `element.onclick = () => alert('Voce clicou no botao!');`, ou seja é possível configurar um elemento por completo com o uso de diretiva, logo recomenda-se usar isso caso você queira customizar um elemento na hora da renderização.
+
+#### Sobre o primeiro argumento de uma função Vue.directive('collor',function(element,binding), após o processamento da função
+    <button style="background-color: blue; color: white; box-shadow: darkblue 5px 5px; border: none; padding: 20px;">Botao</button>
+#### Sobre o segundo argumento de uma função Vue.directive('collor',function(element,binding), no caso o binding
+
+    {name: "collor", rawName: "v-collor", value: {…}, expression: "{bg:'blue',color:'white',box:'5px 5px darkblue'}", modifiers: {…}, …}
+    def:
+    bind: ƒ (element,binding)
+    arguments: null
+    caller: null
+    length: 2
+    name: ""
+    prototype: {constructor: ƒ}
+    __proto__: ƒ ()
+    [[FunctionLocation]]: Diretivas.html:19
+    [[Scopes]]: Scopes[2]
+    update: ƒ (element,binding)
+    arguments: null
+    caller: null
+    length: 2
+    name: ""
+    prototype: {constructor: ƒ}
+    __proto__: ƒ ()
+    [[FunctionLocation]]: Diretivas.html:19
+    [[Scopes]]: Scopes[2]
+    __proto__: Object
+    expression: "{bg:'blue',color:'white',box:'5px 5px darkblue'}"
+    modifiers: {}
+    name: "collor"
+    oldArg: undefined
+    oldValue:
+    bg: "blue"
+    box: "5px 5px darkblue"
+    color: "white"
+    __proto__: Object
+    rawName: "v-collor"
+    value:
+    bg: "blue"
+    box: "5px 5px darkblue"
+    color: "white"
+    __proto__: Object
+    __proto__: Object

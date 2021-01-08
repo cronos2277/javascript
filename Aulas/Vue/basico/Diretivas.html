@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Diretivas</title>
+</head>
+<body>
+    <main>
+        <div v-custom ref="div">
+            <input v-custom ref="input"/>
+            <button v-collor="{bg:'blue',color:'white',box:'5px 5px darkblue'}">Botao</button>
+        </div>
+        <br/>
+        <h2>Verifique o console do navegador...</h2>
+    </main>
+    <script>
+        Vue.directive('collor',function(element,binding){
+            element.style.backgroundColor = binding.value.bg;
+            element.style.color = binding.value.color;
+            element.style.boxShadow = binding.value.box;
+            element.style.border = 'none';
+            element.style.padding= "20px";
+            element.onclick = () => alert('Voce clicou no botao!');console.clear();
+            element.onfocus = () => console.log(binding);
+            element.onblur = () => console.log(element);
+        });
+
+        Vue.directive('custom',{
+            bind:function(param,bind){
+                console.log('%cbind','background-color:blue;color:white;');
+                console.log('%c-------Element-------------','background-color:blue;color:white;')
+                console.log(param)
+                console.log('%c---------Bind-----------','background-color:blue;color:white;')
+                console.log(bind)
+                console.log('%c--------------------','background-color:blue;color:white;')
+            },
+            inserted:function(param,bind){
+                console.log('%cinserted','background-color:red;color:white;');
+                console.log('%c-------Element-------------','background-color:red;color:white;')
+                console.log(param)
+                console.log('%c---------Bind-----------','background-color:red;color:white;')
+                console.log(bind)
+                param.value = "inserted"
+                console.log('%c--------------------','background-color:red;color:white;')
+            },
+            update:function(param,bind){
+                console.log('%cupdate','background-color:black;color:white;');
+                console.log('%c-------Element-------------','background-color:black;color:white;')                
+                console.log(param)                
+                console.log('%c---------Bind-----------','background-color:black;color:white;')
+                console.log(bind)
+                console.log('%c--------------------','background-color:black;color:white;')
+            },
+            componentUpdated:function(param, bind){
+                console.log('%componentUpdated','background-color:green;color:white;');
+                console.log('%c-------Element-------------','background-color:green;color:white;')
+                console.log(param)
+                console.log('%c---------Bind-----------','background-color:green;color:white;')
+                console.log(bind)                
+                console.log('%c--------------------','background-color:green;color:white;')
+            },
+            unbind:function(param, bind){
+                console.log('%cunbind','background-color:purple;color:white;');
+                console.log('%c-------Element-------------','background-color:purple;color:white;')
+                console.log(param)  
+                console.log('%c---------Bind-----------','background-color:purple;color:white;')
+                console.log(bind)              
+                console.log('%c--------------------','background-color:purple;color:white;')
+            }
+        });        
+        const vue = new Vue({
+            el:"main"
+        });
+        console.log("Dando um update forçado em 5 segundos")
+        setTimeout(function(){
+            vue.$forceUpdate();
+        },5000);
+    </script>
+</body>
+</html>
