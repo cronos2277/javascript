@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js" ></script>
+    <title>Desafio 5</title>
+</head>
+<body>
+    <main>
+        <h2>{{mynumber}}</h2>
+        <button @click="moreOne">More One</button>
+        <hr>
+        <h2>{{numbers}}</h2>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:"main",
+            data:{
+                mynumber:0,                
+            },
+            computed:{
+                numbers:function(){
+                    let arr = []
+                    for(let i = 0;i <= this.mynumber; i++){
+                        arr.push(i);
+                    }
+
+                    return arr.reverse();
+                }
+            }, 
+            methods:{
+                moreOne:function(){
+                    this.mynumber++;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
