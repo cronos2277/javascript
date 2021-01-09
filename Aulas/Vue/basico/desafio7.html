@@ -20,7 +20,7 @@
             computed:{
                 response:function(){
                     let output = [...this.input];
-                    output = [... new Set(output)];                    
+                    output = [... new Set(output)].sort();                    
                     output = output.map(e => `<li>${e}</li>`)
                     output = output.join('');                                      
                     console.log(output);
