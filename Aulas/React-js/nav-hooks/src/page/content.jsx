@@ -9,6 +9,7 @@ import Memo from '../components/useMemo';
 import Callback from '../components/useCallback';
 import Context from '../components/useContext';
 import Reduce from '../components/useReduce';
+import MyComponent from '../components/useCustom';
 
 export default function(props){           
     return(
@@ -42,6 +43,9 @@ export default function(props){
                     </Route>
                     <Route path="/reducer">
                         <Reduce />
+                    </Route>
+                    <Route path="/custom">
+                        <MyComponent />
                     </Route>
                     <Route exact path="/">
                         <h1>Página Raiz</h1>

@@ -19,6 +19,7 @@ ReactDOM.render(
                 <Link to="/callback">Hook: useCallback</Link>
                 <Link to="/context">Hook: useContext</Link>
                 <Link to="/reducer">Hook: useReducer</Link>
+                <Link to="/custom">Hook: useCustom</Link>
             </Menu>,
             <Content/>               
         </BrowserRouter>
