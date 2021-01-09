@@ -905,3 +905,143 @@ Você pode passar uma função para a configuração da diretiva `Vue.directive(
     color: "white"
     __proto__: Object
     __proto__: Object
+
+### 2 Way Data Bind com formulários
+[arquivo](2wayDataBind.html)
+
+    <body>
+        <main>
+            <div>
+                <input type="text" v-model="input" />
+                <br>
+                {{input}}
+            </div>
+            <hr>        
+        </main>
+        <script>
+            const vue = new Vue({
+                el:'main',
+                data:{
+                    input:"initial"
+                }
+            });
+        </script>
+    </body>
+
+Você pode fazer uso do recurso *2 Way data Bind* através da diretiva `v-model`, nessa diretiva você passa a variável dentro de **data** ou **computed**.
+
+#### Checkbox
+##### Template
+
+     <div>
+            <h2>2 Way data bind checkbox com valores padrões</h2>
+            <input type="checkbox" v-model="checkbox" value="A" />
+            <input type="checkbox" v-model="checkbox" value="B" />
+            <input type="checkbox" v-model="checkbox" value="C" />
+            <h4>{{checkbox}}</h4>
+        </div>
+        <hr>    
+        <div>
+            <h2>2 way data bind checkbox com valores personalizados</h2>                
+            <input type="checkbox" :true-value="marcado" :false-value="desmarcado" v-model="check_data" />
+            <br>
+            <h4>{{check_data}}</h4>
+        </div>    
+
+##### Javascript
+
+    <script>
+        const vue = new Vue({
+            el:'main',
+            data:{                
+                checkbox: [],
+                check_data: 'Valor padrao',
+                marcado:"Checkbox esta marcado",
+                desmarcado:"Checkbox desmarcada"
+            }
+        });
+    </script>
+
+##### checkbox padrão
+Existe duas formas de se trabalhar com *checkbox*, a primeira é a presença ou ausência de valor, no caso esses três checkbox estão apontando para a mesma variável, que no caso é um array dentro de um atributo data.
+
+    <input type="checkbox" v-model="checkbox" value="A" />
+    <input type="checkbox" v-model="checkbox" value="B" />
+    <input type="checkbox" v-model="checkbox" value="C" />
+
+Todos estão referenciando a esse array `checkbox: [],`, nesse caso esse array vai conter os valores `value="A" ou value="B" ou value="C"` definidos nesse array caso a checkbox esteja marcado, caso a checkbox não esteja marcaso esse elemento some do array. Por exemplo se houver dois desses checkbox marcados, o array vai conter apenas dois elementos, se tiver apenas 1, o array vai ter apenas um elemento, ao passo que se tiver marcado todos, o array irá conter todos os valores.
+
+##### Checkbox com valor para falso
+      <input type="checkbox" :true-value="marcado" :false-value="desmarcado" v-model="check_data" />
+
+Nessa segunda forma nós definimos um valor customizável caso o valor seja verdadeiro ou falso e um valor padrão. `:true-value` ou `true-value` define um valor caso a checkbox esteja marcada, ao passo que `:false-value` ou `false-value` define um valor caso a checkbox esteja desmarcada, tanto o `true-value` como `false-value` escrevem o valor da variável de `v-model`, segue as variáveis relacionadas a esse checkbox:
+
+    check_data: 'Valor padrao',
+    marcado:"Checkbox esta marcado",
+    desmarcado:"Checkbox desmarcada"
+
+#### Radio
+##### Template
+
+    <div>
+        <h2>2 Way data bind radio</h2>
+        <input type="radio" v-model="radio" value="A" />
+        <input type="radio" v-model="radio" value="B" />
+        <input type="radio" v-model="radio" value="C" />
+        <h4>{{radio}}</h4>
+    </div>  
+
+##### No Código
+
+    <script>
+        const vue = new Vue({
+            el:'main',
+            data:{    
+                radio: ''             
+            }
+        });
+    </script>
+
+No caso do Radio o input selecionado substitui o valor do valor que estava armazenado anteriormente, repare que todos compartilham a mesma variável `v-model="radio"`.
+
+#### Select e Select Multiple
+##### Template
+    <div>
+            <h2>2 Way data bind select unique</h2>
+            <select v-model="select_unique">
+                <option :value="1">A</option>
+                <option :value="2">B</option>
+                <option :value="3">C</option>
+            </select>
+            <h4>{{select_unique}}</h4>
+        </div>
+        <div>
+            <h2>2 Way data bind select multiple</h2>
+            <select v-model="select_multiple" multiple>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+            <h4>{{select_multiple}}</h4>
+        </div>
+
+###### Código
+     const vue = new Vue({
+        el:'main',
+        data:{
+            input:"initial",
+            checkbox: [],
+            select_unique: null,
+            select_multiple:[],
+            radio: null,
+            check_data: 'Valor padrao',
+            marcado:"Checkbox esta marcado",
+            desmarcado:"Checkbox desmarcada"
+        }
+    });
+
+##### Explicando select unique
+No caso de um select com valor único você especifica a variável no select para fazer o binding, como aqui `<select v-model="select_unique">`, no caso essa *select_unique* faz referência a essa variável `select_unique: null` e ao mudalr o valor do select, o valor é substituido nessa variável, como por exemplo essa opção `<option :value="1">A</option>` substitui o valor de `select_unique` pelo valor de *1*.
+
+##### Explicando select multiple
+Caso você define um select como multiple, logo ao invés de uma variável o mesmo trabalha com *array*, por exemplo `<select v-model="select_multiple" multiple>` faz referência a essa variável `select_multiple:[]`, porém ao invés de substituir o valor como acontece no select unique, o mesmo adiciona um novo elemento em um array, assim como funciona no checkbox. Segundo, se você omitir o valor conforme visto aqui `<option>1</option>`, é pego o texto como valor, no caso aqui é pego o que está em `value`,  `<option :value="1">A</option>` pois ele está explícito, porém já aqui `<option>1</option>` é pego o valor *1* que está entre os *option*.

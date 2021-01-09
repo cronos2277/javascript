@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>2 Way Data Bind</title>
+</head>
+<body>
+    <main>
+        <div>
+            <h2>2 Way data bind input</h2>
+            <input type="text" v-model="input" />
+            <br>
+            {{input}}
+        </div>
+        <hr>
+        <div>
+            <h2>2 Way data bind checkbox com valores padrões</h2>
+            <input type="checkbox" v-model="checkbox" value="A" />
+            <input type="checkbox" v-model="checkbox" value="B" />
+            <input type="checkbox" v-model="checkbox" value="C" />
+            <h4>{{checkbox}}</h4>
+        </div>
+        <hr>    
+        <div>
+            <h2>2 way data bind checkbox com valores personalizados</h2>                
+            <input type="checkbox" :true-value="marcado" :false-value="desmarcado" v-model="check_data" />
+            <br>
+            <h4>{{check_data}}</h4>
+        </div>  
+        <hr>
+        <div>
+            <h2>2 Way data bind radio</h2>
+            <input type="radio" v-model="radio" value="A" />
+            <input type="radio" v-model="radio" value="B" />
+            <input type="radio" v-model="radio" value="C" />
+            <h4>{{radio}}</h4>
+        </div>  
+        <hr>
+        <div>
+            <h2>2 Way data bind select unique</h2>
+            <select v-model="select_unique">
+                <option :value="1">A</option>
+                <option :value="2">B</option>
+                <option :value="3">C</option>
+            </select>
+            <h4>{{select_unique}}</h4>
+        </div>
+        <div>
+            <h2>2 Way data bind select multiple</h2>
+            <select v-model="select_multiple" multiple>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+            <h4>{{select_multiple}}</h4>
+        </div>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:'main',
+            data:{
+                input:"initial",
+                checkbox: [],
+                select_unique: null,
+                select_multiple:[],
+                radio: null,
+                check_data: 'Valor padrao',
+                marcado:"Checkbox esta marcado",
+                desmarcado:"Checkbox desmarcada"
+            }
+        });
+    </script>
+</body>
+</html>

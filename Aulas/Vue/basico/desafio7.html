@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Desafio 7</title>
+</head>
+<body>
+    <main>
+        <input v-model="input" />
+        <ul v-html="response"></ul>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:'main',
+            data:{
+                input: ''
+            },
+            computed:{
+                response:function(){
+                    let output = [...this.input];
+                    output = [... new Set(output)];                    
+                    output = output.map(e => `<li>${e}</li>`)
+                    output = output.join('');                                      
+                    console.log(output);
+                    return output;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
