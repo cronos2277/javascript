@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js" ></script>
+    <script src="https://unpkg.com/vue-router" ></script>
+    <title>Desafio 8</title>
+</head>
+<body>
+    <main>
+        <router-link to="/ir">GO</router-link>
+        <hr>
+        <router-view></router-view>
+    </main>
+    <script>
+        const routes = [
+            {
+                path:'/ir',
+                component:{
+                    template:
+                    `
+                        <div class="componente">
+                            <h1>componente carregado</h1>
+                        </div>
+                    `
+                },
+                beforeEnter:function(to,from,next){
+                    if(confirm("Deseja avançar ao outro componente?")){
+                        next(true);
+                    }else{
+                        next(false);
+                    }
+                }
+            }
+        ];
+        
+        
+        const vue = new Vue({
+            el:'main',
+            router: new VueRouter({routes})
+        });
+    </script>
+</body>
+</html>

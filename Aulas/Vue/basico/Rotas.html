@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js" ></script>
+    <script src="https://unpkg.com/vue-router" ></script>
+    <title>Rotas</title>
+    <style>
+        nav{
+            padding: 20px;
+            background-color: lightgray;                        
+        }        
+        a{
+            text-decoration: none;
+            color:black;
+        }
+        div{            
+            color: white;
+            width: 40vw;
+            height:10vh;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border:none;
+            box-shadow: 0px 0px 30px black;
+            border-radius: 5px;
+            font-size: 36px;
+        }
+        .red{
+            background-color: darkred;
+        }
+        .green{
+            background-color: darkgreen;
+        }
+        .purple{
+            background-color: purple;
+        }
+        .links{
+            padding: 20px;
+            background-color: rgba(0,255,255,.3);            
+        }
+        .links:hover{
+            background-color:blue;
+            color:white;
+        }
+        #proibido{
+            background-color: red;
+            color:white;                     
+        }
+    </style>
+</head>
+<body>
+    <main>   
+        <nav>
+            <router-link to="/" class="links">HOME</router-link>
+            <strong> | </strong>
+            <router-link to="/comp" class="links">Componente 1</router-link> 
+            <strong> | </strong>
+            <router-link :to="number" class="links">Componente 2</router-link> 
+            <strong> | </strong>
+            <router-link to="/proibido" class="links" id="proibido">Rota Proibida (Bloqueada)</router-link>
+            <strong> | </strong>
+        </nav>
+        <hr>
+            <router-view></router-view>
+    </main>
+    <script>
+        const home = {
+            template:'<div class="purple">HOME</div>'
+        }
+
+        const Comp1 = {
+            template:'<div class="red">Componente</div>'
+        }
+
+        const routes = [
+            {path:"/comp",component:Comp1},  
+
+            {
+                path:"/proibido",component:null,
+                beforeEnter:function(to,from,next){
+                    next(false);
+                }
+            },   
+            
+            {
+                path:"/comp/:parametro",
+                component:
+                {
+                    template:`
+                    <div class='green'>
+                        Parametro {{$route.params.parametro}}
+                    </div>`
+                }
+            },
+
+            {path:'/',component:home}                     
+        ];
+        
+        const router = new VueRouter({routes:routes});
+        router.beforeEach(
+            function(to,from,next){
+                console.clear();
+                console.log("To: ",to);
+                console.log("from: ",from);
+                console.log("next: ",next);                
+                next(true);
+            }
+        );
+
+        const vue = new Vue(
+            {
+                el:"main",
+                computed:{
+                    number:function(){
+                        return '/comp/'+parseInt(Math.random() * 10);
+                    }
+                },
+                router:router
+            }
+        );
+    </script>
+</body>
+</html>

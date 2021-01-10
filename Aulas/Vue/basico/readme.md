@@ -1045,3 +1045,150 @@ No caso de um select com valor único você especifica a variável no select par
 
 ##### Explicando select multiple
 Caso você define um select como multiple, logo ao invés de uma variável o mesmo trabalha com *array*, por exemplo `<select v-model="select_multiple" multiple>` faz referência a essa variável `select_multiple:[]`, porém ao invés de substituir o valor como acontece no select unique, o mesmo adiciona um novo elemento em um array, assim como funciona no checkbox. Segundo, se você omitir o valor conforme visto aqui `<option>1</option>`, é pego o texto como valor, no caso aqui é pego o que está em `value`,  `<option :value="1">A</option>` pois ele está explícito, porém já aqui `<option>1</option>` é pego o valor *1* que está entre os *option*.
+
+### Rotas
+[Rotas](Rotas.html)
+
+    <body>
+        <main>       
+                <router-link to="/comp1">Componente 1</router-link> 
+            
+            <hr>
+                <router-view></router-view>
+        </main>
+        <script>
+            const Comp1 = {
+                template:'<div class="red">Componente 1</div>'
+            }
+
+            const routes = [
+                {path:"/comp1",component:Comp1},                        
+            ];
+            
+            const router = new VueRouter({routes:routes});
+
+            const vue = new Vue({
+                el:"main",
+                router:router
+            });
+        </script>
+    </body>
+
+Inicialmente para usar rotas no *Vue*, você precisa importar esse script `<script src="https://unpkg.com/vue-router"></script>`, ou seja, além do *Vue*, você precisa importar o `VueRouter`.
+
+#### No template
+`<router-link>` => Essa tag substitui o `href`, inclusive deve-se usa-la em detrimento do href, devido a sua integração com os componentes do Vue. O `router-link` tem um atributo *to* que seria equivalente ao *href*, porém diferente do *anchor* essa tag ela aponta para um componente do Vue e não uma página.
+
+`<router-view>` => Nessa tag você indica aonde o componente deve ser renderizado, no caso o componente que bater com a rota informada, será renderizado nesse espaço.
+
+#### Criando um componente
+Inicialmente você cria um componente, no caso aqui só é usado o template, mas é possível fazer um componente completo aqui dentro conforme o [explicado aqui](#componente)
+
+    const Comp1 = {
+        template:'<div class="red">Componente 1</div>'
+    }
+#### definindo uma rota para o componente
+
+    const routes = [
+        {path:"/comp1",component:Comp1},                        
+    ];
+
+Após a criação do componente você deve criar um array e colocar no mínimo todos os componentes dentro de um objeto contendo a rota ao qual esse componente vai responder `path` e o componente em si `component` no caso um objeto contendo *path* e *component*.
+
+#### Criando um objeto VueRouter
+    const router = new VueRouter({routes:routes});
+
+Depois de criado as rotas, você deve informar essas rotas como parametro de um objeto VueRouter conforme feito aqui `new VueRouter({routes:routes})`, no caso esse *routes* faz referência a [esse array](#definindo-uma-rota-para-o-componente) e esse array deve ser passado ao parametro *routes* dentro de um objeto conforme o ilustrado aqui `{routes:routes}`.
+
+#### Informando rotas ao objeto Vue
+
+    const vue = new Vue({
+        el:"main",
+        router:router
+    });
+
+Aqui é definido as rotas, no caso o parametro *router* aceita um objeto *VueRouter* que vem daqui `<script src="https://unpkg.com/vue-router"></script>`.
+
+#### rotas com parametros
+
+    const routes = [
+        {path:"/comp",component:Comp1},  
+
+        {
+            path:"/comp/:parametro",
+            component:
+                {
+                    template:`
+                    <div class='green'>
+                        Parametro {{$route.params.parametro}}
+                    </div>`
+                }
+        }                     
+    ];
+
+Abaixo estamos analisando um componente com parametros
+
+    {
+        path:"/comp/:parametro",
+        component:
+            {
+                template:`
+                    <div class='green'>
+                        Parametro {{$route.params.parametro}}
+                    </div>`
+            }
+    } 
+
+Inicialmente você deve passar o nome do parametro seguindo de dois pontos conforme visto aqui `path:"/comp/:parametro"`, no caso essa rota responde a essa `<router-link :to="number">Componente 2</router-link>`, cuja a propriedade computada vem daqui:
+
+    computed:{
+        number:function(){
+            return '/comp/'+parseInt(Math.random() * 10);
+        }
+    }
+
+##### $route.params
+Essa é a referência que você deve acessar `$route.params`, caso queira pegar algum parametro da url, no caso como o parametro aqui `path:"/comp/:parametro"` é *parametro*, logo para se acessar o valor desse parametro seria `$route.params.parametro`
+
+#### Ordenando rotas
+Conforme visto [aqui](#rotas-com-parametros) sempre se recomenda colocar as rotas mais específicas acima das rotas mais genéricas, isso vale para o Vue, React e Angular também.
+
+#### Colocando Guards na rota
+Existe duas formas de definir rotas, uma forma global e outra específica para cada rota
+
+##### rotas específicas
+    {
+        path:"/proibido",component:null,
+        beforeEnter:function(to,from,next){
+            next(false);
+        }
+    }
+
+Quando for usado dentro de um componente, esse atributo deve fazer compania a `path` e `component`. Porém se atente o nome, o nome do atributo deve a ser passado deve ser uma função contendo três argumentos, lembrando que essa condição se aplica apenas a esse componente. 
+
+##### rotas globais
+
+    const router = new VueRouter({routes:routes});
+        router.beforeEach(
+            function(to,from,next){
+                console.clear();
+                console.log("To: ",to);
+                console.log("from: ",from);
+                console.log("next: ",next);                
+                next(true);
+            }
+        );
+
+Aqui é uma rota global, no caso você deve passar uma *callback* e essa callback deve ter três argumentos e o nome do método é `beforeEach`.
+
+##### Sobre os métodos das callbacks passado para beforeEach e beforeEnter
+
+    function(to,from,next){
+        console.clear();
+        console.log("To: ",to);
+        console.log("from: ",from);
+        console.log("next: ",next);                
+        next(true);
+    }
+
+O primeiro parametro *to* é o objeto que contém pelo menos o componente e rota, por exemplo `{path:"/comp",component:Comp1}` ao qual o usuário está a acessar, ou seja através desse argumento é possível manipular o componente antes de ser carregado, o *from* é o objeto container do componente ao qual o usuário deixou, ou seja o objeto que contém o componente carregado anteriormente, podendo dessa forma manipular o componente que o usuário manipulou previamente. Por fim o *next*, essa é uma função que define se o usuário deve seguir a próxima rota ou não, se for passado um valor verdadeiro `next(true)` o usuário acessa a rota, caso a chamada seja omitida ou seja passado um valor falso como argumento `next(false)` o acesso ao componente é negado ao usuário. Além disso é possível passar uma rota ao next, por exemplo `next('home')` ou omitir valor `next()`, ao omitir o valor padrão é **true**. De todo modo lembre-se que essa função funciona como um [Chain of responsibility](https://refactoring.guru/pt-br/design-patterns/chain-of-responsibility), parecido com a forma com que funciona no *express* e as suas rotas, então lembre-se de sempre chamar a função de `next`.
