@@ -1192,3 +1192,219 @@ Aqui é uma rota global, no caso você deve passar uma *callback* e essa callbac
     }
 
 O primeiro parametro *to* é o objeto que contém pelo menos o componente e rota, por exemplo `{path:"/comp",component:Comp1}` ao qual o usuário está a acessar, ou seja através desse argumento é possível manipular o componente antes de ser carregado, o *from* é o objeto container do componente ao qual o usuário deixou, ou seja o objeto que contém o componente carregado anteriormente, podendo dessa forma manipular o componente que o usuário manipulou previamente. Por fim o *next*, essa é uma função que define se o usuário deve seguir a próxima rota ou não, se for passado um valor verdadeiro `next(true)` o usuário acessa a rota, caso a chamada seja omitida ou seja passado um valor falso como argumento `next(false)` o acesso ao componente é negado ao usuário. Além disso é possível passar uma rota ao next, por exemplo `next('home')` ou omitir valor `next()`, ao omitir o valor padrão é **true**. De todo modo lembre-se que essa função funciona como um [Chain of responsibility](https://refactoring.guru/pt-br/design-patterns/chain-of-responsibility), parecido com a forma com que funciona no *express* e as suas rotas, então lembre-se de sempre chamar a função de `next`.
+
+### Classes e estilos no Vue
+[Arquivo](Animacao.html)
+
+    <body>
+        <main>
+            <div>
+                <h2 
+                    :class="{classe: (Math.random() > 0.49)}"
+                    :style="[estilo1,estilo2,{border:'5px solid black'}]"
+                    >
+                        Exemplo 1
+                </h2>
+            </div>
+        </main>
+        <script>
+            const vue = new Vue({
+                el:'main',
+                data:{
+                    estilo1:{
+                        ['background-color']:'red',
+                        color:'white',
+                        padding:'10px'
+                    },
+                    estilo2:{
+                        display:'flex',
+                        ['justify-content']:'center',
+                        alignItems:"center"
+                    }
+                }
+            });
+        </script>
+    </body>
+
+#### Bind nos objetos
+No vue estilos e classes permitem *bind* de uma maneira mais dinâmica, todos os conceitos aqui valem para classe assim como estilo:
+
+    :class="{classe: (Math.random() > 0.49)}"
+
+Aqui estamos fazendo bind de um objeto, nesse caso se a expressão a direita `(Math.random() > 0.49)` for **verdadeira** segundo as regras do javascript, logo essa classe chamada de `classe` é aplicada a esse elemento, caso não seja, essa classe será omitida. Ou seja se for verdadeiro a expressão a direita, o atributo a esquerda é adicionado ao valor como uma string, que poderia ser representado da seguinte forma `(Math.random() > 0.49)?"classe":""`, dessa forma poderia fazer com o style também, por exemplo `{backgroundColor:'red'}`, porém no caso do estilo você passaria um valor e não uma expressão booleana, conforme ilustrado aqui `{border:'5px solid black'}`.
+
+#### Bind em arrays
+No vue estilos e classes também permite que você passe como propriedade de uma classe ou estilo, quando for dar um *bind*, um array:
+
+    :style="[estilo1,estilo2,{border:'5px solid black'}]"
+
+Nesse exemplo acima **estilo1** *=>* `{['background-color']:'red',color:'white',padding:'10px'}`, **estilo2** *=>* `{display:'flex',['justify-content']:'center',alignItems:"center"}`, segue a parte do código referente ao **estilo1** e **estilo2**:
+
+    data:{
+        estilo1:{
+            ['background-color']:'red',
+            color:'white',
+            padding:'10px'
+        },
+        estilo2:{
+            display:'flex',
+            ['justify-content']:'center',
+            alignItems:"center"
+        }
+    }
+
+Além disso é também incluído dentro desse array um objeto passado de maneira literal, que no caso é o terceiro parametro desse array `"[estilo1,estilo2,{border:'5px solid black'}]"`, quando for passar um objeto literal ao array `{border:'5px solid black'}`, no caso de um estilo colocar como nome atributo ou o nome da classe `:class="{classe: (Math.random() > 0.49)}"` ou o atributo e a direita a expressão booleana com a condição para renderizar a classe ou colocar em forma da String o valor do atributo, conforme visto aqui `{border:'5px solid black'}`. Ainda no caso das propriedades css você nomear no padrão lower camel case `alignItems => align-items` ou colocar a propriedade dentro de colchetes e aspas `['justify-content']`, ambos são válidos para definir propriedades do css, uma vez que o javascript permite isso.
+
+### Animações
+[Arquivo](Animacao.html)
+
+#### Animação de Entrada
+##### Template 
+
+    <transition name="transicao">
+        <h2
+            :style="[{backgroundColor:'purple',color:'white', padding:'10px'},estilo2]"
+            v-if="exibir"
+        >Exemplo 2</h2>
+    </transition>
+    <br>
+    <button @click="exibir = !exibir">Hide/Show</button>
+
+##### CSS
+
+    <style>
+        /* Animacao de entrada */
+        .transicao-enter{
+            opacity: 0;    
+            background-color: cyan !important;      
+        }
+        
+        .transicao-enter-active{
+            transition: opacity 5s;
+            border:5px solid greenyellow;
+        }
+
+        .transicao-enter-to{
+            opacity: .75;            
+            background-color: black !important; 
+        }
+    </style>
+
+##### Explicando
+A propriedade `transition` adiciona classes ao elemento que está dentro dele, nesse caso abaixo o `h2` vai receber temporariamente  uma classe, nesse exemplo quando o componente está aparecendo e depois de um tempo essas classes somem do elemento, permitindo dessa forma uma animação de entrada, disparado nesse caso pelo botão *Hide/Show*. Dentre várias classes que o `transition` coloca no componente no seu interior, *lembrando que deve ser apenas um elemento raiz ali dentro*, o nome dessas classes variam de acordo com esse parametro `<transition name="transicao">`, ou seja o *name*, nesse caso a propriedade do `name` é *transicao*, logo as classes adicionadas ao elemento filho terá como base esse nome, porém dentro dessas classes, para a animação de **entrada** exclusivamente, se destacam três.
+
+    .transicao-enter{
+        opacity: 0;    
+        background-color: cyan !important;      
+    }
+        
+    .transicao-enter-active{
+        transition: opacity 5s;
+        border:5px solid greenyellow;
+    }
+
+    .transicao-enter-to{
+        opacity: .75;            
+        background-color: black !important; 
+    }
+
+No caso a animação inicia com essa classe `[name]-enter`, ou seja essa é a condição inicial. Nessa outra classe `[name]-enter-active` definimos o critério de mudança, ou seja como será o visual do elemento enquanto dura a animação. Já o `[name]-enter-to` é uma classe de encerramente, no caso quando a animação estiver terminando, essa classe é chamada, no caso temos: 
+`1 => .transicao-enter`, `2 => .transicao-enter .transicao-enter-active`, `3 => .transicao-enter-active .transicao-enter-to`, `4 => .transicao-enter-to`
+
+#### Animação de Saída
+
+##### Template
+
+    <!-- Transitions apenas de saida -->
+    <transition name="saida">
+        <h2
+            :style="[{['background-color']:'darkgreen',color:'white', padding:'10px'},estilo2]"
+            v-if="exibir2"
+        >Exemplo 3</h2>
+    </transition>
+    <br>
+    <button @click="exibir2 = !exibir2">Hide/Show</button>
+
+##### CSS
+
+    /*Animacao de Saida */
+
+    .saida-leave-active{
+        transition: width 2s, height 2s, transform 2s;
+        border:5px solid greenyellow;
+    }
+
+    .saida-leave{
+        width:75%;
+    }
+
+    .saida-leave-to{            
+        width:25%;
+    }
+
+##### Exemplo
+Segue a variável `exibir2:true`, assim como ocorre no *enter*, ocorre aqui com o *leave*, porém o *leave* funciona com a animação de saída. Segue o ciclo `1 => .saida-leave`, `2 => .saida-leave .saida-leave-active`, `3 => .saida-leave-active .saida-leave-to`, `4 => .saida-leave-to`.
+
+#### Funções do das transações
+
+##### Template
+     <!-- Transitions de entrada de saida -->
+    <transition name="inout"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter"
+        @enter-cancelled="cancelledEnter"
+        
+        @before-leave="beforeLeave"
+        @leave="leave"
+        @after-leave="afterLeave"
+        @leave-cancelled="cancelledLeave"
+    >
+        <h2
+            :style="[{['background-color']:'darkblue',color:'white', padding:'10px'},estilo2]"
+            v-if="exibir3"
+        >Entrada e Saída</h2>
+    </transition>
+    <br>
+    <button @click="exibir3 = !exibir3">Hide/Show</button>
+
+##### Métodos ligados as diretivas
+
+    methods:
+    {
+        beforeEnter:(el,done) => {console.log("%cbeforeEnter","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        enter:(el,done) => {console.log("%center","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        afterEnter:(el,done) => {console.log("%cafterEnter","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        cancelledEnter:(el,done) => {console.log("%ccancelledEnter","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        beforeLeave:(el,done) => {console.log("%cbeforeLeave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        leave:(el,done) => {console.log("%cleave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        afterLeave:(el,done) => {console.log("%cafterLeave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+
+        cancelledLeave:(el,done) => {console.log("%ccancelledLeave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+    }        
+
+###### Antes da animação
+`@before-enter="beforeEnter"` => Executa antes de iniciar a entrada do elemento. Passa no primeiro argumento o próprio elemento.
+
+`@before-leave="beforeLeave"` => Executa antes de iniciar a saida do elemento. Passa no primeiro argumento o próprio elemento.
+
+###### Depois da animação, quando começa a animação oposta.
+`@after-enter="afterEnter"` => Executado quando o elemento começar a sumir. Passa no primeiro argumento o próprio elemento.
+
+`@after-leave="afterLeave"` => Executado quando o elemento começar a aparecer. Passa no primeiro argumento o próprio elemento.
+
+###### Depois de concluído a animação
+`@enter="enter"` => Executa durante a animação. Passa no primeiro argumento o próprio elemento, no segundo uma função que informa a conclusão da animação.
+
+`@leave="leave"` => Executa durante a animação. Passa no primeiro argumento o próprio elemento, no segundo uma função que informa a conclusão da animação.
+
+###### Executa quando a animação é interrompida no meio
+`@after-leave="afterLeave"` => Executa ao interromper a animação de saída. Passa no primeiro argumento o próprio elemento.
+
+`@leave-cancelled="cancelledLeave"` => Executa ao interromper a animação de entrada. Passa no primeiro argumento o próprio elemento.

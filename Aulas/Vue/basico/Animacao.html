@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue/dist/vue.js" ></script>
+    <title>Animação</title>
+    <style>
+        /* Animacao de entrada */
+        .transicao-enter{
+            opacity: 0;    
+            background-color: cyan !important;      
+        }
+
+        .transicao-enter-active{
+            transition: opacity 5s;
+            border:5px solid greenyellow;
+        }
+
+        .transicao-enter-to{
+            opacity: .75;            
+            background-color: black !important; 
+        }
+        
+        /*Animacao de Saida */
+
+        .saida-leave-active{
+            transition: width 2s, height 2s, transform 2s;
+            border:5px solid greenyellow;
+        }
+
+        .saida-leave{
+            width:75%;
+        }
+        .saida-leave-to{            
+            width:25%;
+        }
+        
+        /*Entrada e saida*/
+
+        .inout-enter{
+            width:1%;
+            height: 1%;
+            opacity: .01;
+        }
+        
+        .inout-leave{
+            width:99%;
+            height: 99%;
+            opacity: .9;
+        }
+
+        .inout-enter-active,.inout-leave-active{
+            transition: width 5s, opacity 5s, transform 5s;
+        }
+
+        .inout-enter-to{
+            width: 99%;
+            height: 99%;
+            opacity: .9;
+        }
+        
+        .inout-leave-to{
+            width:1%;
+            height: 1%;
+            opacity: .01;
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+        <div>
+            <h2 
+                :class="{classe: (Math.random() > 0.49)}"
+                :style="[estilo1,estilo2,{border:'5px solid black'}]"
+                >
+                    Exemplo 1
+            </h2>
+        </div>
+
+        <!-- Transitions apenas de Entrada -->
+        <transition name="transicao">
+            <h2
+            :style="[{backgroundColor:'purple',color:'white', padding:'10px'},estilo2]"
+            v-if="exibir"
+            >Apenas entrada</h2>
+        </transition>
+        <br>
+        <button @click="exibir = !exibir">Hide/Show</button>
+
+        <br>
+        <hr>
+        <br>
+
+        <!-- Transitions apenas de saida -->
+        <transition name="saida">
+            <h2
+            :style="[{['background-color']:'darkgreen',color:'white', padding:'10px'},estilo2]"
+            v-if="exibir2"
+            >Apenas Saída</h2>
+        </transition>
+        <br>
+        <button @click="exibir2 = !exibir2">Hide/Show</button>
+
+        <br>
+        <hr>
+        <br>
+
+        <!-- Transitions de entrada de saida -->
+        <transition name="inout"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+            @enter-cancelled="cancelledEnter"
+            
+            @before-leave="beforeLeave"
+            @leave="leave"
+            @after-leave="afterLeave"
+            @leave-cancelled="cancelledLeave"
+        >
+            <h2
+            :style="[{['background-color']:'darkblue',color:'white', padding:'10px'},estilo2]"
+            v-if="exibir3"
+            >Entrada e Saída</h2>
+        </transition>
+        <br>
+        <button @click="exibir3 = !exibir3">Hide/Show</button>
+    </main>
+    <script>
+        const vue = new Vue({
+            el:'main',
+            data:{
+                estilo1:{
+                    ['background-color']:'red',
+                    color:'white',
+                    padding:'10px'
+                },
+                estilo2:{
+                    display:'flex',
+                    ['justify-content']:'center',
+                    alignItems:"center"
+                },
+                exibir:true,
+                exibir2:true,
+                exibir3:true,
+            },
+            methods:{
+                beforeEnter:(el,done) => {console.log("%cbeforeEnter","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                enter:(el,done) => {console.log("%center","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                afterEnter:(el,done) => {console.log("%cafterEnter","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                cancelledEnter:(el,done) => {console.log("%ccancelledEnter","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                beforeLeave:(el,done) => {console.log("%cbeforeLeave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                leave:(el,done) => {console.log("%cleave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                afterLeave:(el,done) => {console.log("%cafterLeave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+                cancelledLeave:(el,done) => {console.log("%ccancelledLeave","background-color:black;padding:10px;color:white;font-size:24px"); console.log(el); console.log(done) },
+            }
+        });
+    </script>
+</body>
+</html>
