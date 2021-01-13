@@ -1408,3 +1408,83 @@ Segue a variável `exibir2:true`, assim como ocorre no *enter*, ocorre aqui com 
 `@after-leave="afterLeave"` => Executa ao interromper a animação de saída. Passa no primeiro argumento o próprio elemento.
 
 `@leave-cancelled="cancelledLeave"` => Executa ao interromper a animação de entrada. Passa no primeiro argumento o próprio elemento.
+
+### Trabalhando com estado
+[Arquivo](vuex.html)
+
+        <main>
+            <my-comp></my-comp>
+        </main>
+        <script>
+            const store = new Vuex.Store({
+                state:{
+                    count:0,
+                    step:1
+                },
+                mutations:{
+                    change: state => state.count += state.step,
+                    shift: (state,step) => state.step = parseFloat(step)
+                }
+            });
+
+            Vue.component('my-comp',{
+                template:`
+                    <div>
+                        <p><span>Passo</span> <input type="number" @change="shift($event.target.value)" value='1'/></p>
+                        <p>{{fromStore}}</p>
+                        <p><button @click="incdec">Incrementar</button></p>
+                    </div>
+                `,
+                computed:{
+                    fromStore: function(){return this.$store.state.count}
+                },
+                methods:{
+                    incdec: () => store.commit('change'),
+                    shift:  step => store.commit('shift',step)                
+                }
+            });
+
+            const vue = new Vue({
+                store,
+                el:"main"            
+            });
+        </script>    
+
+Inicialmente você precisa colocar nos `scripts` um javascript, tipo: `<script src="https://unpkg.com/vuex"></script>`, se você quiser criar um componente com estado usando o vuex, inicialmente você precisa instanciar um objeto de `Vuex.Store`
+
+    const store = new Vuex.Store({
+        state:{
+            count:0,
+            step:1
+        },
+        mutations:{
+            change: state => state.count += state.step,
+            shift: (state,step) => state.step = parseFloat(step)
+        }
+    });
+
+O atributo *state* contém as variáveis com estado, no entando essas variáveis estão apenas em modo leitura, ao passo que as *mutations*, informa como os métodos do *state* devem evoluir, uma vez que os dados com estados, não são motificados e sim evoluídos. Na `state` declara-se os valores iniciais dos atributos com os estados, ao passo que na mutation você informa funcões que informa como um `state` deve ser evoluído, o primeiro parametro da função é o atributo `state` e o segundo os argumentos passado pelos usuários.
+
+    Vue.component('my-comp',{
+        template:`
+            <div>
+                <p><span>Passo</span> <input type="number" @change="shift($event.target.value)" value='1'/></p>
+                <p>{{fromStore}}</p>
+                <p><button @click="incdec">Incrementar</button></p>
+            </div>
+        `,
+        computed:{
+            fromStore: function(){return this.$store.state.count}
+        },
+        methods:{
+            incdec: () => store.commit('change'),
+            shift:  step => store.commit('shift',step)                
+        }
+    });
+
+Aqui no componente é feito as alterações *store*, mas repare que o store não é passado no componente, porém uma instancia do **store** será passado quando uma instancia do *vue* chamar, as *store* funcionam quando você chama um gatilho, semelhante ao *$emit*, e assim como a sua estrutura também é parecida, quando não se passa nenhuma argumento, você apenas chama a *mutation* da *store* como feito aqui `incdec: () => store.commit('change')` ao qual chama essa mutation `change: state => state.count += state.step`, sendo o *state* o próprio atributo da *store*, mas caso tenha argumentos você passa eles como segundo argumento, conforme feito aqui `shift:  step => store.commit('shift',step)`, ao qual chama a *mutation* `shift: (state,step) => state.step = parseFloat(step)`, abaixo está aonde você deve informar o objeto *store*, no caso dentro de uma instância.
+
+    const vue = new Vue({
+        store,
+        el:"main"            
+    });
