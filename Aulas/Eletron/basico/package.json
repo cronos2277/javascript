@@ -1,0 +1,11 @@
+{
+  "name": "Titulo",
+  "version": "1.0.0",
+  "description": "Exemplos básicos envolvendo Eletron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "cronos2277",
+  "license": "GPL-3.0"
+}
