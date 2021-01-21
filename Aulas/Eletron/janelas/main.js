@@ -59,8 +59,7 @@ app.on('ready', function(){
     
     dialog.showErrorBox('Titulo','exemplo de mensagem de erro');
 
-    app.on('closed', () => janela = null);
-    janela.webContents.openDevTools();
+    app.on('closed', () => janela = null);    
     janela.loadURL(`file://${__dirname}/index.html`);   
     let child = new BrowserWindow({
         width:400,
