@@ -1,4 +1,4 @@
-const {app,BrowserWindow} = require('electron');
+const {app,BrowserWindow,dialog} = require('electron');
 
 app.on('ready', function(){
     let janela = new BrowserWindow(
@@ -20,9 +20,44 @@ app.on('ready', function(){
             focusable:true,
             alwaysOnTop:true,
             fullScreen:true,
-            autoHideMenuBar:true,                        
+            autoHideMenuBar:true,       
+            webPreferences:{
+                webviewTag:true, //Precisa estar como true para funcionar o webwiew
+                nodeIntegration: true,
+                nodeIntegrationInWorker: true
+            }                 
+        }
+    );     
+        
+    dialog.showOpenDialog(        
+            janela,
+            {
+                title:'Abrir Janela',
+                buttonLabel:"Abra",
+                defaultPath:'/'
+            }        
+    );
+
+    dialog.showSaveDialog(
+        janela,
+        {
+            title:'Salvar Janela',
+            buttonLabel:"Salve",
+            defaultPath:'/'
         }
     );
+
+    dialog.showMessageBox(
+        janela,
+        {
+            type:'question',
+            buttons:['Certo','cancelar'],
+            title:'Pegunta',
+            message:'Exemplo de mensagem a ser informado!'
+        }
+    );
+    
+    dialog.showErrorBox('Titulo','exemplo de mensagem de erro');
 
     app.on('closed', () => janela = null);
     janela.webContents.openDevTools();
@@ -34,10 +69,9 @@ app.on('ready', function(){
         transparent:true,
         parent:janela        
     });
-    child.loadURL(`file://${__dirname}/child.html`);
+    child.loadURL(`file://${__dirname}/child.html`);    
     
 });
-
 
 app.on('will-finish-launching', (arg) => {
     console.log('Evento: will-finish-launching');
