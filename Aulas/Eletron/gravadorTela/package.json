@@ -1,0 +1,12 @@
+{
+  "name": "gravadortela",
+  "version": "1.0.0",
+  "description": "Electron gravador de telas",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"electron ."
+  },
+  "author": "cronos2277",
+  "license": "ISC"
+}

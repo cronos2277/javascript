@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="img-src 'self' data:; ">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+    <link href="./bootstrap.min.css" rel="stylesheet"/>
+    <script src="./bootstrap.bundle.min.js"></script>
+    <script src="./recorder.js"></script>
+    <title>Gravador de Tela</title>
+</head>
+<body>    
+    <h1>Gravador de Telas</h1>    
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid justify-content-start">            
+            <button class="btn btn-outline-success me-2" type="button" onclick="Rec.start()">Start</button>
+            <button class="btn btn-outline-danger me-2" type="button" onclick="Rec.stop()">Stop</button>            
+        </div>
+    </nav>
+    
+    <video></video>        
+    <div class="card-group"></div>    
+    <div class="card">
+        <div id="output" class="card-body">
+            
+        </div>
+    </div>
+    
+</body>
+</html>
