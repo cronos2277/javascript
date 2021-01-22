@@ -14,5 +14,5 @@ app.on('ready',function(){
     );
     const paginaHtml = `file://${__dirname}/index.html`;
     win.loadURL(paginaHtml);
-   //win.webContents.openDevTools();
+    win.webContents.openDevTools();
 });
