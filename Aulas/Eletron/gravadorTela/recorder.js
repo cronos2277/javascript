@@ -46,9 +46,10 @@ const ScreenManager = {
         videoEl.poster = this.selectedSource.thumbnail.toDataURL();
         videoEl.src = '';
         videoEl.controls = false;
-        videoEl.style.width = "100vw";
-        videoEl.style.height = "100vh";
-        console.log(videoEl);
+        videoEl.style.paddingLeft = "5vw";
+        videoEl.style.paddingRight = "5vw"
+        videoEl.style.width = "90vw";
+        videoEl.style.height = "90vh";       
     }
 }
 
