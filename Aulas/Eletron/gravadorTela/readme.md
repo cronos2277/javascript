@@ -269,3 +269,91 @@ Sendo duas callbacks a primeira caso tenha sucesso `this.success` e a segunda se
     },
 
 Caso o método `getUserMedia` tenha exito a função acima será chamada, no caso essa é a nova forma de você passar a URL do que foi gravado ao cliente `videoEl.srcObject = stream;` e a segunda que é a forma legada para versões do electron mais antigos `videoEl.src = URL.createObjectURL(stream);`, depois é dado um play `videoEl.play(); ` e executado, nesse ponto o usuário consegue assistir em tempo real o que é gravado pelo software de captura.
+
+#### Gravando em arquivos
+Nesse método abaixo é feito toda a lógica para o salvamento de arquivos.
+
+    stop(){
+        if(Rec.recorder.state !== null){
+            Rec.recorder.onstop = function(){
+                const videoEl = document.querySelector('video');
+                videoEl.src = '';
+                Rec.toArrayBuffer(
+                    new Blob(Rec.blobs,{type:'video/webm'}),
+                    function(arrayBuffer){
+                        const buffer = Rec.toBuffer(arrayBuffer);
+                        const fileName = 'file.webm';
+                        const output = document.getElementById('output');
+                        fs.writeFile(fileName,buffer,function(err){
+                            if(err){
+                                output.innerHTML = 'Error';
+                                console.error(err);
+                            }else{
+                                output.innerHTML = 'Saved video: '+fileName;
+                                const videoEl = document.querySelector('video');
+                                videoEl.src = fileName;
+                                videoEl.play();
+                                videoEl.controls = true;
+                            }
+                        });
+                    }
+                );
+                Rec.recorder = null;
+            };
+            Rec.recorder.stop();
+        }
+    },
+
+Tem mais duas funções como `toArrayBuffer` e `toBuffer`, Sobre o Objeto *Blob* em javascript:
+
+##### File System
+> O módulo fs permite interagir com o sistema de arquivos de uma forma modelada nas funções POSIX padrão.
+> Para usar este módulo:
+> `const fs = require ('fs');`
+> Todas as operações do sistema de arquivos têm formulários síncronos, de retorno de chamada e baseados em promessa.
+[Documentação](https://nodejs.org/api/fs.html)
+###### Blob
+>Um objeto Blob representa um objeto do tipo arquivo, com  dados brutos imutáveis. Blobs representam dados que não estão necessariamente em um formato JavaScript nativo. A interface File é baseada no Blob, herdando funcionalidade blob e expandindo-o para suportar arquivos no sistema do usuário.
+
+>Para construir um Blob a partir de outro objeto ou dado não-blob , utilize o construtor Blob(). Para criar um blob que contém um subconjunto de dados de outro blob, use o método slice(). Para obter um objeto Blob de um arquivo no sistema de arquivos do usuário, veja a documentação File. 
+
+Mais informações, [documentação sobre objetos Blob](https://developer.mozilla.org/pt-BR/docs/Web/API/Blob)
+
+##### toArrayBuffer
+
+    toArrayBuffer(blob,callback){
+        let fileReader = new FileReader();
+        fileReader.onload = function(){
+            let arrayBuffer = this.result;
+            callback(arrayBuffer);
+        }        
+        fileReader.readAsArrayBuffer(blob);
+    },
+
+###### FileReader
+>O objeto FileReader permite aplicações web ler assincronamente o conteúdo dos arquivos (ou buffers de dados puros) do computador do usuário, utilizando o objeto File ou Blob para especificar o arquivo ou os dados a serem lidos.
+>Objetos File podem ser obtidos a partir de um objeto FileList retornado como resultado da seleção de um usuário utilizando um elemento <input>, a partir de uma operação de drag and drop DataTransfer, ou a partir de um mozGetAsFile() da api HTMLCanvasElement.
+
+[Segue a documentação](https://developer.mozilla.org/pt-BR/docs/Web/API/FileReader)
+##### toBuffer
+
+    toBuffer(arrayBuffer){
+        let buffer = new Buffer(arrayBuffer.byteLength);
+        let arr = new Uint8Array(arrayBuffer);
+        for(let i=0;i<arr.byteLength;i++){
+            buffer[i] = arr[i];
+        }
+        return buffer;
+    }
+
+##### Buffer
+
+>O JavaScript puro é compatível com Unicode, mas não para dados binários.Ao lidar com fluxos TCP ou sistema de arquivos, é necessário lidar com fluxos de octetos.Node fornece classe Buffer que fornece instâncias para armazenar dados brutos semelhantes a uma matriz de inteiros, mas corresponde a uma alocação de memória bruta fora do heap V8. A classe de buffer é uma classe global que pode ser acessada em um aplicativo sem importar o módulo de buffer. Criando Buffers O Node Buffer pode ser construído de várias maneiras.
+> Método 1: A seguir está a sintaxe para criar um Buffer não iniciado de 10 octetos - `var buf = new Buffer (10);`
+> Método 2: A seguir está a sintaxe para criar um Buffer a partir de uma determinada matriz - `var buf = new Buffer ([10, 20, 30, 40, 50]);`
+> Método 3: A seguir está a sintaxe para criar um Buffer a partir de uma determinada string e, opcionalmente, tipo de codificação - `var buf = new Buffer (" Simply Easy Learning "," utf-8 ");` Embora "utf8" seja a codificação padrão, você pode usar qualquer uma das seguintes codificações "ascii", "utf8", "utf16le", "ucs2", "base64" ou "hex".
+
+[documentação](https://www.tutorialspoint.com/nodejs/nodejs_buffers.htm)
+
+###### Uint8Array
+A matriz digitada Uint8Array representa uma matriz de inteiros não assinados de 8 bits.O conteúdo é inicializado em 0. Depois de estabelecido, você pode fazer referência a elementos na matriz usando os métodos do objeto ou usando a sintaxe de índice de matriz padrão (ou seja, usando a notação de colchetes). [Documentação](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array)
