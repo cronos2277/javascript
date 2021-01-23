@@ -24,6 +24,8 @@ const Rec = {
         }
     },
     success(stream){        
+        Rec.recorder = new MediaRecorder(stream);
+        Rec.blobs = [];
         const videoEl = document.querySelector('video');
         videoEl.poster = "";               
         try {
@@ -31,10 +33,62 @@ const Rec = {
         } catch (error) {
             videoEl.src = URL.createObjectURL(stream);
         }
-        videoEl.play();        
+        videoEl.play(); 
+        Rec.recorder.ondataavailable = event => Rec.blobs.push(event.data);
+        Rec.recorder.start();       
     },
+
     error(msg){        
         console.error(msg);
+    },
+
+    stop(){
+        if(Rec.recorder.state !== null){
+            Rec.recorder.onstop = function(){
+                const videoEl = document.querySelector('video');
+                videoEl.src = '';
+                Rec.toArrayBuffer(
+                    new Blob(Rec.blobs,{type:'video/webm'}),
+                    function(arrayBuffer){
+                        const buffer = Rec.toBuffer(arrayBuffer);
+                        const fileName = 'file.webm';
+                        const output = document.getElementById('output');
+                        fs.writeFile(fileName,buffer,function(err){
+                            if(err){
+                                output.innerHTML = 'Error';
+                                console.error(err);
+                            }else{
+                                output.innerHTML = 'Saved video: '+fileName;
+                                const videoEl = document.querySelector('video');
+                                videoEl.src = fileName;
+                                videoEl.play();
+                                videoEl.controls = true;
+                            }
+                        });
+                    }
+                );
+                Rec.recorder = null;
+            };
+            Rec.recorder.stop();
+        }
+    },
+
+    toArrayBuffer(blob,callback){
+        let fileReader = new FileReader();
+        fileReader.onload = function(){
+            let arrayBuffer = this.result;
+            callback(arrayBuffer);
+        }        
+        fileReader.readAsArrayBuffer(blob);
+    },
+
+    toBuffer(arrayBuffer){
+        let buffer = new Buffer(arrayBuffer.byteLength);
+        let arr = new Uint8Array(arrayBuffer);
+        for(let i=0;i<arr.byteLength;i++){
+            buffer[i] = arr[i];
+        }
+        return buffer;
     }
 }
 
@@ -58,7 +112,7 @@ const ScreenManager = {
                                     <h3 class="card-title">${source.name}</h3>
                                 </div>
                         </div>
-                        `
+                        `                                     
                     });   
                     document.querySelector('.card-group').innerHTML = template;            
                 }
