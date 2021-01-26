@@ -1,0 +1,14 @@
+{
+  "name": "Conceito",
+  "version": "1.0.0",
+  "description": "Entendendo conceitos",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "cronos2277",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "electron": "^11.2.1"
+  }
+}
