@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conceitos</title>
+    <script>
+        const { ipcRenderer } = require('electron');        
+        ipcRenderer.on('evento_render1', (arg1,arg2) => {console.log(arg1);console.log(arg2)});
+        ipcRenderer.once('desiscrever_render',arg1 => {ipcRenderer.removeAllListeners('evento_render1');console.log('desiscrito')})
+
+        const { remote } = require('electron');
+        function getWin()
+        {
+            const janela = new remote.BrowserWindow(
+                {
+                    width:400,
+                    height:300,
+                    center:true
+                }
+            );
+            console.log(remote);
+            janela.loadURL('https://github.com/cronos2277');
+        };
+    </script>
 </head>
 <body>
     <h1>Olá Mundo</h1>
+    <hr>
+    <button onclick="ipcRenderer.send('evento_main1',123)">Emitir no console do Eletron</button>    
+    <button onclick="ipcRenderer.send('desiscrever_main');this.style = 'display:none'" style="display: inline;">Desativar Listener</button>
+    <button onclick="getWin()">Abrir uma nova janela</button>
 </body>
 </html>
