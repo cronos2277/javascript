@@ -17,7 +17,7 @@ app.on('ready',function(e){
         }     
     });
     win.loadURL(`file://${__dirname}/main.html`);                
-    //win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     powerMonitor.on('resume', () => callback('Evento ao desbloquear tela'));
     powerMonitor.on('on-ac', () => callback('Dispositivo na tomada'));
@@ -61,4 +61,23 @@ ipcMain.once('desiscrever_main',function(arg1){
     arg1.sender.send('desiscrever_render');
 });
 
+//Eventos 
+app.on('window-all-closed',function(){
+    console.log("evento 'window-all-closed' disparado");
+    if(process.platform !== 'darwin'){
+        app.quit();
+    }
+});
 
+app.on('before-quit', () => console.log("Evento 'before-quit' disparado."));
+app.on('will-quit', () => console.log("Evento 'will-quit' disparado."));
+app.on('quit', () => console.log("Evento 'quit' disparado."));
+app.on('browser-window-blur', () => console.log("Evento 'browser-window-blur' disparado."));
+app.on('browser-window-focus', () => console.log("Evento 'browser-window-focus' disparado."));
+app.on('browser-window-created', () => console.log("Evento 'browser-window-created' disparado."));
+
+ipcMain.on('evento',function(event,param){
+    console.log(`evento ${param} ativado.`);    
+    eval(`app.${param}`);    
+    
+});

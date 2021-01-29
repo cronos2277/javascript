@@ -3,6 +3,7 @@
 ## Lista
 1. [Gestão de Energia](#gestão-de-energia)
 2. [Comunicação Main e Render](#comunicação-entre-processos-main-e-render)
+3. [Eventos](#Eventos-explicados)
 ## Arquivos
 [index.js](index.js)
 
@@ -288,3 +289,65 @@ Como é possível perceber dentro do remote temos `BrowserWindow`, `dialog`, `ip
 
 #### Explicando
 Por fim se você quiser instanciar qualquer objeto do Main, você importa o `remote` e dentro do remove você pega a classe que precisa para chamar o o objeto apartir do Render.
+
+## Eventos Explicados
+Abaixo os principais eventos que podem ser disparados por usuários. [Documentação](https://www.electronjs.org/docs/api/app)
+### Exemplo de código
+
+    const {app} = require('electron');
+    app.on('window-all-closed',function(){
+        console.log("evento 'window-all-closed' disparado");
+        if(process.platform !== 'darwin'){
+            app.quit();
+        }
+    });
+
+    app.on('before-quit', () => console.log("Evento 'before-quit' disparado."));
+    app.on('will-quit', () => console.log("Evento 'will-quit' disparado."));
+    app.on('quit', () => console.log("Evento 'quit' disparado."));
+    app.on('browser-window-blur', () => console.log("Evento 'browser-window-blur' disparado."));
+    app.on('browser-window-focus', () => console.log("Evento 'browser-window-focus' disparado."));
+    app.on('browser-window-created', () => console.log("Evento 'browser-window-created' disparado."));
+
+### Explicando códigos
+`ready` *=>* **Executado quando o Electron finaliza a sua inicialização.**
+
+`window-all-closed` *=>* **Emitido quando todas as janelas da aplicação forem fechadas.**
+
+`before-quit` *=>* **Emitido antes da aplicação começar a fechar suas janelas.**
+
+`will-quit` *=>* **Emitido quando todas as janelas foram fechadas e a aplicação será encerrada. Lembre-se de saber diferenciar janelas e a aplicação em si.**
+
+`quit` *=>* **Emitido quando a aplicação está sendo encerrada.**
+
+`browser-window-blur` *=>* **Emitido quando uma janela da aplicação perde o foco. A função executada recebe como primeiro parâmetro o evento e como segundo, a janela que perdeu foco.**
+
+`browser-window-focus` *=>* **Emitido quando uma janela da aplicação ganha foco. A função executada recebe como primeiro parâmetro o evento e como segundo, a janela que ganhou foco.**
+
+`browser-window-created` *=>* **Emitido quando uma nova janela, instância de browserWindow, é criada.**
+
+### Métodos do objeto app
+
+`app.quit()` => Fecha a janela.
+
+`app.exit([Codigo numerico])` => Substituir `[Código numerico]` pelo número correspondente, também encerra a aplicação, mas informando um código de erro, ou sem informar código de erro se o valor passado for zero.
+
+`relaunch()` => Reabre a aplicação quando a atual instância ainda existe. Esse método não faz a aplicação ser fechada, então você deve chamar “quit()” ou “exit()” após executá-lo.
+
+`focus()` => Atraí o foco para essa janela.
+
+#### HTML
+    <button onclick="ipcRenderer.send('evento','quit()');">Função quit</button>
+    <!-- Essa função exit abaixo vai disparar um erro, repare que no cosole vai aparecer: Exit status 1 -->
+    <button onclick="ipcRenderer.send('evento','exit(1)');">Função exit</button>
+    <button onclick="ipcRenderer.send('evento','relaunch()');">Função relauch</button>    
+    <button onclick="ipcRenderer.send('evento','focus()');">Função focus</button>
+
+#### Javascript
+    ipcMain.on('evento',function(event,param){
+        console.log(`evento ${param} ativado.`);    
+        eval(`app.${param}`);        
+    });
+
+#### Explicando
+No caso o botão dispara um evento e nesse evento passa a função que quer executar `ipcRenderer.send('evento','quit()');"`, do outro lado temos o *eval* que trata uma string passada como um código javascript e interpolando a string de modo que a função se torne um método de *app* a execução ocorre `eval(`app.${param}`);`, dessa forma todo argumento passado `param` é executado como um método de *app*. *Em ambientes de produção isso não é recomendado, devido a possibilidade de code injection.*

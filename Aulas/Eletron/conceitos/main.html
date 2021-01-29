@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conceitos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Conceitos</title>    
     <script>
         const { ipcRenderer } = require('electron');        
         ipcRenderer.on('evento_render1', (arg1,arg2) => {console.log(arg1);console.log(arg2)});
@@ -30,5 +30,11 @@
     <button onclick="ipcRenderer.send('evento_main1',123)">Emitir no console do Eletron</button>    
     <button onclick="ipcRenderer.send('desiscrever_main');this.style = 'display:none'" style="display: inline;">Desativar Listener</button>
     <button onclick="getWin()">Abrir uma nova janela</button>
+    <button onclick="ipcRenderer.send('evento','quit()');">Função quit</button>
+    <!-- Essa função exit abaixo vai disparar um erro, repare que no cosole vai aparecer: Exit status 1 -->
+    <button onclick="ipcRenderer.send('evento','exit(1)');">Função exit</button>
+    <button onclick="ipcRenderer.send('evento','relaunch()');">Função relauch</button>    
+    <button onclick="ipcRenderer.send('evento','focus()');">Função focus</button>
+    
 </body>
 </html>
