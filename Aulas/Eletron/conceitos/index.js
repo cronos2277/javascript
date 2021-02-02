@@ -1,4 +1,4 @@
-const {BrowserWindow,app,powerSaveBlocker,powerMonitor} = require('electron');
+const {BrowserWindow,app,powerSaveBlocker,powerMonitor, globalShortcut} = require('electron');
 const {ipcMain} = require('electron');
 
 function callback(msg){
@@ -46,7 +46,10 @@ app.on('ready',function(e){
     
             clearInterval(interval);
         },5000);
-    });       
+    });  
+    
+    globalShortcut.register('CommandOrControl+F1', () => console.log('Tecla "CommandOrControl+F1" pressionada'));
+
 })
 
 
@@ -70,7 +73,10 @@ app.on('window-all-closed',function(){
 });
 
 app.on('before-quit', () => console.log("Evento 'before-quit' disparado."));
-app.on('will-quit', () => console.log("Evento 'will-quit' disparado."));
+app.on('will-quit', function(){
+    () => console.log("Evento 'will-quit' disparado.");
+    globalShortcut.unregister('CommandOrControl+F1');   
+});
 app.on('quit', () => console.log("Evento 'quit' disparado."));
 app.on('browser-window-blur', () => console.log("Evento 'browser-window-blur' disparado."));
 app.on('browser-window-focus', () => console.log("Evento 'browser-window-focus' disparado."));

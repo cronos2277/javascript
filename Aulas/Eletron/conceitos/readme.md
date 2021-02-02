@@ -4,6 +4,7 @@
 1. [Gestão de Energia](#gestão-de-energia)
 2. [Comunicação Main e Render](#comunicação-entre-processos-main-e-render)
 3. [Eventos](#Eventos-explicados)
+4. [Atalhos](#atalhos)
 ## Arquivos
 [index.js](index.js)
 
@@ -351,3 +352,63 @@ Abaixo os principais eventos que podem ser disparados por usuários. [Documenta�
 
 #### Explicando
 No caso o botão dispara um evento e nesse evento passa a função que quer executar `ipcRenderer.send('evento','quit()');"`, do outro lado temos o *eval* que trata uma string passada como um código javascript e interpolando a string de modo que a função se torne um método de *app* a execução ocorre `eval(`app.${param}`);`, dessa forma todo argumento passado `param` é executado como um método de *app*. *Em ambientes de produção isso não é recomendado, devido a possibilidade de code injection.*
+
+## Atalhos
+[Documentação Global Shortcut](https://www.electronjs.org/docs/api/global-shortcut), [Documentação accelarator](https://www.electronjs.org/docs/api/accelerator). Inicialmente temos que importar o *globalShortcut* do *electron* `const {globalShortcut} = require('electron');`, dentro desse objeto temos:
+
+    globalShortcut.register('CommandOrControl+F1', () => console.log('Tecla "CommandOrControl+F1" pressionada'));
+
+Com o método *register* você registra o atalho, no caso temos o *CommandOrControl+F1* que significa que tanto o command do mac assim como o control dos pc pressionado junto da tecla *F1*, ativa a função associada a ela, no caso `() => console.log('Tecla "CommandOrControl+F1" pressionada')`, assim como é `CommandOrControl+F1` poderia ser `Command+F1` ou `Control+F1` ou `F1`, esse é o acelarador, ou seja uma string contendo informações de ativações, para mais detalhes [Documentação accelarator](https://www.electronjs.org/docs/api/accelerator). No caso de um acelarado, se usa *TECLA_Modificadora+TECLA*, ou *Tecla*. Segue uma lista, no caso a lista abaixo serve para compor os aceleradores, como explica a documentação:
+>Aceleradores são Strings que podem conter múltiplos modificadores e um código de teclas combinados pelo '+' e que são utilizados para definir atalhos de teclado para sua aplicação.
+>Exemplos: `CommandOrControl+A` `CommandOrControl+Shift+Z`.
+
+### Modificadoras
+    Command (ou Cmd)
+    Control (ou Ctrl)
+    CommandOrControl (ou CmdOrCtrl)
+    Alt
+    Option
+    AltGr
+    Shift
+    Super
+
+### Teclas
+
+    0 a 9
+    A a Z
+    F1 a F24
+    Punctuation like ~, !, @, #, $, etc.
+    Plus (+)
+    Space (Espaço)
+    Tab
+    CapsLock
+    NumLock
+    Scrolllock
+    Backspace
+    Delete
+    Insert
+    Return (ou Enter)
+    Up, Down, Left e Right (Setas do teclado: cima, baixo, esquerda e direita respectivamente)
+    Home e End
+    PageUp e PageDown
+    Escape (ou Esc)
+    VolumeUp, VolumeDown e VolumeMute
+    MediaNextTrack, MediaPreviousTrack, MediaStop e MediaPlayPause
+    PrintScreen
+
+### Teclas numéricas
+    num0 - num9
+    numdec - tecla decimal
+    numadd - tecla +
+    numsub - tecla -
+    nummult - tecla *
+    numdiv - tecla ÷
+
+### Removendo
+
+    app.on('will-quit', function(){
+        () => console.log("Evento 'will-quit' disparado.");
+        globalShortcut.unregister('CommandOrControl+F1');   
+    });
+
+Aqui é importante salientar que os atalhos funcionam, mesmo que a janela não tenha foco e se tornam válidos quando a aplicação está `ready`, logo é uma boa remover as teclas ao encerrar, ou encerrat todas as teclas registradas chamando `globalShortcut.unregisterAll()`, caso tenha muitos atalhos para remover, segue a documentação do [globalShortcut.unregisterAll](https://www.electronjs.org/docs/api/global-shortcut#globalshortcutunregisterall).
