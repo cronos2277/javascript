@@ -5,6 +5,7 @@
 2. [Comunicação Main e Render](#comunicação-entre-processos-main-e-render)
 3. [Eventos](#Eventos-explicados)
 4. [Atalhos](#atalhos)
+5. [Menus](#Menus)
 ## Arquivos
 [index.js](index.js)
 
@@ -412,3 +413,137 @@ Com o método *register* você registra o atalho, no caso temos o *CommandOrCont
     });
 
 Aqui é importante salientar que os atalhos funcionam, mesmo que a janela não tenha foco e se tornam válidos quando a aplicação está `ready`, logo é uma boa remover as teclas ao encerrar, ou encerrat todas as teclas registradas chamando `globalShortcut.unregisterAll()`, caso tenha muitos atalhos para remover, segue a documentação do [globalShortcut.unregisterAll](https://www.electronjs.org/docs/api/global-shortcut#globalshortcutunregisterall).
+
+## Menus
+[Documentação Menu](https://www.electronjs.org/docs/api/menu)
+
+[MenuItem](https://www.electronjs.org/docs/api/menu-item)
+### Menu da aplicação
+
+    const {Menu} = require('electron');
+
+    const subitem = Menu.buildFromTemplate([
+        { label:'Item 1',click: () => console.log('submenu')},
+        {label:"Carregar", role:"reload"},
+        {label:"Minimizar", role:"minimize"},
+        {label:"Fechar", role:"close"},
+        {label:"Sair", role:"quit"}
+    ]);
+
+    const item = Menu.buildFromTemplate(
+        [
+            {
+                label:'Menu',
+                submenu: subitem
+            },
+            {
+                label:'Ok no console',
+                click: () => console.log('OK')
+            },
+            
+        ]
+    );
+
+    Menu.setApplicationMenu(item)
+
+Esse menu é aquele que fica tradicionalmente no topo dos aplicativos abaixo da barra de título dos mesmos, para fazer uso desse recurso, inicialmente se faz necessário importar o menu `const {Menu} = require('electron');`, existe mais de uma forma de criar um menu, mas essa é a mais simples. Inicialmente você passa um array dentro dessa função do objeto **Menu**, como nesse exemplo `const subitem = Menu.buildFromTemplate([ ...`, dentro desse array você coloca uma série de objetos [MenuItem](https://www.electronjs.org/docs/api/menu-item), nesse objeto pelo menos duas propriedades devem ser configuradas, como *label* e *role* ou *click*, sendo que role e click, um excluí o outro. O Label é o rótulo, ou seja o texto que aquela opção ou menu deve ter.
+
+### Role
+O role excluí a função acionado pelo click, ou seja só pode um ou outro, no caso o role impõe um comando do sistema operacional nesse item de menu, por exemplo:
+
+    {label:"Carregar", role:"reload"},
+
+Aqui em *role*, toda vez que for selecionado essa opção o menu será recarregado por exemplo, ou seja com o role é possível posicionar de maneira facilitada as opções padrões que todo o menu têm, como copiar, colar recortar e etc... [Documentação Role](https://www.electronjs.org/docs/api/menu-item#roles)
+
+    undo => Desfazer ultima ação.
+    redo => Refazer a ultima ação.
+    cut => Recortar seleção.
+    copy => Copiar seleção.
+    paste => Copiar seleção.
+    delete => Para remover, se livrar ou apagar, especialmente material escrito ou impresso, ou dados em um computador ou outro dispositivo.
+    minimize => Minimiza a aplicação.
+    close => Fecha a aplicação e todas as suas janelas.
+    quit => Apenas sai da janela, se for a principal funciona semelhante ao close.
+    reload => Recarrega a janela.
+
+Para mais *role*, veja a [documentação](https://www.electronjs.org/docs/api/menu-item#roles), lembrando que o *role* excluí a funcionalidade do click.
+
+### Click
+Aqui é definido uma função quando o item de menu é clicado.
+
+### Exemplo de submenu
+
+    const subitem = Menu.buildFromTemplate([
+        { label:'Item 1',click: () => console.log('submenu')},
+        {label:"Carregar", role:"reload"},
+        {label:"Minimizar", role:"minimize"},
+        {label:"Fechar", role:"close"},
+        {label:"Sair", role:"quit"}
+    ]);
+
+Aqui acima temos um exemplo de como funciona um sub-menu, se colocado diretamente dentro do método `Menu.setApplicationMenu`, esse menu se torne o principal, ou pode ser colocado como um submenu de um outro menu colocando-o dentro de um outro menu no seu atributo submenu, como no exemplo abaixo:
+
+    const item = Menu.buildFromTemplate(
+        [
+            {
+                label:'Menu',
+                submenu: subitem
+            },
+            {
+                label:'Ok no console',
+                click: () => console.log('OK')
+            },
+            
+        ]
+    );
+
+Aqui estamos colocando o menu criado acima dentro de um menu maior, no caso ` {label:'Menu',submenu: subitem}` esse submenu criado acima tem uma label chamado **Menu** e o seu conteúdo é o menu criado acima, uma vez que aquele menu foi salvo em uma variável `const subitem = Menu.buildFromTemplate([...` chamado *subitem*, esse menu maior é colocado dentro de uma constante chamada item conforme visto aqui `const item = Menu.buildFromTemplate( ... ` e esse menu é passado como parametro ao *setApplicationMenu* `Menu.setApplicationMenu(item)`, lembrando que o método `buildFromTemplate` aceita um array de `MenuItem` como argumento, ou seja o valor passado sempre deve ser um array de *MenuItem* com que cada um deles, pelo menos tenha *label* e *role* ou *click* definido a ele.
+
+### Exemplo de menu suspenso
+
+     const {Menu,MenuItem} = require('electron').remote;
+        window.addEventListener(
+            'contextmenu', 
+            (e) => {
+                e.preventDefault()
+                const menu = new Menu();
+                menu.append(new MenuItem({label:'Copiar',role:'copy'}));
+                menu.append(new MenuItem({label:'Recortar',role:'cut'}));
+                menu.append(new MenuItem({label:'Colar',role:'paste'}));                
+                menu.append(
+                    new MenuItem(
+                        {
+                            label:'Submenu',
+                            submenu:[{label:'console',click:() => console.log('menu suspenso')}]
+                        }
+                    )
+                );
+                menu.popup();
+            })
+
+Para criar um menu suspenso a estratégia é semelhante, porém aqui usamos uma outra estratégia para criar, só que ao invés de criar pelo modelo, como os códigos acima, nesse se instancia o menu, conforme visto aqui `const menu = new Menu();`, lembrando que esse código deve estar no renderer, ou seja no HTML na parte de script para funcionar e para tal precisa do uso do remove `const {Menu,MenuItem} = require('electron').remote;` e da autorização do remote para funcionar. Inicialmente você sobreescreve o evento `contextmenu` do objeto window, uma vez feito isso, você chama o método `.preventDefault()`, para que o browser suspenda a chamada do menu e então prossiga com a lógica conforme abaixo:
+
+    ...
+    const menu = new Menu();
+    menu.append(new MenuItem({label:'Copiar',role:'copy'}));
+    menu.append(new MenuItem({label:'Recortar',role:'cut'}));
+    menu.append(new MenuItem({label:'Colar',role:'paste'}));
+    ...
+
+No caso você instancia o menu `const menu = new Menu();` e vai usando o método `append` para cada novo ítem de menu, caso queira colocar um submenu, lembre-se submenu é sempre array e o método append é sempre um objeto apenas do tipo [MenuItem](https://www.electronjs.org/docs/api/menu-item)
+
+    ...
+    menu.append(
+        new MenuItem(
+            {
+                label:'Submenu',
+                submenu:[{label:'console',click:() => console.log('menu suspenso')}]
+            }
+        )
+    );
+    ...
+
+E por fim, isso é específico de menu suspenso e não se aplica a outros tipos de menu, você chama o método `pop up` depois de pronto.
+
+    ...
+    menu.popup();
