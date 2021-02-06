@@ -22,6 +22,26 @@
             console.log(remote);
             janela.loadURL('https://github.com/cronos2277');
         };
+
+        const {Menu,MenuItem} = require('electron').remote;
+        window.addEventListener(
+            'contextmenu', 
+            (e) => {
+                e.preventDefault()
+                const menu = new Menu();
+                menu.append(new MenuItem({label:'Copiar',role:'copy'}));
+                menu.append(new MenuItem({label:'Recortar',role:'cut'}));
+                menu.append(new MenuItem({label:'Colar',role:'paste'}));                
+                menu.append(
+                    new MenuItem(
+                        {
+                            label:'Submenu',
+                            submenu:[{label:'console',click:() => console.log('menu suspenso')}]
+                        }
+                    )
+                );
+                menu.popup();
+            })
     </script>
 </head>
 <body>

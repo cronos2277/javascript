@@ -1,4 +1,4 @@
-const {BrowserWindow,app,powerSaveBlocker,powerMonitor, globalShortcut} = require('electron');
+const {BrowserWindow,app,powerSaveBlocker,powerMonitor, globalShortcut, Menu} = require('electron');
 const {ipcMain} = require('electron');
 
 function callback(msg){
@@ -49,7 +49,27 @@ app.on('ready',function(e){
     });  
     
     globalShortcut.register('CommandOrControl+F1', () => console.log('Tecla "CommandOrControl+F1" pressionada'));
-
+    const subitem = Menu.buildFromTemplate([
+        { label:'Item 1',click: () => console.log('submenu')},
+        {label:"Carregar", role:"reload"},
+        {label:"Minimizar", role:"minimize"},
+        {label:"Fechar", role:"close"},
+        {label:"Sair", role:"quit"}
+    ]);
+    const item = Menu.buildFromTemplate(
+        [
+            {
+                label:'Menu',
+                submenu: subitem
+            },
+            {
+                label:'Ok no console',
+                click: () => console.log('OK')
+            },
+            
+        ]
+    );    
+    Menu.setApplicationMenu(item);
 })
 
 
