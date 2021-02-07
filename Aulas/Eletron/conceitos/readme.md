@@ -6,6 +6,7 @@
 3. [Eventos](#Eventos-explicados)
 4. [Atalhos](#atalhos)
 5. [Menus](#Menus)
+6. [Barra de Tarefas](#barra-de-tarefas)
 ## Arquivos
 [index.js](index.js)
 
@@ -547,3 +548,83 @@ E por fim, isso é específico de menu suspenso e não se aplica a outros tipos 
 
     ...
     menu.popup();
+
+## Barra de tarefas
+### setProgressBar
+O Objeto `BrowserWindow` de `require('electron');` tem um método chamado `setProgressBar` que está disponível para as suas instancias ele recebe valores entre **0** e **1**:
+
+    const {BrowserWindow} = require('electron');
+    const win = new BrowserWindow({width:800,height:600});
+    win.setProgressBar(0.5);
+
+Esse método ele colore o ícone no windows 7 ou 10 a medida que esse número se aproxima do zero, por exemplo quando se abre o explorer no windows e você faz a cópia de um arquivo, o ícone vai se colorindo com a cor de seleção a medida que a cópia vai chegando próximo de ser concluída e é nessa propriedade que você pode reproduzir esse efeito, fazendo com que o valor zero não tenha nenhuma coloração e o valor 1 o ícone esteja em 100% assim como esse valor `win.setProgressBar(0.5);` de **0.5** o ícone fica meio colorido.
+
+### setThumbarButtons
+
+    win.setThumbarButtons([
+        {
+            tooltip: 'win.setThumbarButtons',          
+            flags: ['dismissonclick'],
+            click () { console.log('botao vermelho clicado') },
+            icon: `${__dirname}/vermelho.png`
+        }        
+    ])      
+
+Aqui você configura o botão quando passa o mouse acima do ícone. Por exemplo quando você abre o windows media player, ao passar o mouse aparece três botões, seta esquerda (back), play ou pause e seta direita (forward), são esses botões que você tem a oportunidade de configurar, ou seja os botões que aparecem quando para com o mouse em cima do ícone.
+
+`tooltip` => Texto que aparece quando para o mouse em cima do botão.
+
+`click` => função quando pressionado o botão.
+
+`icon` => O ícone a ser exibido, **obrigatório**.
+
+#### Flags
+No caso estamos falando desse: `flags: ['dismissonclick']`, um Array de Strings que indicam o estado ou comportamento do botão, abaixo os comportamentos possíveis:
+
+`enabled` => Valor padrão. Indica que um botão está habilitado.
+
+`disabled` => O botão aparece, mas desabilitado, não respondendo ao clique.
+
+`dismissonclick` => Quando clicado, a thumbnail será fechada.
+
+`nobackground` => Não desenha bordas nos botões, exibindo apenas a imagem do ícone.
+
+`hidden` => O botão não é exibido ao usuário.
+
+`noninteractive` => O botão está habilitado mas não responde aos cliques.
+
+### setUserTasks
+[Documentação](https://www.electronjs.org/docs/api/app#appsetusertaskstasks-windows)
+
+    app.setUserTasks([
+        {
+            program: process.execPath,
+            arguments: '--new-window',
+            iconPath: process.execPath,
+            iconIndex: 0,
+            title: 'app.setUserTasks',
+            description: 'Criado com o app'
+        }
+    ])
+
+Esse método deve ser chamado fora do escopo do `app.on`, uma vez que faz parte do próprio *app*, esse método faz com que exiba uma lista de tarefas quando você clica com o botão direito em cima do ícone da aplicação. Por exemplo ao clicar com o botão direito no ícone do google chrome fixado na barra de tarefas, aparece uma lista de tarefas como abrir uma nova janela ou uma janela anônima, é justamente aí que isso é configurado. Tendo abaixo as seguintes propriedades:
+
+`program` => Caminho do programa a ser executado. Normalmente iremos executar a própria aplicação. Para isso, basta passar **“process.execPath”**.
+
+`arguments` => Parâmetros passados para o programa que será executado.
+
+`title` => Nome que será exibido para a Task.
+
+`description` => Descrição da tarefa.
+
+`iconPath` => Caminho do ícone a ser exibido ao lado do nome da Task.
+
+`iconIndex` => Índice do index no arquivo do ícone.
+
+### Também tem os jump lists
+>Quando temos um programa que abre arquivos, o Windows e o macOS nos mostram uma lista de arquivos que foram abertos recentemente. Assim, o usuário já pode iniciar o programa e abrir determinado arquivo com apenas um clique. Para isso, executamos a função “addRecentDocument()” do módulo “app”, passando o caminho do arquivo. Para limpar essa lista, basta executar “clearRecentDocuments()”.
+
+    app.addRecentDocument('/Users/USERNAME/Desktop/work.type');
+    app.clearRecentDocuments();
+
+[Documentação](https://www.electronjs.org/docs/api/app#appsetjumplistcategories-windows)

@@ -1,5 +1,14 @@
-const {BrowserWindow,app,powerSaveBlocker,powerMonitor, globalShortcut, Menu} = require('electron');
+const {
+        BrowserWindow,
+        app,
+        powerSaveBlocker,
+        powerMonitor,
+        globalShortcut,
+        Menu        
+} = require('electron');
 const {ipcMain} = require('electron');
+
+
 
 function callback(msg){
     console.log(msg);
@@ -19,6 +28,7 @@ app.on('ready',function(e){
     win.loadURL(`file://${__dirname}/main.html`);                
     win.webContents.openDevTools();
 
+    //Gerenciamento de Energia
     powerMonitor.on('resume', () => callback('Evento ao desbloquear tela'));
     powerMonitor.on('on-ac', () => callback('Dispositivo na tomada'));
     powerMonitor.on('on-battery', () => callback('Dispositivo na bateria'));
@@ -48,6 +58,7 @@ app.on('ready',function(e){
         },5000);
     });  
     
+    //Atalhos
     globalShortcut.register('CommandOrControl+F1', () => console.log('Tecla "CommandOrControl+F1" pressionada'));
     const subitem = Menu.buildFromTemplate([
         { label:'Item 1',click: () => console.log('submenu')},
@@ -56,6 +67,8 @@ app.on('ready',function(e){
         {label:"Fechar", role:"close"},
         {label:"Sair", role:"quit"}
     ]);
+
+    //Menu
     const item = Menu.buildFromTemplate(
         [
             {
@@ -70,8 +83,33 @@ app.on('ready',function(e){
         ]
     );    
     Menu.setApplicationMenu(item);
+    
+    //Barra de progresso
+    win.setProgressBar(0.5);
+    
+    //setThumbarButtons
+    win.setThumbarButtons([
+        {
+            tooltip: 'win.setThumbarButtons',          
+            flags: ['dismissonclick'],
+            click () { console.log('botao vermelho clicado') },
+            icon: `${__dirname}/vermelho.png`
+        }        
+    ]);    
+    
 })
 
+//Tasks
+app.setUserTasks([
+    {
+        program: process.execPath,
+        arguments: '--new-window',
+        iconPath: process.execPath,
+        iconIndex: 0,
+        title: 'app.setUserTasks',
+        description: 'Criado com o app'
+    }
+])
 
 ipcMain.on('evento_main1',function(arg1,arg2){    
     console.log('Evento Main 1 Disparado',arg1);
