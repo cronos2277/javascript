@@ -7,6 +7,7 @@
 4. [Atalhos](#atalhos)
 5. [Menus](#Menus)
 6. [Barra de Tarefas](#barra-de-tarefas)
+7. [Tray](#Tray)
 ## Arquivos
 [index.js](index.js)
 
@@ -360,6 +361,8 @@ No caso o botão dispara um evento e nesse evento passa a função que quer exec
 
     globalShortcut.register('CommandOrControl+F1', () => console.log('Tecla "CommandOrControl+F1" pressionada'));
 
+**Detalhe: o globalShortcut deve ser chamado dentro de um método como `app.on('ready',function(){ ... Aqui ...})`, fique atento a isso.**
+
 Com o método *register* você registra o atalho, no caso temos o *CommandOrControl+F1* que significa que tanto o command do mac assim como o control dos pc pressionado junto da tecla *F1*, ativa a função associada a ela, no caso `() => console.log('Tecla "CommandOrControl+F1" pressionada')`, assim como é `CommandOrControl+F1` poderia ser `Command+F1` ou `Control+F1` ou `F1`, esse é o acelarador, ou seja uma string contendo informações de ativações, para mais detalhes [Documentação accelarator](https://www.electronjs.org/docs/api/accelerator). No caso de um acelarado, se usa *TECLA_Modificadora+TECLA*, ou *Tecla*. Segue uma lista, no caso a lista abaixo serve para compor os aceleradores, como explica a documentação:
 >Aceleradores são Strings que podem conter múltiplos modificadores e um código de teclas combinados pelo '+' e que são utilizados para definir atalhos de teclado para sua aplicação.
 >Exemplos: `CommandOrControl+A` `CommandOrControl+Shift+Z`.
@@ -628,3 +631,36 @@ Esse método deve ser chamado fora do escopo do `app.on`, uma vez que faz parte 
     app.clearRecentDocuments();
 
 [Documentação](https://www.electronjs.org/docs/api/app#appsetjumplistcategories-windows)
+
+## Tray
+[Documentação](https://www.electronjs.org/docs/api/tray)
+
+    const {app,Menu,Tray} = require('electron');
+    var tray = null;
+
+    app.on('ready',function(e){    
+        ...
+
+        //Tray configuracao
+        tray = new Tray(`${__dirname}/alvo_icone.png`);   
+        const contextMenuTray = Menu.buildFromTemplate([
+            {label:'opcao1', type:'radio'},
+            {label:'opcao2', type:'radio', checked:true},
+            {label:'opcao3', type:'radio'}
+        ]);
+
+        tray.setToolTip('Descricao do icone da systray no eletron.');
+        tray.setContextMenu(contextMenuTray);
+
+        ...
+    }
+
+Nesse caso cria um ícone na bandeija do sistema, para isso você precisa criar uma variável de escopo global `var tray = null;` e preenche-la com valor quando a aplicação estiver carregada, como visto aqui `tray = new Tray(``${__dirname}/alvo_icone.png``); ` ao qual está dentro desse escopo `app.on('ready',function(e){ ...`, como argumento quando for instanciar, deve-se passar obrigatóriamente o caminho do ícone, a sua construção é semelhante ao de um menu:
+
+    const contextMenuTray = Menu.buildFromTemplate([
+        {label:'opcao1', type:'radio'},
+        {label:'opcao2', type:'radio', checked:true},
+        {label:'opcao3', type:'radio'}
+    ]);
+
+Nesta parte do código `tray.setToolTip('Descricao do icone da systray no eletron.');` você informa a mensagem quando o usuário deixa o mouse em cima do ícone, assim como aqui `tray.setContextMenu(contextMenuTray);`, você adiciona um menu como opções ao ícone da bandeija do sistema quando clicado com o botão direito do mouse.

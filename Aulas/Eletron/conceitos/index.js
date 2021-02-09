@@ -4,11 +4,13 @@ const {
         powerSaveBlocker,
         powerMonitor,
         globalShortcut,
-        Menu        
+        Menu,
+        Tray,
+        Notification         
 } = require('electron');
 const {ipcMain} = require('electron');
 
-
+var tray = null;
 
 function callback(msg){
     console.log(msg);
@@ -97,6 +99,28 @@ app.on('ready',function(e){
         }        
     ]);    
     
+    //Tray configuracao
+    tray = new Tray(`${__dirname}/alvo_icone.png`);   
+    const contextMenuTray = Menu.buildFromTemplate([
+        {label:'opcao1', type:'radio'},
+        {label:'opcao2', type:'radio', checked:true},
+        {label:'opcao3', type:'radio'}
+    ]);
+
+    tray.setToolTip('Descricao do icone da systray no eletron.');
+    tray.setContextMenu(contextMenuTray);
+
+    //Notificacao
+    const myNotification = new Notification('Título', {
+        body: 'Notification from the Renderer process',
+        icon:'vermelho.png'
+    })
+    
+    myNotification.onclick = () => {
+        console.log('Notificação clicada')
+    }
+
+    myNotification.show();
 })
 
 //Tasks
