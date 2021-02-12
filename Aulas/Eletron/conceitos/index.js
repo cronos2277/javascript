@@ -113,14 +113,11 @@ app.on('ready',function(e){
     //Notificacao
     const myNotification = new Notification('Título', {
         body: 'Notification from the Renderer process',
-        icon:'vermelho.png'
-    })
-    
-    myNotification.onclick = () => {
-        console.log('Notificação clicada')
-    }
+        icon:'vermelho.png',
+        onclick: () => console.log('Notificação clicada')
+    });
 
-    myNotification.show();
+    myNotification.show();    
 })
 
 //Tasks

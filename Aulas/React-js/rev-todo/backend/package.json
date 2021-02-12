@@ -1,0 +1,25 @@
+{
+  "name": "rev-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "loader.js",
+  "scripts": {
+    "dev":"nodemon",
+    "development":"nodemon",
+    "prod": "pm2 start loader.js --name todo-app",
+    "production": "pm2 start loader.js --name todo-app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.15",
+    "node-restful": "^0.2.6",
+    "pm2": "^4.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

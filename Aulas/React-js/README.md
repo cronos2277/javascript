@@ -3,6 +3,8 @@
 
 [Exemplos envolvendo hooks e navegação](nav-hooks)
 
+[Exemplo de React SEM redux](rev-todo)
+
 [React Native](#react-native)
 
 Este projeto foi inicializado com [Criar aplicativo React](https://github.com/facebook/create-react-app).
