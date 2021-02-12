@@ -41,9 +41,7 @@
                     )
                 );
                 menu.popup();
-            })   
-
-
+            });
     </script>
 </head>
 <body>
@@ -56,7 +54,6 @@
     <!-- Essa função exit abaixo vai disparar um erro, repare que no cosole vai aparecer: Exit status 1 -->
     <button onclick="ipcRenderer.send('evento','exit(1)');">Função exit</button>
     <button onclick="ipcRenderer.send('evento','relaunch()');">Função relauch</button>    
-    <button onclick="ipcRenderer.send('evento','focus()');">Função focus</button>
-    
+    <button onclick="ipcRenderer.send('evento','focus()');">Função focus</button>      
 </body>
 </html>
