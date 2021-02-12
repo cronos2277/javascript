@@ -4,8 +4,8 @@
   "description": "",
   "main": "loader.js",
   "scripts": {
-    "dev":"nodemon",
-    "development":"nodemon",
+    "dev": "nodemon",
+    "development": "nodemon",
     "prod": "pm2 start loader.js --name todo-app",
     "production": "pm2 start loader.js --name todo-app"
   },
