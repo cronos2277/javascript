@@ -13,7 +13,7 @@ module.exports = {
         contentBase:'./public'
     },
     resolve:{
-        extensions:['','.js','.jsx'],
+        extensions:['.js','.jsx'],
         alias:{
             modules: __dirname+'/node_modules'
         }
@@ -22,7 +22,7 @@ module.exports = {
         new ExtractTextPlugin('app.css')
     ],
     module:{
-        loaders:[{
+        rules:[{
             test: /.js[x]?$/,
             loader:'babel-loader',
             exclude:'/node_modules/',
