@@ -6,7 +6,11 @@
   "scripts": {
     "backend-init": "cd backend && npm run prod",
     "backend-stop": "cd backend && npm run stop",
-    "backend-status": "cd backend && npm run status"    
+    "backend-status": "cd backend && npm run status",
+    "dev":"webpack-dev-server --progress --colors --inline --hot",
+    "develop":"webpack-dev-server --progress --colors --inline --hot",
+    "prod":"webpack --progress -p",
+    "production":"webpack --progress -p"    
   },
   "keywords": [],
   "author": "",
