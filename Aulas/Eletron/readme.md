@@ -19,7 +19,8 @@ Segue uma dica de segurança do Electron: [site](https://www.electronjs.org/docs
 1. [Basico](basico)
 2. [Janelas](janelas)
 3. [Gravando a Tela](gravadorTela)
-4. [Conceitos](conceitos)
+4. [GUI](gui)
+5. [Arquivos](arquivos)
 
 
 
