@@ -24,3 +24,28 @@ Você pode habilitar o arrasto de arquivos para dentro de uma div, conforme o il
 
 ## Native Image
 [Documentação](https://www.electronjs.org/docs/api/native-image#m%C3%A9todos-de-inst%C3%A2ncia)
+
+     try{
+        const file = `${__dirname}/ex1.png`;
+        console.log(file);
+        let image1 = nativeImage.createFromPath(file);        
+        console.log('Imagem 1\n',
+            {
+                'Tamanho':image1.getSize(),
+                'Aspect Ratio':image1.getAspectRatio(),
+                'Scale Factors':image1.getScaleFactors()
+            }
+        );
+        let image2 = nativeImage.createFromDataURL(`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==`);   
+        console.log('Imagem 2\n',
+            {
+                'Tamanho':image2.getSize(),
+                'Aspect Ratio':image2.getAspectRatio(),
+                'Scale Factors':image2.getScaleFactors()
+            }
+        );
+    }catch(e){
+        console.log(e.message);
+    }    
+
+Também é possível processar imagens pelo main de uma aplicação *Electron*. Seja carregando uma imagem no disco `let image1 = nativeImage.createFromPath(file);`, ou criando uma usando [DataURL]() conforme visto aqui ``nativeImage.createFromDataURL(`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==`);``, que cria uma imagem, nesse caso um ponto *5x5* pixels. Para usar-lo deve importar de *Electron* `const {nativeImage} = require('electron');` e lembre-se o  **n** deve ser minusculo, ou seja `nativeImage`.
