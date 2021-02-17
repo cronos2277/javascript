@@ -20,7 +20,7 @@ Segue uma dica de segurança do Electron: [site](https://www.electronjs.org/docs
 2. [Janelas](janelas)
 3. [Gravando a Tela](gravadorTela)
 4. [GUI](gui)
-5. [Arquivos](arquivos)
+5. [Arquivos e Midia](arquivos_media)
 
 
 
