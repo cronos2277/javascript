@@ -9,6 +9,7 @@
         #box{
             background-color: red;
             padding: 20%;
+            margin-bottom: 10px;
         }
     </style>    
 </head>
@@ -16,6 +17,7 @@
     <div id="box">
         <h1>Arraste o seu arquivo aqui</h1>
     </div>
+    <video id="video" width="100%" height="100%" autoplay></video>
     <script>
         const box = document.getElementById('box') || null;
         box.ondragover = () => {return false};
@@ -25,8 +27,15 @@
             event.preventDefault();
             const arrayFiles = Array.from(event.dataTransfer.files);
             arrayFiles.forEach(console.log);
-        }      
-        
+        }              
+
+        const video = document.getElementById('video');
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {                            
+                video.srcObject = stream;                
+                video.play();
+            });
+        }
     </script>
 </body>
 </html>
