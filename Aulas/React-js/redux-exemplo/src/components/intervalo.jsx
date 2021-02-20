@@ -13,13 +13,13 @@ const Intervalo = props => {
                 <span>
                     <strong>Mínimo:</strong>
                     <input type="number" value={min} 
-                        onChange={evento => props.setMin(evento.target.value)}
+                        onChange={evento => props.setMin(+evento.target.value)}
                     />
                 </span>
                 <span>
                     <strong>Máximo:</strong>
                     <input type="number" value={max} 
-                        onChange={evento => props.setMax(evento.target.value)}
+                        onChange={evento => props.setMax(+evento.target.value)}
                     />
                 </span>
             </div>
@@ -27,10 +27,9 @@ const Intervalo = props => {
     );
 }
 
-function mapActionCreatorsToProp(dispatch){
-    console.log('%cDISPATCH CHAMADO','font-size:14;color:red;background-color:cyan');
+function mapDispatchToProp(dispatch){    
     return{
-        setMin:function(novoDado){            
+        setMin:function(novoDado){                        
             const action = changeMinimo(novoDado);
             dispatch(action);
         },
@@ -42,4 +41,4 @@ function mapActionCreatorsToProp(dispatch){
 }
 
 
-export default connect(state => state.numeros,mapActionCreatorsToProp)(Intervalo);
+export default connect(state => state.numeros,mapDispatchToProp)(Intervalo);
