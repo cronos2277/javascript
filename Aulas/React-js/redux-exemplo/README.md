@@ -1,5 +1,18 @@
 # Redux
 
+1. [Instalando](#instalando)
+
+2. [Reducers: Acessando os Estados](#reducers)
+
+    A. [Criando Objeto Inicial](#colocando-um-valor-inicial-no-objeto-com-estado)
+
+    B. [Fazendo o React reconhecer o Redux](#usando)
+
+    C. [lendo objeto com estado nos componentes](#usando-em-componentes-específicos)
+
+3.[Action Creators](#actions)
+
+
 ## Instalando
 Para funcionar o redux, você precisa instalar ele, quando você usa o `npx create-react-app` o redux não vem mais por padrão, para isso `npm i redux` ou `npm install redux`, dentro do projeto criado pelo **create-react-app**. Além disso para que haja integração com o react, precisa instalar o `react-redux`, no caso `npm i react-redux` ou `npm install react-redux`.
 
@@ -129,4 +142,9 @@ No caso o redux aqui trabalha com o padrão de projeto *decorator*, ou seja ele 
 ##### connect
     export default connect(mapStateToProps)(Sorteio);
 
-A função *connect* faz a injeção de um objeto com estado dentro de um componente, essa função vem dela `import {connect} from 'react-redux';`. O *connect* trabalha com **currying**, nos primeiros parenteses você passa a função que vai injetar o estado, como por exemplo essa `mapStateToProps`, essa função deve ter como retorno ou o estado ou a parte do estado que interessa a esse componente, após isso você passa no segundo parentes. No primeiro você passa a função injetora e na segundo parentes o componente e é justamente a função *connect* que deve fazer o retorno, conforme visto acima.
+###### ou seja
+    export default connect([funcaoInjetora])([Componente]);
+
+A função *connect* faz a injeção de um objeto com estado dentro de um componente, essa função vem dela `import {connect} from 'react-redux';`. O *connect* trabalha com **currying**, nos primeiros parenteses você passa a função que vai injetar o estado, como por exemplo essa `mapStateToProps`, essa função deve ter como retorno ou o estado ou a parte do estado que interessa a esse componente, após isso você passa no segundo parentes. No primeiro você passa a função injetora e na segundo parentes o componente e é justamente a função *connect* que deve fazer o retorno, conforme visto acima. **Lembre-se sempre de retornar o componente através do connect, pois essa função injeta o objeto com estado, permitindo o acesso do componente a esse recurso.**
+
+## Actions
