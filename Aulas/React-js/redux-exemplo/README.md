@@ -153,7 +153,7 @@ A função *connect* faz a injeção de um objeto com estado dentro de um compon
 
 ## Actions
 No caso agora vamos ver como que funciona a mudança de Estado.
-[Intervalo](/src/components/intervalo.jsx)
+[Intervalo](./src/components/intervalo.jsx)
 
     import './intervalo.css';
     import React from 'react';
