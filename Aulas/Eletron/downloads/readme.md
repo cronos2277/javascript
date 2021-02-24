@@ -9,12 +9,10 @@
 
 [Main.html](main.html)
 
-## Eventos
->`updated` É emitido enquanto o download estiver sendo atualizado. Passa um objeto event e state. “state” é uma String que indica se o download está em progresso ou parado (`“progressing”` e `“interrupted”`).
+1.[Requisição](#requisição)
 
->`done` É emitido quando o download for parado. Passa um objeto event e state. “state” pode retornar uma das seguintes Strings: `“completed”`, `“cancelled”` e `“interrupted”`.
-
-## Exemplo
+2.[WebRequest](#webrequest)
+## Requisição
 ###### Código
 
     const {BrowserWindow,app} = require('electron');
@@ -372,3 +370,6 @@ Aqui é quando o download é concluído, quando o mesmo é concluído o evento `
 >`updated` É emitido enquanto o download estiver sendo atualizado. Passa um objeto event e state. “state” é uma String que indica se o download está em progresso ou parado (“progressing” e “interrupted”).
 
 >`done` É emitido quando o download for parado. Passa um objeto event e state. “state” pode retornar uma das seguintes Strings: “completed”, “cancelled” e “interrupted”.
+
+## WebRequest
+[Documentação](https://www.electronjs.org/docs/api/web-request)
