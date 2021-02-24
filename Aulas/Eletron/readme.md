@@ -21,6 +21,7 @@ Segue uma dica de segurança do Electron: [site](https://www.electronjs.org/docs
 3. [Gravando a Tela](gravadorTela)
 4. [GUI](gui)
 5. [Arquivos e Midia](arquivos_media)
+6. [Downloads](downloads)
 
 
 
