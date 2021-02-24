@@ -1,4 +1,4 @@
-const {app, BrowserWindow,nativeImage} = require('electron');
+const {app, BrowserWindow,nativeImage,clipboard,shell} = require('electron');
 
 app.on('ready',function(){
     
@@ -36,5 +36,15 @@ app.on('ready',function(){
     }catch(e){
         console.log(e.message);
     }    
+    
+    console.log(`
+        Texto no clipboard: ${clipboard.readText()}\n
+        Imagem no clipboard:${clipboard.readImage()}\n
+        read html:${clipboard.readHTML()}\n
+    `);
+
+    shell.openExternal('C:\\'); 
+    shell.openExternal('https://github.com/cronos2277')
+    shell.openPath('package.json')
 });
 
