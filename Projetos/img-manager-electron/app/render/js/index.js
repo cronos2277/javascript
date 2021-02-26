@@ -1,5 +1,5 @@
 module.exports = {
     camera:'',
-    fileManager:'',
+    fileManager:require('./fileManager'),
     fileManagerTemplate:''
 }
