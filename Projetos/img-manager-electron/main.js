@@ -1,5 +1,5 @@
 const electron = require('electron'), 
-{app,BrowserWindow,Menu,Tray} = electron;
+{app,BrowserWindow,Menu,Tray, ipcMain, globalShortcut} = electron;
 
 const directories = {
     main: `${__dirname}/app/main/`,
@@ -25,7 +25,12 @@ function createWindowApp(){
         win.on('closed', () => {
             win = null;
         });
-        //win.webContents.openDevTools();
+        globalShortcut.register('CmdOrCtrl+P',() => {
+            if(win){
+                win.send('screenshot');
+            }
+        });
+        win.webContents.openDevTools();
     }
 }
 
