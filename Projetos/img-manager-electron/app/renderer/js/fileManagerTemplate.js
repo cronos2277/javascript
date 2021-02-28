@@ -80,8 +80,7 @@ var fileManagerTemplate = {
         fileManager.folders.select(path,isTotalPath);
         this.startStructure();
     },
-    openFile(path){
-        console.log(shell);
+    openFile(path){        
         shell.openPath(path.replace(/\\/g,'/'));
     },
     copyFile(path){
