@@ -27,7 +27,24 @@ function listDirectory(type = 'Directory',rootDir = homeDirectory){
 }
 
 var fileManager = {
-    files:{},
+    files:{
+        current: '',
+        list(rootDir = fileManager.folders.current){
+            return listDirectory('File',rootDir);
+        },
+        listImages(){
+            return this.list().then(
+                files => {
+                    return files.filter(
+                        file => (file.endsWith('.png') || file.endsWith('.jpg') || file.endsWith('.gif'))
+                    );
+                }
+            );
+        },
+        getFullPath(fileList = [], directory = fileManager.folders.current){
+            return fileList.map(file => path.resolve(directory,file));
+        }
+    },
     folders:{
         current:homeDirectory,
         select(directory = '', isTotalPath = false){
