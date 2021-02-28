@@ -10,11 +10,23 @@ let win;
 const appUrl = `file://${directories.renderer}/index.html`;
 function createWindowApp(){
     if(!win){
-        win = new BrowserWindow({width:800, height:600, autoHideMenuBar:true});
+        win = new BrowserWindow(
+            {
+                width:800,
+                height:600,
+                autoHideMenuBar:true,
+                webPreferences:{
+                    nodeIntegration:true,
+                    webSecurity:false,
+                    enableRemoteModule: true
+                }
+            });
+        //win.loadFile(appUrl)    
         win.loadURL(appUrl);
         win.on('closed', () => {
             win = null;
         });
+        win.webContents.openDevTools();
     }
 }
 
