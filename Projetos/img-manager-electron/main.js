@@ -30,7 +30,7 @@ function createWindowApp(){
                 win.send('screenshot');
             }
         });
-        win.webContents.openDevTools();
+        
     }
 }
 
@@ -65,4 +65,8 @@ app.on('window-all-closed',() => {
 
 ipcMain.on('updateFilesList',() => {
     win.send('updateFilesList')
-})
+});
+
+ipcMain.on('saveFile', (event,file) => {
+    win.send('saveFile',file);
+});

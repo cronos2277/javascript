@@ -62,7 +62,7 @@ var Camera = {
         if(videoSource.src || videoSource.srcObject){
             ctx.drawImage(videoSource,0,0);
             var img = canvas.toDataURL('image/png');
-            Camera.saveFile(img);
+            ipcRenderer.send('saveFile',img);
         }
     },
     screenshot(){        
@@ -104,7 +104,7 @@ var Camera = {
         }
     
     },
-    saveFile(img){
+    saveFile(event,img){
         var data = img.replace(/^data:image\/\w+;base64,/,"");
         var buf = new Buffer(data,'base64');
         var date = (new Date()).getTime();
@@ -133,4 +133,5 @@ var Camera = {
 
 module.exports = Camera;
 
+ipcRenderer.on('saveFile', Camera.saveFile);
 ipcRenderer.on('screenshot',Camera.screenshot);
