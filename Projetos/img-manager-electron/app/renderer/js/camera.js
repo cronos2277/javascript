@@ -1,3 +1,5 @@
+const { resolve } = require('path');
+
 const fs = require('fs'),
 electron = require('electron'),
 {remote,ipcRenderer,desktopCapturer } = electron,
@@ -64,39 +66,44 @@ var Camera = {
             Camera.saveFile(img);
         }
     },
-    screenshot(){
-        desktopCapturer.getSources({types:['screen']},(error,sources) =>{
-            navigator.webkitGetUserMedia({
-                video:{
-                    mandatory:{
-                        chromeMediaSource:'desktop',
-                        chromeMediaSourceId:sources[0].id,
-                        minWidth:800,
-                        maxWidth:1280,
-                        minHeight:600,
-                        maxHeight:720
-                    }
+    screenshot(){        
+        try{
+            desktopCapturer.getSources({types:['screen']}).then(
+                async sources =>{                    
+                    navigator.getUserMedia(
+                        {
+                            video:{
+                                mandatory:{
+                                    chromeMediaSource:'desktop',
+                                    chromeMediaSourceId:sources[0].id,
+                                    minWidth:800,
+                                    maxWidth:1280,
+                                    minHeight:600,
+                                    maxHeight:720
+                                }
+                            }
+                        },
+                        stream => {                            
+                            var videoElement = document.createElement('video');
+                            try{
+                                videoElement.srcObject = stream;
+                            }catch{
+                                videoElement.src = window.URL.createObjectURL(stream);
+                            }
+                            videoElement.play();
+                            setTimeout(() =>{
+                                Camera.snapshot(videoElement);
+                                stream.getTracks()[0].stop();
+                            },300);
+                        },
+                        error => console.log(error)
+                    )
                 }
-            },
-            (stream) => {
-                var videoElement = document.createElement('video');
-                try{
-                    videoElement.srcObject = stream;
-                }catch{
-                    videoElement.src = window.URL.createObjectURL(stream);
-                }
-                videoElement.play();
-                setTimeout(()=>{
-                    Camera.screenshot(videoElement);
-                    stream.getTracks()[0].stop();
-                },300);
-            },
-            (error) => {
-                Camera.newFileNotification(null,'Erro ao capturar tela!')
-                console.log(error)
-            }
-            )
-        })
+            );
+        }catch(error){
+
+        }
+    
     },
     saveFile(img){
         var data = img.replace(/^data:image\/\w+;base64,/,"");
