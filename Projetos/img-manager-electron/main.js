@@ -25,7 +25,7 @@ function createWindowApp(){
         win.on('closed', () => {
             win = null;
         });
-        win.webContents.openDevTools();
+        //win.webContents.openDevTools();
     }
 }
 

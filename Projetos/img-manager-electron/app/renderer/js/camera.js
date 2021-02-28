@@ -35,7 +35,7 @@ var Camera = {
             cameraWindow.loadURL(`${__dirname}/../camera.html`);
             cameraWindow.on('closed',() => {
                 cameraWindow = null;
-            });
+            });            
         }
     },
     close(){
@@ -47,7 +47,11 @@ var Camera = {
             navigator.mediaDevices.getUserMedia({video:true,audio:false})
             .then(function(stream){
                 localMediaStream = stream;
-                video.src = window.URL.createObjectURL(stream);
+                try{
+                    video.srcObject = stream;
+                }catch{
+                    video.src = window.URL.createObjectURL(stream);
+                }
                 video.play();
             });
         }
