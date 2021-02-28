@@ -62,3 +62,7 @@ app.on('activate',() => {
 app.on('window-all-closed',() => {
 
 });
+
+ipcMain.on('updateFilesList',() => {
+    win.send('updateFilesList')
+})

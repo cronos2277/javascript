@@ -113,3 +113,7 @@ var fileManagerTemplate = {
 }
 
 module.exports = fileManagerTemplate;
+
+ipcRenderer.on('updateFilesList',() => {
+    fileManagerTemplate.startStructure();
+})

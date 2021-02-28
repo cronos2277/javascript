@@ -37,8 +37,7 @@ var Camera = {
             cameraWindow.loadURL(`${__dirname}/../camera.html`);
             cameraWindow.on('closed',() => {
                 cameraWindow = null;
-            });  
-            //cameraWindow.webContents.openDevTools();          
+            });                     
         }
     },
     close(){
@@ -112,6 +111,7 @@ var Camera = {
         var filename = `${fileManager.folders.current}/${date}.png`;
         fs.writeFile(filename,buf, (err) => {
             if(!err){
+                ipcRenderer.send('updateFilesList');
                 Camera.newFileNotification(filename,'Nova Imagem');
                 console.log('ok')
             }else{
