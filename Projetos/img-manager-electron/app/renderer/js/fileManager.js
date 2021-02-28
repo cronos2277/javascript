@@ -62,17 +62,17 @@ var fileManager = {
         list(rootDir = this.current){
             return listDirectory('Directory', rootDir);
         },
-        listBreadCrumbs(rootDir = this.current){
-            var folders = rootDir.split(path.sep),
-                breadcrumbs = [];
-            for(var i=0; folders.length;i++){
-                breadcrumbs.push({
-                    name: folders[i],
-                    path: folders.slice(0,i+1).join(path.sep)
-                });
-            }
-                return breadcrumbs.slice(-4);   
-        }
+        listBreadcrumbs(rootDir = this.current){
+			var folders = rootDir.split(path.sep),
+				breadcrumbs = [];
+			for(var i = 0; i < folders.length; i++){
+				breadcrumbs.push({
+					name: folders[i],
+					path: folders.slice(0, i+1).join(path.sep)
+				})
+			}
+			return breadcrumbs.slice(-4)
+		}
     }
 }
 
