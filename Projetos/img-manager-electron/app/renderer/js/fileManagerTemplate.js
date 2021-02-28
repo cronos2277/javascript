@@ -23,7 +23,7 @@ var fileManagerTemplate = {
                 foldersList.forEach(
                     folder => {
                         template += `
-                            <li class='folder-list-item'>
+                            <li class='folder-list-item' onclick='App.fileManagerTemplate.selectFolder("${folder}")'>
                                 <h1 class='folder-name'>${folder}</h1>
                             </li>
                         `;
@@ -39,8 +39,9 @@ var fileManagerTemplate = {
             var foldersList = fileManager.folders.listBreadcrumbs(rootDir);
             foldersList.forEach(
                 folder => {
+                    var folderPath = (folder.path + path.sep).replace(/\\/g, '\\\\');
                     template += `
-                        <li class='breadcrumb-list-item'>
+                    <li class="breadcrumb-list-item" onclick="App.fileManagerTemplate.selectFolder('${folderPath}', 'true')" >
                             <h1 class='breadcrumb-name'>${folder.name}</h1>
                         </li>
                     `;
@@ -69,6 +70,14 @@ var fileManagerTemplate = {
                 resolve(template);
             })
         });
+    },
+    upDirectory(){
+        fileManager.folders.upDirectory();
+        this.startStructure();
+    },
+    selectFolder(path,isTotalPath){
+        fileManager.folders.select(path,isTotalPath);
+        this.startStructure();
     }
 }
 
