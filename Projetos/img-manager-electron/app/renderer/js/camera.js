@@ -35,7 +35,8 @@ var Camera = {
             cameraWindow.loadURL(`${__dirname}/../camera.html`);
             cameraWindow.on('closed',() => {
                 cameraWindow = null;
-            });            
+            });  
+            //cameraWindow.webContents.openDevTools();          
         }
     },
     close(){
@@ -57,10 +58,35 @@ var Camera = {
         }
     },
     snapshot(videoSource = video){
-
+        if(videoSource.src || videoSource.srcObject){
+            ctx.drawImage(videoSource,0,0);
+            var img = canvas.toDataURL('image/png');
+            Camera.saveFile(img);
+        }
     },
-    saveFile(){
-
+    saveFile(img){
+        var data = img.replace(/^data:image\/\w+;base64,/,"");
+        var buf = new Buffer(data,'base64');
+        var date = (new Date()).getTime();
+        var filename = `${fileManager.folders.current}/${date}.png`;
+        fs.writeFile(filename,buf, (err) => {
+            if(!err){
+                Camera.newFileNotification(filename,'Nova Imagem');
+                console.log('ok')
+            }else{
+                console.log(err)
+                Camera.newFileNotification(filename,'Erro: '+err.message);
+            }
+        })
+    },
+    newFileNotification(filePath, msg){
+        var notification = new Notification('IMG Manager',{
+            body:msg,
+            icon:filePath
+        });
+        notification.onclick = () => {
+            fileManagerTemplate.openFile(filePath);
+        }
     }
 }
 
