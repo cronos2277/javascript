@@ -1,0 +1,21 @@
+{
+  "name": "aulas",
+  "version": "1.0.0",
+  "description": "Exemplo envolvendo nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ms-dos": "dir",
+    "ls": "ls -latr",
+    "start": "echo ola mundo "
+  },
+  "author": "cronos2277",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "shelljs": "^0.8.3"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.6.0"
+  }
+}
