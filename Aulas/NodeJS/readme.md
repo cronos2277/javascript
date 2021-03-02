@@ -7,6 +7,8 @@
 
 4. [Versões](#versões) 
 
+5.[Event Emitter](#emitindo-eventos) 
+
 ## Exemplo Básico
 
     {
@@ -110,6 +112,8 @@ Dependências do dessenvolvedor não é instalado automaticamente quando se da u
         "bootstrap": "^4.6.0"
     }
 
+### Removendo
+Para remover, você pode usar `npm remove [pacote]` ou `npm r [pacote]` para remover pacotes do *package.json* de **dependencies** e ` npm r -D [pacote]` ou ` npm remove -D [pacote]` para remover de *devDependencies*. Lembrando que `[pacote]` deve ser substituído pelo nome correspondente do pacote.
 ## Versões
 `"cross-env": "^7.0.3"` => Permite a atualização no pacote contanto que se mantenha na versão 7. No caso esse pacote poderia evoluir para a versão `7.0.9` ou para `7.9.9` mas não para a versão `8`. Ou seja atualização *major* é o tipo de evolução padrão. Em resumo esses apenas esses dois números pode mudar `0.3`. O que permite a atualização de bugs e atualização menores.
 
@@ -135,3 +139,85 @@ Dependências do dessenvolvedor não é instalado automaticamente quando se da u
         "bootstrap": "<=4.6.0"
     }
 
+## Emitindo Eventos
+### Basico
+[Event Emitter arquivo](./eventEmitter1.js)
+
+    const {EventEmitter} = require('events');
+    const emitter = new EventEmitter();
+
+    emitter.on('evento', function(parametro){
+        console.log('Evento disparado, com o parametro'+parametro);
+    });
+
+    emitter.emit('evento','parametro123');
+
+O pacote `events` vem incluso com o nodejs. Com uma instancia desse objeto você pode programar orientado a eventos, uma das formas de se fazer isso é instanciadno um **EventEmitter** que vem do pacote *events* `const emitter = new EventEmitter();` e então registrar a função associada a ela, usando o método *on*, conforme abaixo:
+
+    emitter.on('evento', function(parametro){
+        console.log('Evento disparado, com o parametro'+parametro);
+    });
+
+E então para chamar-lo `emitter.emit('evento','parametro123');`, você usa a string registrada no evento para disparar-lo, e no emit o segundo argumento seria o parametro, caso você queira passar algum argumento para a função associado ao evento, nesse caso `parametro123`, o output deve ser esse:
+
+    $ node eventEmitter1
+    Evento disparado, com o parametroparametro123
+
+### Removendo um único Evento
+[Event Emitter 2 arquivo](eventEmitter2.js)
+
+    const {EventEmitter} = require('events');
+    const emitter = new EventEmitter();    
+    const callback1 = parametro => console.log('Evento disparado da callback1, com o parametro'+parametro);
+    const callback2 = parametro => console.log('Evento disparado da callback2, com o parametro'+parametro);
+
+    emitter.on('evento', callback1);
+    emitter.on('evento', callback2);
+    emitter.emit('evento','parametro1');
+    emitter.emit('evento','parametro2');
+
+    //removendo uma callback do Evento
+    emitter.removeListener('evento',callback1);
+    emitter.emit('evento','parametro3');
+
+Existe duas formas de excluir um evento e nesse caso é o método `removeListener`, nesse método, o primeiro argumento é o evento e o segundo a função a ser removida. Veja que nesse método você deve especificar qual função de callback deve ser removida, uma vez que conforme visto aqui:
+
+    emitter.on('evento', callback1);
+    emitter.on('evento', callback2);
+
+Você pode colocar mais de uma callback nos eventos podendo ter uma relação de um evento podendo ter *N* callbacks, por isso se for usar esse método , você deve informar qual callback deve ser excluída, nesse caso devido a essa exclusão `emitter.removeListener('evento',callback1);` essa outra callback `callback2` não será afetada.
+
+    $ node eventEmitter2
+    Evento disparado da callback1, com o parametroparametro1
+    Evento disparado da callback2, com o parametroparametro1
+    Evento disparado da callback1, com o parametroparametro2
+    Evento disparado da callback2, com o parametroparametro2
+    Evento disparado da callback2, com o parametroparametro3
+
+Repare que o `parametroparametro3` é executado uma vez, isso porque apenas uma única callback foi removida, a outra permanece intacta.
+
+### Removendo todos os Eventos
+
+    const {EventEmitter} = require('events');
+    const emitter = new EventEmitter();    
+    const callback1 = parametro => console.log('Evento disparado da callback1, com o parametro'+parametro);
+    const callback2 = parametro => console.log('Evento disparado da callback2, com o parametro'+parametro);
+
+    emitter.on('evento', callback1);
+    emitter.on('evento', callback2);
+    emitter.emit('evento','parametro1');
+    emitter.emit('evento','parametro2');
+
+    //removendo todas as callbacks
+    emitter.removeAllListeners('evento');
+    emitter.emit('evento','parametro3');
+
+Diferente do método acima o método `removeAllListeners`, apaga todos as callbacks associados a esse evento, motivo pelo qual você especifica apenas um argumento, o evento a deixar de emitir, segue um exemplo do output:
+
+    $ node eventEmitter3
+    Evento disparado da callback1, com o parametroparametro1
+    Evento disparado da callback2, com o parametroparametro1
+    Evento disparado da callback1, com o parametroparametro2
+    Evento disparado da callback2, com o parametroparametro2
+
+Repare que nesse caso não chegou a executar o `parametroparametro3`, devido ao fato dessa linha ser executada antes `emitter.removeAllListeners('evento')`
