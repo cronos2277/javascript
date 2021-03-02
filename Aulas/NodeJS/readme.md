@@ -158,6 +158,7 @@ O pacote `events` vem incluso com o nodejs. Com uma instancia desse objeto você
         console.log('Evento disparado, com o parametro'+parametro);
     });
 
+### Chamando o evento com 'emit'
 E então para chamar-lo `emitter.emit('evento','parametro123');`, você usa a string registrada no evento para disparar-lo, e no emit o segundo argumento seria o parametro, caso você queira passar algum argumento para a função associado ao evento, nesse caso `parametro123`, o output deve ser esse:
 
     $ node eventEmitter1
@@ -197,6 +198,7 @@ Você pode colocar mais de uma callback nos eventos podendo ter uma relação de
 Repare que o `parametroparametro3` é executado uma vez, isso porque apenas uma única callback foi removida, a outra permanece intacta.
 
 ### Removendo todos os Eventos
+[Arquivo para remover todos os eventos](eventEmitter3.js)
 
     const {EventEmitter} = require('events');
     const emitter = new EventEmitter();    
@@ -220,4 +222,59 @@ Diferente do método acima o método `removeAllListeners`, apaga todos as callba
     Evento disparado da callback1, com o parametroparametro2
     Evento disparado da callback2, com o parametroparametro2
 
-Repare que nesse caso não chegou a executar o `parametroparametro3`, devido ao fato dessa linha ser executada antes `emitter.removeAllListeners('evento')`
+Repare que nesse caso não chegou a executar o `parametroparametro3`, devido ao fato dessa linha ser executada antes `emitter.removeAllListeners('evento')`.
+
+### Once
+[Quarto Exemplo](./eventEmitter4.js)
+###### Código
+    const {EventEmitter} = require('events');
+
+    const emitter = new EventEmitter();
+
+    emitter.once('evento', function(parametro){
+        console.log('Evento disparado, com o parametro'+parametro);
+    });
+
+    emitter.emit('evento','parametro1');
+    emitter.emit('evento','parametro2');
+
+###### Output
+    $ node eventEmitter4
+    Evento disparado, com o parametroparametro1
+
+#### Explicando
+Com o *once* o evento é emitido e já em seguida é feito a remoção dele, repare que essa linha não é executada `emitter.emit('evento','parametro2');` e isso ocorre devido a essa peculiaridade.
+
+### Orientação a Objetos
+[Quinto Exemplo](eventEmitter5.js)
+###### Código
+    const {EventEmitter} = require('events');
+
+    class Evento extends EventEmitter{
+        callback1(){
+            console.log('Callback 1');
+        }
+
+        callback2(){
+            console.log('Callback 2');
+        }
+    }
+
+    const emitter = new Evento();
+
+    emitter.once('callback',emitter.callback1);
+    emitter.once('callback',emitter.callback2);
+
+    emitter.emit('callback');
+
+    // Nao sera executado
+    emitter.emit('callback');
+
+###### Output
+
+    $ node eventEmitter5
+    Callback 1
+    Callback 2
+
+#### Explicando
+Você pode colocar quantas callbacks quiser no evento, mas com a once, todas só serão executadas uma vez, o que explica a execução única do *emit*, sendo que o mesmo é chamado duas vezes. Você pode também extender da classe **EventEmitter** se quiser algo mais complexo.
