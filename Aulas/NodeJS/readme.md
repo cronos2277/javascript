@@ -350,3 +350,49 @@ Existe também uma vesão sincrona da função ou método, dependendo de como vo
 
 #### Explicando
 a função *appendFile* funciona de maneira semelhante *writeFile*, assim como o *appendFileSync* funciona de maneira semelhante a *writeFileSync*, porém diferente das funções de escrita, essas adicionam conteúdo ao arquivo ao invés de substituir-lo. Em resumo se o arquivo não existe, as funções *append* funcionam exatamente igual a função write, mas se o arquivo existir, a função *write* reescreve o conteúdo, ou seja apaga o que tem e cria um novo e o *append* ao invés de apagar e criar novo, simplesmente concatena informação ao arquivo gerado, essa é a diferença entre eles.
+
+### Função File Read
+
+    const {readFile,readFileSync} = require('fs');
+    readFile('append1.txt',function(erro,dados){
+        console.log('arquivo: append1.txt');
+        if(erro){
+            console.log(erro);
+        }else{
+            console.log(dados.toString());
+        }
+    });
+
+    try{
+        const buffer = readFileSync('append2.txt');
+        console.log('arquivo: append2.txt');
+        console.log(`Para String: ${buffer.toString()}`);
+        console.log(`Para JSON: ${JSON.stringify(buffer.toJSON())}`);    
+    }catch(error){
+        console.log(error);
+    }
+
+#### Explicando
+A função ou o método *readFile* e *readFileSync* servem para ter arquivos, sendo a primeira assíncrona e a segunda síncrona.
+
+##### readFile
+Esse método aceita de dois a 4 argumentos, na seua forma básica com 2 argumentos, o primeiro é o arquivo a ser lido e o segundo é a callback para gerenciar isso. Essa callback aceita 2 argumentos, o primeiro é o erro caso tenha e a segunda é o dado bruto em forma de Buffer, precisando ser tratado depois. No modo 3 argumentos o primeiro é o arquivo a ser lido, o segundo é a quantidade de bytes que devem ser lidos, isso pode ser interessante para arquivos muito grande, permitindo que seja lido a quantidade de bytes informado e após isso a função é encerrada, sem que seja necessário ler o arquivo na integra e por fim a callback para tratar. A função aceita cinco argumentos, mas geralmente é usado no modo 2 ou de 3 argumentos.
+
+##### Buffer
+O buffer é o dado bruto, no caso o conteúdo do arquivo é jogado na memória, para que possa extrair o dado você deve usar o método *toString*, para que seja convertido a um formato de texto, ou usar as devidas funções de tratamento.
+
+##### readFileSync
+Essa função é executada de maneira síncrona e o seu uso é desencorajado, no caso essa função na sua forma mais básica aceita como argumento o nome do arquivo a ser lido, e podendo ter ou não como segundo argumento dentro do objeto as opções de leitura, essa função retorna um [Buffer](#buffer). Ela lança erros.
+
+###### Output
+
+    arquivo: append2.txt
+    Para String: 301250378
+
+    Para JSON: {"type":"Buffer","data":[51,48,49,50,53,48,51,55,56,10]}
+    arquivo: append1.txt
+    458636564
+    248463050
+    22520422
+
+Como você pode ver acima a função síncrona é executada antes porque é bloqueante, e também é possível transformar um *Buffer* para *JSON*.
