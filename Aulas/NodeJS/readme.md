@@ -321,3 +321,32 @@ Essa função funciona de maneira assíncrona, ou seja a leitura de arquivo usan
 
 ###### Explicando
 Existe também uma vesão sincrona da função ou método, dependendo de como você importar, que é o *writeFileSync*. Essa função síncrona aceita os dois primeiros argumentos, como a função síncrona, ou seja respectivamente o nome do arquivo a ser escrito e o seu respectivo conteúdo, porém como terceiro argumento, você passa as opções dentro de um objeto, no caso é passado a codificação *UTF-8*. Essa função lança exceções, logo vale a pena colocar-lo dentro de um bloco **TRY**-**Catch**. *Não recomenda-se o uso dessa função síncrona, exceto que tenha um bom motivo para isso. Recomenda-se o uso da versão assíncrona dela, sempreque possível*.
+
+###### Output
+
+    arquivo2.txt criado!
+    Arquivo1.txt criado
+
+*Repare que nesse exemplo a função sincrona é primeiro, isso porque a função assincrona, não bloqueia a execução de outras funções.*
+
+### Função Append
+[Exemplo envolvendo fileAppend](./fileAppend.js)
+###### Código
+
+    const {appendFile,appendFileSync} = require('fs');
+    const content1 = parseInt(Math.random() * (10 ** 9))+'\n';
+    const content2 = parseInt(Math.random() * (10 ** 9))+'\n';
+
+    appendFile('append1.txt',content1,function(erro){
+        if(erro){
+            console.log(erro);
+        }else{
+            console.log(`${content1} adicionado ao append1.txt`);
+        }
+    });
+
+    appendFileSync('append2.txt',content2,{encoding:'utf-8'});
+    console.log(`Adicionado ${content2} ao arquivo append2.txt`);
+
+#### Explicando
+a função *appendFile* funciona de maneira semelhante *writeFile*, assim como o *appendFileSync* funciona de maneira semelhante a *writeFileSync*, porém diferente das funções de escrita, essas adicionam conteúdo ao arquivo ao invés de substituir-lo. Em resumo se o arquivo não existe, as funções *append* funcionam exatamente igual a função write, mas se o arquivo existir, a função *write* reescreve o conteúdo, ou seja apaga o que tem e cria um novo e o *append* ao invés de apagar e criar novo, simplesmente concatena informação ao arquivo gerado, essa é a diferença entre eles.
