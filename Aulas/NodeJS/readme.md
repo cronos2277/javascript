@@ -396,3 +396,37 @@ Essa função é executada de maneira síncrona e o seu uso é desencorajado, no
     22520422
 
 Como você pode ver acima a função síncrona é executada antes porque é bloqueante, e também é possível transformar um *Buffer* para *JSON*.
+
+### Exists e RM
+
+    const {exists,existsSync,rm,rmSync} = require('fs');
+
+    exists('arquivo1.txt',function(existe){
+        const msg = message => console.log(message)
+        if(existe){
+            rm('arquivo1.txt',erro => (erro)?msg(erro):msg('Arquivo1.txt excluido!'));
+        }else{
+            msg(`arquivo1.txt não existe`);
+        }
+    });
+
+    if(existsSync('arquivo2.txt')){
+        rmSync('arquivo2.txt');
+        console.log('arquivo2.txt removido!');
+    }else{
+        console.log('arquivo2.txt não existe!');
+    }
+
+#### exists
+Essa função é a versão assincrona, ela verifica se o arquivo existe no disco. O primeiro argumento deve ser o nome ou path e o segundo argumento a *callback* que deve ter pelo menos um argumento, esse argumento é booleano e é através dele que saberemos se o arquivo existe ou não, se não existir esse argumento da callback se torna `false` ao passo que existir o argumento passado passa a ser `true` como argumento da callback passado como segundo argumento.
+
+#### existsSync
+É a versão sincrona, você passa como argumento o arquivo e a função retorna um booleano dizendo se o arquivo existe ou não.
+
+#### RM
+Essa função remove um arquivo, o primeiro argumento deve ser o arquivo a ser removido. No modo dois argumentos o primeiro é o nome do arquivo a ser removido e o segundo é uma callback que tem como argumento um erro, caso exista, podendo assim tratar. No modo três argumentos o primeiro é o arquivo a ser aberto, o ultimo a callback para tratar erro e o argumento do meio *o segundo* é para colocar as opções.
+
+##### Opções de remoção
+Você pode passar para uma função de remoção um conjunto de opções, ao qual incluí `{force:true|false,maxRetries:Number,recursive:true|false,retryDelay:Number}`, ou seja, respectivamente: Se deve forçar exclusão, quantas tentativas de exclusão?, essa exclusão deve ser recursiva?, quanto tempo em milisegundos deve se esperar entre uma tentativa falha e a nova tentativa? 
+#### rmSync
+Essa é uma função *void*, que exige como argumento o arquivo a ser excluído, sendo opcional um objeto com as opções acima, como segundo argumento.
