@@ -9,6 +9,8 @@
 
 5.[Event Emitter](#emitindo-eventos) 
 
+6.[Arquivos](#arquivos)
+
 ## Exemplo Básico
 
     {
@@ -278,3 +280,44 @@ Com o *once* o evento é emitido e já em seguida é feito a remoção dele, rep
 
 #### Explicando
 Você pode colocar quantas callbacks quiser no evento, mas com a once, todas só serão executadas uma vez, o que explica a execução única do *emit*, sendo que o mesmo é chamado duas vezes. Você pode também extender da classe **EventEmitter** se quiser algo mais complexo.
+
+## Arquivos
+[fileWrite.js](./fileWrite.js)
+### writeFile
+###### Código
+    const {writeFile} = require('fs');
+
+    const texto1 = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`;    
+
+    writeFile('arquivo1.txt',texto1,function(MensagensErro){
+        if(MensagensErro){
+            console.log(MensagensErro);
+        }else{
+            console.log('Arquivo1.txt criado');
+        }
+    });
+
+###### Explicando
+Essa função funciona de maneira assíncrona, ou seja a leitura de arquivo usando a função *writeFile* como feito aqui `const {writeFile} = require('fs');`, a função *writeFile* deve ter 3 argumentos, o primeiro o nome do arquivo a ser escrito no *HD* nesse exemplo `arquivo1.txt`, o segundo argumento o conteúdo que esse arquivo deve ter, no caso é armazenado um texto dentro de uma variável e passado como segundo argumento e por fim uma callback. Nessa callback, o primeiro parametro é uma mensagem de erro, no caso se você preferir fazer algum tratamento de erro, é esse argumento passado na callback que você deve considerar, conforme visto aqui:
+
+    function(MensagensErro){
+        if(MensagensErro){
+            console.log(MensagensErro);
+        }else{
+            console.log('Arquivo1.txt criado');
+        }
+    }
+
+### Escrita de arquivos de maneira síncrona
+
+###### Código
+
+    const {writeFileSync} = require('fs');
+
+    const texto2 = `Etiam libero augue, sodales vitae felis nec, mollis efficitur nisi.`;
+
+    writeFileSync('arquivo2.txt',texto2,{encoding:'utf-8'});
+    console.log('arquivo2.txt criado!');
+
+###### Explicando
+Existe também uma vesão sincrona da função ou método, dependendo de como você importar, que é o *writeFileSync*. Essa função síncrona aceita os dois primeiros argumentos, como a função síncrona, ou seja respectivamente o nome do arquivo a ser escrito e o seu respectivo conteúdo, porém como terceiro argumento, você passa as opções dentro de um objeto, no caso é passado a codificação *UTF-8*. Essa função lança exceções, logo vale a pena colocar-lo dentro de um bloco **TRY**-**Catch**. *Não recomenda-se o uso dessa função síncrona, exceto que tenha um bom motivo para isso. Recomenda-se o uso da versão assíncrona dela, sempreque possível*.
