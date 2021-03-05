@@ -430,3 +430,64 @@ Essa função remove um arquivo, o primeiro argumento deve ser o arquivo a ser r
 Você pode passar para uma função de remoção um conjunto de opções, ao qual incluí `{force:true|false,maxRetries:Number,recursive:true|false,retryDelay:Number}`, ou seja, respectivamente: Se deve forçar exclusão, quantas tentativas de exclusão?, essa exclusão deve ser recursiva?, quanto tempo em milisegundos deve se esperar entre uma tentativa falha e a nova tentativa? 
 #### rmSync
 Essa é uma função *void*, que exige como argumento o arquivo a ser excluído, sendo opcional um objeto com as opções acima, como segundo argumento.
+
+## Promise
+
+        const promessa = new Promise(function(resolve,reject){
+            if(Math.random() >= 0.5){
+                resolve();
+            }else{
+                reject();
+            }    
+        });
+
+    promessa
+    .then(() => console.log('Caiu no Try'))
+    .catch(() => console.log('Caiu no Catch'))
+    .finally(() => console.log('Programa concluído!'));
+
+### Explicando
+Esse é o exemplo mais básico envolvendo *Promise*, nesse caso uma *promise* aceita como argumento uma função que aceita *2 callbacks* como argumento conforme visto aqui `const promessa = new Promise(function(resolve,reject){`, dentro dessa função você usa essa função os argumentos para decidir quando a promise deve ser resolvida e assim chamar a *callback* passada como primeiro argumento, ou senão chamar a *callback* passada como segundo argumento, que é para informar a quem está chamando a promise que houve um erro.
+
+    if(Math.random() >= 0.5){
+        resolve();
+    }else{
+        reject();
+    }
+
+No caso aqui, aleatoriamente é chamado ou para resolver ou para rejeitar, e essas funções não passam argumentos ao *then* ou ao *catch*, no caso apenas é executada as callbacks.
+
+### Defindo a resolve e o reject
+
+    promessa
+    .then(() => console.log('Caiu no Try'))
+    .catch(() => console.log('Caiu no Catch'))
+    .finally(() => console.log('Programa concluído!'));
+
+No caso toda a lógica fica dentro da *Promise*, assim sendo, se a *Promise* optar por resolver é chamado o conteúdo dentro do *then*, se optar por rejeitar, chama o *catch*. Isso tudo claro, conforme o algoritimo passado na callback que recebe outras duas callbacks passadas aqui como parametros. O finally é chamado independente do que aconteça, sendo resolvida ou rejeitada, a *promise* sempre chama o block *finally*.
+
+### Estruturando Promise dentro de Função
+
+        function Calcular(numeros = []){
+            return new Promise(function(resolve,reject){
+                if(!numeros) reject(`Não tem números para operar!`);
+                const mult = numeros.reduce(function(acumulador,valor){
+                    return acumulador *= valor;
+                },1);
+
+                const soma = numeros.reduce(function(acc,val){
+                    return acc += val;
+                },0);
+
+                resolve({mult,soma});
+            });
+        }
+
+    Calcular([1,2,3,4]).then(console.log);
+###### Output
+    { mult: 24, soma: 10 }   
+#### Explicando
+Conforme visto acima, você pode encapsular uma promise dentro de uma função e usar os argumentos passados a ela para desenvolver a lógica de funcionamento da *Promise* que está dentro dela, nesse caso espera-se que o usuário passe um array de números e dentro desse arrays de números é aplicado dois *reduces*, o primeiro que multiplica todos os números e o segundo que soma todos os números e devolve o resultado em forma de um objeto. O importante a ressaltar é que tanto a callback de *resolve*, assim como a de *reject*, ambas devem ser levados em consideração, que essas callbacks apenas passam um valor, e não mais, no caso se você tiver a necessidade de passar ao *reject* ou ao *resolve* mais de um valor, deve-se usar da estruturas de objeto para isso, conforme feito aqui `resolve({mult,soma});`.
+
+Além disso, como se trata de uma função que tem uma promise dentro do seu interior, a forma de chamar o *then* é encadeando a uma função, conforme visto aqui `Calcular([1,2,3,4]).then(console.log);`, ao qual pega um array e vai aplicando dentro de uma promisse e jogando o valor como argumento da função passada, que é o que o resolve faz `resolve({mult,soma});`, porém a função que irá consumir esses dados é essa aqui: `.then(console.log);`.
+
