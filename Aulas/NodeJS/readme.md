@@ -11,6 +11,8 @@
 
 6.[Arquivos](#arquivos)
 
+7.[Promise](#promise)
+
 ## Exemplo Básico
 
     {
@@ -491,3 +493,63 @@ Conforme visto acima, você pode encapsular uma promise dentro de uma função e
 
 Além disso, como se trata de uma função que tem uma promise dentro do seu interior, a forma de chamar o *then* é encadeando a uma função, conforme visto aqui `Calcular([1,2,3,4]).then(console.log);`, ao qual pega um array e vai aplicando dentro de uma promisse e jogando o valor como argumento da função passada, que é o que o resolve faz `resolve({mult,soma});`, porém a função que irá consumir esses dados é essa aqui: `.then(console.log);`.
 
+### Async/Await
+###### Código
+    (async function ProcessarNumeros(numeros = [], callback){
+        const mult = new Promise(function(resolve,reject){
+            if(!numeros){
+                reject('Array Inválido!');
+            }else{
+                const result = numeros.reduce(function(acc,val){
+                    return acc *= val;
+                },1);
+                resolve(result);
+            }
+        });
+
+        const soma = new Promise(function(resolve,reject){
+            if(!numeros){
+                reject('Array Inválido!');
+            }else{
+                const result = numeros.reduce(function(acc,val){
+                    return acc += val;
+                },0);
+                resolve(result);
+            }
+        });
+
+        console.log('Antes do await');
+        callback({soma,mult}); 
+    
+        const somarTudo = await mult;    
+        const multTudo = await soma; 
+        console.log('\nDepois do await');
+        callback({somarTudo,multTudo});
+    })([1,2,3,4],console.log);
+
+
+
+###### Output
+    Antes do await
+    { soma: Promise { 10 }, mult: Promise { 24 } }
+
+    Depois do await
+    { somarTudo: 24, multTudo: 10 }
+
+#### Explicando
+**async** é uma palavra reservada que você coloca em funções *assincronas*, no caso dessa função se trata de uma função auto envocada, mas não precisa ser uma função auto envocada. Funções async, executam os códigos de maneira assincrona e devido a isso você pode necessitar que em determinadas partes, a função se comporte de maneira sincrona e é nesse ponto que entra o *await*, que significa *aguarde*.
+
+    const somarTudo = await mult;    
+    const multTudo = await soma; 
+
+Nesse exemplo acima, nenhum código é executado até que essas duas promises seja resolvidas, ou seja você está pedindo para que esses valores sejam resolvidos para só depois continuar, se você analisar o código acima desse, você verá algo como :
+
+    Antes do await
+    { soma: Promise { 10 }, mult: Promise { 24 } }
+
+E depois dos *await*, você tem o valor resolvido:
+
+    Depois do await
+    { somarTudo: 24, multTudo: 10 }
+
+Através do *await* você impõe que a promise deve ser resolvida antes de continuar, ou seja, dentro das funções *async* você pode deixar as promises sendo executado em paralelo e quando você necessitar pegar o valor dessa promise, você pode dar um *await* e com esse await você poderia pegar o valor destinado ao *resolve* ou ao *reject*, sem precisar dar um *then*, uma vez que o próprio *await* faz isso. Porém para concluir vale a observação: **`await` só pode ser usado em funções `async`**.
