@@ -7,12 +7,13 @@
 
 4. [Versões](#versões) 
 
-5.[Event Emitter](#emitindo-eventos) 
+5. [Event Emitter](#emitindo-eventos) 
 
-6.[Arquivos](#arquivos)
+6. [Arquivos](#arquivos)
 
-7.[Promise](#promise)
+7. [Promise](#promise)
 
+8. [HTTP](#http)
 ## Exemplo Básico
 
     {
@@ -434,7 +435,12 @@ Você pode passar para uma função de remoção um conjunto de opções, ao qua
 Essa é uma função *void*, que exige como argumento o arquivo a ser excluído, sendo opcional um objeto com as opções acima, como segundo argumento.
 
 ## Promise
+[Promise 1](Promise1.js)
 
+[Promise 2](Promise2.js)
+
+[Promise 3](Promise3.js)
+###### Código
         const promessa = new Promise(function(resolve,reject){
             if(Math.random() >= 0.5){
                 resolve();
@@ -553,3 +559,125 @@ E depois dos *await*, você tem o valor resolvido:
     { somarTudo: 24, multTudo: 10 }
 
 Através do *await* você impõe que a promise deve ser resolvida antes de continuar, ou seja, dentro das funções *async* você pode deixar as promises sendo executado em paralelo e quando você necessitar pegar o valor dessa promise, você pode dar um *await* e com esse await você poderia pegar o valor destinado ao *resolve* ou ao *reject*, sem precisar dar um *then*, uma vez que o próprio *await* faz isso. Porém para concluir vale a observação: **`await` só pode ser usado em funções `async`**.
+
+## HTTP
+###### Código
+    const http = require('http');
+    const server = http.createServer(function(request,response){
+        response.writeHead(200,{'Content-Type':'application/json'});
+        const json = JSON.stringify(
+            {
+                VALOR:"EXEMPLO VALOR",
+                NUMERO:parseInt(Math.random() * 1000)
+            }
+        );        
+        response.end(json);    
+    });
+    server.listen(3001);
+
+No *node JS* existe o módulo **HTTP** ao qual é nativo do NodeJS, ou seja, você tem acesso sem precisar instalar nada. Dentro do pacote HTTP:
+
+    const http = require('http');
+### Criando um servidor
+Podemos criar um servidor usando o método `createServer`, ao qual aceita como argumento uma callback, devendo ter essa callback 2 argumentos, o *request* e o *response* . Segue abaixo a callback desse exemplo:
+
+    function(request,response){
+        response.writeHead(200,{'Content-Type':'application/json'});
+        const json = JSON.stringify(
+            {
+                VALOR:"EXEMPLO VALOR",
+                NUMERO:parseInt(Math.random() * 1000)
+            }
+        );        
+        response.end(json);    
+    }
+
+O objeto *request* tem todos os dados oriundos do cliente e o objeto *response* tem os dados oriundos do servidor. Esse é o exemplo mais básico de uma resposta ao cliente, no caso estamos devolvendo como resposta um *JSON* para o usuário.
+
+    response.writeHead(200,{'Content-Type':'application/json'});
+
+Aqui estamos dizendo ao servidor que o conteúdo que será enviado ao cliente será uma resposta *JSON*. No caso o primeiro argumento é o código HTTP a ser enviado e o segundo seria o *HEADER* em forma de objeto.
+
+    const json = JSON.stringify(
+        {
+            VALOR:"EXEMPLO VALOR",
+            NUMERO:parseInt(Math.random() * 1000)
+        }
+    );
+
+Acima estamos criando um *JSON* para enviar ao cliente com o auxílio do método *stringify*.        
+
+    response.end(json);    
+
+Esse código acima é obrigatório, pois é com base nele que o servidor avisa ao cliente que terminou o processamento, o simples esquecimento do método *end* pode fazer com que a requisição não seja processada, ou seja esse método é importante, mas nem sempre ele aceita um argumento, aqui esse argumento é aceito porque o servidor está devolvendo um *JSON*, mas nem sempre é assim.
+
+### Ouvindo
+
+    server.listen(3001);
+
+Uma vez criado um servidor, nós temos que fazer-lo funcionar e para isso usamos o método *listen*, usando desse método passamos como argumento a porta que queremos ouvir, nesse caso o servidor será aberto na porta *3001*. Essa seria a aplicação mais básica desse método, no caso é aberto um servidor na porta passado como primeiro argumento.
+
+#### Devolvendo HTML e informando o servidor
+
+    const http = require('http');
+    const server = http.createServer(
+        function(request,response){
+            response.writeHead(200,{'Content-Type':"text/html"});
+            response.write('<h1>Ola Mundo</h1>');        
+            response.end();
+        }
+    ).listen(3002,'localhost');
+
+No caso aqui estamos retornando um html `response.writeHead(200,{'Content-Type':"text/html"});`, e usamos o método *write* para exibir informações ao usuário, nesse caso: `response.write('<h1>Ola Mundo</h1>');`, e como imprimimos tudo que precisávamos usando o método *write*, logo não se faz necessário passar nada para o *end*, mas isso não significa que não devemos chamar-lo e esse processo é feito aqui: `response.end();`. Pense no write e no end como o *echo* do PHP.
+
+##### listen
+Porém no modo de dois argumentos, você pode definir a porta no primeiro argumento e o servidor ao qual ele estará escutando, caso você queira especificar isso, conforme é feito aqui `.listen(3002,'localhost');`, lembre-se de colocar a informação de *IP* dentro de uma *string*.
+
+### Exemplos com request
+
+    const http = require('http');
+    const server = http.createServer(
+        function(request,response){
+            console.log('Metodo Usado:',request.method);
+            console.log('URL do Cliente:',request.url);
+            response.end(JSON.stringify({...request.headers}));
+        }
+    );
+
+    server.listen(3003);
+
+O primeiro *callback* passado é o request e justamente esse argumento tem alguns atributos que ajudam na identificação no cliente. Repare também que passamos o valor tudo dentro do método *end*, ou seja se tirarmos as funções de exibição no terminal, teríamos:
+
+    response.end(JSON.stringify({...request.headers}));
+
+Ou seja você pode ou não passar os dados de modo a conta gotas usando o método write, ou passar tudo de uma só vez dentro do método *end*.
+#### request.method
+Inicialmente temos `request.method`, o atributo *method* retorna o método usado pelo cliente, pondendo ser *GET*, *POST*, *PUT*, justamente com esse atributo você pode diferenciar o tipo de requisição e fazer o tratamento, tipo se for *POST* ou *PUT* por exemplo, verificar se o usuário está logado, ao passo que para *GET* não e por ai vai... Vale lembrar que o atributo retorna o método usado, em letras maísculas, ou seja: *GET*,*POST*, etc... Lembre-se disso quando for fazer desvios condicionais usando strings para comparar com ela.
+
+#### request.url
+Aqui retorna a *url* relativa que o usuário usou para fazer a requisição, ou seja, se o usuário apenas digitou `http://localhost:3003` nesse exemplo esse método valeria `/`, ao passo que se passasse pela *url* um id=3, tipo: `http://localhost:3003?id=3`, teríamos `/?id=3`, ou seja sempre de maneira relativa. Além disso, é válido lembrar, que apesar do *node* ser javascript, mesmo assim o *node* não pega *hashs* nas urls, isso só é pego pelo javascript no lado do cliente.
+
+#### request.headers
+###### Exemplo
+
+    {
+        "host":"localhost:3003",
+        "connection":"keep-alive",
+        "cache-control":"max-age=0",
+        "upgrade-insecure-requests":"1",
+
+        "user-agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36",
+
+        "accept":"text/html,application/xhtml+xml,
+
+        application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+
+        "sec-gpc":"1",
+        "sec-fetch-site":"none",
+        "sec-fetch-mode":"navigate",
+        "sec-fetch-user":"?1",
+        "sec-fetch-dest":"document",
+        "accept-encoding":"gzip, deflate, br","accept-language":"pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
+        }
+
+Esse atributo pode de dar muitos detalhes sobre o cliente, como o host o navegador e etc...
