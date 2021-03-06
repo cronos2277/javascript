@@ -561,6 +561,13 @@ E depois dos *await*, você tem o valor resolvido:
 Através do *await* você impõe que a promise deve ser resolvida antes de continuar, ou seja, dentro das funções *async* você pode deixar as promises sendo executado em paralelo e quando você necessitar pegar o valor dessa promise, você pode dar um *await* e com esse await você poderia pegar o valor destinado ao *resolve* ou ao *reject*, sem precisar dar um *then*, uma vez que o próprio *await* faz isso. Porém para concluir vale a observação: **`await` só pode ser usado em funções `async`**.
 
 ## HTTP
+[HTTP1.js](./http1.js)
+
+[HTTP2.js](./http2.js)
+
+[HTTP3.js](./http3.js)
+
+[HTTP4.js](./http4.js)
 ###### Código
     const http = require('http');
     const server = http.createServer(function(request,response){
@@ -681,3 +688,31 @@ Aqui retorna a *url* relativa que o usuário usou para fazer a requisição, ou 
         }
 
 Esse atributo pode de dar muitos detalhes sobre o cliente, como o host o navegador e etc...
+
+### Pegando url em um formato amigável
+
+    const http = require('http');
+    const url = require('url');
+
+    http.createServer(function(request,response){
+            response.end(JSON.stringify({...url.parse(request.url)}));
+    }).listen(3004);
+
+Como visto acima pode-se criar um servidor, apenas usando o método *end* `response.end(JSON.stringify({...url.parse(request.url)}));`, No caso esse método retorna em formato json o conteúdo de `url.parse(request.url)})`. O pacote permite uma melhor formatação da URL, por exemplo, se acessar-mos usando a URL `http://localhost:3004/?id=4`, com o método *parse* do pacote *url*, teríamos algo como:
+
+    {
+        "protocol":null,
+        "slashes":null,
+        "auth":null,
+        "host":null,
+        "port":null,
+        "hostname":null,
+        "hash":null,
+        "search":"?id=4",
+        "query":"id=4",
+        "pathname":"/",
+        "path":"/?id=4",
+        "href":"/?id=4"
+    }
+
+Ou seja ele seria uma espécie de *facede* para que possamos trabalhar com as *urls*.
