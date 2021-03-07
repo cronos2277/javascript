@@ -8,6 +8,7 @@
 5. [Menus](#Menus)
 6. [Barra de Tarefas](#barra-de-tarefas)
 7. [Tray](#Tray)
+8. [Notificação](#notificação)
 ## Arquivos
 [index.js](index.js)
 
@@ -664,3 +665,12 @@ Nesse caso cria um ícone na bandeija do sistema, para isso você precisa criar 
     ]);
 
 Nesta parte do código `tray.setToolTip('Descricao do icone da systray no eletron.');` você informa a mensagem quando o usuário deixa o mouse em cima do ícone, assim como aqui `tray.setContextMenu(contextMenuTray);`, você adiciona um menu como opções ao ícone da bandeija do sistema quando clicado com o botão direito do mouse.
+
+## Notificação
+
+    //Notificacao
+        const {Notification} = require('electron');
+        const notification = new Notification('Exemplo de Notificacao');
+        notification.show();
+
+Aqui temos um exemplo de notificação, porém é válido salientar que no windows se a notificação estiver desabilitada, não irá desaparecer, para criar uma notificação `const notification = new Notification('Exemplo de Notificacao');`, sendo que a classe *Notification* vem de `const {Notification} = require('electron');`., esse é um exemplo mais básico, no caso o [segundo argumento co construtor](https://www.electronjs.org/docs/api/notification#new-notificationoptions) são as opções e o método show é o método que faz a exibição da notificação., segue a [documentação](https://www.electronjs.org/docs/api/notification)
