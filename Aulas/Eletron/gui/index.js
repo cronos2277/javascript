@@ -5,7 +5,8 @@ const {
         powerMonitor,
         globalShortcut,
         Menu,
-        Tray                 
+        Tray,
+        Notification                 
 } = require('electron');
 const {ipcMain} = require('electron');
 
@@ -108,6 +109,10 @@ app.on('ready',function(e){
 
     tray.setToolTip('Descricao do icone da systray no eletron.');
     tray.setContextMenu(contextMenuTray);  
+
+    //Notificacao
+    const notification = new Notification('Exemplo de Notificacao');
+    notification.show();
 })
 
 //Tasks
