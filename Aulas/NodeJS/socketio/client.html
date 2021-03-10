@@ -14,6 +14,12 @@
         <button id='enviar'>Enviar</button>
     </div>
     <hr>
+    <div>
+        <h2>Comandos para o exemplo server3.js</h2>
+        <button onclick="acessarRota()">Acessar Rota</button>
+        <button onclick="interceptarRota()">interceptar Rota</button>
+    </div>
+    <hr>
     <div id='server'>
 
     </div>
@@ -29,6 +35,24 @@
             p.innerHTML = data;
             document.getElementById('server').append(p);
         });
+        function acessarRota(){
+            const socket = io('http://localhost:4001/rota');
+            socket.on('server',function(data){
+                console.log(data)
+                const p = document.createElement('p');
+                p.innerHTML = data;
+                document.getElementById('server').append(p);
+            });
+        }
+        function interceptarRota(){
+            const socket = io('http://localhost:4001/check');
+            socket.on('server',function(data){
+                console.log(data)
+                const p = document.createElement('p');
+                p.innerHTML = data;
+                document.getElementById('server').append(p);
+            });
+        }
     </script>
 </body>
 </html>

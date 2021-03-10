@@ -1,5 +1,11 @@
 # Socket.IO
 [Documentação](https://socket.io/docs/v3/)
+
+[Servidor](#no-lado-servidor)
+
+[Cliente](#cliente)
+
+[Roteamento](#roteamento)
 ## Instalando
     npm i socket.io
 
@@ -30,7 +36,7 @@ por padrão poderia ser assim `const socket = require('socket.io')([PORTA_TCP])`
         credentials: true
     },
 
-`origin` => Qual requisição deve ser aceito, ou seja qual é a url que pode enviar uma requisição nessa url. Nesse caso apenas será aceito apenas requisições vindo de *localhost* e da porta *5500*. Você poderia usar **"*"**, caso queira que seja aceita requisição de qualquer lugar, ficando `origin: "*"`.
+`origin` => Qual requisição deve ser aceito, ou seja qual é a url que pode enviar uma requisição nessa url. Nesse caso apenas será aceito apenas requisições vindo de *localhost* e da porta *5500*. Você poderia usar **"*"**, caso queira que seja aceita requisição de qualquer lugar, ficando `origin: "*"`, porem se quiser colocar o `origin: "*"`, [veja isso aqui](#cors-livre-para-todo-mundo).
 
 `methods` => Dentro do array deve ser informado os métodos http, que deveram ser aceitos, nesse caso é o *GET* e o *POST*.
 
@@ -43,6 +49,9 @@ por padrão poderia ser assim `const socket = require('socket.io')([PORTA_TCP])`
     socket.on('connect',[callback]);
 
     socket.on('connection',[callback]);
+
+>O evento connect é sinônimo do connection, eles são gerados quando um cliente se conecta ao socket. Primeiro é gerado o evento connect em seguida o connection. Desta forma, você pode utilizar qualquer um para verificar quando há uma conexão com o socket.
+
 
 Toda a lógica deve estar dentro de *connect* ou *connection*, conforme é demonstrado abaixo:
 [Arquivo server1.js](server1.js)
@@ -182,3 +191,136 @@ No lado do cliente você deve inicialmente importar o javascript `<script src="h
     });
 
 Esse listener é ativado quando o sevidor envia ao cliente o evento *server*, ao qual é [definido aqui, no lado do servidor](#resposta-pelo-servidor). O data é o conteúdo enviado pelo servidor.
+
+## Roteamento
+[server3.js](server3.js)
+###### Código
+    const io = require('socket.io')(4001,{
+    cors:{
+        origin: "*",
+            methods: ["GET", "POST"],
+            allowedHeaders: ["content-type"],
+            credentials: false
+    }
+    });
+
+    io.on('connect',function(socket){
+        socket.on('evento',function(msg){
+            socket.emit('server',`recebido ${msg}`);
+        });    
+        
+    });
+
+    io.of('/rota',function(socket){
+        console.log('rota acessada');
+        socket.emit('server','"/rota" acessado');
+    });
+
+    io.use(function(socket,next){
+        console.log('Interceptado');
+        next();
+    });
+
+    io.of('/check')
+    .on('connect',function(socket){
+        socket.emit('server','conectado a rota check');
+    })
+    .use(function(socket,next){
+        if(Math.random() > 0.49){
+            socket.emit('server','tudo certo');
+            next();
+        }else{
+            console.log('erro aleatório');
+            socket.emit('server','erro aleatório');
+            next(new Error('Erro Aleatorio'));
+        }
+    });
+
+### CORS Livre para todo mundo
+
+    cors:{
+        origin: "*",
+            methods: ["GET", "POST"],
+            allowedHeaders: ["content-type"],
+            credentials: false
+    }
+
+Aqui estamos basicamente configurando para aceitar requisições *POST* e *GET* de qualquer lugar.
+
+### Método OF
+###### Cliente
+
+    function acessarRota(){
+        const socket = io('http://localhost:4001/rota');
+        socket.on('server',function(data){
+            console.log(data)
+            const p = document.createElement('p');
+            p.innerHTML = data;
+            document.getElementById('server').append(p);
+        });
+    }
+###### Servidor
+    io.of('/rota',function(socket){
+        console.log('rota acessada');
+        socket.emit('server','"/rota" acessado');
+    });
+#### Explicando
+Utilizando o método *OF*, é possível tratar rotas específicas dentro desse servidor, nesse caso esta sendo tratado `http://localhost:4001/rota`, se essa fota for acessado é esse listener que irá atender a requisição, ou seja, com o método `of` é possível tratar rotas específicas, lembrando que o objeto *oi*, visto aqui `io.of` vem de `const io = require('socket.io')(4001,`.
+
+### Método USE
+###### Código
+    io.use(function(socket,next){
+        console.log('Interceptado');
+        next();
+    });
+
+#### Explicando
+Aqui é feito uma interceptação, no caso como não é especificado a rota, essa interceptação é feito apenas na raiz. Basicamente você usa o socket para fazer verificação no cliente, ver que autenticação ele está levando entre outros dados se for o caso e impor uma condição para a chamada do `next()`, se você não passar nenhum parametro ou passar **true**, a requisição segue em frente, caso seja passado *false* ou uma exception tipo `next(new Error('Mensagem'))`, o acesso a rota é bloqueado aqui e o usuário não acessa a rota.
+
+### Exemplo mais complexo
+###### Cliente
+    function interceptarRota(){
+        const socket = io('http://localhost:4001/check');
+        socket.on('server',function(data){
+            console.log(data)
+            const p = document.createElement('p');
+            p.innerHTML = data;
+            document.getElementById('server').append(p);
+        });
+    }
+###### Servidor
+    io.of('/check')
+    .on('connect',function(socket){
+        socket.emit('server','conectado a rota check');
+    })
+    .use(function(socket,next){
+        if(Math.random() > 0.49){
+            socket.emit('server','tudo certo');
+            next();
+        }else{
+            console.log('erro aleatório');
+            socket.emit('server','erro aleatório');
+            next(new Error('Erro Aleatorio'));
+        }
+    });
+
+Você pode encadear na rota o *on* e o *use* conforme é visto acima, ou seja na rota *check* `io.of('/check')`, quando conectar:
+
+    .on('connect',function(socket){
+        socket.emit('server','conectado a rota check');
+    })
+
+Podendo ou não ser interceptado por:
+
+    .use(function(socket,next){
+        if(Math.random() > 0.49){
+            socket.emit('server','tudo certo');
+            next();
+        }else{
+            console.log('erro aleatório');
+            socket.emit('server','erro aleatório');
+            next(new Error('Erro Aleatorio'));
+        }
+    });
+
+No caso aleatóriamente a rota bloqueia ou libera o acesso, se o número randomico for mais que **0,5** a requisição continua, senão o mesmo é bloqueado avisando o servidor no banco de dados, detalhe o *socket.emit* em caso de erro nâo chega ao cliente, em caso de erro apenas exibe esse console aqui `console.log('erro aleatório');`. Ou seja se você quiser tratar uma rota você precisa encadear o *use* a função *on*, e com o auxílio do *of* você pode tratar uma url em específica e com o *on* você pode atender quando uma requisição chega ali e é aprovado pelo middleware *use*.
