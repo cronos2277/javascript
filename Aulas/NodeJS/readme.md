@@ -14,6 +14,8 @@
 7. [Promise](#promise)
 
 8. [HTTP](#http)
+
+9. [Socket.io](./socketio)
 ## Exemplo Básico
 
     {
