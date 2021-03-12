@@ -1,21 +1,23 @@
 # NPM
-1. [Exemplo Básico](#exemplo-básico)
+01. [Exemplo Básico](#exemplo-básico)
 
-2. [Estrutura Básica](#estrutura-básica)
+02. [Estrutura Básica](#estrutura-básica)
 
-3. [Dependencies](#dependencies-e-devdependencies)
+03. [Dependencies](#dependencies-e-devdependencies)
 
-4. [Versões](#versões) 
+04. [Versões](#versões) 
 
-5. [Event Emitter](#emitindo-eventos) 
+05. [Event Emitter](#emitindo-eventos) 
 
-6. [Arquivos](#arquivos)
+06. [Arquivos](#arquivos)
 
-7. [Promise](#promise)
+07. [Promise](#promise)
 
-8. [HTTP](#http)
+08. [HTTP](#http)
 
-9. [Socket.io](./socketio)
+09. [Socket.io](./socketio)
+
+10. [Stream](./stream)
 ## Exemplo Básico
 
     {
