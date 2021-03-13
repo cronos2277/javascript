@@ -16,9 +16,14 @@ http.createServer(
             const start = parseInt(positions[0],10);     
             
             fs.stat(file,function(error,stat){
-                const total = stat.size;
-                const end = positions[1] ? parseInt(positions[1],10) : total - 1;
-                const chunksize = (end-start) + 1;
+                if(error){
+                    throw new Error(
+                        `O arquivo ${filepath} existe ou tem as permissões corretas?
+                        \nErro:${error.message},\nCodigo:${error.code}\n`);                     
+                }
+                let total = stat.size;
+                let end = positions[1] ? parseInt(positions[1],10) : total - 1;
+                let chunksize = (end-start) + 1;
 
                 response.writeHead(200,{
                     'Content-Range': 'bytes'+ start +'-'+ end + '/' + total,

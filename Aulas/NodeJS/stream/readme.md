@@ -4,6 +4,8 @@
 [Stream2.js](stream2.js)
 
 [Stream3.js](stream3.js)
+
+**OBSERVAÇÃO, VOCÊ PRECISA COLOCAR UM VÍDEO CHAMADO "video.mp4" NESSE DIRETÓRIO PARA QUE OS ARQUIVOS STREAM ACIMA FUNCIONEM.**
 ## Estrutura
     const port = 4004;
     const host = 'http://localhost';
@@ -161,3 +163,42 @@ Esse método resolve diretórios quando se encontra pontos e barras, por exemplo
 
 ###### Output
     [ 'stream1.js', 'stream2.js', 'stream3.js' ]
+
+## Pegando Bytes
+###### Request.range
+    {
+        host: 'localhost:4004',
+        connection: 'keep-alive',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36',
+        'accept-encoding': 'identity;q=1, *;q=0',
+        accept: '*/*',
+        'sec-gpc': '1',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'no-cors',
+        'sec-fetch-dest': 'video',
+        referer: 'http://localhost:4004/',
+        'accept-language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        range: 'bytes=0-'
+    }
+
+### Sobre o atributo Range
+#### Descrição
+>O cabeçalho de requisição HTTP Range indica a parte do documento que o servidor deve retornar. Várias partes podem ser requisitadas com um cabeçalho Range de uma vez, e o servidor pode mandar de volta estes intervalos em um documento de múltiplas partes. Se o servidor manda de volta os intervalos, ele usa o 206 Partial Content para resposta. Se os intervalos são inválidos, o servidor retorna o erro 416 Range Not Satisfiable. O servidor também pode ignorar o cabeçalho Range e enviar o documento inteiro com um código de status 200.
+
+#### Exemplo
+    Range: <unit>=<range-start>-
+    Range: <unit>=<range-start>-<range-end>
+    Range: <unit>=<range-start>-<range-end>, <range-start>-<range-end>
+    Range: <unit>=<range-start>-<range-end>, <range-start>-<range-end>, <range-start>-<range-end>
+    Range: <unit>=-<suffix-length>
+
+`unit` => **A unidade no qual os intervalos são especificados. É geralmente em bytes.**
+
+`range-start` => **Um inteiro na dada unidade indicando o começo da requisição de intervalo.**
+
+`range-end` => **Um inteiro na dada unidade indicando o fim da requisição de intervalo. Este valor é opcional e, se omitido, o fim do documento é utilizado como fim do intervalo.**
+
+`suffix-length` => **Um inteiro na dada unidade indicando o número de unidades ao fim do arquivo para retornar.**
+
+#### Na pratica
+    Range: bytes=200-1000, 2000-6576, 19000-
