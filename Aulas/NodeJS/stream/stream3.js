@@ -33,9 +33,12 @@ http.createServer(
                     'Content-Type':'video/mp4'
                 });
 
-                console.log({start,total,end,chunksize});
+                
                 var stream = fs.createReadStream(file,{start,end})
-                .on('open', function(){stream.pipe(response)})
+                .on('open', function(){
+                    console.log({start,total,end,chunksize});
+                    stream.pipe(response);
+                })
                 .on('error', error => response.end(error))
             });
         }

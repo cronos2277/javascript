@@ -202,3 +202,28 @@ Esse método resolve diretórios quando se encontra pontos e barras, por exemplo
 
 #### Na pratica
     Range: bytes=200-1000, 2000-6576, 19000-
+
+### Método createReadStream do File System
+>A função `fs.creadstream ()` permite que você abra um fluxo legível de uma maneira muito simples.Tudo o que você precisa fazer é passar o caminho do arquivo para começar a transmitir. Acontece que a resposta (bem como o pedido) objetos são fluxos.Portanto, usaremos esse fato para criar um servidor HTTP que transmite os arquivos para o cliente.Como o código é simples o suficiente, é bem fácil ler através dele e comentar por que cada linha é necessária.
+
+    var http = require('http');
+    var fs = require('fs');
+
+    http.createServer(function(req, res) {
+    // O nome do arquivo é simples o diretório local e as tachas no URL solicitado
+    var filename = __dirname+req.url;
+
+    // Esta linha abre o arquivo como um fluxo legível
+    var readStream = fs.createReadStream(filename);
+
+    // Isso vai esperar até sabermos que o fluxo legível é realmente válido antes da tubulação
+    readStream.on('open', function () {
+        // Isso apenas canaliza o fluxo de leitura para o objeto de resposta (o que vai para o cliente)
+        readStream.pipe(res);
+    });
+
+    // This catches any errors that happen while creating the readable stream (usually invalid names)
+    readStream.on('error', function(err) {
+        res.end(err);
+    });
+    }).listen(8080);
