@@ -17,7 +17,9 @@
 
 09. [Socket.io](./socketio)
 
-10. [Stream](./stream)
+10. [Stream com: Path](./stream)
+
+11. [Cluster com: OS e Process](./clusters)
 ## Exemplo Básico
 
     {
