@@ -1,4 +1,4 @@
-# Cluster
+# Usando Cluster
 [Modulo OS](#modulo-os)
 
 ## Modulo OS
@@ -123,3 +123,160 @@ Esse método retorna um array contendo informações de cada núcleo da CPU, voc
             times: { user: 589780, nice: 20, sys: 236290, idle: 4262410, irq: 0 }
         }
     ]
+
+## Cluster
+### Conceituando o Cluster
+>Os clusters permitem a criação de processos filhos, que são diferentes de threads. Threads compartilham o mesmo espaço de memória e criar novas não ocupa muito dos recursos do sistema. Já os processos são executados em espaços de memória próprios, que contém uma cópia completa do sistema. Assim, se memória for um recurso escasso, a criação de vários processos filhos não é algo benéfico. Algo que seria diferente com o uso de threads.
+
+>Esse é o pacote `const cluster = require('cluster');` e é nativo no *nodejs* não precisando instalar nada. Obs nesse exemplo o módulo cluster será instanciado como *cluster*.
+
+[cluster1](cluster1.js)
+###### Exemplo Básico
+
+    const cluster = require('cluster');
+    const http = require('http');
+    const numCPUs = require('os').cpus().length;
+
+    if(cluster.isMaster){
+
+        for(let i = 0;i < numCPUs;i++){
+            cluster.fork();
+        }
+
+        cluster.on('online', (worker) => {
+            console.log(`worker ${worker.process.pid} is online`);
+        });
+        
+    }else{
+        http.createServer(function(req,res){
+            res.writeHead(200);
+            res.write(`Numero de CPU:${numCPUs}\n`);
+            res.end(`process ${process.pid} says hello`);
+        }).listen(4005);
+    }
+
+### isMaster ou isWorker
+
+`cluster.isMaster` => retorna true se o cluster não for um fork.
+
+`cluster.isWorker` => True se o processo não é um mestre (é a negação de `cluster.isMaster`).
+
+### Método Fork
+    cluster.fork();
+
+Aqui é criado um fork, mas basta ficar atento ao que é dito aqui [conceito de cluster](#conceituando-o-cluster), de todo modo é dessa forma que você cria um worker, podendo ou não armazena-la em algum lugar.
+
+### Método ON
+Funciona como um listener, assim como funciona em outros módulos, você informa via string o evento e passa uma callback para tratar-la, por exemplo no exemplo abaixo, trata-se o inicio de uma conexão, para cada fork criado com o método acima, será chamado o evento *online*, sendo o argumento um objeto do tipo *worker*. [Segue a documentação da classe worker](https://nodejs.org/api/cluster.html#cluster_class_worker)
+
+    cluster.on('online', (worker) => {
+        console.log(`worker ${worker.process.pid} is online`);
+    });
+
+### E então de maneira assincrona...
+
+    else{
+        http.createServer(function(req,res){
+            res.writeHead(200);
+            res.write(`Numero de CPU:${numCPUs}\n`);
+            res.end(`process ${process.pid} says hello`);
+        }).listen(4005);
+    }
+
+De maneira assincrona é possível executar essa parte do código, no caso, se não for o mestre `cluster.isMaster` será executado essa exceção, ou seja apenas os forks executaram esse *else*. Vale lembrar que será criado um fork de acordo com o número de thread do processador devido ao laço for `for(let i = 0;i < numCPUs;i++)`, mas é sempre bom lembrar que aqui se trata de assincronismo e não de paralelismo. Um exemplo de output desse código seria:
+
+    worker 17176 is online
+    worker 17182 is online
+
+### Exemplo um pouco mais avançado
+[cluster2](cluster2.js)
+
+###### Código
+
+    const cluster = require('cluster');
+    const cpus = require('os').cpus().length;
+
+    if(cluster.isMaster){
+        let workers = [];
+        for(i=0;i<cpus;i++){        
+            cluster.fork();
+            workers[i] = cluster.fork();
+        } 
+    
+        cluster.on('online',function(worker){
+            console.log(`ONLINE: ${worker.process.pid}`)
+        });
+
+        cluster.on('disconnect',function(){
+            console.log(`DISCONNECT PELO MASTER`)
+        });
+
+        cluster.on('exit',function(){
+            console.log(`EXIT PELO MASTER`)
+        });
+
+        cluster.on('fork',function(worker){                      
+            console.log('Fork');        
+        });       
+
+        const time3 = setTimeout(function(){
+            workers.forEach(worker => worker.on('disconnect',function(){
+                console.log(`DISCONNECT PELO WORKER`);
+        }));
+
+        workers.forEach(w => w.disconnect());
+            clearTimeout(time3);
+        },2000);
+    
+        const time4 = setTimeout(function(){        
+            workers.forEach(w => w.destroy(0,'SIGHUP'));      
+            clearTimeout(time4);        
+        },3000);    
+    }
+
+### Armazenando workers
+
+    let workers = [];
+    for(i=0;i<cpus;i++){        
+        cluster.fork();
+        workers[i] = cluster.fork();
+    }
+
+Nesse caso os *forks* são armazenados dentro de um array de modo que possa ser tratado mais tarde.
+
+#### on com evento 'online'
+    cluster.on('online',function(worker){
+        console.log(`ONLINE: ${worker.process.pid}`)
+    });
+
+#### on com evento 'disconnect'
+    cluster.on('disconnect',function(){
+        console.log(`DISCONNECT PELO MASTER`)
+    });
+
+Pode ser usado tanto no *worker* como no *master*, através da chamada do método `destroy`, conforme visto aqui:
+
+    const time4 = setTimeout(function(){        
+        workers.forEach(w => w.destroy(0,'SIGHUP'));      
+        clearTimeout(time4);        
+    },4000);
+
+Você pode passar um código de erro númerico que é o primeiro argumento e o tipo de encerramento em formato string.
+#### on com evento 'exit'
+    cluster.on('exit',function(){
+        console.log(`EXIT PELO MASTER`)
+    });
+
+Esse diferente do disconnect funciona apenas com o master.
+#### on com evento 'fork'
+    cluster.on('fork',function(worker){                      
+        console.log('Fork');        
+    });     
+    
+Chamado quando é criado um novo *fork*, nesse exemplo é criado nesse momento:
+
+    let workers = [];
+    for(i=0;i<cpus;i++){        
+        cluster.fork();
+        workers[i] = cluster.fork();
+    } 
