@@ -135,3 +135,94 @@ O método *USE* é uma forma de implementar *middleware*, conforme visto aqui `a
 
 #### Parametros opcionais
 Você pode informar que um parametro é opcional usando um interrogação, conforme visto aqui `'/:p?'`, no caso o interrogação diz que a rota pode ou não ter o parametro `:p`.
+
+### Método Route
+[express5.js](express5.js)
+
+    const express = require('express');
+    const app = express();
+    const port = 5005;
+
+    app.route('/')
+        .get(function(req,res,next){        
+            res.write(`
+                <button onclick="fetch('http://localhost:${port}/',{method:'POST'})
+                .then(console.log)">POST</button>`
+            );        
+
+            res.write(`
+                <button onclick="fetch('http://localhost:${port}/',{method:'PUT'})
+                .then(console.log)">PUT</button>`
+            );
+
+            res.write(`
+                <button onclick="fetch('http://localhost:${port}/',{method:'DELETE'})
+                .then(console.log)">DELETE</button>`
+            );
+            next();        
+        })
+    .post((req,res) => res.sendStatus(201))
+    .put((req,res) => res.sendStatus(202))
+    .delete((req,res) => res.sendStatus(204));
+
+    app.listen(port, () => console.log('Escutando'));
+
+#### Explicando o método route
+Você pode fazer encadeamento usando o *route* `app.route('/')`, nesse método você passa argumento a rota a ser analizada, podendo executar o método encadeado de acordo com a requisição solicitada.
+
+#### Executando o listen
+    app.listen(port, () => console.log('Escutando'));
+
+Você pode chamar o método *listen* não encadendo com nenhum método e além disso passar uma callback para que seja executado, assim que o express começar a ouvir requisições nessa porta.
+
+### Outro uso para o GET e o SET
+[express6](./express6.js)
+
+    const express = require('express');
+    const app = express();
+
+    app.set('variavel',`Valor randomico ${Math.random()}`);
+    app.get('/',(req,res) => res.send(app.get('variavel')));
+    app.listen(5006, () => console.log('Ouvindo... '));
+#### SET
+Dessa forma você define uma variável a ser usado no lado do cliente da requisição ``app.set('variavel',`Valor randomico ${Math.random()}`);``, aqui você define no esquema *chave-valor*, o primeiro argumento é a chave, que no caso é a **variavel** e o segundo argumento o valor.
+
+#### GET
+Aqui você pode ver o duplo papel do *GET* `app.get('/',(req,res) => res.send(app.get('variavel')));`. O *GET* pode ser usado tanto para definir rotas, como para resgatar valores de variáveis, no caso, aqui é pego o valor de **variavel** `app.get('variavel')` e aqui para definir rotas `app.get('/',(req,res) => res.send(app.get('variavel')));`, no caso o método valia o conteúdo da string e retorna um valor quando a `/` está ausente e quando presente cria-se uma nova rota.
+
+### Outro uso para o SET
+[express7.js](express7.js)
+
+    const express = require('express');
+    const app = express();
+
+    app.set('views','./');
+    app.set('view engine','jade');
+
+    app.get('/', (req,res) => res.render('index',{a:1,b:2}));
+
+    app.listen(5007, () => console.log('Escutando...'));
+
+Assim como o *set* pode ser usado para criar uma variável, pode ser usado também para modificar elas, nesse caso `app.set('views','./');`, estamos definindo uma pasta para *views*, nesse caso o express vai entender o diretório passado como parametro como uma pasta de view a ser usado. Após isso, temos `app.set('view engine','jade');` que define o `view engine` para o *jade*, nesse caso o express irá procurar por arquivos *jade* nesse diretório. Um arquivo *jade* seria uma espécie de HTML dinâmico e com suporte a recursos das linguagens de programação,  e que se caracteriza pela sua sintaxe semelhante ao do *PYTHON*, segue um exemplo abaixo:
+[index.jade](./index.jade)
+
+    html 
+    head 
+        title Exemplo com o JADE
+    body 
+        h1 Exemplo com JADE
+        p=a
+        p=b        
+
+Então no caso quando for solicitado uma determinada rota, como visto aqui `app.get('/', (req,res) => res.render('index',{a:1,b:2}));`, será carregado esse arquivo acima, mas basta deixar claro, que nesse caso se usa o método *render* do express e não a *write*.
+
+#### Método Render
+Esse método está dentro do objeto response da callback passada de argumento para as rotas e ele basicamente trabalha com dois argumentos, sendo o primeiro o arquivo, que ele deve carregar, ao qual ele infere a extensão graças a essas linhas:
+
+    app.set('views','./');
+    app.set('view engine','jade');
+
+Logo com base nelas, sabe-se que o *index* aqui `res.render('index',{a:1,b:2}))` está dentro de *views* e possuí a extensão *jade*. Já o segundo argumento são os parametros, que podem ser passados nesse caso para o arquivo jade usar, ao qual o esse objeto `{a:1,b:2}`, os seus valores, são usados aqui:
+
+    p=a
+    p=b    
