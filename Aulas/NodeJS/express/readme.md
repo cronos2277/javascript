@@ -106,8 +106,8 @@ No caso você pode tratar rotas com parametros, informando na url com 2 pontos a
 
 *Aqui estão alguns exemplos de caminhos de rota baseados em padrões de sequência, este caminho de rota irá corresponder ao acd e abcd.*
 
-### Midleware para carregar arquivos dentro de uma pasta
-[express_midleware](express_midleware.js)
+### Middleware para carregar arquivos dentro de uma pasta
+[express_middleware](express_middleware.js)
 
     const express = require('express');
     const app = express();
@@ -132,3 +132,6 @@ No caso você pode tratar rotas com parametros, informando na url com 2 pontos a
 
 #### O método USE
 O método *USE* é uma forma de implementar *middleware*, conforme visto aqui `app.use(express.static('use'));`, então dentro do método *use* você passa uma função e essa função irá fazer o processamento dentro do express, nesse caso é passado o `express.static('use')`, que basicamente pega a pasta *use* e cria uma rota para cada arquivo la dentro, você pode ver um exemplo disso, você pode perceber que os dois arquivos *html* dessa pasta [use](./use/), confore analisado acima, então o middleware *static*, cria uma rota para cada arquivo, lembrando que essa pasta está na raiz, uma vez que não é informado o path.
+
+#### Parametros opcionais
+Você pode informar que um parametro é opcional usando um interrogação, conforme visto aqui `'/:p?'`, no caso o interrogação diz que a rota pode ou não ter o parametro `:p`.
