@@ -7,6 +7,8 @@ Para instalar `npm i express`, segue a [documentação](https://expressjs.com/pt
 [Request documentação](https://expressjs.com/pt-br/api.html#req)
 
 [Response documentação](https://expressjs.com/pt-br/api.html#res)
+
+[Body-Parser e outros Middlewares para uso do Express](https://expressjs.com/en/resources/middleware/body-parser.html)
 ### Requisição na raiz usando o método GET na porta 5001
 
     const express = require('express');
@@ -226,3 +228,87 @@ Logo com base nelas, sabe-se que o *index* aqui `res.render('index',{a:1,b:2}))`
 
     p=a
     p=b    
+
+## Body-Parser
+[Documentação completa](https://expressjs.com/en/resources/middleware/body-parser.html)
+
+Inicalmente você precisa importar o *body-parser* para a sua aplicação, conforme visto aqui `const body = require('body-parser');`
+
+[Body Parser com JSON](bodyParserJson.js)
+
+    const body = require('body-parser');
+    const express = require('express');
+    const app = express();
+
+    app.use(body.json());
+    app.use(body.urlencoded({extended:true}))
+
+    app.route('/')
+        .get(function(req,res,next){
+            res.write(`
+                <html>
+                    <body>
+                        <form method='POST' action='/'>
+                            <input name='valor' />
+                            <input type='submit' value='enviar' />
+                        </form>
+                    </body>
+                </html>
+            `);
+        })
+        .post(function(req,res,next){
+            res.send(req.body);
+            next();
+        });
+
+    app.listen(5010, () => console.log('Ouvindo o body parser json'));
+
+O módulo *body-parser* é um módulo que pode ser usado como um *middleware* para o *express*, tudo que você precisa fazer é importar ele a instancia do *express*, conforme visto abaixo:
+
+    app.use(body.json());
+    app.use(body.urlencoded({extended:true}))
+
+### Opções que pode ser usado no método JSON do body-parser
+Retorna o middleware que apenas analisa o "JSON" e só olha para solicitações onde o cabeçalho *Content-Type* corresponde à opção Tipo.Este analisador aceita qualquer codificação Unicode do corpo e suporta a inflação automática de codificações "gzip" e de deflate.
+Um novo objeto de corpo contendo os dados analisados é preenchido no objeto de solicitação após o middleware(i.e. req.body). Qualquer uma dessas opções deve ser colocado dentro no método, por exemplo: `body.json({inflate:false})`
+
+#### inflate
+Quando definido para `true`, Em seguida, os corpos deflacionados (compactados) serão inflados; quando `false`, corpos deflacionados são rejeitados. Padrão `true`.
+
+#### limit
+Controla o tamanho do corpo de solicitação máxima.Se isso for um número, o valor especifica o número de bytes;Se for uma string, o valor é passado para a biblioteca Bytes para analisar. Padrão '100kb'.
+
+#### reviver
+A opção Reviver é passada diretamente para `JSON.parse` Como o segundo argumento. Você pode encontrar mais informações sobre este argumento na documentação do MDN sobre `JSON.parse`.
+
+#### strict
+Quando definido para `true`, só aceitará matrizes e objetos; Quando `false` aceitará qualquer coisa `JSON.parse` aceita. Padrão `true`.
+
+#### type
+A opção Tipo é usada para determinar qual tipo de mídia o middleware irá analisar. Esta opção pode ser uma string, matriz de strings ou uma função. Se não for uma função, o tipo opção será passada diretamente para a biblioteca do tipo e isso pode ser um nome de extensão (como json), um tipo mime (como application/json), ou um tipo mime com um curinga (como */* ou */json). Se uma função, a opção Tipo é chamada de `fn(req)` e o pedido é analisado se retornar um valor verdadeiro. Padrão application/json.
+
+#### verify
+A opção de verificação, se `true`, é chamada de verificação(req, res, buf, encoding), onde buf é um Buffer do corpo de pedido bruto e codificação é a codificação da solicitação. A análise pode ser abortada jogando um erro.
+
+### Opções para o método urlencoded
+#### Opção extended
+A opção estendida permite escolher entre analisar o *URL-encoded* dados com a biblioteca de *querystring* (quando false) ou o *qs library* (quando true). The **“extended”** A sintaxe permite que objetos ricos e matrizes sejam codificados no formato `URL-encoded`, Permitindo um objeto como *JSON* experiência com `URL-encoded`. Para mais informações, por favor veja: *qs library*.
+
+Padrão `true`. Por favor, pesquise a diferença entre `qs` e `querystring` e escolha a configuração apropriada.
+
+### Para concluir
+**Você precisa implementar o middleware:**
+
+    app.use(body.json());
+
+**Após isso você deve implementar o *urlencoded* caso você queria usar o body-parser para tratar requisições:**
+
+    app.use(body.urlencoded({extended:true}))
+
+**Por fim você pode usar o objeto *body*, graças a implementação acima, funcionará perfeitamente, do contrario, isso não irá funcionar:**
+
+    .post(function(req,res,next){
+        res.send(req.body);
+        next();
+    });
+
