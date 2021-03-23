@@ -1,6 +1,10 @@
 # Express
 Para instalar `npm i express`, segue a [documentação](https://expressjs.com/pt-br/).
 
+1. [Exemplo Básico](#exemplo-básicos-com-express)
+2. [Body Parser](#body-parser)
+3. [Cadeia de Middlewares](#cadeias-de-middleware)
+
 ## Exemplo básicos com Express
 [Express1.js](express1.js)
 
@@ -312,3 +316,138 @@ Padrão `true`. Por favor, pesquise a diferença entre `qs` e `querystring` e es
         next();
     });
 
+## Cadeias de Middleware
+###### Código
+    const express = require('express');
+    const app = express();
+    const port = 5011;
+    const li = txt => `<li>${txt}</li>`;
+
+    app.all('/', (req,res,next) => {
+        console.log('CB1');
+        res.writeHead(200, {         
+            'Content-Type': 'text/html'
+        });
+        res.write('<ol style="margin:5px;font-size:48px;">');    
+        next();
+        //Depois do next, nao envie nada ao cliente...
+        console.log('Numero aleatorio: '+Math.random());
+        //res.write('vai dar ruim se descomentar');
+    });
+
+    app.all('/',function(req,res,next){
+        console.log('CB2');
+        res.write(li('Primeira callback'));    
+        next();        
+    });
+
+    app.all('/',function(req,res,next){
+        console.log('CB3');
+        res.write(li('Segunda callback'));
+        next();       
+    });
+
+    app.all('/',function(req,res,next){
+        console.log('CB4');
+        res.write(li('Terceiro callback'));
+        next();    
+    });
+
+    app.all('/', (req,res) => {
+        console.log('CB5');
+        res.end('</ol>');
+    });
+
+    app.listen(port, () => console.log(`Ouvindo na porta: ${port}`));
+
+### Método .all
+Esse método faz com que seja executado uma única callback para todos os métodos *HTTP*. Por exemplo aqui `app.all('/', (req,res,next) => {`, se o usuário entrar nessa url independente se o método é *GET*, *POST* ou qualquer outro que seja, será executado essa mesma callback.
+
+### Método .writeHead do response 
+
+     res.writeHead(200, {         
+        'Content-Type': 'text/html'
+    });
+
+Nem sempre o *express* deduz corretamente o conteúdo, e esse problema pode acontecer quando você pode ter todo o processamento distribuido entre vários *middlewares*, no caso sem esse método o navegador processaria tudo como texto plano, sem renderizar as tagas html.
+
+### Dividindo a lógica em diferentes Middlewares
+#### Primeiro middleware
+###### Código
+    app.all('/', (req,res,next) => {
+        console.log('CB1');
+        res.writeHead(200, {         
+            'Content-Type': 'text/html'
+        });
+        res.write('<ol style="margin:5px;font-size:48px;">');    
+        next();
+        //Depois do next, nao envie nada ao cliente...
+        console.log('Numero aleatorio: '+Math.random());
+        //res.write('vai dar ruim se descomentar');
+    });
+
+##### Explicando o primeiro middleware
+Nesse caso primeiro é executado esse trecho:
+
+    ...
+        res.writeHead(200, {         
+            'Content-Type': 'text/html'
+        });
+    ...   
+
+Que no caso informa o tipo de conteúdo que o navegador vai renderizar, após isso `res.write('<ol style="margin:5px;font-size:48px;">');`, começa a criação de uma lista e usando a tag **OL**, e então executa o `next` passando assim para o próximo middleware. Sobre o *next* algumas coisas devem ser analisadas:
+
+    next();
+    //Depois do next, nao envie nada ao cliente...
+        console.log('Numero aleatorio: '+Math.random());
+    //res.write('vai dar ruim se descomentar');
+
+Repare que após o *next* existem dois códigos, um comentado e outro funcionando. No caso após dado um *next*, se for feito um envio ao cliente, será lançado um erro, ou seja se essa linha for descomentada `//res.write('vai dar ruim se descomentar');`, ao passo que se essa linha não dá erro `console.log('Numero aleatorio: '+Math.random());`, isso ocorre devido ao fato de que o *console.log* não envia nada ao cliente, ou seja após dado um *next* não se pode enviar resposta ao cliente, sob o risco de dar erros, mas isso não impede de executar códigos do lado do servidor, lembrando que esse código após o *next* será executado após todos os *middlewares*, ou seja primeiro se executa os middlewares na ordem especificada, ou seja de cima para baixo, todas as lógicas antes do next, ai depois é executado o código após o next de cima para baixo também, um exemplo de *output* para se ter uma idéia. *CB* são as callbacks e essa linha `console.log('Numero aleatorio: '+Math.random());` gera um número aleatório.
+
+###### output
+
+    $ node middlewares.js 
+    Ouvindo na porta: 5011
+    CB1
+    CB2
+    CB3
+    CB4
+    CB5
+    Numero aleatorio: 0.765864996866878
+
+Repare que no output acima o código após o next foi executado por ultimo.
+
+##### Observações sobre next() e .writeHead()
+**Quando for usar mais de um *middleware, lembre-se de sempre chamar a função passada como terceiro argumento a callback, no caso a função `next` nesse exemplo, pois do contrário a aplicação trava, então sempre use o `next` após a conclusão do middleware e chame ao início o método writeHead para que o navegador saiba com que está lidando.**
+
+##### E então
+
+    app.all('/',function(req,res,next){
+        console.log('CB2');
+        res.write(li('Primeira callback'));    
+        next();        
+    });
+
+    app.all('/',function(req,res,next){
+        console.log('CB3');
+        res.write(li('Segunda callback'));
+        next();       
+    });
+
+    app.all('/',function(req,res,next){
+        console.log('CB4');
+        res.write(li('Terceiro callback'));
+        next();    
+    });
+
+    app.all('/', (req,res) => {
+        console.log('CB5');
+        res.end('</ol>');
+    });
+
+Ou seja a execução continua, uma vez que o *next* faz com que outro middleware seja executado, até chegarmos aqui:
+
+    app.all('/', (req,res) => {
+        console.log('CB5');
+        res.end('</ol>');
+    });
