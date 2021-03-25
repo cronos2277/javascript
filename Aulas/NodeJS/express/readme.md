@@ -4,6 +4,9 @@ Para instalar `npm i express`, segue a [documentação](https://expressjs.com/pt
 1. [Exemplo Básico](#exemplo-básicos-com-express)
 2. [Body Parser](#body-parser)
 3. [Cadeia de Middlewares](#cadeias-de-middleware)
+4. [Router](#router)
+5. [CORS](#cors)
+6. [Express Singleton](#para-concluir-de-maneira-geral)
 
 ## Exemplo básicos com Express
 [Express1.js](express1.js)
@@ -137,7 +140,7 @@ No caso você pode tratar rotas com parametros, informando na url com 2 pontos a
     .listen(5000);
 
 #### O método USE
-O método *USE* é uma forma de implementar *middleware*, conforme visto aqui `app.use(express.static('use'));`, então dentro do método *use* você passa uma função e essa função irá fazer o processamento dentro do express, nesse caso é passado o `express.static('use')`, que basicamente pega a pasta *use* e cria uma rota para cada arquivo la dentro, você pode ver um exemplo disso, você pode perceber que os dois arquivos *html* dessa pasta [use](./use/), confore analisado acima, então o middleware *static*, cria uma rota para cada arquivo, lembrando que essa pasta está na raiz, uma vez que não é informado o path.
+O método *USE* é uma forma de implementar *middleware*, conforme visto aqui `app.use(express.static('use'));`, então dentro do método *use* você passa uma função e essa função irá fazer o processamento dentro do express, nesse caso é passado o `express.static('use')`, que basicamente pega a pasta *use* e cria uma rota para cada arquivo la dentro, você pode ver um exemplo disso, você pode perceber que os dois arquivos *html* dessa pasta [use](./use/), confore analisado acima, então o middleware *static*, cria uma rota para cada arquivo, lembrando que essa pasta está na raiz, uma vez que não é informado o path. [Para Mais informações](#use)
 
 #### Parametros opcionais
 Você pode informar que um parametro é opcional usando um interrogação, conforme visto aqui `'/:p?'`, no caso o interrogação diz que a rota pode ou não ter o parametro `:p`.
@@ -451,3 +454,268 @@ Ou seja a execução continua, uma vez que o *next* faz com que outro middleware
         console.log('CB5');
         res.end('</ol>');
     });
+
+## USE 
+[express_use](express_use.js)
+###### Código
+    const express = require('express');
+    const app = express();
+    const port = 5012;
+
+    app.use(function(req,res,next){
+        if(req.method === 'GET'){
+            res.writeHead(200, {         
+                'Content-Type': 'text/html'                  
+            });
+
+            res.write('<h1>GET</h1>');
+            res.write('<br />');
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'POST'}).then(e => e.text()).then(console.log)">POST</button>`);
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'PUT'}).then(e => e.text()).then(console.log)">PUT</button>`);
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'PATCH'}).then(e => e.text()).then(console.log)">PATCH</button>`);
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'DELETE'}).then(e => e.text()).then(console.log)">DELETE</button>`);
+        }else{
+            res.writeHead(200, {         
+                'Content-Type': 'text/plain'            
+            });
+            res.write(`Método: ${req.method}`);
+            console.log(`Método ${req.method} usado`);
+        }
+        next();
+    });
+
+    app.use('/',(req,res) => res.end());
+    app.listen(port, () => console.log(`ouvindo na porta ${port}`));
+
+### Uma análise mais aprofundada do método USE
+O use varia dependendo do contexto, o método *use* é semelhante ao método *all*, porem o método *all* atende a rota especificada na *string* ao passo que o método *use* ele atende as rotas que começcam com aquele padrão e não com uma rota que bata 100% com aquele padrão, por exemplo `app.use('/',(req,res) => res.end());`, nesse caso todo e qualquer sub-página do servidor será atendida por essa *URL*, no caso a url padrão `/` será atendida, assim como `/[qualquer_coisa]` também será atendida, podendo esse `[qualquer_coisa]` ser uma sub-página, por exemplo `http://[url]/sub/`, assim como `http://[url]/pagina?param=value` por exemplo ou até mesmo `http://[url]/[pagina]?[param]=[valor]`, ou seja, nesse contexto `app.use('/',(req,res) => res.end());`, qualquer coisa que começa com barra, ou seja tudo no servidor nesse exemplo, para resumir isso equivale a url `*.` se fosse pensar em termos de *regex*.
+
+### Omitindo rota no USE
+    app.use(function(req,res,next){
+        if(req.method === 'GET'){
+            res.writeHead(200, {         
+                'Content-Type': 'text/html'                  
+            });
+
+            res.write('<h1>GET</h1>');
+            res.write('<br />');
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'POST'}).then(e => e.text()).then(console.log)">POST</button>`);
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'PUT'}).then(e => e.text()).then(console.log)">PUT</button>`);
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'PATCH'}).then(e => e.text()).then(console.log)">PATCH</button>`);
+            res.write(`<button onclick="fetch('http://localhost:5012',{method:'DELETE'}).then(e => e.text()).then(console.log)">DELETE</button>`);
+        }else{
+            res.writeHead(200, {         
+                'Content-Type': 'text/plain'            
+            });
+            res.write(`Método: ${req.method}`);
+            console.log(`Método ${req.method} usado`);
+        }
+        next();
+    });
+
+#### Explicando
+Nesse caso acima o *use* funciona para colocar uma função como *middleware* para todas as rotas, nesse caso, a função passada ali será executada passado independente do método *http* ou da rota, nesse caso ela opera como uma middleware mesmo. Logo se você fizer algo do tipo `app.use(bodyParser.json())`, o processamento do método *json* será executado em todas as rotas e métodos, em outras palavras o que o código acima faz é analogo ao *body-parser*, ou seja faz um processamento em cima dos dados pego.
+
+
+## Router
+[router.js](router.js)
+###### Código
+    const express = require('express');
+    const router = express.Router();
+    const app = express();
+    const port = 5013;
+
+    router.use('/',function(req,res,next){    
+        if(req.method === "GET"){
+            res.writeHead(200, {         
+                'Content-Type': 'text/html'                  
+            });    
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'POST'}).then(e => e.text()).then(console.log)">POST</button>`);
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'PUT'}).then(e => e.text()).then(console.log)">PUT</button>`);
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'PATCH'}).then(e => e.text()).then(console.log)">PATCH</button>`);
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'DELETE'}).then(e => e.text()).then(console.log)">DELETE</button>`);    
+        }
+        next();
+    });
+
+    const callback = function callback(req,res){
+        res.json(
+            {
+                hostname:req.hostname,
+                ip: req.ip,
+                method: req.method,            
+            }
+        );    
+    }
+
+    router.post('/:p1?/:p2?',callback);
+    router.put('/:p1?/:p2?',callback);
+    router.patch('/:p1?/:p2?',callback);
+    router.delete('/:p1?/:p2?',callback);
+
+    app.use('/',router);
+    app.listen(port, () => console.log(`Ouvindo na porta ${port}`));
+
+### Explicando essa parte antes 
+
+    res.json(
+        {
+            hostname:req.hostname,
+            ip: req.ip,
+            method: req.method,            
+        }
+    );    
+
+#### res.json dessa callback router
+O método *json* do segundo parametro passado da callback de qualquer método que trata de rota, nesse exemplo o `res`, envia uma resposta em formado json, basicamente qualquer objeto *javascript* informado ali, é convertido a JSON e enviado ao cliente.
+
+#### req dessa callback router
+
+    {
+        hostname:req.hostname,
+        ip: req.ip,
+        method: req.method,            
+    }
+
+através do primeiro parametro da callback passado a qualquer método que trata com rotas, nesse exemplo o `req`, tem informações pegas da requisição, nesse exemplo acima é pego respectivamente o *hostname* do cliente, *ip* podendo ser IPV4 ou IPV6 e o método que está sendo usado na requisição, é válido lembrar que este ultimo informa o método usado pelo cliente em letra maíuscula, ou seja o valor ali sempre será **GET**, **POST**, **PUT**, etc...
+### Explicando
+O *Router* tem por objetivo organizar melhor as rotas, para chamar-lo `const router = express.Router();` e uma vez pronto você pode incluir na rota `app.use('/',router);` sendo esse *app*, `const app = express();`, ou seja o métodos do *express* relacionados aos métodos HTTP, assim como o *use*, *all*, *route* **route sem o r no final**, aceitam como um segundo argumento, após informado via *string* a rota, um objeto do tipo *ROUTER* que contém dentro de si todas as rotas delimitadas ali, no caso, o que esse código `app.use('/',router);` diz é, que seja relacionado a url raiz do servidor o objeto router, sendo o objeto router o seguinte:
+
+    router.use('/',function(req,res,next){    
+        if(req.method === "GET"){
+            res.writeHead(200, {         
+                'Content-Type': 'text/html'                  
+            });    
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'POST'}).then(e => e.text()).then(console.log)">POST</button>`);
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'PUT'}).then(e => e.text()).then(console.log)">PUT</button>`);
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'PATCH'}).then(e => e.text()).then(console.log)">PATCH</button>`);
+            res.write(`<button onclick="fetch('http://localhost:${port}',{method:'DELETE'}).then(e => e.text()).then(console.log)">DELETE</button>`);    
+        }
+        next();
+    });
+
+    const callback = function callback(req,res){
+        res.json(
+            {
+                hostname:req.hostname,
+                ip: req.ip,
+                method: req.method,            
+            }
+        );    
+    }
+
+    router.post('/:p1?/:p2?',callback);
+    router.put('/:p1?/:p2?',callback);
+    router.patch('/:p1?/:p2?',callback);
+    router.delete('/:p1?/:p2?',callback);
+
+Ou seja nessa linha `app.use('/',router);` toda a lógica acima é inclusa a rota informada na string passado como primeiro argumento, então desse modo, com o auxílio do *router* é possível modularizar toda a aplicação, no caso esse router poderia estar em um arquivo a parte, ser importado e após isso incluso como segundo argumento de uma função *express* que trabalhe com rotas.
+
+## CORS
+[Documentação](https://expressjs.com/en/resources/middleware/cors.html)
+
+[Exemplo basico](cors1.js)
+
+[Exemplo Com opções](cors2.js)
+### Resumo
+Cors é um middleware para o *express* que pode ser habilitado para que o express aceita requisições vindas de outras urls. Nesses exemplo o seu uso é facultativo, mas em servidores de produção não necessáriamente, no caso, se ouvesse qualquer requisição com uma origem diferente do ip que o *express* roda, ela seria recusada, no caso se o IP do cliente e do servidor forem diferente, pode ser que o express não complete a requisição por motivos de segurança, e é justamente ai que entra o **CORS**. Ou seja se o seu backend *express* vai aceitar requisições de outros **IPS** se faz necessário habilitar o *cors* e é ai que esse middleware entra, além disso assim como o *body-parser* esse você também tem que instalar, para isso `npm i cors`.
+
+###### Exemplo Básico
+    var express = require('express')
+    var cors = require('cors')
+    var app = express()
+
+    app.use(cors())
+
+    app.get('/', function (req, res, next) {
+    res.json({msg: 'This is CORS-enabled for all origins!'})
+    })
+
+    app.listen(4999, function () {
+    console.log('CORS-enabled web server listening on port 4999')
+    })
+
+No caso você pode usar sem nenhum parametro `app.use(cors())`, aqui você está habilitando para qualquer um fazer requisições a esse backend, sem restrições, ou:
+
+    var express = require('express')
+    var cors = require('cors')
+    var app = express()
+
+    var corsOptions = {
+        origin: 'http://localhost:4998/'
+    }
+
+    app.use(cors(corsOptions));
+
+    app.get('/', function (req, res, next) {
+        res.json({msg: 'This is CORS-enabled for only example.com.'})
+    })
+
+    app.listen(4998, function () {
+        console.log('CORS-enabled web server listening on port 4998')
+    })
+
+conforme visto aqui `app.use(cors(corsOptions));`, você pode passar opções para o cors, no caso um objeto preenchido com as preferencias.
+
+### Opções
+#### origin
+    cors({origin:'opcao'})
+
+Configura o `Access-Control-Allow-Origin` do `CORS header`. Possíveis valores, por tipos:
+
+`Boolean` - `true` para refletir a solicitação de origem, conforme definido por `req.header('Origin')`, ou defini-lo para `false`para desabilitar *CORS*.
+
+`String` - define uma origem a uma origem específica. Por exemplo, se você configurá-lo para "http://example.com" apenas pedidos de “http://example.com” será permitido.
+
+`RegExp` - Define origem a um padrão de expressão regular que será usado para testar a origem de solicitação. Se bater, a origem de solicitação será aceita. Por exemplo, o padrão /example\.com$/ refletirá qualquer pedido que vem de uma origem que termine com “example.com”.
+
+`Array` - define origem com base em cada elemento. Cada origem pode ser uma string ou um regexp. Por exemplo ["http://example1.com", /\.example2\.com$/] aceitará qualquer pedido de “http://example1.com” ou de um subdomínio de “example2.com”.
+
+`Function` - Defina uma função para implementar alguma lógica personalizada. A função recebe a origem de solicitação como o primeiro parâmetro e uma callback.
+
+#### methods
+    cors({methods:'opcao')
+
+Configura o `Access-Control-Allow-Methods` do CORS header. Espera uma string delimitada por vírgula `(ex: ‘GET,PUT,POST’)` ou um array (ex: ['GET', 'PUT', 'POST']).
+
+#### outros
+
+    cors({listadoAbaixo:'valor'})
+
+`allowedHeaders`: Configures the `Access-Control-Allow-Headers` do CORS header. Espera uma string delimitada por vírgula (ex: ‘Content-Type,Authorization’) ou um array (ex: ['Content-Type', 'Authorization']). Se não especificado, o padrão é refletir os cabeçalhos especificados na solicitação `Access-Control-Request-Headers` do header.
+
+`exposedHeaders`: Configura o `Access-Control-Expose-Headers` do CORS header. Espera uma string delimitada por vírgula (ex: ‘Content-Range,X-Content-Range’) ou um array (ex: ['Content-Range', 'X-Content-Range']). Se não especificado, nenhum cabeçalho personalizado é exposto.
+
+`credentials`: Configura o `Access-Control-Allow-Credentials` do CORS header. Defina como `true` para passar o cabeçalho, caso contrário, é omitido.
+
+`maxAge`: Configura o. `Access-Control-Max-Age` CORS header. Defina como um integer para passar o cabeçalho, caso contrário, é omitido.
+
+`preflightContinue`: Passe o CORS preflight resposta ao próximo manipulador.
+
+`optionsSuccessStatus`: Fornece um código de status para usar para OPTIONS requests, Desde alguns navegadores legados (IE11, various SmartTVs).
+## Para Concluir de maneira geral
+
+[testes](testes.js)
+###### Código
+    const express1 = require('express');
+
+    //comparando os objetos routers
+    const router1 = express1.Router();
+    const router2 = express1.Router();
+    console.log('router1 é igual a router2:',(router1 === router2)?'sim':'não');
+
+    //comparando as instancias
+    const server1 = express1();
+    const server2 = express1();
+    console.log('server1 é igual a server2:',(server1 === server2)?'sim':'não');
+
+    //Comparando o Express
+    const express2 = require('express');
+    console.log('express1 é igual a express2:',(express1 === express2)?'sim':'não');
+
+###### output
+    router1 é igual a router2: não
+    server1 é igual a server2: não  
+    express1 é igual a express2: sim
+
+Ou seja não importa quantas vezes seja importado o *express*, ele trabalha com o padrão **Singleton**, mas o objeto da função executada por esse módulo, assim como o objetro do método **Router**, ambos não são **Singleton** e esse cuidado deve ser analizado na hora de trabalhar com o express.
