@@ -22,6 +22,8 @@
 11. [Cluster com: OS](./clusters)
 
 12. [Express](./express) 
+
+13. [JSHint](#JS-Hint) 
 ## Exemplo Básico
 
     {
@@ -724,3 +726,25 @@ Como visto acima pode-se criar um servidor, apenas usando o método *end* `respo
     }
 
 Ou seja ele seria uma espécie de *facede* para que possamos trabalhar com as *urls*.
+
+## JS Hint
+Para instalar o `jshint` você pode fazer de maneira local `npm i jshint` ou `npm i -g jshint`, e para executar `jshint [nome do arquivo].[extensão]` e ai será exibido os erros detectados, por exemplo esse arquivo:
+
+[app](app.js)
+###### app.js
+    function main(a,b){
+        if(b);
+        return a == null
+    }
+
+    main()
+
+Teria um output como esse:
+###### output
+    $ jshint app.js
+    app.js: line 3, col 21, Missing semicolon.
+    app.js: line 6, col 7, Missing semicolon.
+
+    2 errors
+
+Sem a configuração muita coisa já é analisada, mas também é possível criar um arquivo `config.json`, que uma vez que o *jshint*, localiza, ele executará os testes com base no especificado ali, segue a página contendo mais explicação sobre as opções suportados pelo *jshint*. [JSHint documentação](https://jshint.com/docs/options/)
