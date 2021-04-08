@@ -1,4 +1,5 @@
 authForm.onsubmit = function(evento){
+    showItem(loading);
     evento.preventDefault();
     if(authForm.submitAuthForm.innerText == "Acessar"){
         firebase.auth().signInWithEmailAndPassword(
@@ -26,6 +27,7 @@ authForm.onsubmit = function(evento){
 }
 
 firebase.auth().onAuthStateChanged(function(user){
+    hideItem(loading);
     console.log(`
         Chamado assim que se usa o signInWithEmailAndPassword
         ou createUserWithEmailAndPassword.
