@@ -12,6 +12,7 @@ authForm.onsubmit = function(evento){
         }).catch(function(error){
             console.log('Falha no acesso!');
             console.log(error);
+            hideItem(loading);
         });
     }else{
         firebase.auth().createUserWithEmailAndPassword(
@@ -23,8 +24,10 @@ authForm.onsubmit = function(evento){
         }).catch(function(error){
             console.log('Falha no cadastro!');
             console.log(error);
+            hideItem(loading);
         });
     }
+    
 }
 
 //Centraliza e trata a autenticação
@@ -50,5 +53,20 @@ function signOut(){
     firebase.auth().signOut().catch(function(error){
         console.log('falha ao sair da conta');
         console.log(error);
+    });
+}
+
+//Funcao que permite ao usuário fazer a verificação de e-mail
+function sendEmailVerification(){
+    showItem(loading);
+    var user = firebase.auth().currentUser;
+    console.log(user);
+    user.sendEmailVerification().then(function(){
+        alert('E-mail de verificação foi enviado para '+user.email+"!");
+    }).catch(function(error){
+        alert('Houve um erro ao enviar a mensagem de verificação');
+        console.log(error);
+    }).finally(function(){
+        hideItem(loading)
     });
 }

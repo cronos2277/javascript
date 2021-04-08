@@ -7,6 +7,8 @@ var loading = document.getElementById('loading');
 var auth = document.getElementById('auth');
 var userContent = document.getElementById('userContent');
 var userEmail = document.getElementById('userEmail');
+var sendEmailVerificationDiv = document.getElementById('sendEmailVerificationDiv');
+var emailVerified = document.getElementById('emailVerified');
 
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
@@ -37,6 +39,14 @@ function hideItem(element) {
 
 //Mostrar elementos para usuários autenticados.
 function showUserContent(user){
+  if(user.emailVerified){
+    hideItem(sendEmailVerificationDiv);
+    emailVerified.innerText = "E-mail Verificado!";
+  }else{
+    emailVerified.innerText = "E-mail não veficado";
+    showItem(sendEmailVerificationDiv);
+  }
+
   userEmail.innerText = user.email;
   hideItem(auth);
   showItem(userContent);

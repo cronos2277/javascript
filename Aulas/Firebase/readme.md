@@ -24,6 +24,10 @@
 
 [Para mais informações](https://firebase.google.com/docs/web/setup)
 
+## Habilitando as autenticações
+![Sign Method](./img/sign-method.png)
+
+Lembrando que para as autenticações funcione, você precisa habilitar, conforme demonstrado na imagem acima. Nesse exemplo da imagem apenas o e-mail está autorizado, mas você pode usar qualquer um dos outros métodos ativando-os, no caso, ativar o facebook se quiser que a aplicação aceite essa forma de cadastro e acesso, o mesmo com o google e por ai vai... 
 ## Implementando o core da aplicação no Javascript Vanilla.
 Inicialmente, você precisará importar na página que vai usar o firebase o seguinte script: `<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>`, no caso esse script é o *core* do firebase. Essa url contém algumas informações interessantes, essa parte da url é a origem `https://www.gstatic.com/firebasejs`, aqui temos a versão `/8.3.2/`, nesse caso a versão é a **8.3.2** e a ultima parte da url é exatamente o que está sendo importado, conforme visto aqui `firebasejs`. 
 
@@ -70,7 +74,7 @@ O que importa é esse trecho aqui `firebase.auth().signInWithEmailAndPassword()`
 ### Explicando o método auth
 Esse é o método de autenticação, você irá usar-lo muito quando for fazer autenticação no firebase,  a origem desse método é esse `<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>`, conforme [visto aqui](#implementando-o-suporte-a-autenticação-no-javascript-vanilla).
 
-### Explicando o método .signInWithEmailAndPassword(email,senha)
+### Logando com: firebase.auth().signInWithEmailAndPassword(email,senha)
 Esse método usa a *api* do firebase, nesse caso isso é feito com base no e-mail do usuário e esse método basicamente verifica se as credencias registradas batem com as cadastradas no firebase, se sim retorna toda a informação do usuário, se não, retorna um erro. Esse método retorna uma *promise*:
 
     firebase.auth().signInWithEmailAndPassword(
@@ -102,7 +106,7 @@ Esse método usa a *api* do firebase, nesse caso isso é feito com base no e-mai
 
 No caso quando ocorre um *catch* dentro do objeto lançado haverá um código e a respectiva mensagem,no caso o objeto lançado será `{code,message}`, dentro do code pode seguir um dos erros acima.
 
-### Explicando o método .createUserWithEmailAndPassword(email,senha)
+### Criando novo usuário: firebase.auth().createUserWithEmailAndPassword(email,senha)
 Esse método assim como o de *signIn* também usa a api do *firebase*, porém esse é para adicionar uma nova conta, lembre-se que a senha associada a esse e-email não é necessariamente a mesma para acessar esse email, o email aqui é apenas para identificar o usuário, logo a senha não precisa ter relação com a conta.
 
     firebase.auth().createUserWithEmailAndPassword(
@@ -134,7 +138,7 @@ Esse método assim como o de *signIn* também usa a api do *firebase*, porém es
 
 No caso quando ocorre um *catch* dentro do objeto lançado haverá um código e a respectiva mensagem,no caso o objeto lançado será `{code,message}`, dentro do code pode seguir um dos erros acima.
 
-### Explicando o método .onAuthStateChanged(callback)
+### Explicando o método firebase.auth().onAuthStateChanged(callback)
 
     firebase.auth().onAuthStateChanged(function(user){
         console.log(`
@@ -167,7 +171,7 @@ Esse método `onAuthStateChanged` é chamado sempre que o `createUserWithEmailAn
 
 >Para manter o antigo comportamento, veja [firebase.auth.Auth.onIdTokenChanged](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#onidtokenchanged)
 
-### .signOut
+### Fazendo logout: firebase.auth().signOut
 [Exemplo](index.html)
 
     <button type="button" id="logOut" onclick="firebase.auth().signOut().then(e => console.log('logout'));">LogOut</button>
@@ -176,3 +180,37 @@ Aqui estamos definindo o logOut para um botão, nesse caso `firebase.auth().sign
 
 ###### Assinatura
     signOut ( ) : Promise < void >
+
+### Pegando dados de usuario logado: firebase.auth().currentUser;
+O método `auth()` tem um atributo referente ao usuário atual que é `.currentUser`. Assinatura: `currentUser: User | null`, retorna o usuário se o mesmo estiver logado, ou null se o usuário não estiver logado.
+
+### Verificando e-mail com: firebase.auth().currentUser.emailVerified
+Esse atributo `emailVerified` informa se o e-mail foi verificado ou não, se o e-mail foi verificado, **true** é retornado, caso o contrário **false**.
+
+### Pegando e-mail do usuário cadastrado: firebase.auth().currentUser.email
+Com o atributo `email` você obtem o e-mail ao qual foi usado para cadastro por parte do usuário.
+### Verificando E-mail com: firebase.auth().currentUser.sendEmailVerification()
+
+    function sendEmailVerification(){
+        showItem(loading);
+        var user = firebase.auth().currentUser;
+        console.log(user);
+        user.sendEmailVerification().then(function(){
+            alert('E-mail de verificação foi enviado para '+user.email+"!");
+        }).catch(function(error){
+            alert('Houve um erro ao enviar a mensagem de verificação');
+            console.log(error);
+        }).finally(function(){
+            hideItem(loading)
+        });
+    }
+
+Você pode usar o método `sendEmailVerification`, para enviar um e-mail para o usuário, ao qual terá um link para confirmar o e-mail cadastrado, tudo ocorre de maneira automática, nesse caso o *firebase* identifica qual é o e-mail usado e com base nisso envia um link para o e-mail cadastrado de modo a confirmar o e-mail do cadastro, como não tem nenhum template, logo o e-mail a ser enviado usa o modelo padrão, conforme ilustrado abaixo:
+
+![Exemplo Email Padrao](./img/exemplo_email_padrao.png)
+
+**Uma vez confirmado o cliente deve receber uma mensagem como:**
+
+![Exemplo email confirmado](./img/exemplo_email_confirmado.png)
+
+O método `sendEmailVerification` retorna uma *promise*, ou seja ocorre de maneira assincrona. Além disso, a confirmação de e-mail não ocorre em tempo real, ou seja, assim que o cliente clica no link, se faz necessário dar um **F5** na página. Ou seja esse método não identifica automaticamente a verificação de e-mail, no caso isso é feito a cada solicitação ao servidor, porém existe uma api que permite isso e no caso não é essa aqui.
