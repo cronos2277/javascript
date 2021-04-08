@@ -26,6 +26,7 @@
         <input type="password" placeholder="Senha" id="password">
 
         <button type="submit" id="submitAuthForm">Acessar</button>
+        <button type="button" id="logOut" onclick="firebase.auth().signOut().then(e => console.log('logout'));">Fazer LogOut</button>
       </form>
 
       <!--Alternar o fomulário de autenticação para o cadastro de novas contas-->

@@ -24,3 +24,17 @@ authForm.onsubmit = function(evento){
         });
     }
 }
+
+firebase.auth().onAuthStateChanged(function(user){
+    console.log(`
+        Chamado assim que se usa o signInWithEmailAndPassword
+        ou createUserWithEmailAndPassword.
+    `);
+    if(user){
+        console.log('usuário autenticado');
+        console.log(user);
+    }else{
+        console.log('usuário não autenticado');
+        console.log(user);
+    }
+});

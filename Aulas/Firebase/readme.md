@@ -6,6 +6,8 @@
 
 [Arquivo Index](./index.html)
 
+## Indices
+[1. Autenticação via E-mail](#autenticação-via-e-mail)
 ## Importando credenciais
 [Arquivo](js/firebase.js)
 
@@ -82,7 +84,7 @@ Esse método usa a *api* do firebase, nesse caso isso é feito com base no e-mai
         console.log(error);
     });
 
-###### Estrutura    
+###### Assinatura    
     signInWithEmailAndPassword ( email :  string ,  password :  string ) : Promise < UserCredential >
 
 >Função assíncrona usando um email e senha. Falha com um erro, se o endereço de e-mail e a senha não corresponderem.
@@ -114,7 +116,7 @@ Esse método assim como o de *signIn* também usa a api do *firebase*, porém es
         console.log(error);
     });
 
-###### Estrutura
+###### Assinatura
     createUserWithEmailAndPassword ( email :  string ,  password :  string ) : Promise < UserCredential >
 
 >Cria uma nova conta de usuário associada ao endereço de e-mail especificado e senha.Na criação bem-sucedida da conta de usuário, este usuário também estará conectado ao seu aplicativo.A criação da conta de usuário pode falhar se a conta já existir ou a senha for inválida.
@@ -131,3 +133,46 @@ Esse método assim como o de *signIn* também usa a api do *firebase*, porém es
 `auth/weak-password` => Lançado se a senha não for forte o suficiente.
 
 No caso quando ocorre um *catch* dentro do objeto lançado haverá um código e a respectiva mensagem,no caso o objeto lançado será `{code,message}`, dentro do code pode seguir um dos erros acima.
+
+### Explicando o método .onAuthStateChanged(callback)
+
+    firebase.auth().onAuthStateChanged(function(user){
+        console.log(`
+            Chamado assim que se usa o signInWithEmailAndPassword
+            ou createUserWithEmailAndPassword.
+        `);
+        if(user){
+            console.log('usuário autenticado');
+            console.log(user);
+        }else{
+            console.log('usuário não autenticado');
+            console.log(user);
+        }
+    });
+
+Esse método `onAuthStateChanged` é chamado sempre que o `createUserWithEmailAndPassword` ou `signInWithEmailAndPassword` é chamado, ou seja se houver uma lógica a ser implementada, o método `onAuthStateChanged` o melhor lugar para colocar. Caso o usuário esteja logado, o primeiro argumento da callback passada, conforme visto aqui `onAuthStateChanged(function(user)`, conterá dados, caso não o mesmo será nulo,se o usuário estiver sendo criado, após a sua criação essa função é chamada. Ou seja exceto que o usuário esteja desconectado esse argumento possuirá valor, o que explica esse desvio condicional funcionar tanto para acesso quanto para cadastro.
+
+    if(user){
+        console.log('usuário autenticado');
+        console.log(user);
+    }else{
+        console.log('usuário não autenticado');
+        console.log(user);
+    }
+
+###### Assinatura
+    onAuthStateChanged ( nextOrObserver :  Observer < any > | ( ( a :  User | null ) => any ) ,  error ? :  ( a :  Error ) => any ,  completed ? :  firebase.Unsubscribe ) : firebase.Unsubscribe
+
+>Adiciona um observador para alterações no estado de login do usuário. Antes de 4.0.0, Isso disparava o observador quando os usuários davam *signed in*, *signed out*, ou quando o token ID do usuário alterava-se em situações, como a expiração do token ou a mudança de senha. Depois da versão 4.0.0, O observador é apenas chamado em sign-in ou sign-out.
+
+>Para manter o antigo comportamento, veja [firebase.auth.Auth.onIdTokenChanged](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#onidtokenchanged)
+
+### .signOut
+[Exemplo](index.html)
+
+    <button type="button" id="logOut" onclick="firebase.auth().signOut().then(e => console.log('logout'));">LogOut</button>
+
+Aqui estamos definindo o logOut para um botão, nesse caso `firebase.auth().signOut().then(e => console.log('logout'));` o objeto oriundo do método *auth* também retorna um método, ao qual pode ser usado para fazer *logOut*, conforme visto aqui `.signOut().then(e => console.log('logout'));`, como uma *promise*, você define uma callback como argumento, do que deve ser feito quando essa instrução for executada, nesse caso `e => console.log('logout')` exibir uma mensagem no console do usuário e fazer o devido *logout*.
+
+###### Assinatura
+    signOut ( ) : Promise < void >
