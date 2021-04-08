@@ -31,7 +31,7 @@
         <input type="password" placeholder="Senha" id="password">
 
         <button type="submit" id="submitAuthForm">Acessar</button>
-        <button type="button" id="logOut" onclick="firebase.auth().signOut().then(e => console.log('logout'));">Fazer LogOut</button>
+        
       </form>
 
       <!--Alternar o fomulário de autenticação para o cadastro de novas contas-->
@@ -45,6 +45,16 @@
         Já possui uma conta?
         <button onclick="toggleToAccess()" class="alternative">Acesse a sua conta</button>
       </p>
+    </div>
+
+    <!-- Conteúdo destinado para usuários autenticados -->
+    <div id="userContent" class="startHidden">
+      <hr>
+      <div id="userInfo" class="center">
+        <p>usuário está autenticado</p>
+        <p id="userEmail"></p>
+        <button type="button" id="logOut" onclick="signOut()">Sair</button>
+      </div>
     </div>
   </div>
   
