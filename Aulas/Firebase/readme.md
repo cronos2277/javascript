@@ -268,4 +268,4 @@ Repare que a confirmação acima, apesar de ter uma tradução com uma linha de 
 
 ### Caso de um erro ao adicionar propriedades no método sendEmailVerification...
 
-Se dar um erro com código `auth/unauthorized-continue-uri` verifique esses passos aqui
+Se dar um erro com código `auth/unauthorized-continue-uri` verifique esses [passos aqui](#resolvendo-erro-authunauthorized-continue-uri)
