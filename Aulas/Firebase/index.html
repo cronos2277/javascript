@@ -34,12 +34,24 @@
         
       </form>
 
+      <!-- Resetando a senha do usuário -->
+      <p id="passwordReset">
+        Esqueceu a senha?
+        <button onclick="sendPasswordResetEmail()" class="alternative">Redefinir minha Senha</button>
+      </p>
+
       <!--Alternar o fomulário de autenticação para o cadastro de novas contas-->
       <p id="register">
         Não possui uma conta?
         <button onclick="toggleToRegister()" class="alternative">Cadastrar uma nova conta</button>
-      </p>
+      </p>    
 
+      <!--Alternar o fomulário de autenticação para o acesso de contas já existentes-->
+      <p id="access" class="startHidden">
+        Já possui uma conta?
+        <button onclick="toggleToAccess()" class="alternative">Acesse a sua conta</button>
+      </p>
+    </div>
       <!--Alternar o fomulário de autenticação para o acesso de contas já existentes-->
       <p id="access" class="startHidden">
         Já possui uma conta?

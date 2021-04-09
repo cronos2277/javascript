@@ -9,6 +9,7 @@ var userContent = document.getElementById('userContent');
 var userEmail = document.getElementById('userEmail');
 var sendEmailVerificationDiv = document.getElementById('sendEmailVerificationDiv');
 var emailVerified = document.getElementById('emailVerified');
+var passwordReset = document.getElementById('passwordReset');
 
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
@@ -16,6 +17,7 @@ function toggleToRegister() {
   authForm.submitAuthForm.innerHTML = 'Cadastrar conta';
   authFormTitle.innerHTML = 'Insira seus dados para se cadastrar';
   hideItem(register);
+  hideItem(passwordReset);
   showItem(access);
 }
 
@@ -25,6 +27,7 @@ function toggleToAccess() {
   authFormTitle.innerHTML = 'Acesse a sua conta para continuar';
   hideItem(access);
   showItem(register);
+  showItem(passwordReset);
 }
 
 // Simpplifica a exibição de elementos da página

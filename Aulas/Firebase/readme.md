@@ -269,3 +269,54 @@ Repare que a confirmação acima, apesar de ter uma tradução com uma linha de 
 ### Caso de um erro ao adicionar propriedades no método sendEmailVerification...
 
 Se dar um erro com código `auth/unauthorized-continue-uri` verifique esses [passos aqui](#resolvendo-erro-authunauthorized-continue-uri)
+
+### Redefinindo a senha com firebase.auth().sendPasswordResetEmail(email,options?)
+
+    firebase.auth()
+        .sendPasswordResetEmail(email,actionCodeSettings)
+        .then(function(ev){
+            alert('Email de redefinição de senha foi enviado a '+email+'.');
+            console.log(ev);
+        })
+        .catch(function(){
+            alert('Houve um erro ao enviar e-mail de redefinição de senha');            
+        })
+        .finally(function(){
+            hideItem(loading);
+        });
+
+>Envia um e-mail de redefinição de senha para o endereço de e-mail fornecido.
+
+Você deve usar o método `firebase.auth().sendPasswordResetEmail(email)` você pode usar para fazer a redefinição da senha, no endereço de e-mail que será informado nesse método irá enviar um e-mail para o usuário, solicitando a troca de senha, conforme ilustrado abaixo, lembrando que a tradução é justamente [devido a esses passos aqui](#traduzindo-a-aplicação-para-português-usando-firebaseauthlanguagecode):
+
+###### E-mail
+![Redefinindo Senha Email](./img/redefinindo_senha_email.png)
+###### Redefinindo senha.
+![Redefinindo Senha Confirmacao](./img/redefinindo_senha_confirmacao.png)
+
+###### PopUp de confirmação
+![Redefinindo Senha Link](./img/redefinindo_senha_link.png)
+Lembrando que esse botão existe lá devido a [esses passos](#adicionando-botão-de-redirecionamento-no-template-de-confirmação-acima)
+###### Assinatura
+    sendPasswordResetEmail ( email :  string ,  actionCodeSettings ? :  ActionCodeSettings | null ) : Promise < void >
+
+#### Códigos de erro.
+
+**`auth/invalid-email` *=>* Lança se o endereço de e-mail não for válido.**
+
+**`auth/missing-android-pkg-name` *=>* Um nome de pacote Android deve ser fornecido se o aplicativo Android for necessário para ser instalado.**
+
+**`auth/missing-continue-uri` *=>* Uma URL deve ser fornecido na solicitação para continuar.**
+
+**`auth/missing-ios-bundle-id` *=>* Um ID do Bundle IOS deve ser fornecido se um ID da App Store for fornecido.**
+
+**`auth/invalid-continue-uri` *=>* O URL de continuidade fornecido na solicitação é inválido.**
+
+**`auth/unauthorized-continue-uri` *=>* O domínio do URL da Contato não é autorizado no domínio no console do Firebase.**
+
+**`auth/user-not-found` *=>* Lançado se não houver usuário correspondente ao endereço de e-mail**
+
+### O argumento e opcional ActionCodeSettings
+Assinatura `actionCodeSettings: ActionCodeSettings | null`.
+
+>As configurações do código de ação.Se especificado, o `state/continue URL` será definido como o `"continueUrl"` Parâmetro no link de redefinição de senha. A página de destino de redefinição de senha padrão usará isso para exibir um link para voltar ao aplicativo se estiver instalado. A URL fornecido deve pertencer a um domínio que é vinculado ao desenvolvedor no console, Caso contrário, um erro será lançado[(Para definir essa exigência, segue os passos aqui)](#resolvendo-erro-authunauthorized-continue-uri). Redirecionamentos de aplicativos móveis só serão aplicáveis se o desenvolvedor configurar e aceitar os Termos de Condição do Firebase Dynamic Links. O nome do pacote do Android e o ID do Bundle do iOS serão respeitados somente se eles estiverem configurados no mesmo projeto de autenticação do Firebase usado.

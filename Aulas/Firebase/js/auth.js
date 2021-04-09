@@ -73,3 +73,30 @@ function sendEmailVerification(){
         hideItem(loading)
     });
 }
+
+//Função que permite o usuário alterar senha
+function sendPasswordResetEmail(){
+    var email = prompt( 
+        `Redefinir Senha! 
+        Informe o seu endereço de e-mail.`,
+        authForm.email.value
+    );
+
+    if(email){
+        showItem(loading);
+        firebase.auth()
+        .sendPasswordResetEmail(email,actionCodeSettings)
+        .then(function(ev){
+            alert('Email de redefinição de senha foi enviado a '+email+'.');
+            console.log(ev);
+        })
+        .catch(function(){
+            alert('Houve um erro ao enviar e-mail de redefinição de senha');            
+        })
+        .finally(function(){
+            hideItem(loading);
+        });
+    }else{
+        alert('É preciso informar um e-mail válido!');
+    }
+}
