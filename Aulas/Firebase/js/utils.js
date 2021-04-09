@@ -57,3 +57,8 @@ function showAuth(){
   hideItem(userContent);
   showItem(auth);
 }
+
+//utils configuração extra para emails
+var actionCodeSettings = {
+  url:"http://127.0.0.1:5500"
+}

@@ -7,7 +7,11 @@
 [Arquivo Index](./index.html)
 
 ## Indices
-[1. Autenticação via E-mail](#autenticação-via-e-mail)
+[1. Habilitando as autenticações](#habilitando-as-autenticações)
+
+[2. Soluções para determinados Erros](#erros)
+
+[3. Autenticação via E-mail](#autenticação-via-e-mail)
 ## Importando credenciais
 [Arquivo](js/firebase.js)
 
@@ -33,6 +37,13 @@ Inicialmente, você precisará importar na página que vai usar o firebase o seg
 
 ## Implementando o suporte a autenticação no Javascript Vanilla.
 Nesse caso você precisará importar `<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>`, nesse caso o script apenas se difere do outro no final da url, no caso `firebase-auth.js`, esse *import* vai permitir que você consiga usar a *api* de autenticação do *firebase*.
+
+## Erros
+### Resolvendo erro auth/unauthorized-continue-uri
+
+Para isso basta registrar a url na aplicação, isso se faz necessário e é um passo obrigatório, no caso por padrão adiciona apenas o **localhost**, o que pode ocorrer erros, caso esteja em localhost, uma vez que ali o `127.0.0.1` não é identificado como `localhost`, além disso se faz necessário adicionar o domínio **sem o http** em ambientes de produção. Apenas as URLS adicionadas ali tem permissão para acessar esse banco de dados, ou seja essa é uma forma de proteger a aplicação, caso alguém tente reutilizar os arquivos de configuração.
+
+![Adicionando Site](./img/adicionando_site.png)
 
 ## Autenticação via e-mail
 [Arquivo auth.js](./js/auth.js)
@@ -214,3 +225,47 @@ Você pode usar o método `sendEmailVerification`, para enviar um e-mail para o 
 ![Exemplo email confirmado](./img/exemplo_email_confirmado.png)
 
 O método `sendEmailVerification` retorna uma *promise*, ou seja ocorre de maneira assincrona. Além disso, a confirmação de e-mail não ocorre em tempo real, ou seja, assim que o cliente clica no link, se faz necessário dar um **F5** na página. Ou seja esse método não identifica automaticamente a verificação de e-mail, no caso isso é feito a cada solicitação ao servidor, porém existe uma api que permite isso e no caso não é essa aqui.
+
+### Configurando o template
+![Teamplate Method](./img/template_method.png)
+
+***Você pode configurar os templates indo em *authentication*, *template* e após isso você tem os templates que podem ser definidos, seja para `verificação de endereço de e-mail`, `redefinição de senha`, assim como para a `Alteração de endereço de e-mail`.***
+
+### Traduzindo a aplicação para português usando: firebase.auth().languageCode
+    firebase.auth().languageCode = "pt-BR";
+
+**Você pode traduzir a aplicação para português passando o código de país para o atributo `.languageCode`**
+
+![Traduzindo Email](./img/traduzido_email.png)
+
+**Segue o exemplo de confirmação de e-mail traduzido**
+
+![Traduzido Confirmacao](./img/traduzido_confirmacao.png)
+
+### Adicionando Botão de redirecionamento no template de confirmação acima
+Repare que a confirmação acima, apesar de ter uma tradução com uma linha de código, você pode também incrementar-lo, para isso:
+
+    //utils configuração extra para emails
+    var actionCodeSettings = {
+        url:"http://127.0.0.1:5500"
+    }
+
+    var user = firebase.auth().currentUser;    
+
+    //O Objeto vai aqui, como argumento de sendEmailVerification
+    user.sendEmailVerification(actionCodeSettings).then(function(){
+        alert('E-mail de verificação foi enviado para '+user.email+"!");
+    }).catch(function(error){
+        alert('Houve um erro ao enviar a mensagem de verificação');
+        console.log(error);
+    }).finally(function(){
+        hideItem(loading)
+    });
+
+**Ou seja você basicamente passa um objeto, com um atributo de configuração, podendo ser esse atributo a `url`, com o atributo url o google cria um botão para a sua janela de confirmação, chamado continuar, conforme visto abaixo:**
+
+![Verificacao com Botao](./img/verificacao_com_botao.png)
+
+### Caso de um erro ao adicionar propriedades no método sendEmailVerification...
+
+Se dar um erro com código `auth/unauthorized-continue-uri` verifique esses passos aqui
