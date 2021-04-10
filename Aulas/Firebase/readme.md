@@ -23,20 +23,20 @@
 
 [8. Método: .signinwithredirect()](#signinwithredirect)
 
-##### Conceitos gerais sobre Provedores de autenticação
+### Conceitos gerais sobre Provedores de autenticação
 Com relação aos provedores temos o seguinte padrão: `firebase.auth.[SERVIÇO]AuthProvider`, esse `[SERVIÇO]` pode ser substituído por **Facebook**, **Google** ou qualquer outra coisa que você queira usar como provedor, esse provedor é uma classe, cuja a instancia você passa como argumento para [.signInWithRedirect()](#signInWithRedirect) ou [.signInWithPopup()](#signinwithpopup).
 
-##### Outros provedores não abordados aqui que podem ser úteis:
+### Outros provedores não abordados aqui que podem ser úteis:
 [PhoneAuthCredential](https://firebase.google.com/docs/reference/js/firebase.auth.PhoneAuthCredential)
 
 [TwitterAuthProvider](https://firebase.google.com/docs/reference/js/firebase.auth.TwitterAuthProvider)
 
-##### firebase.app.App
+### firebase.app.App
 [Documentação](https://firebase.google.com/docs/reference/js/firebase.app.App)
 
-`firebase.app.App` *=>* **Um aplicativo Firebase mantém as informações de inicialização para uma coleção de serviços. Não chame este construtor diretamente, Em vez disso, use [firebase.initializeApp()](https://firebase.google.com/docs/reference/js/firebase#initializeapp), para criar e inicializar uma instância do aplicativo Firebase.
+`firebase.app.App` *=>* **Um aplicativo Firebase mantém as informações de inicialização para uma coleção de serviços. Não chame este construtor diretamente, Em vez disso, use [firebase.initializeApp()](https://firebase.google.com/docs/reference/js/firebase#initializeapp), para criar e inicializar uma instância do aplicativo Firebase.**
 
-##### firebase.initializeApp()
+### firebase.initializeApp()
 [Documentação](https://firebase.google.com/docs/reference/js/firebase#initializeapp)
 
 >Cria e inicializa uma instância do aplicativo Firebase.
