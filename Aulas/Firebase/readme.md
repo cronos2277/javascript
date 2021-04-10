@@ -22,6 +22,33 @@
 [7. Método: .signinwithpopup()](#signinwithpopup)
 
 [8. Método: .signinwithredirect()](#signinwithredirect)
+
+##### Conceitos gerais sobre Provedores de autenticação
+Com relação aos provedores temos o seguinte padrão: `firebase.auth.[SERVIÇO]AuthProvider`, esse `[SERVIÇO]` pode ser substituído por **Facebook**, **Google** ou qualquer outra coisa que você queira usar como provedor, esse provedor é uma classe, cuja a instancia você passa como argumento para [.signInWithRedirect()](#signInWithRedirect) ou [.signInWithPopup()](#signinwithpopup).
+
+##### Outros provedores não abordados aqui que podem ser úteis:
+[PhoneAuthCredential](https://firebase.google.com/docs/reference/js/firebase.auth.PhoneAuthCredential)
+
+[TwitterAuthProvider](https://firebase.google.com/docs/reference/js/firebase.auth.TwitterAuthProvider)
+
+##### firebase.app.App
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.app.App)
+
+`firebase.app.App` *=>* **Um aplicativo Firebase mantém as informações de inicialização para uma coleção de serviços. Não chame este construtor diretamente, Em vez disso, use [firebase.initializeApp()](https://firebase.google.com/docs/reference/js/firebase#initializeapp), para criar e inicializar uma instância do aplicativo Firebase.
+
+##### firebase.initializeApp()
+[Documentação](https://firebase.google.com/docs/reference/js/firebase#initializeapp)
+
+>Cria e inicializa uma instância do aplicativo Firebase.
+
+###### Assinatura
+    initializeApp ( options :  Object ,  name ? :  string ) : App
+
+**`options` => Opções para configurar os serviços do aplicativo.**
+
+**`name` => Nome opcional do aplicativo para inicializar. Se nenhum nome for fornecido, o padrão é `"[DEFAULT]"`.**
+
+
 ## Importando credenciais
 [Arquivo](js/firebase.js)
 
@@ -210,6 +237,8 @@ Esse atributo `emailVerified` informa se o e-mail foi verificado ou não, se o e
 
 ### Pegando e-mail do usuário cadastrado: firebase.auth().currentUser.email
 Com o atributo `email` você obtem o e-mail ao qual foi usado para cadastro por parte do usuário.
+
+>Observação:  Provedores costumam ter informações em campos como `photoURL` e `displayName`, ou seja `firebase.auth().currentUser.photoURL` e `firebase.auth().currentUser.displayName`.
 ### Verificando E-mail com: firebase.auth().currentUser.sendEmailVerification()
 
     function sendEmailVerification(){
@@ -335,6 +364,8 @@ Assinatura `actionCodeSettings: ActionCodeSettings | null`.
 **Inicialmente você precisa habilitar a autenticação e além disso você precisa informar um e-mail para suporte, isso é obrigatório, conforme a imagem abaixo:**
 ![Google Auth](./img/google_auth.png)
 
+[Documentação GoogleAuthProvider](https://firebase.google.com/docs/reference/js/firebase.auth.GoogleAuthProvider)
+
 ###### Código Exemplo
 
     //Função que permite a autenticação pelo Google
@@ -370,6 +401,7 @@ Os dois pontos a serem analizados são esse método [.signInWithPopup](#signinwi
 
 
 ## Autenticação via GitHub
+[Documentação GithubAuthProvider](https://firebase.google.com/docs/reference/js/firebase.auth.GithubAuthProvider)
 
 **Você vai precisar de dois dados oriundo do github, como `Client ID` e `Client Secrets`, conforme visto abaixo:**
 
@@ -464,17 +496,68 @@ Esse provedor não faz verificação de e-mail, logo é interessante criar uma e
     }
 
 ## Autenticação via Facebook
+[Documentação FacebookAuthProvider](https://firebase.google.com/docs/reference/js/firebase.auth.FacebookAuthProvider)
 
+    //Função que permite a autenticação pelo Facebook
+    function signInWithFacebook(){
+        firebase.auth()
+        .signInWithRedirect(new firebase.auth.FacebookAuthProvider())
+        .then(function(ev){
+                console.log('Sucesso no Facebook Auth Provider');
+                console.log(ev);
+        })
+        .catch(
+            function(error){
+                console.log('Houver um erro ao se conectar com o Facebook Auth Provider');
+                console.log(error);
+                hideItem(loading);
+            }
+        );
+    }
 
+Assim como qualquer provedor de autenticação, você pode usar [.signInWithRedirect()](#signInWithRedirect) ou  [.signInWithPopup()](#signinwithpopup), conforme visto aqui `firebase.auth().signInWithRedirect(new firebase.auth.FacebookAuthProvider())`.
+### Passo 1
+**Para habilitar o log-in pelo facebook, você inicialmente deve ir ao site do [facebook devolper](https://developers.facebook.com/apps). Ao logar você deve ver uma tela como esta, ou levemente alterada, crie na opção referente a criar aplicativo.**
 
+![FB_Path](img/facebook_path_1.png)
 
+### Passo 2
+**Como esse é apenas um simples aplicativo basta selecionar a opção marcada de criar experiências conectadas, mas repare que existe outras possibilidades de integração, o que pode ser interessante para captar leads, ou até mesmo operar na plataforma.**
 
+![FB_Path](./img/facebook_path_2.png)
 
+### Passo 3
+**Aqui você deve informar o nome da aplicação, e um e-mail para suporte, repare que também é possível anexar uma conta de negócios a essa aplicação, ao menos até agora, pois é normal eles mudarem tudo.**
 
+![FB_Path](img/facebook_path_3.png)
 
+### Passo 4
+**Ao clicar na opção `Login do Facebook` ou o equivalente, essa é a opção que deve ser selecionada, uma vez que o objetivo é usar o facebook para que o cliente possa se cadastrar na aplicação, repare que também os webhooks que pode ser úteis para uma aplicação que tenha uma interação mais pesada com o facebook.**
 
+![FB_Path](img/facebook_path_4.png)
 
+### Passo 5
+**Uma vez que você entra na opção `Login do Facebook`, vai no menu lateral a esquerda e procure por configuração.**
 
+![FB_Path](img/facebook_path_5.png)
+
+### Passo 6A
+**Aqui você deve informar a `URIs de redirecionamento do OAuth válidos`, aqui deve-se informar o link a ser redirecionado, ou seja após o cadastro, para onde a aplicação do facebook te joga, após o cadastro ou o acesso, isso você pode pegar indo no firebase, conforme ilustrado no [Passo 6B](#passo-6b).**
+
+![FB_Path](img/facebook_path_6.png)
+
+### Passo 6B
+![FB_Path](img/facebook_path_6b.png)
+
+### Passo 7
+**Esses dados de `ID do Aplicativo` e `Chave Secreta do Aplicativo` aqui [Passo 6B](#passo-6b).**
+
+![FB_Path](img/facebook_path_7.png)
+
+### Exemplo com o facebook
+**O facebook exige o uso do https para funcionar, logo a conexão não deve funcionar em localhost, ou seja, isso só pode ser devidamente testado em ambientes de produção.**
+
+![FB_Path](img/facebook_path_8.png)
 ## .signInWithPopup
 
 Uso => `firebase.auth().signInWithPopup([PROVEDOR])`, devendo o `[PROVEDOR]` a ser substituído pelo provedor correspondente.
