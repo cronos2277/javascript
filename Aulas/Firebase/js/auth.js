@@ -100,3 +100,21 @@ function sendPasswordResetEmail(){
         alert('É preciso informar um e-mail válido!');
     }
 }
+
+//Função que permite a autenticação pelo Google
+function signInWithGoogle(){
+    showItem(loading);
+    firebase.auth()
+    .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    .then(function(ev){
+            console.log('Sucesso no Google Auth Provider');
+            console.log(ev);
+    })
+    .catch(
+        function(error){
+            console.log('Houver um erro ao se conectar com o Google Auth Provider');
+            console.log(error);
+            hideItem(loading);
+        }
+    );
+}

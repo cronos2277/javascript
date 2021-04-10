@@ -10,6 +10,8 @@ var userEmail = document.getElementById('userEmail');
 var sendEmailVerificationDiv = document.getElementById('sendEmailVerificationDiv');
 var emailVerified = document.getElementById('emailVerified');
 var passwordReset = document.getElementById('passwordReset');
+var userImg = document.getElementById('userImg');
+var userName = document.getElementById('userName');
 
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
@@ -50,6 +52,8 @@ function showUserContent(user){
     showItem(sendEmailVerificationDiv);
   }
 
+  userImg.src = user.photoURL ? user.photoURL : 'img/unknownUser.png';
+  userName.innerText = user.displayName;
   userEmail.innerText = user.email;
   hideItem(auth);
   showItem(userContent);
@@ -65,3 +69,4 @@ function showAuth(){
 var actionCodeSettings = {
   url:"http://127.0.0.1:5500"
 }
+

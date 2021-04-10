@@ -12,6 +12,8 @@
 [2. Soluções para determinados Erros](#erros)
 
 [3. Autenticação via E-mail](#autenticação-via-e-mail)
+
+[4. Autenticação Via Conta Google]()
 ## Importando credenciais
 [Arquivo](js/firebase.js)
 
@@ -320,3 +322,91 @@ Lembrando que esse botão existe lá devido a [esses passos](#adicionando-botão
 Assinatura `actionCodeSettings: ActionCodeSettings | null`.
 
 >As configurações do código de ação.Se especificado, o `state/continue URL` será definido como o `"continueUrl"` Parâmetro no link de redefinição de senha. A página de destino de redefinição de senha padrão usará isso para exibir um link para voltar ao aplicativo se estiver instalado. A URL fornecido deve pertencer a um domínio que é vinculado ao desenvolvedor no console, Caso contrário, um erro será lançado[(Para definir essa exigência, segue os passos aqui)](#resolvendo-erro-authunauthorized-continue-uri). Redirecionamentos de aplicativos móveis só serão aplicáveis se o desenvolvedor configurar e aceitar os Termos de Condição do Firebase Dynamic Links. O nome do pacote do Android e o ID do Bundle do iOS serão respeitados somente se eles estiverem configurados no mesmo projeto de autenticação do Firebase usado.
+
+## Autenticação via Conta Google
+**Inicialmente você precisa habilitar a autenticação e além disso você precisa informar um e-mail para suporte, isso é obrigatório, conforme a imagem abaixo:**
+![Google Auth](./img/google_auth.png)
+
+###### Código Exemplo
+
+    //Função que permite a autenticação pelo Google
+    function signInWithGoogle(){
+        showItem(loading);
+        firebase.auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(function(ev){
+                console.log('Sucesso no Google Auth Provider');
+                console.log(ev);
+        })
+        .catch(
+            function(error){
+                console.log('Houver um erro ao se conectar com o Google Auth Provider');
+                console.log(error);
+                hideItem(loading);
+            }
+        );
+    }
+
+Os dois pontos a serem analizados são esse método [.signInWithPopup](#signinwithpopup) e essa classe  `firebase.auth.GoogleAuthProvider()`, que pode ser encontrado aqui 
+
+    showItem(loading);
+        firebase.auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then(function(ev){
+                console.log('Sucesso no Google Auth Provider');
+                console.log(ev);
+        })
+
+### Provedor: GoogleAuthProvider
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.auth.GoogleAuthProvider), você colocará uma instancia dessa classe dentro de [.signInWithRedirect()](#signInWithRedirect) ou  [.signInWithPopup()](#signinwithpopup) para que funcione e assim a aplicação possa receber e processar uma conta *Google*. Essa classe está em: `firebase.auth.GoogleAuthProvider`.
+
+## .signInWithPopup
+
+Uso => `firebase.auth().signInWithPopup([PROVEDOR])`, devendo o `[PROVEDOR]` a ser substituído pelo provedor correspondente.
+
+**Esse método abre uma janela pop up para que o usuário faça o cadastro, no caso toda a parte de gerenciamento e autenticação por conta do authenticator do google, também existe um outro método em contraposição é esse, que seria o [.signInWithRedirect()](#signInWithRedirect), porém esse ultimo faz um redirecionamento ao invés de abrir um pop up.**
+
+![Google Auth PopUp](./img/google_auth_popup.png)
+
+###### Assinatura
+    signInWithPopup ( provider :  AuthProvider ) : Promise < UserCredential >
+
+>Autentica um cliente Firebase usando um fluxo de autenticação do OAuth baseado em pop-up. Se for bem sucedido, retorna o usuário assinado junto com a credencial do provedor. Se entrar não foi bem-sucedido, retorna um objeto de erro contendo informações adicionais sobre o erro.
+
+### Códigos de erros para signInWithPopup
+
+`auth/account-exists-with-different-credential` *=>* **Lança se já existir uma conta com o endereço de e-mail afirmado pela credencial. Resolver isso chamando `firebase.auth.Auth.fetchSignInMethodsForEmail` em `error.email` e, em seguida, pedir ao usuário fazer login usando um dos provedores retornados. Quando o usuário estiver conectado, a credencial original recuperada do erro. Credencial pode ser vinculada ao usuário com `firebase.User.linkWithCredential` Para impedir que o usuário se inscreva novamente ao provedor original via popup ou redirecione. Se você estiver usando redirecionamentos para entrar, salve a credencial no armazenamento de sessão e recupere no redirecionar e repovoar a credencial usando por exemplo `firebase.auth.GoogleAuthProvider.credential` Dependendo do ID do provedor de credenciais e complete o link.**
+
+`auth/auth-domain-config-required` *=>* **lança se a configuração do AuthDomain não for fornecida ao chamar `firebase.initializeApp()`. Verifique o console do Firebase para obter instruções sobre como determinar e passar esse campo.**
+
+`auth/cancelled-popup-request` *=>* **Lança se as operações de popup sucessivas forem acionadas. Apenas uma solicitação pop-up é permitida de uma só vez.**
+
+`auth/operation-not-allowed` *=>* **Lançado se o tipo de conta correspondente à credencial não estiver ativada. Ative o tipo de conta no console do Firebase, na guia Auth. [Veja Aqui](#autenticação-via-conta-google)**
+
+`auth/operation-not-supported-in-this-environment` *=>* **Lançado se esta operação não for suportada no ambiente, seu aplicativo estiver sendo executado em: "location.protocol" deve ser http ou https.**
+
+`auth/popup-blocked` *=>* **Lançado se o pop-up foi bloqueado pelo navegador, normalmente quando esta operação for acionada fora de um manipulador de clique.**
+
+`auth/popup-closed-by-user` *=>* **Lançado se a janela pop-up estiver fechada pelo usuário sem concluir o login no provedor.**
+
+`auth/unauthorized-domain` *=>* **Lançado se o domínio do aplicativo não estiver autorizado para operações OAuth para o seu projeto Firebase. Edite a lista de domínios autorizados do console do Firebase. [Veja aqui](#resolvendo-erro-authunauthorized-continue-uri)**
+
+### Argumentos do Método
+>O provedor para autenticar. O provedor tem que ser um provedor de oauth, se não é lançado o erro [firebase.auth.EmailAuthProvider](firebase.auth.EmailAuthProvider).
+## .signInWithRedirect
+>Autentica um cliente Firebase usando um fluxo de redirecionamento de página inteira. Para lidar com os resultados e erros para esta operação, consulte [firebase.auth.Auth.getRedirectResult](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#getredirectresult)
+
+Uso => `firebase.auth().signInWithRedirect([PROVEDOR])`, devendo o `[PROVEDOR]` a ser substituído pelo provedor correspondente.
+###### Assinatura
+    signInWithRedirect ( provider :  AuthProvider ) : Promise < void >
+
+### Códigos de Erros
+
+`auth/auth-domain-config-required` *=>* **lança se a configuração do AuthDomain não for fornecida ao chamar `firebase.initializeApp()`. Verifique o console do Firebase para obter instruções sobre como determinar e passar esse campo.**
+
+`auth/operation-not-supported-in-this-environment` *=>* **Lançado se esta operação não for suportada no ambiente, seu aplicativo estiver sendo executado em: "location.protocol" deve ser http ou https.**
+
+`auth/unauthorized-domain` *=>* **Lançado se o domínio do aplicativo não estiver autorizado para operações OAuth para o seu projeto Firebase. Edite a lista de domínios autorizados do console do Firebase. [Veja aqui](#resolvendo-erro-authunauthorized-continue-uri)**
+
+### Argumentos do Método
+>O provedor para autenticar. O provedor tem que ser um provedor de oauth, se não é lançado o erro [firebase.auth.EmailAuthProvider](firebase.auth.EmailAuthProvider).

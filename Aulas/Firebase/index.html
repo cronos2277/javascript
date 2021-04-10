@@ -51,18 +51,20 @@
         Já possui uma conta?
         <button onclick="toggleToAccess()" class="alternative">Acesse a sua conta</button>
       </p>
-    </div>
-      <!--Alternar o fomulário de autenticação para o acesso de contas já existentes-->
-      <p id="access" class="startHidden">
-        Já possui uma conta?
-        <button onclick="toggleToAccess()" class="alternative">Acesse a sua conta</button>
+
+      <p>
+        Ou acesse usando:<br>
+        <img src="./img/google.png" alt="Conta Google" onclick="signInWithGoogle()" />
+        <img src="./img/facebook.png" alt="Conta Facebook" onclick="signInWithFacebook()" />
+        <img src="./img/github.png" alt="Via Github" onclick="signInWithGithub()" />
       </p>
     </div>
-
     <!-- Conteúdo destinado para usuários autenticados -->
     <div id="userContent" class="startHidden">
       <hr>
       <div id="userInfo" class="center">
+        <img id="userImg">
+        <p id="userName"></p>
         <p>usuário está autenticado</p>
         <p id="userEmail"></p>
         <p id="emailVerified"></p>
@@ -72,6 +74,8 @@
         <button type="button" id="logOut" onclick="signOut()">Sair</button>
       </div>
     </div>
+    </div>
+
   </div>
   
   <!-- Core do firebase -->
