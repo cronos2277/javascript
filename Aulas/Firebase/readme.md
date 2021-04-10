@@ -13,7 +13,15 @@
 
 [3. Autenticação via E-mail](#autenticação-via-e-mail)
 
-[4. Autenticação Via Conta Google]()
+[4. Autenticação Via Conta Google](#autenticação-via-conta-google)
+
+[5. Autenticação via GitHub](#autenticação-via-github)
+
+[6. Autenticação via Facebook](#autenticação-via-facebook)
+
+[7. Método: .signinwithpopup()](#signinwithpopup)
+
+[8. Método: .signinwithredirect()](#signinwithredirect)
 ## Importando credenciais
 [Arquivo](js/firebase.js)
 
@@ -359,6 +367,21 @@ Os dois pontos a serem analizados são esse método [.signInWithPopup](#signinwi
 
 ### Provedor: GoogleAuthProvider
 [Documentação](https://firebase.google.com/docs/reference/js/firebase.auth.GoogleAuthProvider), você colocará uma instancia dessa classe dentro de [.signInWithRedirect()](#signInWithRedirect) ou  [.signInWithPopup()](#signinwithpopup) para que funcione e assim a aplicação possa receber e processar uma conta *Google*. Essa classe está em: `firebase.auth.GoogleAuthProvider`.
+
+
+## Autenticação via GitHub
+
+## Autenticação via Facebook
+
+
+
+
+
+
+
+
+
+
 
 ## .signInWithPopup
 
