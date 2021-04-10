@@ -48,6 +48,16 @@ Com relação aos provedores temos o seguinte padrão: `firebase.auth.[SERVIÇO]
 
 **`name` => Nome opcional do aplicativo para inicializar. Se nenhum nome for fornecido, o padrão é `"[DEFAULT]"`.**
 
+### firebase.auth()
+Obtém `Auth` para o aplicativo atual.
+###### Assinatura
+    auth ( app ? :  App ) : Auth
+
+`firebase.auth()` => pode ser usado sem argumentois para chamar o serviço `Auth`.
+
+`firebase.auth(app)` => Para acessar o `Auth` associado de um aplicativo específico.
+
+[Auth Documentação](https://firebase.google.com/docs/reference/js/firebase.auth)
 ## Importando credenciais
 [Arquivo](js/firebase.js)
 
@@ -81,6 +91,8 @@ Para isso basta registrar a url na aplicação, isso se faz necessário e é um 
 
 ![Adicionando Site](./img/adicionando_site.png)
 
+### Resolvendo auth/requires-recent-login
+Esse erro é chamado quando o usuário tenta excluir conta, na mensagem desse erro está algo como `This operation is sensitive and requires recent au…ation. Log in again before retrying this request.`, que seria `Esta operação é sensível e requer a recente autenticação. Faça o login novamente antes de repetir esta solicitação.`, ou seja para excluir uma conta ou fazer qualquer operação sensível o *firebase*, exige que o usuário não esteja logado a muito tempo, para resolver tal problema, recomenda-se que o usuário faça um novo login como confirmação dessa operação.
 ## Autenticação via e-mail
 [Arquivo auth.js](./js/auth.js)
 
@@ -201,7 +213,7 @@ No caso quando ocorre um *catch* dentro do objeto lançado haverá um código e 
         }
     });
 
-Esse método `onAuthStateChanged` é chamado sempre que o `createUserWithEmailAndPassword` ou `signInWithEmailAndPassword` é chamado, ou seja se houver uma lógica a ser implementada, o método `onAuthStateChanged` o melhor lugar para colocar. Caso o usuário esteja logado, o primeiro argumento da callback passada, conforme visto aqui `onAuthStateChanged(function(user)`, conterá dados, caso não o mesmo será nulo,se o usuário estiver sendo criado, após a sua criação essa função é chamada. Ou seja exceto que o usuário esteja desconectado esse argumento possuirá valor, o que explica esse desvio condicional funcionar tanto para acesso quanto para cadastro.
+Esse método `onAuthStateChanged` é chamado sempre que o `createUserWithEmailAndPassword` ou `signInWithEmailAndPassword` é chamado, ou seja se houver uma lógica a ser implementada, o método `onAuthStateChanged` o melhor lugar para colocar. Caso o usuário esteja logado, o primeiro argumento da callback passada, conforme visto aqui `onAuthStateChanged(function(user)`, conterá dados, caso não o mesmo será nulo,se o usuário estiver sendo criado, após a sua criação essa função é chamada. Ou seja exceto que o usuário esteja desconectado esse argumento possuirá valor, o que explica esse desvio condicional funcionar tanto para acesso quanto para cadastro. Esse método é chamado após a exclusão de uma conta de usuário também.
 
     if(user){
         console.log('usuário autenticado');
@@ -614,6 +626,7 @@ Uso => `firebase.auth().signInWithRedirect([PROVEDOR])`, devendo o `[PROVEDOR]` 
 
 
 ## Gerenciando Usuário
+
 [Documentação firebase.auth().currentUser](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#currentuser)
 ### firebase.auth().currentUser
 ###### Assinatura
@@ -664,3 +677,46 @@ Esse atributo dentro de `firebase.auth()`, ou seja `firebase.auth().currentUser`
         });
 
 **Como é de se imaginar trata-se de uma promise e aqui `.updateProfile({displayName:newUserName})` estamos alterando o display name para o conteúdo da variável `newUserName`.**
+
+### Removendo Usuário
+
+    //Função para remover conta de usuário
+    function deleteUserAccount(){
+        var confirmation = confirm("Deseja realmente exluir a conta?");
+        if(confirmation){
+            showItem(loading);
+            firebase
+                .auth()
+                .currentUser
+                .delete()
+                .then(function(){
+                    alert('Conta excluída com sucesso!');
+                })
+                .catch(function(error){
+                    alert('Erro ao excluir conta!');
+                    console.log(error);
+                })
+                .finally(_ => {
+                    hideItem(loading);
+                })
+        }
+    }
+
+Funciona de forma semelhante a atualização, porém esse método que retorna uma *promise* excluí e além disso esse método não aceita o argumentos, já que funciona com base no [firebase.auth().currentUser](#firebaseauthcurrentuser), e isso é feito aqui:
+
+    firebase
+        .auth()
+        .currentUser
+        .delete()
+        .then(function(){
+            alert('Conta excluída com sucesso!');
+        })
+        .catch(function(error){
+            alert('Erro ao excluir conta!');
+            console.log(error);
+        })
+        .finally(_ => {
+            hideItem(loading);
+        })
+
+Detalhe esse método pode lançar um erro, caso o usuário do login tenha se passado muito tempo, recomenda-se que o usuário faça um novo login e após esse login, chama o método `delete`, caso seja lançado um erro do tipo [`auth/requires-recent-login`, clique aqui para ver como resolver](#resolvendo-authrequires-recent-login).

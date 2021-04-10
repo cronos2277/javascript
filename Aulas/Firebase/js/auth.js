@@ -175,3 +175,25 @@ function updateUserName(){
         hideItem(loading);
     }
 }
+
+//Função para remover conta de usuário
+function deleteUserAccount(){
+    var confirmation = confirm("Deseja realmente exluir a conta?");
+    if(confirmation){
+        showItem(loading);
+        firebase
+            .auth()
+            .currentUser
+            .delete()
+            .then(function(){
+                alert('Conta excluída com sucesso!');
+            })
+            .catch(function(error){
+                alert('Erro ao excluir conta!');
+                console.log(error);
+            })
+            .finally(_ => {
+                hideItem(loading);
+            })
+    }
+}

@@ -48,7 +48,7 @@ button {
 }
 
 button#logOut{
-  background-color:red;
+  background-color:black;
 }
 
 button:hover {
@@ -83,4 +83,8 @@ p {
 #userImg{
   height: 40px;
   border-radius: 100%;
+}
+
+.danger{
+  background-color: red;
 }
