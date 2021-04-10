@@ -19,9 +19,9 @@
 
 [6. Autenticação via Facebook](#autenticação-via-facebook)
 
-[7. Método: .signinwithpopup()](#signinwithpopup)
+[7. Formas de login com provedores](#formas-de-login-com-provedores)
 
-[8. Método: .signinwithredirect()](#signinwithredirect)
+[8. Gerenciando usuario cadastrado](#gerenciando-usuário)
 
 ### Conceitos gerais sobre Provedores de autenticação
 Com relação aos provedores temos o seguinte padrão: `firebase.auth.[SERVIÇO]AuthProvider`, esse `[SERVIÇO]` pode ser substituído por **Facebook**, **Google** ou qualquer outra coisa que você queira usar como provedor, esse provedor é uma classe, cuja a instancia você passa como argumento para [.signInWithRedirect()](#signInWithRedirect) ou [.signInWithPopup()](#signinwithpopup).
@@ -47,7 +47,6 @@ Com relação aos provedores temos o seguinte padrão: `firebase.auth.[SERVIÇO]
 **`options` => Opções para configurar os serviços do aplicativo.**
 
 **`name` => Nome opcional do aplicativo para inicializar. Se nenhum nome for fornecido, o padrão é `"[DEFAULT]"`.**
-
 
 ## Importando credenciais
 [Arquivo](js/firebase.js)
@@ -558,7 +557,9 @@ Assim como qualquer provedor de autenticação, você pode usar [.signInWithRedi
 **O facebook exige o uso do https para funcionar, logo a conexão não deve funcionar em localhost, ou seja, isso só pode ser devidamente testado em ambientes de produção.**
 
 ![FB_Path](img/facebook_path_8.png)
-## .signInWithPopup
+
+## Formas de Login com provedores 
+### .signInWithPopup
 
 Uso => `firebase.auth().signInWithPopup([PROVEDOR])`, devendo o `[PROVEDOR]` a ser substituído pelo provedor correspondente.
 
@@ -570,6 +571,7 @@ Uso => `firebase.auth().signInWithPopup([PROVEDOR])`, devendo o `[PROVEDOR]` a s
     signInWithPopup ( provider :  AuthProvider ) : Promise < UserCredential >
 
 >Autentica um cliente Firebase usando um fluxo de autenticação do OAuth baseado em pop-up. Se for bem sucedido, retorna o usuário assinado junto com a credencial do provedor. Se entrar não foi bem-sucedido, retorna um objeto de erro contendo informações adicionais sobre o erro.
+
 
 ### Códigos de erros para signInWithPopup
 
@@ -591,14 +593,15 @@ Uso => `firebase.auth().signInWithPopup([PROVEDOR])`, devendo o `[PROVEDOR]` a s
 
 ### Argumentos do Método
 >O provedor para autenticar. O provedor tem que ser um provedor de oauth, se não é lançado o erro [firebase.auth.EmailAuthProvider](firebase.auth.EmailAuthProvider).
-## .signInWithRedirect
+
+### .signInWithRedirect
 >Autentica um cliente Firebase usando um fluxo de redirecionamento de página inteira. Para lidar com os resultados e erros para esta operação, consulte [firebase.auth.Auth.getRedirectResult](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#getredirectresult)
 
 Uso => `firebase.auth().signInWithRedirect([PROVEDOR])`, devendo o `[PROVEDOR]` a ser substituído pelo provedor correspondente.
 ###### Assinatura
     signInWithRedirect ( provider :  AuthProvider ) : Promise < void >
 
-### Códigos de Erros
+#### Códigos de Erros
 
 `auth/auth-domain-config-required` *=>* **lança se a configuração do AuthDomain não for fornecida ao chamar `firebase.initializeApp()`. Verifique o console do Firebase para obter instruções sobre como determinar e passar esse campo.**
 
@@ -606,5 +609,58 @@ Uso => `firebase.auth().signInWithRedirect([PROVEDOR])`, devendo o `[PROVEDOR]` 
 
 `auth/unauthorized-domain` *=>* **Lançado se o domínio do aplicativo não estiver autorizado para operações OAuth para o seu projeto Firebase. Edite a lista de domínios autorizados do console do Firebase. [Veja aqui](#resolvendo-erro-authunauthorized-continue-uri)**
 
-### Argumentos do Método
+#### Argumentos do Método
 >O provedor para autenticar. O provedor tem que ser um provedor de oauth, se não é lançado o erro [firebase.auth.EmailAuthProvider](firebase.auth.EmailAuthProvider).
+
+
+## Gerenciando Usuário
+[Documentação firebase.auth().currentUser](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#currentuser)
+### firebase.auth().currentUser
+###### Assinatura
+    currentUser: User | null
+
+>O usuário atualmente conectado (ou nulo).
+
+Esse atributo dentro de `firebase.auth()`, ou seja `firebase.auth().currentUser` é um atributo que contém todos os dados do usuário logado, se não houver usuário o mesmo será nulo, toda e qualquer informação de usuário que você queira editar,excluir ou resgatar, você deve usar esse atributo como base.
+
+### Atualizando o usuário
+
+    //Função que permite atualizar nomes de usuários.
+    function updateUserName(){
+        showItem(loading);
+        var newUserName = prompt('Informe o novo nome de usuário: ',userName.innerText);
+        if(newUserName && newUserName != ""){
+            userName.innerText = newUserName;
+            firebase
+                .auth()
+                .currentUser
+                .updateProfile({displayName:newUserName})
+                .then(_ => console.log("Nome Atualizado!"))            
+                .catch(error => {
+                    console.log('Houve um erro ao atualizar o nome');
+                    console.log(error);                
+                })
+                .finally(_ => {
+                    hideItem(loading);
+                });
+        }else{
+            hideItem(loading);
+        }
+    }
+
+**Dentro do [firebase.auth().currentUser](#firebaseauthcurrentuser), você tem um método que permite a atualização de registros no firebase, do usuário selecionado, que é `updateProfile`, esse método aceita como argumento, um objeto aonde a chave é o campo a ser alterado e o valor, será o novo valor que deverá ser persistido, conforme ilustra abaixo:**
+
+    firebase
+        .auth()
+        .currentUser
+        .updateProfile({displayName:newUserName})
+        .then(_ => console.log("Nome Atualizado!"))            
+        .catch(error => {
+            console.log('Houve um erro ao atualizar o nome');
+            console.log(error);                
+        })
+        .finally(_ => {
+            hideItem(loading);
+        });
+
+**Como é de se imaginar trata-se de uma promise e aqui `.updateProfile({displayName:newUserName})` estamos alterando o display name para o conteúdo da variável `newUserName`.**
