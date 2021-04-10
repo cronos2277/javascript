@@ -118,3 +118,20 @@ function signInWithGoogle(){
         }
     );
 }
+
+//Função que permite a autenticação pelo GitHub
+function signInWithGitHub(){
+    firebase.auth()
+    .signInWithRedirect(new firebase.auth.GithubAuthProvider())
+    .then(function(ev){
+            console.log('Sucesso no GitHub Auth Provider');
+            console.log(ev);
+    })
+    .catch(
+        function(error){
+            console.log('Houver um erro ao se conectar com o GitHub Auth Provider');
+            console.log(error);
+            hideItem(loading);
+        }
+    );
+}

@@ -44,14 +44,19 @@ function hideItem(element) {
 
 //Mostrar elementos para usuários autenticados.
 function showUserContent(user){
-  if(user.emailVerified){
+  if(user?.providerData[0]?.providerId != "password"){
     hideItem(sendEmailVerificationDiv);
-    emailVerified.innerText = "E-mail Verificado!";
+    emailVerified.innerText = "Verificado por provedor confiável!";
   }else{
-    emailVerified.innerText = "E-mail não veficado";
-    showItem(sendEmailVerificationDiv);
+    if(user.emailVerified){
+      hideItem(sendEmailVerificationDiv);
+      emailVerified.innerText = "E-mail Verificado!";
+    }else{
+      emailVerified.innerText = "E-mail não veficado";
+      showItem(sendEmailVerificationDiv);
+    }
   }
-
+  
   userImg.src = user.photoURL ? user.photoURL : 'img/unknownUser.png';
   userName.innerText = user.displayName;
   userEmail.innerText = user.email;

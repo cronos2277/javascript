@@ -371,6 +371,98 @@ Os dois pontos a serem analizados são esse método [.signInWithPopup](#signinwi
 
 ## Autenticação via GitHub
 
+**Você vai precisar de dois dados oriundo do github, como `Client ID` e `Client Secrets`, conforme visto abaixo:**
+
+![GitHub Auth](./img/github_auth.png)
+
+### Para isso, Primeiro:
+**Uma vez logado no github vai em `settings` e em opções procure por `Developer settings`.**
+
+![az](./img/github_path_1.png)
+
+### Depois, o segundo passo
+**Selecione OAth Apps, e clique para criar uma aplicação**
+
+![az](./img/github_path_2.png)
+
+### Informando os dados
+![az](img/github_path_3.png)
+
+**Você deve informar o nome da aplicação, sobre dominío você pode ir as configurações da aplicação, conforme demonstrado abaixo:**
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyCR763EX7p4Wc12J0xjF51MdyDpVmvF7bg",
+        authDomain: "todolist-e74af.firebaseapp.com",
+        projectId: "todolist-e74af",
+        storageBucket: "todolist-e74af.appspot.com",
+        messagingSenderId: "68553181186",
+        appId: "1:68553181186:web:e24b5f397cf1a79774ff1b"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+**E selecionar para url esse trecho `todolist-e74af.firebaseapp.com`, que no caso vem dessa linha `authDomain: "todolist-e74af.firebaseapp.com"`.**
+
+### Authorization callback URL
+**Essa é a callback de redirecionamento para a aplicação, após a  a identificação por esse provedor, ou seja para onde que o mesmo deve ir, pois bem esse valor você pega da url informado lá no firebase, conforme circulado abaixo, apenas preencha essa valor com o circulado, copie e cole:**
+
+![az](img/github_auth2.png)
+
+### Concluído
+**Com isso você deve ter o *Client ID* e o *Client Secret* caso precise, conforme ilustrado abaixo, seja cauteloso com isso, pois é informação sensível:**
+
+![az](img/github_path_4.png)
+
+### Se tudo ocorre bem...
+![az](./img/github_redirect.png)
+
+No caso aqui, foi usado o método [.signInWithRedirect()](#signInWithRedirect), logo há redirecionamento e não *popup*.
+
+### Exemplo Github
+
+    //Função que permite a autenticação pelo GitHub
+    function signInWithGitHub(){
+        firebase.auth()
+        .signInWithRedirect(new firebase.auth.GithubAuthProvider())
+        .then(function(ev){
+                console.log('Sucesso no GitHub Auth Provider');
+                console.log(ev);
+        })
+        .catch(
+            function(error){
+                console.log('Houver um erro ao se conectar com o GitHub Auth Provider');
+                console.log(error);
+                hideItem(loading);
+            }
+        );
+    }
+
+Muito parecido com o do google acima, porém a única diferença vem aqui `.signInWithRedirect(new firebase.auth.GithubAuthProvider())`, ou seja nesse caso você passa como argumento para 
+[.signInWithRedirect()](#signInWithRedirect) ou [.signInWithPopup()](#signinwithpopup) uma instância de `GithubAuthProvider`, oriundo de: `.signInWithRedirect(new firebase.auth.GithubAuthProvider())`. [Documentação](https://firebase.google.com/docs/reference/js/firebase.auth.GithubAuthProvider)
+
+Esse provedor não faz verificação de e-mail, logo é interessante criar uma exceção para isso, conforme ilustrado abaixo:
+
+    //Mostrar elementos para usuários autenticados.
+    function showUserContent(user){
+    if(user?.providerData[0]?.providerId != "password"){
+        hideItem(sendEmailVerificationDiv);
+        emailVerified.innerText = "Verificado por provedor confiável!";
+    }else{
+        if(user.emailVerified){
+        hideItem(sendEmailVerificationDiv);
+        emailVerified.innerText = "E-mail Verificado!";
+        }else{
+        emailVerified.innerText = "E-mail não veficado";
+        showItem(sendEmailVerificationDiv);
+        }
+    }
+    
+    userImg.src = user.photoURL ? user.photoURL : 'img/unknownUser.png';
+    userName.innerText = user.displayName;
+    userEmail.innerText = user.email;
+    hideItem(auth);
+    showItem(userContent);
+    }
+
 ## Autenticação via Facebook
 
 
