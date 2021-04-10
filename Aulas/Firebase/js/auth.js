@@ -135,3 +135,20 @@ function signInWithGitHub(){
         }
     );
 }
+
+//Função que permite a autenticação pelo Facebook
+function signInWithFacebook(){
+    firebase.auth()
+    .signInWithRedirect(new firebase.auth.FacebookAuthProvider())
+    .then(function(ev){
+            console.log('Sucesso no Facebook Auth Provider');
+            console.log(ev);
+    })
+    .catch(
+        function(error){
+            console.log('Houver um erro ao se conectar com o Facebook Auth Provider');
+            console.log(error);
+            hideItem(loading);
+        }
+    );
+}
