@@ -85,6 +85,20 @@ Inicialmente, você precisará importar na página que vai usar o firebase o seg
 Nesse caso você precisará importar `<script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>`, nesse caso o script apenas se difere do outro no final da url, no caso `firebase-auth.js`, esse *import* vai permitir que você consiga usar a *api* de autenticação do *firebase*.
 
 ## Erros
+
+    //Centralizar e traduzir erros.
+    function showError(prefix,error){
+        console.log(error.code);
+        hideItem(loading);
+        switch(error.code){
+            case "auth/invalid-email":alert(prefix +" "+"E-mail inválido!");break;
+            case "auth/wrong-password":alert(prefix +" "+"Senha inválida!");break;
+            case "auth/weak-password":alert(prefix +" "+"Senha precisa ter pelo menos 6 caracteres!");break;
+            case "auth/email-already-in-use":alert(prefix +" "+"Essa conta já foi cadastrada!");break;
+            case "auth/popup-closed-by-user":alert(prefix +" "+"O popup de autenticação foi fechado antes de concluir a operação!");break;
+            default:alert(prefix +" "+ error.message);
+        }
+    }
 ### Resolvendo erro auth/unauthorized-continue-uri
 
 Para isso basta registrar a url na aplicação, isso se faz necessário e é um passo obrigatório, no caso por padrão adiciona apenas o **localhost**, o que pode ocorrer erros, caso esteja em localhost, uma vez que ali o `127.0.0.1` não é identificado como `localhost`, além disso se faz necessário adicionar o domínio **sem o http** em ambientes de produção. Apenas as URLS adicionadas ali tem permissão para acessar esse banco de dados, ou seja essa é uma forma de proteger a aplicação, caso alguém tente reutilizar os arquivos de configuração.
