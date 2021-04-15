@@ -130,3 +130,11 @@ Para começar um projeto, você deve dar o comando `firebase init`, esse comando
 **Ao concluir o processo você deve ver uma imagem parecida com a debaixo. Ali abaixo é informado a url do projeto e na linha do `Hosting URL` é o endereço aonde está o seu site.**
 
 ![deploy](.img/deploy_G_Concluido_terminal.png)
+
+## Hospendando com domínios personalizados
+
+**Lá no console, você vai em `hosting` e nessa parte mesmo tem a opção para `adicionar um domínio personalizado` conforme a imagem abaixo:
+
+![hosting](.img/hosting.png)
+
+**Ao clicar no botão abrirá um wizard, com ele você pode fazer com que quando o usuário digitar o domínio personalizado, o mesmo acesse o site hospedado aqui. Para isso você deve `inserir um dominio`, `verificar propriedade` e `ativar` usando as configurações de DNS do domínio.**

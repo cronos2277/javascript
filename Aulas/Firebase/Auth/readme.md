@@ -23,6 +23,7 @@
 
 [8. Gerenciando usuario cadastrado](#gerenciando-usuário)
 
+[9. Autenticação 1 Email -> N provedores associados](#criando-uma-conta-para-cada-provedor-por-mais-que-tenham-o-mesmo-e-mail)
 ### Conceitos gerais sobre Provedores de autenticação
 Com relação aos provedores temos o seguinte padrão: `firebase.auth.[SERVIÇO]AuthProvider`, esse `[SERVIÇO]` pode ser substituído por **Facebook**, **Google** ou qualquer outra coisa que você queira usar como provedor, esse provedor é uma classe, cuja a instancia você passa como argumento para [.signInWithRedirect()](#signInWithRedirect) ou [.signInWithPopup()](#signinwithpopup).
 
@@ -734,3 +735,12 @@ Funciona de forma semelhante a atualização, porém esse método que retorna um
         })
 
 Detalhe esse método pode lançar um erro, caso o usuário do login tenha se passado muito tempo, recomenda-se que o usuário faça um novo login e após esse login, chama o método `delete`, caso seja lançado um erro do tipo [`auth/requires-recent-login`, clique aqui para ver como resolver](#resolvendo-authrequires-recent-login).
+
+## Criando uma conta para cada provedor, por mais que tenham o mesmo e-mail
+
+**Para isso você deve ir em autenticação e opção `Authentication` ir na parte `uma conta por endereço de email` e alterar da opção padrão para a opção alternativa, que é `Permite a criação de varias...`, conforme a imagem abaixo:**
+
+![auth](img/autenticacao.png)
+
+### Na prática o que muda?
+**Vamos supor que o cliente queira acessar pelo google e pelo facebook e ambos usam o mesmo e-mail, caso os passos acima não fossem executados, o usuário iria ver um erro, assim que tentasse logar com o segundo provedor desse exemplo, mas com a opção habilitado, é criado uma segunda conta para o usuário, sim uma conta com um provedor e outra com outro, porém existe forma de mesclar isso e o primeiro passo é esse.**
