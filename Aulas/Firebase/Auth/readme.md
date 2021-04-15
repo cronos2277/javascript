@@ -386,6 +386,10 @@ Assinatura `actionCodeSettings: ActionCodeSettings | null`.
 
 >As configurações do código de ação.Se especificado, o `state/continue URL` será definido como o `"continueUrl"` Parâmetro no link de redefinição de senha. A página de destino de redefinição de senha padrão usará isso para exibir um link para voltar ao aplicativo se estiver instalado. A URL fornecido deve pertencer a um domínio que é vinculado ao desenvolvedor no console, Caso contrário, um erro será lançado[(Para definir essa exigência, segue os passos aqui)](#resolvendo-erro-authunauthorized-continue-uri). Redirecionamentos de aplicativos móveis só serão aplicáveis se o desenvolvedor configurar e aceitar os Termos de Condição do Firebase Dynamic Links. O nome do pacote do Android e o ID do Bundle do iOS serão respeitados somente se eles estiverem configurados no mesmo projeto de autenticação do Firebase usado.
 
+### Acessando todos os usuários cadastrados
+Indo em `Authentication` e depois em `users`, você pode gerenciar todos os usuários, sendo cada um caracterizado no campo provedores, pelo provedor que o mesmo usou para se cadastrar, conforme a imagem abaixo:
+
+![auth](img/autenticacao_concluida.png)
 ## Autenticação via Conta Google
 **Inicialmente você precisa habilitar a autenticação e além disso você precisa informar um e-mail para suporte, isso é obrigatório, conforme a imagem abaixo:**
 ![Google Auth](./img/google_auth.png)
@@ -585,6 +589,7 @@ Assim como qualquer provedor de autenticação, você pode usar [.signInWithRedi
 
 ![FB_Path](img/facebook_path_8.png)
 
+**Ou seja você só vai poder testa-lo depois do deploy e que tiver um certificado SSL.**
 ## Formas de Login com provedores 
 ### .signInWithPopup
 

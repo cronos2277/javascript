@@ -133,7 +133,7 @@ Para começar um projeto, você deve dar o comando `firebase init`, esse comando
 
 ## Hospendando com domínios personalizados
 
-**Lá no console, você vai em `hosting` e nessa parte mesmo tem a opção para `adicionar um domínio personalizado` conforme a imagem abaixo:
+**Lá no console, você vai em `hosting` e nessa parte mesmo tem a opção para `adicionar um domínio personalizado` conforme a imagem abaixo:**
 
 ![hosting](.img/hosting.png)
 
