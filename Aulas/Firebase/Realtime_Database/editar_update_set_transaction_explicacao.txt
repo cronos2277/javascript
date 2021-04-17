@@ -13,13 +13,7 @@
     set ( value :  any ,  onComplete ? :  ( a :  Error | null ) => any ) : Promise < any >
 
 [Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#set)
-#### update
->Pode escrever muitos valores de uma só vez. Os `values` passados como argumentos devem estar estruturados como objetos javascript. Por exemplo, se você passar um atributo `name` com o seu valor no estilo `{name:'novo_valor'}`, você pode fazer a escrita de todos os registros que têm esse atributo de uma única vez, em oposição ao SET, o update pode ser usado seletivamente para fazer a atualização
 
-###### Assinatura
-    update ( values :  Object ,  onComplete ? :  ( a :  Error | null ) => any ) : Promise < any >
-
-[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#update)
 #### transaction
 >`transaction` aonde está `[metodo_abaixo]`: Use em transações para trabalhar com dados complexos que poderiam ser corrompidos por atualizações simultâneas. Ele modifica de maneira atômica os dados, garantindo assim a consistência, ou seja se você precisa alterar dois campos, ou ele irá alterar os dois campos de uma vez, ou não irá alterar nenhum, ou seja nesse caso não existiria a possibilidade de um campo ser alterado e outro não, esse método é recomendado para alterações mais complexas.
 

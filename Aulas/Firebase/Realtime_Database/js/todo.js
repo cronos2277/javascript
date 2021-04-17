@@ -15,6 +15,7 @@ todoForm.onsubmit = function (event) {
       console.log("Erro no PUSH");
       console.log(error);
     });
+    todoForm.name.value = '';
   } else {
     alert('O nome da tarefa não pode ser em branco para criar a tarefa!')
   }
@@ -39,6 +40,13 @@ function fillTodoList(dataSnapShot){
     liRemoveBtn.setAttribute('onclick',`removeTodo('${item.key}','${value.name}')`);
     liRemoveBtn.setAttribute('class','danger todoBtn');
     li.appendChild(liRemoveBtn);
+
+    var liUpdateBtn = document.createElement('button');
+    liUpdateBtn.appendChild(document.createTextNode('Editar'));
+    liUpdateBtn.setAttribute('onclick',`updateTodo('${item.key}','${value.name}')`);
+    liUpdateBtn.setAttribute('class','alternative todoBtn');
+    li.appendChild(liUpdateBtn);
+
     console.log('Tarefa:',index);
     console.log(item);
   });
@@ -53,6 +61,19 @@ function removeTodo(key,name){
       .child(key)
       .remove()
       .then(() => console.log(`removendo ${key}...`))      
+      .catch(error => console.log(error));
+  }
+}
+
+//Atualiza tarefas
+function updateTodo(key,name){
+  var newTodoName = prompt(`Escolha um novo nome para a tarefa "${name}"`,name);
+  if(newTodoName != ''){
+    dbRefUsers
+      .child(firebase.auth().currentUser.uid)
+      .child(key)
+      .update({name:newTodoName})
+      .then(() => console.log(`atualizando ${key}...`))         
       .catch(error => console.log(error));
   }
 }

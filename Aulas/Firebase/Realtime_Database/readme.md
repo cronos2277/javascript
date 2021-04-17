@@ -129,7 +129,12 @@ No caso para registrar, você precisa identificar a coleção `.ref('users')`, a
 >Pegando o objeto `Reference` de dentro de `users/ada`.
     var adaRef = firebase.database().ref("users/ada");
 
+#### Usando o .ref e o .child
+[Ref Child](./.img/ref_child.png)
+
 ## Adicionando Registro
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#push)
+
     const uid = firebase.auth().currentUser.uid;
     firebase
         .database()
@@ -169,9 +174,11 @@ Para isso você precisa usar o método push para adicionar registro a nova cole�
 ###### Assinatura
     push ( value ? :  any ,  onComplete ? :  ( a :  Error | null ) => any ) : ThenableReference
 
-[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#push)
+
 
 ## Removendo Registros
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#remove)
+### remove
     firebase
         .database()
         .ref('users')
@@ -187,6 +194,14 @@ Para remover elementos,você pode usar o método `remove`, conforme visto aqui `
     remove ( onComplete ? :  ( a :  Error | null ) => any ) : Promise < any >
 
 > Remove um banco de dados nessa localização, o evento `value` será imediatamente chamado e todos os registros serão excluídos ao mesmo tempo em todas as instâncias aonde a aplicação roda.
+
+## Atualizando registros
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#update)
+#### update
+>Pode escrever muitos valores de uma só vez. Os `values` passados como argumentos devem estar estruturados como objetos javascript. Por exemplo, se você passar um atributo `name` com o seu valor no estilo `{name:'novo_valor'}`. Uso `.update({campo:'novo valor})'`.
+
+###### Assinatura
+    update ( values :  Object ,  onComplete ? :  ( a :  Error | null ) => any ) : Promise < any >
 
 ## Consultando Coleções
 ###### Analisando mudaças na coleção
