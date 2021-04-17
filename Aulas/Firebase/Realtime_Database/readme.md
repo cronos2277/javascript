@@ -104,6 +104,29 @@ No caso esse método é pego dos registrados registrados, usando o `Firebase Aut
 
 No caso para registrar, você precisa identificar a coleção `.ref('users')`, após isso você precisa identificar o atributo dentro da coleção `.child(uid)`.
 
+### firebase.database.Reference
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference)
+
+> Um objeto `Reference` representa um local específico em seu banco de dados e pode ser usado para leitura ou gravação de dados para esse banco de dados.
+
+> Você pode referenciar o `root` ou local de um child em seu banco de dados chamando: `firebase.database().ref()` ou `firebase.database().ref("child/path")`.
+
+> A escrita é feita com `set()` método e leitura podem ser feitos com o método `on()`.
+
+### Método child
+    Assinatura => `child ( path :  string ) : Reference`
+
+>Path: um caminho relativo para essa localização para a localização do elemento filho desejado.
+
+>Retorno: Pega um objeto `Reference` de um caminho especificado. 
+
+### Método ref
+>Pegando o objeto `Reference` da Raiz.
+    var rootRef = firebase.database().ref();
+
+>Pegando o objeto `Reference` de dentro de `users/ada`.
+    var adaRef = firebase.database().ref("users/ada");
+
 ## Adicionando Registro
     const uid = firebase.auth().currentUser.uid;
     firebase
@@ -139,18 +162,98 @@ Para isso você precisa usar o método push para adicionar registro a nova cole�
         }
     }
 
-### Outras formas de adicionar registros
+#### Push
+>`push`	aonde está `[metodo_abaixo]`: Adiciona a uma lista de dados no banco de dados e gera uma chave única, além de retornar objeto `Reference`, o que permite um encadeamento com outros métodos do tipo. Agora se você passa um valor como argumento, esse valor será usado para gerar a nova chave, caso você não o faça o próprio método fará isso. As chaves geradas são organizadas por ordem cronológica, o que resultará em uma lista de ítens ordenados cronológicamente. As chaves geradas automaticamente, são construídas para serem únicas e contém 72 bits gerados randomicamente.
+###### Assinatura
+    push ( value ? :  any ,  onComplete ? :  ( a :  Error | null ) => any ) : ThenableReference
+
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#push)
+
+## Consultando Coleções
+###### Analisando mudaças na coleção
+    firebase
+        .database()
+        .ref('users')     
+        .child(firebase.auth().currentUser.uid)
+        .on('value',function(dataSnapShot){
+            console.log(dataSnapShot);
+            fillTodoList(dataSnapShot); //Funçao Abaixo
+        });
+
+Para você selecionar a coleção `.ref('users')`, acessando alguma conta de dentro da coleção `.child(firebase.auth().currentUser.uid)`, nesse caso está pegando o registro do usuário corrente, no caso sempre recomenda-se usar o *uid*, justamente para isso, pois esse valor é único para cada usuário e mais informações você pode ver [aqui](#pegando-id-do-usuário).
+
+###### exibe a lista de tarefas do usuário
+    function fillTodoList(dataSnapShot){
+        ulTodoList.innerText = '';
+        var num = dataSnapShot.numChildren();  
+        //Exibe o numero de tarefas  
+        todoCount.innerText = `${num} ${(num > 1)?'tarefas':'tarefa'+':'}`;
+        dataSnapShot.forEach(function(item,index){
+            var value = item.val();    
+            var li = document.createElement('li');
+            var spanLi = document.createElement('span');
+            spanLi.appendChild(document.createTextNode(value.name));
+            li.appendChild(spanLi);
+            ulTodoList.appendChild(li);
+            console.log('Tarefa:',index);
+            console.log(item);
+    });
+
+### Método on
+>Escuta dados de uma localização em particular.
+
+>Esta é a principal maneira de ler dados de um banco de dados. Será acionado sempre que os dados serão alterados.
+
+#### Evento: `value`
+>Este evento acionará uma vez com os dados iniciais armazenados, em seguida, dispara novamente cada vez que os dados serão alterados. O `DataSnapshot` passado para callback passado no método `on` será usado, uma vez que seja chamado. Ele não será acionado até que todo o conteúdo esteja sincronizado. Se a coleção não tiver dados será retornado um `DataSnapshot` nulo.
 
     firebase
         .database()
-        .ref('users')
-        .child(uid)
-        .[metodo_abaixo]({});
+        .ref('users')     
+        .child(firebase.auth().currentUser.uid)
+        .on('value',function(DataSnapshot){
 
->`set` aonde está `[metodo_abaixo]`: Gravar ou substituir dados em um caminho definido, como messages/users/<username>
+        });
 
->`update` aonde está `[metodo_abaixo]`: Atualize algumas das chaves de um caminho definido sem substituir todos os dados.
+#### Evento: `child_added`
+>Esse evento será chamado uma vez para cada filho, e será chamado denovo cada vez que um novo filho é adicionado. O `DataSnapshot` passado dentro da callback refletirá o dado para cada elemento filho relevante. O Segundo argumento será preenchido pela chave do elemento anterior, sendo nulo se for o primeiro elemento da coleção o alvo da mudança, isso serve para que você possa encadear com algum laço de repetição.
+###### Exemplo
+    firebase
+        .database()
+        .ref('users')     
+        .child(firebase.auth().currentUser.uid)
+        .on('child_added',function(DataSnapshot, prevChildKey){
 
->`push`	aonde está `[metodo_abaixo]`: Adicione a uma lista de dados no banco de dados. Sempre que um novo nó é enviado para uma lista, seu banco de dados gera uma chave única, como messages/users/<unique-user-id>/<username>
+        });
 
->`transaction` aonde está `[metodo_abaixo]`: Use transações ao trabalhar com dados complexos que poderiam ser corrompidos por atualizações simultâneas.
+#### Evento: `child_removed`
+>Esse evento é chamado toda vez que um elemento filho é removido. O `DataSnapshot` passado dentro da callback será o dado antigo que estava presente antes do elemento filho em questão ser removido. Um filho será removido quando:
+
+**O cliente chama o método `remove()`, seja o elemento filho ou o pai.** 
+
+**Quando o cliente chama `set(null)` nos elementos filhos ou nos ancestrais.**
+
+**Quando um elemento filho tem todos os seus valores removidos.**
+
+**Quando há uma consulta em vigor que filtra um elemento filho.**
+
+    ref.on('child_removed', function(DataSnapshot) {
+        ...
+    });
+
+
+#### Evento: `child_changed`
+>Esse evento é disparado quando um dado armazenado em um elemento filho ou qualquer um dos seus descendentes mudam. Nota que um único evento `child_changed` representa muitas mudanças para os nós filhos. O `DataSnapshot` passado conterá os novos valores. O Segundo argumento será preenchido pela chave do elemento anterior, sendo nulo se for o primeiro elemento da coleção o alvo da mudança, isso serve para que você possa encadear com algum laço de repetição. 
+
+    ref.on('child_changed', function(DataSnapshot, prevChildKey) {
+        ...
+    });
+
+#### Evento: `child_moved`
+>Esse evento é disparado quando um elemento filho muda de posição com relação aos seus siblings. O `DataSnapshot` conterá o dado que foi movido.O Segundo argumento será preenchido pela chave do elemento anterior, sendo nulo se for o primeiro elemento da coleção o alvo da mudança, isso serve para que você possa encadear com algum laço de repetição. 
+
+    ref.on('child_moved', function(DataSnapshot, prevChildKey) {
+        ...
+    });
+###### Assinatura
+    on ( eventType :  EventType ,  callback :  ( a :  DataSnapshot ,  b ? :  string | null ) => any ,  cancelCallbackOrContext ? :  ( ( a :  Error ) => any ) | Object | null ,  context ? :  Object | null ) : ( a :  DataSnapshot | null ,  b ? :  string | null ) => any
