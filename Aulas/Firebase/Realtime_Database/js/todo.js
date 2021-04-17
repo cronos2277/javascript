@@ -33,7 +33,26 @@ function fillTodoList(dataSnapShot){
     spanLi.appendChild(document.createTextNode(value.name));
     li.appendChild(spanLi);
     ulTodoList.appendChild(li);
+    spanLi.id = item.key;
+    var liRemoveBtn = document.createElement('button');
+    liRemoveBtn.appendChild(document.createTextNode('Excluir'));
+    liRemoveBtn.setAttribute('onclick',`removeTodo('${item.key}','${value.name}')`);
+    liRemoveBtn.setAttribute('class','danger todoBtn');
+    li.appendChild(liRemoveBtn);
     console.log('Tarefa:',index);
     console.log(item);
   });
+}
+
+//Remove tarefas
+function removeTodo(key,name){
+  var confirmation = confirm(`Deseja remover  a tarefa "${name}"?`);
+  if(confirmation){
+    dbRefUsers
+      .child(firebase.auth().currentUser.uid)
+      .child(key)
+      .remove()
+      .then(() => console.log(`removendo ${key}...`))      
+      .catch(error => console.log(error));
+  }
 }

@@ -5,6 +5,8 @@
 [2. Implementando no projeto](#implementando-o-reatime-database-no-projeto)
 
 [3. Adicionando Registro](#adicionando-registro)
+
+[4. Removendo Registros](#removendo-registros)
 ## Instalando o Firebase Realtime Database
 >O Firebase Realtime Database é um banco de dados NoSQL na nuvem que possibilita a sincronização de dados em tempo real no formato JSON.
 
@@ -168,6 +170,23 @@ Para isso você precisa usar o método push para adicionar registro a nova cole�
     push ( value ? :  any ,  onComplete ? :  ( a :  Error | null ) => any ) : ThenableReference
 
 [Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#push)
+
+## Removendo Registros
+    firebase
+        .database()
+        .ref('users')
+        .child(firebase.auth().currentUser.uid)
+        .child(key)
+        .remove()
+        .then(() => console.log(`removendo ${key}...`))      
+        .catch(error => console.log(error));
+
+Para remover elementos,você pode usar o método `remove`, conforme visto aqui `.remove()`
+
+###### Assinatura do remove
+    remove ( onComplete ? :  ( a :  Error | null ) => any ) : Promise < any >
+
+> Remove um banco de dados nessa localização, o evento `value` será imediatamente chamado e todos os registros serão excluídos ao mesmo tempo em todas as instâncias aonde a aplicação roda.
 
 ## Consultando Coleções
 ###### Analisando mudaças na coleção
