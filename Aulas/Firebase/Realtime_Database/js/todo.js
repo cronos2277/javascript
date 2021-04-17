@@ -19,3 +19,21 @@ todoForm.onsubmit = function (event) {
     alert('O nome da tarefa não pode ser em branco para criar a tarefa!')
   }
 }
+
+//exibe a lista de tarefas do usuário
+function fillTodoList(dataSnapShot){
+  ulTodoList.innerText = '';
+  var num = dataSnapShot.numChildren();  
+  //Exibe o numero de tarefas  
+  todoCount.innerText = `${num} ${(num > 1)?'tarefas':'tarefa'+':'}`;
+  dataSnapShot.forEach(function(item,index){ //Percorre todas as tarefas
+    var value = item.val();    
+    var li = document.createElement('li');
+    var spanLi = document.createElement('span');
+    spanLi.appendChild(document.createTextNode(value.name));
+    li.appendChild(spanLi);
+    ulTodoList.appendChild(li);
+    console.log('Tarefa:',index);
+    console.log(item);
+  });
+}

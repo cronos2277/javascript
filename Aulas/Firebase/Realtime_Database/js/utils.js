@@ -12,9 +12,9 @@ var emailVerified = document.getElementById('emailVerified')
 var passwordReset = document.getElementById('passwordReset')
 var userName = document.getElementById('userName')
 var userImg = document.getElementById('userImg')
-
 var todoForm = document.getElementById('todoForm')
-
+var ulTodoList = document.getElementById('ulTodoList')
+var todoCount = document.getElementById('todoCount')
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
 function toggleToRegister() {
@@ -64,6 +64,12 @@ function showUserContent(user) {
   userName.innerHTML = user.displayName
   userEmail.innerHTML = user.email
   hideItem(auth)
+  dbRefUsers
+    .child(firebase.auth().currentUser.uid)
+    .on('value',function(dataSnapShot){
+      fillTodoList(dataSnapShot);
+      console.log(dataSnapShot);
+    })
   showItem(userContent)
 }
 
