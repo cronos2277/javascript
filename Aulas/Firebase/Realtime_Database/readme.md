@@ -7,6 +7,8 @@
 [3. Adicionando Registro](#adicionando-registro)
 
 [4. Removendo Registros](#removendo-registros)
+
+[5. Atualizando registros](#atualizando-registros)
 ## Instalando o Firebase Realtime Database
 >O Firebase Realtime Database é um banco de dados NoSQL na nuvem que possibilita a sincronização de dados em tempo real no formato JSON.
 
@@ -130,7 +132,7 @@ No caso para registrar, você precisa identificar a coleção `.ref('users')`, a
     var adaRef = firebase.database().ref("users/ada");
 
 #### Usando o .ref e o .child
-[Ref Child](./.img/ref_child.png)
+![Ref Child](./.img/ref_child.png)
 
 ## Adicionando Registro
 [Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#push)
