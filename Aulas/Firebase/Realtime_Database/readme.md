@@ -9,6 +9,8 @@
 [4. Removendo Registros](#removendo-registros)
 
 [5. Atualizando registros](#atualizando-registros)
+
+[6. Regras de Segurança](#configurando-regras-de-segurança-no-console-do-firebase)
 ## Instalando o Firebase Realtime Database
 >O Firebase Realtime Database é um banco de dados NoSQL na nuvem que possibilita a sincronização de dados em tempo real no formato JSON.
 
@@ -293,3 +295,171 @@ Para você selecionar a coleção `.ref('users')`, acessando alguma conta de den
     });
 ###### Assinatura
     on ( eventType :  EventType ,  callback :  ( a :  DataSnapshot ,  b ? :  string | null ) => any ,  cancelCallbackOrContext ? :  ( ( a :  Error ) => any ) | Object | null ,  context ? :  Object | null ) : ( a :  DataSnapshot | null ,  b ? :  string | null ) => any
+
+
+## Configurando regras de Segurança no console do firebase
+[Documentação base](https://firebase.google.com/docs/reference/security/database)
+
+[Expressões regulares](https://firebase.google.com/docs/reference/security/database/regex)
+### Explanação sobre essa parte
+**Aqui você configura as regras do banco de dados, aqui você define o acesso ao firebase, nesse caso do exemplo abaixo, até a data extipulada abaixo o acesso é completo ao banco de dados a usuários autenticados e não autenticados, tanto de leitura como escrita.**
+
+![RT Sec Path](.img/rt_sec_path.png)
+
+### Bloqueio completo
+
+    {
+        "rules": {
+            ".read": false,
+            ".write": false
+        }
+    }
+
+Nesse modo o acesso ao banco de dados fica completamente bloqueado, no caso as regras do firebase funcionam com base em valores booleanos, se a expressão a direita de `.read` for falso, a leitura é proibida e se a expressão a direita de  `.write` for falsa a escrita é completamente vetada.
+
+### Público
+    {
+        "rules": {
+            ".read": true,
+            ".write": true
+        }
+    }
+
+Aqui acontece a situação oposto, isso é altamente perigoso para qualquer banco de dados, nesse exemplo acima qualquer um pode acessar os dados para leitura e escrita, mesmo que não esteja autenticado.
+
+### Usuários autenticados
+    {
+      "rules": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    }
+
+Nesse modo a leitura, assim como a escrita é vetada para usuários não logados na aplicação, porém uma vez logado os mesmos tem acessos a todos os dados, até mesmo os dados que não lhes pertençam.
+
+#### auth
+>Uma variável contendo a carga útil do token se um cliente for autenticado ou `null` se o cliente não for autenticado. O Firebase Realtime Database permite que você se autentique facilmente em vários provedores integrados e gera tokens de autenticação para eles. Depois que um usuário é autenticado com um dos provedores integrados, a variável auth conterá o seguinte:
+
+>provider	O método de autenticação usado (por exemplo, "password", "anonymous", "facebook", "github", "google" ou "twitter"): Uso `auth.provider`.
+
+>uid	Um ID de usuário único, com garantia de ser único em todos os provedores. Uso `auth.uid`
+
+>token	O conteúdo do token de ID do Firebase Auth. Uso: `auth.token` Veja [auth.token](https://firebase.google.com/docs/reference/security/database#authtoken).
+
+
+##### atributos para auth.token
+>`email`:	O endereço de e-mail associado à conta, se houver.
+
+>`email_verified`:	true se o usuário tiver verificado que tem acesso ao endereço de email - email . Alguns provedores verificam automaticamente os endereços de e-mail que possuem.
+
+>`phone_number`:	O número de telefone associado à conta, se houver.
+
+>`name`:	O nome de exibição do usuário, se definido.
+
+>`sub`:	O UID do Firebase do usuário. Isso é único dentro de um projeto.
+
+>`firebase.identities`:	Dicionário de todas as identidades associadas à conta deste usuário. As chaves do dicionário podem ser qualquer uma das seguintes: email - email , phone , google.com , facebook.com , github.com , twitter.com . Os valores do dicionário são matrizes de identificadores exclusivos para cada provedor de identidade associado à conta. Por exemplo, auth.token.firebase.identities["google.com"][0] contém o primeiro ID de usuário do Google associado à conta.
+
+>`firebase.sign_in_provider`: O provedor de login usado para obter este token. Pode ser uma das seguintes strings: custom , password , phone , anonymous , google.com , facebook.com , github.com , twitter.com.
+
+Exemplo de uso dessas variáveis acima: `auth.token.email`, `auth.token.email_verified`, `auth_name`, etc...
+
+### Rules complexo
+    {
+        "rules": {
+            "users": {
+                "$uid": {
+                    ".read": "$uid == auth.uid",
+                        ".write": "$uid == auth.uid"
+                }
+            }
+        }
+    }
+
+![RT Sec Database](.img/rt_sec_database.png)
+
+#### Sobre variaveis
+Você pode criar uma variável colocando o cifrão na frente, nesse caso estamos dizendo que temos uma variável  que faz referência a aquele nível hierárquico no documento, conforme visto aqui `"$uid": {` e logo essa variável pode ser usado dentro do seu próprio escopo, conforme visto aqui `".read": "$uid == auth.uid"` e aqui `".write": "$uid == auth.uid"`, nesse caso, estamos verificando se o valor aqui `$uid` bate com o do usuário logado aqui `auth.uid`, se bater a escrita e leitura é permitida. No caso isso evita que o usuário edite o conteúdo dos outros, uma vez que se ele tentar o valor dessa variável `$uid` será diferente de `auth.uid` e essa expressão resultará em falso, o que por fim irá resultar no bloqueio. No caso quando o valor pode alterar, você pode usar o `$`, no caso desse exemplo printado o `$uid` poderá ser `7MmriwWU1jU4EETmOJHVfZXeohz2` ou `WWNOskYU5nRhzt4BX23LyBoAClw1`, logo devido a essa alteração, pode-se usar uma variável com nome qualquer para indicar `7MmriwWU1jU4EETmOJHVfZXeohz2` ou `WWNOskYU5nRhzt4BX23LyBoAClw1`, dependendo de quem está logado, já como o nome da coleção não se altera, então você pode colocar um nome de uma forma estática, conforme visto aqui `"users": {`, resumindo se no caminho, tiver alguma parte da url que varia, você usa variáveis com cifrão na frente e na parte estática da rota, você pode colocar de maneira estática, conforme o `users` ali.
+
+### Regras para validações
+
+    {
+        "rules": {
+                "users": {
+                    "$uid": {
+                        ".read": "$uid == auth.uid",
+                        ".write": "$uid == auth.uid",
+                        "$tid": {
+                            ".validate": "newData.child('name').isString() && newData.child('name').val().length <= 30"
+                        }
+                    }
+                }
+            }
+    }
+
+![TID](.img/rt_sec_tid.png)
+
+#### .validate
+[Documentação](https://firebase.google.com/docs/reference/security/database#validate)
+>Usado quando uma regra `.write` concede acesso, para garantir que os dados que estão sendo gravados estejam em conformidade com um esquema específico. Uma regra `.validate` é usada quando uma regra `.write` concede acesso, para garantir que os dados que estão sendo gravados estejam em conformidade com um padrão específico. Além de um `.write` conceder acesso, todas as regras `.validate` relevantes devem ser bem-sucedidas antes que uma gravação seja permitida. Por exemplo:
+
+    ".validate": "newData.hasChildren(['name', 'age'])"
+
+>O valor de uma regra `.validate` é uma string, que é avaliada como um subconjunto da sintaxe da expressão do JavaScript com algumas mudanças comportamentais para aumentar a clareza e a correção.
+
+>Uma regra .validate tem acesso a todas as [variaveis de regras](https://firebase.google.com/docs/reference/security/database#variables) do Firebase Realtime Database.
+
+##### newData
+>Para `.write` e `.validate`, a variável `newData` dá-lhe uma [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) correspondente aos dados que resultarão, caso a gravação seja permitido (que é uma "fusão" dos dados existentes, mais os novos dados sendo escrito). Portanto, se você quiser garantir que cada usuário tenha um nome e idade, poderá usar:
+
+    {
+        "rules": {
+            "users": {
+                "$user": {
+                    ".read": true,
+                    ".write": true,
+                    ".validate": "newData.hasChildren(['name', 'age'])"
+                }
+            }
+        }
+    }
+
+>A variável `newData` não está disponível nas regras `.read` , pois não há novos dados sendo gravados.
+
+##### Método isString
+
+>Retorna verdadeiro se este [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) contiver um valor de string. Valor de retorno : Boolean - `true` se os dados forem uma String ; se não for `false`.
+
+##### método child
+>Obtém um [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) para o local no caminho relativo especificado.
+
+>Argumentos : childPath String - Um caminho relativo para a localização dos dados filho.
+
+>Valor de retorno : RuleDataSnapshot - O RuleDataSnapshot para o local filho.
+
+>O caminho relativo pode ser um nome filho simples (por exemplo, 'fred') ou um caminho separado por barras mais profundas (por exemplo, 'fred / nome / primeiro'). Se o local filho não tiver dados, um [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) vazio será retornado.
+
+
+##### método val
+
+>Obtém o valor primitivo ( string , number , boolean ou null ) deste [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) .
+
+>Valor de retorno : ( String , Number , Boolean , Null ) - O valor primitivo deste [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) .
+
+>Ao contrário de `DataSnapshot.val()` , chamar `val()` em um [RuleDataSnapshot](https://firebase.google.com/docs/reference/security/database#ruledatasnapshot_methods) que possui dados filho não retornará um objeto contendo os filhos. Em vez disso, ele retornará um valor sentinela especial. Isso garante que as regras sempre possam operar com extrema eficiência.
+
+>Como consequência, você deve sempre usar `child()` para acessar filhos (por exemplo, `data.child('name').val()` , não `data.val().name` ).
+
+##### Atributo length
+
+>Retorna o comprimento da string. Valor de retorno : Number - O número de caracteres na string.
+
+### Laboratórios de Regras
+
+**Você pode clicar nesse botão do print abaixo, para que o labarotório de regras seja exibido e você possa testar como as regras estão funcionando.**
+
+![SEC Print1](.img/rt_sec_print1.png)
+
+**Ao fazer isso deve-se abrir uma janela como esta abaixo:**
+
+![SEC](.img/rt_sec_laboratorio.png)
