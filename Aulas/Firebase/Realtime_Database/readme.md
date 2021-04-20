@@ -11,6 +11,8 @@
 [5. Atualizando registros](#atualizando-registros)
 
 [6. Regras de Segurança](#configurando-regras-de-segurança-no-console-do-firebase)
+
+[7. Filtrando e Classificando](#filtrando-e-classificando-dados-no-realtime-database)
 ## Instalando o Firebase Realtime Database
 >O Firebase Realtime Database é um banco de dados NoSQL na nuvem que possibilita a sincronização de dados em tempo real no formato JSON.
 
@@ -463,3 +465,92 @@ Você pode criar uma variável colocando o cifrão na frente, nesse caso estamos
 **Ao fazer isso deve-se abrir uma janela como esta abaixo:**
 
 ![SEC](.img/rt_sec_laboratorio.png)
+
+## Filtrando e Classificando dados no Realtime Database
+###### Código de exemplo para filtro e classificação
+    if(search.value != ""){
+      dbRefUsers
+        .child(user.uid)
+        .orderByChild('name') //Ordena as tarefas com base no nome e em ordem alfabética crescente.
+        .startAt(search.value).endAt(search.value + '\uf8ff') //Delimita os resultados, que comecem com o termo pesquisado
+        .once('value') //Executa a busca apenas uma vez.
+        .then(function(dataSnapShot){
+          fillTodoList(dataSnapShot);
+          console.log(dataSnapShot);
+        })
+    }else{
+      getDefaultTodoList()
+    }
+
+    //Buscar tarefas em tempo real (Listagem padrão, usando o on)
+    function getDefaultTodoList(){
+        dbRefUsers
+            .child(firebase.auth().currentUser.uid)
+            .orderByChild('name')
+            .on('value',function(dataSnapShot){
+                fillTodoList(dataSnapShot);
+                console.log(dataSnapShot);
+            })
+    }
+
+### Método once
+
+>Ouve exatamente um evento do tipo de evento especificado e, em seguida, para de ouvir.
+
+>Isso é equivalente a chamar `on()`, e então chamar `off()` Dentro da função callback. Veja a documentação de [on()](#método-on) Para detalhes sobre os tipos de eventos.
+
+>Os eventos podem ser: "value", "child_added", "child_changed", "child_removed", or "child_moved."
+
+###### Assinatura do método once
+    nce ( eventType :  EventType ,  successCallback ? :  ( a :  DataSnapshot ,  b ? :  string | null ) => any ,  failureCallbackOrContext ? :  ( ( a :  Error ) => void ) | Object | null ,  context ? :  Object | null ) : Promise < DataSnapshot >
+
+No caso o evento `on` e `once` funciona como o padrão da biblioteca `event emitter` do javascript, com base nisso, o `on` cria um canal com o firebase e fica escutando qualquer alteração que aconteça, executando assim uma *callback*, ao passo que o `once` é chamado apenas uma vez e executando a callback encadeada no *then* ou no *catch*.
+
+###### Once Promise
+    ...
+    .once('value') //Executa a busca apenas uma vez.
+        .then(function(dataSnapShot){
+          fillTodoList(dataSnapShot);
+          console.log(dataSnapShot);
+        })
+
+###### On Callback
+
+    ...
+    .on('value',function(dataSnapShot){
+                fillTodoList(dataSnapShot);
+                console.log(dataSnapShot);
+            })
+
+### Método orderByChild
+
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#orderbychild)
+
+>Gera um novo objeto de consulta ordenado pela chave. Consultas só podem submeter uma chave de cada vez, chamando `orderByChild()` multiplas vezes na mesma query gerará um erro.
+###### Assinatura
+    orderByChild ( path :  string ) : Query
+
+Esse método permite ordenação no banco de dados, o `Realtime Database` nesse quisito é bem rudimentar, ao ponto que ordenação inversa por exemplo, não é suportado. Dentro dos parenteses você deve adicionar o nome do campo ou o path da collection para que a ordenação seja feita sempre de maneira crescente, com base no campo passado. Também existe o [orderByKey](https://firebase.google.com/docs/reference/js/firebase.database.Reference#orderbykey), [orderByPriority](https://firebase.google.com/docs/reference/js/firebase.database.Reference#orderbypriority) e [orderByValue](https://firebase.google.com/docs/reference/js/firebase.database.Reference#orderbyvalue), caso essa opção não te sirva.
+
+### startAt
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#startat)
+
+>Cria uma consulta com base no ponto de partida especificado.
+
+>Usando [startAt()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#startat), [startAfter()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#startafter), [endBefore()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#endbefore), [endAt()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#endat) and [equalTo()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#equalto) Permite que você escolha pontos de partida e finais arbitrários para suas consultas.
+
+###### Assinatura
+    startAt ( value :  number | string | boolean | null ,  key ? :  string ) : Query
+
+>O ponto de partida é inclusivo, então os `childs` com o valor especificado serão inclusos na consulta. O argumento `key`, que é opcional pode ser usado para limitar ainda mais o intervalo da consulta. Se for especificado, então os `childs` tem que ser o exato valor especificado.
+
+### endAt
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.database.Reference#endat)
+
+>Cria uma consulta com o ponto final especificado.
+
+>Usando [startAt()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#startat), [startAfter()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#startafter), [endBefore()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#endbefore), [endAt()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#endat) and [equalTo()](https://firebase.google.com/docs/reference/js/firebase.database.Reference#equalto) Permite que você escolha pontos de partida e finais arbitrários para suas consultas.
+
+>O ponto final é inclusivo, então os `childs` com o valor especificado será incluído na consulta. O argumento `key` opcional pode ser usado para limitar ainda mais o intervalo da consulta. Se for especificado, então os `childs` tem que ser o exato valor especificado.
+###### Assinatura
+    endAt ( value :  number | string | boolean | null ,  key ? :  string ) : Query

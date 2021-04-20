@@ -15,6 +15,7 @@ var userImg = document.getElementById('userImg')
 var todoForm = document.getElementById('todoForm')
 var ulTodoList = document.getElementById('ulTodoList')
 var todoCount = document.getElementById('todoCount')
+var search = document.getElementById('search')
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
 function toggleToRegister() {
@@ -64,13 +65,34 @@ function showUserContent(user) {
   userName.innerHTML = user.displayName
   userEmail.innerHTML = user.email
   hideItem(auth)
-  dbRefUsers
-    .child(firebase.auth().currentUser.uid)
-    .on('value',function(dataSnapShot){
-      fillTodoList(dataSnapShot);
-      console.log(dataSnapShot);
-    })
+  getDefaultTodoList()
+  search.onkeyup = function(){
+    if(search.value != ""){
+      dbRefUsers
+        .child(user.uid)
+        .orderByChild('name') //Ordena as tarefas com base no nome e em ordem alfabética crescente.
+        .startAt(search.value).endAt(search.value + '\uf8ff') //Delimita os resultados, que comecem com o termo pesquisado
+        .once('value') //Executa a busca apenas uma vez.
+        .then(function(dataSnapShot){
+          fillTodoList(dataSnapShot);
+          console.log(dataSnapShot);
+        })
+    }else{
+      getDefaultTodoList()
+    }
+  }
   showItem(userContent)
+}
+
+//Buscar tarefas em tempo real (Listagem padrão, usando o on)
+function getDefaultTodoList(){
+  dbRefUsers
+  .child(firebase.auth().currentUser.uid)
+  .orderByChild('name')
+  .on('value',function(dataSnapShot){
+    fillTodoList(dataSnapShot);
+    console.log(dataSnapShot);
+  })
 }
 
 // Mostrar conteúdo para usuários não autenticados
