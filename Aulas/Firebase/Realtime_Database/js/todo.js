@@ -3,7 +3,8 @@ todoForm.onsubmit = function (event) {
   event.preventDefault() // Evita o redirecionamento da página
   if (todoForm.name.value != '') {
     var data = {
-      name: todoForm.name.value
+      name: todoForm.name.value,
+      nameLowerCase: todoForm.name.value.toLowerCase()
     }
 
     const uid = firebase.auth().currentUser.uid; 
@@ -72,7 +73,7 @@ function updateTodo(key,name){
     dbRefUsers
       .child(firebase.auth().currentUser.uid)
       .child(key)
-      .update({name:newTodoName})
+      .update({name:newTodoName,nameLowerCase:newTodoName.toLowerCase()})
       .then(() => console.log(`atualizando ${key}...`))         
       .catch(error => console.log(error));
   }

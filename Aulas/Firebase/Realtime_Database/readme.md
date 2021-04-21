@@ -466,7 +466,26 @@ Você pode criar uma variável colocando o cifrão na frente, nesse caso estamos
 
 ![SEC](.img/rt_sec_laboratorio.png)
 
+### Indices
+
+    {
+        "rules": {
+            "users": {
+                "$user_uid": {
+                    ".read": "$user_uid == auth.uid",
+                    ".write": "$user_uid == auth.uid",
+                    ".indexOn":"nameLowerCase",
+                    "$task_id": {
+                        ".validate": "newData.child('name').isString() && newData.child('name').val().length <= 30 && newData.child('nameLowerCase').isString() && newData.child('nameLowerCase').val().    length <= 30"
+                    }
+                }
+            }
+        }
+    }
+
+Aqui definimos um índice `".indexOn":"nameLowerCase",`, no caso o `child` dentro de `users` será indexado com base em um campo chamado `nameLowerCase`, dessa forma o firebase cria um indice e faz com que o acesso a esse dado seja mais rápido automaticamente.
 ## Filtrando e Classificando dados no Realtime Database
+Antes se faz necessário deixar uma coisa claro, a consulta aqui é **CASE-SENSITIVE**. Você precisará de uma solução de contorno se quiser uma consulta **CASE-INSENSITIVE**.
 ###### Código de exemplo para filtro e classificação
     if(search.value != ""){
       dbRefUsers

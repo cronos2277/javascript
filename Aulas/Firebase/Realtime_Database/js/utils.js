@@ -70,7 +70,7 @@ function showUserContent(user) {
     if(search.value != ""){
       dbRefUsers
         .child(user.uid)
-        .orderByChild('name') //Ordena as tarefas com base no nome e em ordem alfabética crescente.
+        .orderByChild('nameLowerCase') //Ordena as tarefas com base no nome e em ordem alfabética crescente.
         .startAt(search.value).endAt(search.value + '\uf8ff') //Delimita os resultados, que comecem com o termo pesquisado
         .once('value') //Executa a busca apenas uma vez.
         .then(function(dataSnapShot){
