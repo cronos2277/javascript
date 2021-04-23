@@ -18,6 +18,10 @@ var todoCount = document.getElementById('todoCount')
 var ulTodoList = document.getElementById('ulTodoList')
 
 var search = document.getElementById('search')
+var progressFeedBack = document.getElementById('progressFeedBack')
+var progress = document.getElementById('progress')
+var playPauseBtn = document.getElementById('playPauseBtn')
+var cancelBtn = document.getElementById('cancelBtn')
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
 function toggleToRegister() {

@@ -3,6 +3,8 @@
 
 [2. Acessando o Storage](#acessando-storage)
 
+[3. Gerenciando Uploads](#gerenciando-uploads)
+
 ## Criando no console
 **Inicialmente você vai no menu e clica em `Storage`, e você verá algo assim:**
 
@@ -72,6 +74,7 @@ Para que tudo funcione, você precisa colocar esse script no seu html `<script s
     // Inicia o processo de upload
         storageRef.put(file)
 
+## Gerenciando Uploads
 ### Método Put
     put ( data :  Blob | Uint8Array | ArrayBuffer ,  metadata ? :  UploadMetadata ) : UploadTask
 
@@ -86,3 +89,161 @@ Para que tudo funcione, você precisa colocar esse script no seu html `<script s
 
 #### Retorna UploadTask
     Um objeto que pode ser usado para monitorar e gerenciar o upload.
+
+
+### Barra de progresso com uploads
+[Documentação de firebase.storage.UploadTask](https://firebase.google.com/docs/reference/js/firebase.storage.UploadTask)
+
+**Aqui usaremos um exemplo com o método `put` do método `ref`, que por sua vez vem do método `storage` que que é um método do objeto do `firebase`.**
+
+    var storageRef = firebase.storage().ref(imgPath)
+    var upload = storageRef.put(file)
+    trackUpload(upload)
+
+**O gerenciamento será melhor visto dentro dessa função `trackUpload(upload)`, no caso é passado como parametro `trackUpload(firebase.storage().ref(imgPath).put(file))`, a `imgPath` foi explicado melhor acima e o `file`, é um atributo pego do formulário, conforme visto aqui `var file = todoForm.file.files[0]`,ou seja `trackUpload(firebase.storage().ref([PATH]).put([FILE]))`, `[PATH]` corresponde ao Path da coleção, conforme [visto aqui](#exemplo-de-upload-de-arquivo) e o `[File]` correspondendo ao input do tipo `file` no formulário.**
+
+###### Gerenciando upload, função trackUpload - código de trackUpload
+
+    //Rastreia o progresso de upload e Gerencia
+    function trackUpload(upload){
+        showItem(progressFeedBack);
+        upload.on('state_changed', 
+            function(snapshot){ //Segundo argumento: Recebe informações, sobre o upload
+                console.log(snapshot);
+                var status = (snapshot.bytesTransferred / snapshot.totalBytes * 100).toFixed(2) + "%";
+                console.log(status)
+                ProgressEvent.value = status;
+            },
+            function(error){//terceiro argumento: Executando quando ocorre erro.
+                console.log(error);
+                showError("Houve uma falha no upload da imagem!",error )
+                hideItem(progressFeedBack);
+            },
+            function(){ //Executado caso tudo de certo.
+                console.log("Sucesso no upload");
+                hideItem(progressFeedBack);
+            })
+
+        //Pausar e retomar
+        var playPauseUpload = true //Estado de controle do upload (pausado ou em andamento)
+        playPauseBtn.onclick = function(){ //Botao pausar/continuar de upload quando clicado.
+            playPauseUpload = !playPauseUpload; //inverte o estado de controle do upload
+            if(playPauseUpload){ //Se deseja retomar o upload.
+                upload.resume(); //Retoma o upload
+                playPauseBtn.innerText = "Pausar";
+                console.log("upload retomado");
+            }else{ //Se deseja pausar o upload.
+                upload.pause(); //Pausar o upload
+                playPauseBtn.innerText = "Continuar";
+                console.log('upload pausado');
+            }
+        }
+
+        //Cancelar
+        cancelBtn.onclick = function(){ //Botão para cancelar upload clicado
+            (confirm('Deseja realmente cancelar o upload')) && upload.cancel(); //Cancela o upload
+        }
+    }
+
+### Método on    
+    function trackUpload(upload){
+        showItem(progressFeedBack);
+        upload.on('state_changed', 
+            function(snapshot){ //Segundo argumento: Recebe informações, sobre o upload
+                console.log(snapshot);
+                var status = (snapshot.bytesTransferred / snapshot.totalBytes * 100).toFixed(2) + "%";
+                console.log(status)
+                ProgressEvent.value = status;
+            },
+            function(error){ //terceiro argumento: Executando quando ocorre erro.
+                console.log(error);
+                showError("Houve uma falha no upload da imagem!",error )
+                hideItem(progressFeedBack);
+            },
+            function(){ //Executado caso tudo de certo.
+                console.log("Sucesso no upload");
+                hideItem(progressFeedBack);
+            })
+    }
+
+**O método `put` de `firebase.storage().ref()` retorna um objeto do tipo `UploadTask` ao qual contém métodos que permite gerenciar e observar o upload no momento em que ocorre, nesse caso acima temos o método `on`, que reage a determinados eventos, no caso com o `upload.on('state_changed',...`, a função `on` aceita quatro argumentos, o primeiro é o evento a ser monitorado, nesse caso o `state_changed`, que é quando um upload é realizado, logo esse listener é ativado e mais três callbacks, sendo a primeira, tendo um objeto do tipo `UploadTaskSnapshot`, mais explicado abaixo:**
+
+#### firebase.storage.UploadTaskSnapshot
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.storage.UploadTaskSnapshot)
+
+>Mantém dados sobre o estado atual da tarefa de upload.
+##### bytesTransferred
+    UploadTaskSnapshot.bytesTransferred: number
+>O número de bytes que foram enviados com sucesso até agora.
+
+##### downloadURL
+    UploadTaskSnapshot.downloadURL: string | null
+>deprecated: Use Reference.GetDownloadOverRL em vez disso.Esta propriedade será removida em uma versão futura.
+
+##### metadata
+    UploadTaskSnapshot.metadata: FullMetadata
+>Antes que o upload seja concluído, contenha os metadados enviados para o servidor.Após a conclusão do upload, contém os metadados enviados de volta do servidor.
+
+##### ref
+    UploadTaskSnapshot.ref: Reference
+>A referência que gerou esta tarefa de upload deste snapshot.
+
+##### state
+    UploadTaskSnapshot.state: TaskState
+>O estado atual da tarefa.
+
+##### task
+    UploadTaskSnapshot.task: UploadTask
+>A tarefa dos quais este é um snapshot.
+
+##### totalBytes
+    UploadTaskSnapshot.totalBytes: number
+>O número total de bytes a ser carregado.
+
+**Ou seja é através desse objeto `UploadTaskSnapshot` retornado por `firebase.storage().ref([PATH]).put([FILE]`, que você pode ter informações sobre o upload, como metadados, ou o tamanho do arquivo ou até mesmo quantos bytes foram enviados.**
+
+**A segunda callback passada como argumento é executada em caso de algum erro, lembrando que o cancelamento do upload por parte do usuário dispara um erro aqui também e por fim é executado uma função de callback, que no caso é o ultimo argumento, depois que todo o processo é concluído.**
+
+###### Assinatura
+        on ( event :  TaskEvent ,  nextOrObserver ? :  StorageObserver < UploadTaskSnapshot > | null | ( ( snapshot :  UploadTaskSnapshot ) => any ) ,  error ? :  ( ( error :  FirebaseStorageError ) => any ) | null ,  complete ? :  firebase.Unsubscribe | null ) : Function
+
+### Pausando e retomando upload
+    function trackUpload(upload){
+        //Pausar e retomar
+            var playPauseUpload = true //Estado de controle do upload (pausado ou em andamento)
+            playPauseBtn.onclick = function(){ //Botao pausar/continuar de upload quando clicado.
+                playPauseUpload = !playPauseUpload; //inverte o estado de controle do upload
+                if(playPauseUpload){ //Se deseja retomar o upload.
+                    upload.resume(); //Retoma o upload
+                    playPauseBtn.innerText = "Pausar";
+                    console.log("upload retomado");
+                }else{ //Se deseja pausar o upload.
+                    upload.pause(); //Pausar o upload
+                    playPauseBtn.innerText = "Continuar";
+                    console.log('upload pausado');
+                }
+            }
+    }
+
+**No objeto retornado por `firebase.storage().ref([PATH]).put([FILE]`, existe mais três métodos além do `on`, sendo eles `.resume()` para continuar um upload pausado, `.cancel()` para cancelar um upload, esse método lança uma exceção, informando que o usuário cancelou, por fim `.pause()` que pausa o envio do download, é válido ressaltar que quando o download é retomado, geralmente tem uma pequena um grande retrocesso na barra de upload, mas após isso continua.**
+
+#### pause
+    pause ( ) : boolean
+>Pausa uma tarefa em execução. Não tem efeito em uma tarefa pausada ou falhada.
+
+    Retorna boolean
+>True se a pausa teve um efeito.
+
+#### resume
+    resume ( ) : boolean
+>Retoma uma tarefa pausada. Não tem efeito em uma tarefa em execução ou falhada.
+
+    Retorna boolean
+>True se o método resume teve um efeito.
+
+#### cancel
+    cancel ( ) : boolean
+>Cancela uma tarefa em execução. Não tem efeito em uma tarefa completa ou falhada.
+
+    Retorna boolean
+>True se o cancelamento teve um efeito.

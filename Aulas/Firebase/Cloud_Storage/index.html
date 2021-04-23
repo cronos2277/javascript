@@ -98,9 +98,14 @@
           <input type="text" id="name" placeholder="Tarefa">
 
           <label for="file">Figura: </label>
-          <input type="file" id="file">
+          <input type="file" id="file" accept="image/*">
           <button type="submit" id="submitTodoForm">Adicionar tarefa</button>
         </form>
+        <div id="progressFeedBack" class="startHidden">
+          <progress id="progress" max="100"></progress>
+          <button id="playPauseBtn" class="alternative">Pausar</button>
+          <button id="cancelBtn" class="danger">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>

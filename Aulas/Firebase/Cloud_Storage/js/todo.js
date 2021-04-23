@@ -12,7 +12,7 @@ todoForm.onsubmit = function (event) {
         console.log('Nome da imagem: ',imgName)
 
         // Compõe o caminho do arquivo
-        var imgPath = 'todoListFiles /' + firebase.auth().currentUser.uid + '/' + imgName
+        var imgPath = 'todoListFiles/' + firebase.auth().currentUser.uid + '/' + imgName
         console.log('Path da imagem: ',imgPath)
 
         // Cria uma referência de arquivo usando o caminho criado na linha acima
@@ -21,7 +21,10 @@ todoForm.onsubmit = function (event) {
         console.log(storageRef)
 
         // Inicia o processo de upload
-        storageRef.put(file)
+        var upload = storageRef.put(file)
+        trackUpload(upload)
+      }else{
+        alert('O arquivo selecionado precisa ser uma imagem. Tente novamente.')
       }
     }
 
@@ -40,6 +43,47 @@ todoForm.onsubmit = function (event) {
   } else {
     alert('O nome da tarefa não pode ser em branco para criar a tarefa!')
   }
+}
+
+//Rastreia o progresso de upload e Gerencia
+function trackUpload(upload){
+  showItem(progressFeedBack);
+  upload.on('state_changed', 
+    function(snapshot){ //Segundo argumento: Recebe informações, sobre o upload
+      console.log(snapshot);
+      var status = (snapshot.bytesTransferred / snapshot.totalBytes * 100).toFixed(2) + "%";
+      console.log(status)
+      ProgressEvent.value = status;
+    },
+    function(error){//terceiro argumento: Executando quando ocorre erro.
+      console.log(error);
+      showError("Houve uma falha no upload da imagem!",error )
+      hideItem(progressFeedBack);
+    },
+    function(){ //Executado caso tudo de certo.
+      console.log("Sucesso no upload");
+      hideItem(progressFeedBack);
+    })
+
+    //Pausar e retomar
+    var playPauseUpload = true //Estado de controle do upload (pausado ou em andamento)
+    playPauseBtn.onclick = function(){ //Botao pausar/continuar de upload quando clicado.
+      playPauseUpload = !playPauseUpload; //inverte o estado de controle do upload
+      if(playPauseUpload){ //Se deseja retomar o upload.
+        upload.resume(); //Retoma o upload
+        playPauseBtn.innerText = "Pausar";
+        console.log("upload retomado");
+      }else{ //Se deseja pausar o upload.
+        upload.pause(); //Pausar o upload
+        playPauseBtn.innerText = "Continuar";
+        console.log('upload pausado');
+      }
+    }
+
+    //Cancelar
+    cancelBtn.onclick = function(){ //Botão para cancelar upload clicado
+      (confirm('Deseja realmente cancelar o upload')) && upload.cancel(); //Cancela o upload
+    }
 }
 
 // Exibe a lista de tarefas do usuário
