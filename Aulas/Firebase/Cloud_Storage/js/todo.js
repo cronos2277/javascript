@@ -23,23 +23,47 @@ todoForm.onsubmit = function (event) {
         // Inicia o processo de upload
         var upload = storageRef.put(file)
         trackUpload(upload)
+          .then(
+            function(){
+              storageRef.getDownloadURL().then(function(downloadURL){
+                var data = {
+                  imgUrl: downloadURL,
+                  name: todoForm.name.value,
+                  nameLowerCase: todoForm.name.value.toLowerCase()
+                }
+            
+                dbRefUsers.child(firebase.auth().currentUser.uid).push(data).then(function () {
+                  console.log('Tarefa "' + data.name + '" adicionada com sucesso')
+                }).catch(function (error) {
+                  showError('Falha ao adicionar tarefa (use no máximo 30 caracteres): ', error)
+                })
+            
+                todoForm.name.value = '';
+                todoForm.file.value = '';
+              });
+            }
+          ).catch(function(error){
+            showError('Falha ao adicionar tarefa: ', error)
+          });
       }else{
         alert('O arquivo selecionado precisa ser uma imagem. Tente novamente.')
       }
+    }else{
+        var data = {          
+          name: todoForm.name.value,
+          nameLowerCase: todoForm.name.value.toLowerCase()
+        }
+    
+        dbRefUsers.child(firebase.auth().currentUser.uid).push(data).then(function () {
+          console.log('Tarefa "' + data.name + '" adicionada com sucesso')
+        }).catch(function (error) {
+          showError('Falha ao adicionar tarefa (use no máximo 30 caracteres): ', error)
+        })
+    
+        todoForm.name.value = '';        
     }
 
-    var data = {
-      name: todoForm.name.value,
-      nameLowerCase: todoForm.name.value.toLowerCase()
-    }
-
-    dbRefUsers.child(firebase.auth().currentUser.uid).push(data).then(function () {
-      console.log('Tarefa "' + data.name + '" adicionada com sucesso')
-    }).catch(function (error) {
-      showError('Falha ao adicionar tarefa (use no máximo 30 caracteres): ', error)
-    })
-
-    todoForm.name.value = ''
+    
   } else {
     alert('O nome da tarefa não pode ser em branco para criar a tarefa!')
   }
@@ -47,43 +71,49 @@ todoForm.onsubmit = function (event) {
 
 //Rastreia o progresso de upload e Gerencia
 function trackUpload(upload){
-  showItem(progressFeedBack);
-  upload.on('state_changed', 
-    function(snapshot){ //Segundo argumento: Recebe informações, sobre o upload
-      console.log(snapshot);
-      var status = (snapshot.bytesTransferred / snapshot.totalBytes * 100).toFixed(2) + "%";
-      console.log(status)
-      ProgressEvent.value = status;
-    },
-    function(error){//terceiro argumento: Executando quando ocorre erro.
-      console.log(error);
-      showError("Houve uma falha no upload da imagem!",error )
-      hideItem(progressFeedBack);
-    },
-    function(){ //Executado caso tudo de certo.
-      console.log("Sucesso no upload");
-      hideItem(progressFeedBack);
-    })
-
-    //Pausar e retomar
-    var playPauseUpload = true //Estado de controle do upload (pausado ou em andamento)
-    playPauseBtn.onclick = function(){ //Botao pausar/continuar de upload quando clicado.
-      playPauseUpload = !playPauseUpload; //inverte o estado de controle do upload
-      if(playPauseUpload){ //Se deseja retomar o upload.
-        upload.resume(); //Retoma o upload
-        playPauseBtn.innerText = "Pausar";
-        console.log("upload retomado");
-      }else{ //Se deseja pausar o upload.
-        upload.pause(); //Pausar o upload
-        playPauseBtn.innerText = "Continuar";
-        console.log('upload pausado');
-      }
-    }
-
-    //Cancelar
-    cancelBtn.onclick = function(){ //Botão para cancelar upload clicado
-      (confirm('Deseja realmente cancelar o upload')) && upload.cancel(); //Cancela o upload
-    }
+  return new Promise(
+    function(resolve,reject){
+      showItem(progressFeedBack);
+      upload.on('state_changed', 
+        function(snapshot){ //Segundo argumento: Recebe informações, sobre o upload
+          console.log(snapshot);
+          var status = (snapshot.bytesTransferred / snapshot.totalBytes * 100).toFixed(2) + "%";
+          console.log(status)
+          ProgressEvent.value = status;
+        },
+        function(error){//terceiro argumento: Executando quando ocorre erro.
+          console.log(error);          
+          hideItem(progressFeedBack);
+          reject(error)
+        },
+        function(){ //Executado caso tudo de certo.
+          console.log("Sucesso no upload");
+          hideItem(progressFeedBack);
+          resolve()
+        })
+    
+        //Pausar e retomar
+        var playPauseUpload = true //Estado de controle do upload (pausado ou em andamento)
+        playPauseBtn.onclick = function(){ //Botao pausar/continuar de upload quando clicado.
+          playPauseUpload = !playPauseUpload; //inverte o estado de controle do upload
+          if(playPauseUpload){ //Se deseja retomar o upload.
+            upload.resume(); //Retoma o upload
+            playPauseBtn.innerText = "Pausar";
+            console.log("upload retomado");
+          }else{ //Se deseja pausar o upload.
+            upload.pause(); //Pausar o upload
+            playPauseBtn.innerText = "Continuar";
+            console.log('upload pausado');
+          }
+        }
+    
+        //Cancelar
+        cancelBtn.onclick = function(){ //Botão para cancelar upload clicado
+          if(confirm('Deseja realmente cancelar o upload')){
+            upload.cancel(); //Cancela o upload
+          }
+        }
+  });
 }
 
 // Exibe a lista de tarefas do usuário

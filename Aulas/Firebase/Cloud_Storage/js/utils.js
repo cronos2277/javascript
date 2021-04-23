@@ -123,7 +123,8 @@ function showError(prefix, error) {
     break;
     case 'auth/popup-closed-by-user': alert(prefix + ' ' + 'O popup de autenticação foi fechado antes da operação ser concluída!')
     break;   
-  
+    case 'storage/canceled': alert(prefix + ' ' + 'O upload foi cancelado pelo usuário')
+    break;     
     default: alert(prefix + ' ' + error.message)
   }
 }
