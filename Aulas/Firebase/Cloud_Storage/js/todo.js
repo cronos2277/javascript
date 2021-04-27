@@ -124,11 +124,14 @@ function fillTodoList(dataSnapshot) {
   dataSnapshot.forEach(function (item) { // Percorre todos os elementos
     var value = item.val()
     var li = document.createElement('li') // Cria um elemento do tipo li
+    var imgLi = document.createElement('img') //cria um elemento img
+    imgLi.src = value.imgUrl ? value.imgUrl : 'img/defaultTodo.png'; //Configurar origem da imagem
+    imgLi.setAttribute('class','imgTodo') //classe da imagem para estilização.
+    li.appendChild(imgLi); //adiciona o img dentro do LI
     var spanLi = document.createElement('span') // Cria um elemento do tipo span
     spanLi.appendChild(document.createTextNode(value.name)) // Adiciona o elemento de texto dentro da nossa span
     spanLi.id = item.key // Define o id do spanLi como a chave da tarefa
-    li.appendChild(spanLi) // Adiciona o span dentro do li
-
+    li.appendChild(spanLi) // Adiciona o span dentro do li    
     var liRemoveBtn = document.createElement('button') // Cria um botão para a remoção da tarefa
     liRemoveBtn.appendChild(document.createTextNode('Excluir')) // Define o texto do botão como 'Excluir'
     liRemoveBtn.setAttribute('onclick', 'removeTodo(\"' + item.key + '\")') // Configura o onclick do botão de remoção de tarefas
