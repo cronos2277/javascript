@@ -1,9 +1,13 @@
 # Cloud Storage
+[Documentação em português](https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br)
+
 [1. Criando um novo Storage](#criando-no-console)
 
 [2. Acessando o Storage](#acessando-storage)
 
-[3. Gerenciando Uploads](#gerenciando-uploads)
+[3. Gerenciando Uploads e Downloads](#gerenciando-uploads-e-downloads)
+
+[4. Excluido Registro](#delete)
 
 ## Criando no console
 **Inicialmente você vai no menu e clica em `Storage`, e você verá algo assim:**
@@ -74,7 +78,77 @@ Para que tudo funcione, você precisa colocar esse script no seu html `<script s
     // Inicia o processo de upload
         storageRef.put(file)
 
-## Gerenciando Uploads
+## Gerenciando Uploads e Downloads
+[Documentação traduzida do upload](https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br)
+
+>Para fazer upload de um arquivo para o Cloud Storage, primeiro crie uma referência ao caminho completo do arquivo, incluindo o nome dele.
+###### Exemplo de upload
+[Documentação](https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br#upload_files)
+
+    // Crie uma referência de raiz
+    var storageRef = firebase.storage().ref();
+
+    // Criar uma referência a 'mountains.jpg'
+    var mountainsRef = storageRef.child('mountains.jpg');
+
+    // Criar uma referência a 'images/mountains.jpg'
+    var mountainImagesRef = storageRef.child('images/mountains.jpg');
+
+    // Enquanto os nomes dos arquivos são os mesmos, as referências apontam para arquivos diferentes
+
+    mountainsRef.name === mountainImagesRef.name            // true
+    mountainsRef.fullPath === mountainImagesRef.fullPath    // false
+
+#### Fazendo upload de um Blob ou File   
+[Documentação](https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br#upload_from_a_blob_or_file)
+
+>Depois de criar uma referência apropriada, chame o método put(). O put() usa os arquivos por meio das APIs File e Blob do JavaScript e faz upload deles para o Cloud Storage.
+
+    var file = ... // Use a API de blob ou arquivo
+    ref.put(file).then(function(snapshot) {
+        console.log('Uploaded a blob or file!');
+    });
+
+#### Upload de um Byte Array
+[Documentação](https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br#upload_from_a_byte_array)
+
+>Além dos tipos File e Blob, o put() também pode fazer upload de um Uint8Array para o Cloud Storage.
+
+    // Uint8Array
+    var bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
+    ref.put(bytes).then(function(snapshot) {
+        console.log('Uploaded an array!');
+    });
+
+#### Upload de uma string
+[Documentação](https://firebase.google.com/docs/storage/web/upload-files?hl=pt-br#upload_from_a_string)
+
+>Se um Blob , File ou Uint8Array não estiver disponível, você pode usar o putString() para fazer o upload de uma string bruta codificada base64 , base64url ou data_url para o Cloud Storage.
+
+    // Raw string é o padrão se nenhum formato for fornecido
+    var message = 'This is my message.';
+    ref.putString(message).then(function(snapshot) {
+      console.log('Uploaded a raw string!');
+    });
+
+    // Base64 string formatada
+    var message = '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+    ref.putString(message, 'base64').then(function(snapshot) {
+      console.log('Uploaded a base64 string!');
+    });
+
+    // Base64url string formatada
+    var message = '5b6p5Y-344GX44G-44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+    ref.putString(message, 'base64url').then(function(snapshot) {
+      console.log('Uploaded a base64url string!');
+    });
+
+    // Data URL string
+    var message = 'data:text/plain;base64,5b6p5Y+344GX44G   +44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+    ref.putString(message, 'data_url').then(function(snapshot) {
+      console.log('Uploaded a data_url string!');
+    });
+
 ### Método Put
     put ( data :  Blob | Uint8Array | ArrayBuffer ,  metadata ? :  UploadMetadata ) : UploadTask
 
@@ -89,6 +163,10 @@ Para que tudo funcione, você precisa colocar esse script no seu html `<script s
 
 #### Retorna UploadTask
     Um objeto que pode ser usado para monitorar e gerenciar o upload.
+
+>put() e putString() retornam um UploadTask que pode ser usado como uma promessa ou para gerenciar e monitorar o status do upload.
+
+>Como a referência define o caminho completo do arquivo, certifique-se de que você esteja fazendo upload para um caminho não vazio.
 
 
 ### Barra de progresso com uploads
@@ -247,3 +325,73 @@ Para que tudo funcione, você precisa colocar esse script no seu html `<script s
 
     Retorna boolean
 >True se o cancelamento teve um efeito.
+
+### Download
+[Download](https://firebase.google.com/docs/storage/web/download-files?hl=pt-br
+
+###### Exemplo envolvendo download
+
+    //Crie uma referência com um caminho de arquivo inicial e nome
+    var storage = firebase.storage();
+    var pathReference = storage.ref('images/stars.jpg');
+
+    //Crie uma referência de um URI do armazenamento do Google Cloud
+    var gsReference = storage.refFromURL('gs://bucket/images/stars.jpg')
+
+    //Criar uma referência de um HTTPS URL
+
+    // Note que no URL, os personagens são URL escapados!
+    var httpsReference = storage.refFromURL('https://firebasestorage.googleapis.com/b/bucket/o/images%20stars.jpg');
+## Removendo arquivos
+[Excluir arquivos](https://firebase.google.com/docs/storage/web/delete-files?hl=pt-br)
+
+    //Remove arquivos
+    function removeFile(imgUrl){
+    console.log('imagem a ser removida: '+imgUrl);
+    var result = imgUrl.indexOf('img/defaultTodo.png'); //Verifica se a url é a imagem padrão, retornando -1 se for.
+        if(result == -1){ //Caso não seja e -1 seja retornado...
+            firebase
+            .storage()
+            .refFromURL(imgUrl)
+            .delete()
+            .then(function(){
+                console.log('Arquivo removido com sucesso!');
+            }).catch(function(error){
+                console.log('falha ao remover arquivo');
+                console.log(error);
+            });
+        }else{
+            console.log('Como a imagem era a padrão, a remoção não foi necessária');
+        }
+    }
+
+### refFromURL
+[Documentação](https://firebase.google.com/docs/reference/js/firebase.storage.Storage#reffromurl)
+
+>Retorna uma referência para o URL absoluto informado.
+###### Assinatura
+    refFromURL ( url :  string ) : Reference
+### Parameters
+    url: string
+>Um URL na forma:
+
+**1) Um `gs://` URL, por exemplo `gs://bucket/files/image.png`**
+
+**2) um URL de download retirado de metadados do objeto.**
+@see [firebase.storage.FullMetadata.downloadURLs](https://firebase.google.com/docs/reference/js/firebase.storage.FullMetadata#downloadurls)
+
+## delete
+[Documentação](https://firebase.google.com/docs/storage/web/delete-files?hl=pt-br)
+
+>Para excluir um arquivo, primeiro crie uma referência para ele. Em seguida, chame o método `delete()`, nessa referência, que retorna uma Promise ou um erro se a Promise for rejeitada.
+
+###### Exemplo
+    // Crie uma referência ao arquivo para excluir
+    var desertRef = storageRef.child('images/desert.jpg');
+
+    // Exclua o arquivo
+    desertRef.delete().then(function() {
+        // Arquivo excluído com sucesso
+    }).catch(function(error) {
+        // Uh-oh, um erro ocorreu!
+    });

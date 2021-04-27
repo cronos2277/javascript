@@ -124,20 +124,19 @@ function fillTodoList(dataSnapshot) {
   dataSnapshot.forEach(function (item) { // Percorre todos os elementos
     var value = item.val()
     var li = document.createElement('li') // Cria um elemento do tipo li
+    li.id = item.key // Define o id do li como a chave da tarefa
     var imgLi = document.createElement('img') //cria um elemento img
     imgLi.src = value.imgUrl ? value.imgUrl : 'img/defaultTodo.png'; //Configurar origem da imagem
     imgLi.setAttribute('class','imgTodo') //classe da imagem para estilização.
     li.appendChild(imgLi); //adiciona o img dentro do LI
     var spanLi = document.createElement('span') // Cria um elemento do tipo span
     spanLi.appendChild(document.createTextNode(value.name)) // Adiciona o elemento de texto dentro da nossa span
-    spanLi.id = item.key // Define o id do spanLi como a chave da tarefa
     li.appendChild(spanLi) // Adiciona o span dentro do li    
     var liRemoveBtn = document.createElement('button') // Cria um botão para a remoção da tarefa
     liRemoveBtn.appendChild(document.createTextNode('Excluir')) // Define o texto do botão como 'Excluir'
     liRemoveBtn.setAttribute('onclick', 'removeTodo(\"' + item.key + '\")') // Configura o onclick do botão de remoção de tarefas
     liRemoveBtn.setAttribute('class', 'danger todoBtn') // Define classes de estilização para o nosso botão de remoção
     li.appendChild(liRemoveBtn) // Adiciona o botão de remoção no li
-
     var liUpdateBtn = document.createElement('button') // Cria um botão para a atualização da tarefa
     liUpdateBtn.appendChild(document.createTextNode('Editar')) // Define o texto do botão como 'Editar'
     liUpdateBtn.setAttribute('onclick', 'updateTodo(\"' + item.key + '\")') // Configura o onclick do botão de atualização de tarefas
@@ -150,14 +149,36 @@ function fillTodoList(dataSnapshot) {
 
 // Remove tarefas 
 function removeTodo(key) {
-  var selectedItem = document.getElementById(key)
-  var confimation = confirm('Realmente deseja remover a tarefa \"' + selectedItem.innerHTML + '\"?')
+ var todoName = document.querySelector('#' + key + ' > span');
+ var todoImg = document.querySelector('#' + key + ' > img');
+  var confimation = confirm('Realmente deseja remover a tarefa \"' + todoName.innerHTML + '\"?')
   if (confimation) {
     dbRefUsers.child(firebase.auth().currentUser.uid).child(key).remove().then(function () {
-      console.log('Tarefa "' + selectedItem.innerHTML + '" removida com sucesso')
+      console.log('Tarefa "' + todoName.innerHTML + '" removida com sucesso');
+      removeFile(todoImg.src);
     }).catch(function (error) {
       showError('Falha ao remover tarefa: ', error)
     })
+  }
+}
+
+//Remove arquivos
+function removeFile(imgUrl){
+  console.log('imagem a ser removida: '+imgUrl);
+  var result = imgUrl.indexOf('img/defaultTodo.png'); //Verifica se a url é a imagem padrão, retornando -1 se for.
+  if(result == -1){ //Caso não seja e -1 seja retornado...
+    firebase
+      .storage()
+      .refFromURL(imgUrl)
+      .delete()
+      .then(function(){
+        console.log('Arquivo removido com sucesso!');
+      }).catch(function(error){
+        console.log('falha ao remover arquivo');
+        console.log(error);
+      });
+  }else{
+    console.log('Como a imagem era a padrão, a remoção não foi necessária');
   }
 }
 
