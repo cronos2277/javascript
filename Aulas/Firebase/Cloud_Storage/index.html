@@ -101,6 +101,10 @@
           <input type="file" id="file" accept="image/*">
           <button type="submit" id="submitTodoForm">Adicionar tarefa</button>
         </form>
+        <div id="cancelUpdateTodo" class="startHidden">
+          <button onclick="confirmTodoUpdate()">Confirmar</button>
+          <button class='alternative' onclick="resetTodoForm()">Cancelar</button>
+        </div>
         <div id="progressFeedBack" class="startHidden">
           <progress id="progress" max="100"></progress>
           <button id="playPauseBtn" class="alternative">Pausar</button>
