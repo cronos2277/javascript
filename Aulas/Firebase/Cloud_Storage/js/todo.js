@@ -1,72 +1,61 @@
-// Trata a submissão do formulário de autenticação
+// Trata a submissão do formulário de tarefas
 todoForm.onsubmit = function (event) {
   event.preventDefault() // Evita o redirecionamento da página
-
-  
   if (todoForm.name.value != '') {
     var file = todoForm.file.files[0] // Seleciona o primeiro aquivo da seleção de aquivos
     if (file != null) { // Verifica se o arquivo foi selecionado
       if (file.type.includes('image')) { // Verifica se o arquivo é uma imagem
         // Compõe o nome do arquivo
         var imgName = firebase.database().ref().push().key + '-' + file.name
-        console.log('Nome da imagem: ',imgName)
-
         // Compõe o caminho do arquivo
         var imgPath = 'todoListFiles/' + firebase.auth().currentUser.uid + '/' + imgName
-        console.log('Path da imagem: ',imgPath)
-
         // Cria uma referência de arquivo usando o caminho criado na linha acima
         var storageRef = firebase.storage().ref(imgPath)
-        console.log('Objeto storage().ref()')
-        console.log(storageRef)
-
         // Inicia o processo de upload
         var upload = storageRef.put(file)
-        trackUpload(upload)
-          .then(
-            function(){
-              storageRef.getDownloadURL().then(function(downloadURL){
-                var data = {
-                  imgUrl: downloadURL,
-                  name: todoForm.name.value,
-                  nameLowerCase: todoForm.name.value.toLowerCase()
-                }
-            
-                dbRefUsers.child(firebase.auth().currentUser.uid).push(data).then(function () {
-                  console.log('Tarefa "' + data.name + '" adicionada com sucesso')
-                }).catch(function (error) {
-                  showError('Falha ao adicionar tarefa (use no máximo 30 caracteres): ', error)
-                })
-            
-                todoForm.name.value = '';
-                todoForm.file.value = '';
-              });
+        console.log("storageRef");
+        console.log(storageRef);
+        console.log('storageRef.put');
+        console.log(upload);
+        trackUpload(upload).then(function () {
+          storageRef.getDownloadURL().then(function (downloadURL) {
+            var data = {
+              imgUrl: downloadURL,
+              name: todoForm.name.value,
+              nameLowerCase: todoForm.name.value.toLowerCase()
             }
-          ).catch(function(error){
-            showError('Falha ao adicionar tarefa: ', error)
-          });
-      }else{
-        alert('O arquivo selecionado precisa ser uma imagem. Tente novamente.')
-      }
-    }else{
-        var data = {          
-          name: todoForm.name.value,
-          nameLowerCase: todoForm.name.value.toLowerCase()
-        }
-    
-        dbRefUsers.child(firebase.auth().currentUser.uid).push(data).then(function () {
-          console.log('Tarefa "' + data.name + '" adicionada com sucesso')
+  
+            completeTodoCreate(data) // Completa a criação de tarefas 
+          })      
         }).catch(function (error) {
-          showError('Falha ao adicionar tarefa (use no máximo 30 caracteres): ', error)
+          showError('Falha ao adicionar tarefa: ', error)
         })
-    
-        todoForm.name.value = '';        
-    }
+      } else {
+        alert('O arquivo selecionado precisa ser uma imagem. Tente novamente')
+      }
+    } else {
+      var data = {
+        name: todoForm.name.value,
+        nameLowerCase: todoForm.name.value.toLowerCase()
+      }
 
-    
+      completeTodoCreate(data) // Completa a criação de tarefas 
+    }
   } else {
     alert('O nome da tarefa não pode ser em branco para criar a tarefa!')
   }
+}
+
+// Completa a criação de tarefas (persiste as informações no banco de dados)
+function completeTodoCreate(data) {
+  dbRefUsers.child(firebase.auth().currentUser.uid).push(data).then(function () {
+    console.log('Tarefa "' + data.name + '" adicionada com sucesso')
+  }).catch(function (error) {
+    showError('Falha ao adicionar tarefa (use no máximo 30 caracteres): ', error)
+  })
+
+  todoForm.name.value = ''
+  todoForm.file.value = ''
 }
 
 //Rastreia o progresso de upload e Gerencia
@@ -184,27 +173,29 @@ function removeFile(imgUrl){
 
 var updateTodoKey = null;
 
-function updateTodo(key){
-  updateTodoKey = key; //atribui o conteudo de key dentro de uma variavel global
-  var todoName = document.querySelector('#' + key + ' > span');
-  //Altera o titulo do formulario de tarefas
-  todoFormTitle.innerHTML = '<strong>Editar a tarefa: </strong>'+todoName.innerHTML;
-  //Nome da tarefa a ser atualizada
-  todoForm.name.value = todoName.innerHTML;
-  hideItem(submitTodoForm);
-  showItem(cancelUpdateTodo);
-
+// Prepara a atualização de tarefas
+var updateTodoKey = null
+function updateTodo(key) {
+  updateTodoKey = key // Atribui o conteúdo de key dentro de uma variável global
+  var todoName = document.querySelector('#' + key + ' > span')
+  // Altera o título do formulário de tarefas
+  todoFormTitle.innerHTML = '<strong>Editar a tarefa:</strong> ' + todoName.innerHTML
+  // Altera o texto da entrada de nome (coloca o nome da tarefa a ser atualizada)
+  todoForm.name.value = todoName.innerHTML
+  hideItem(todoForm.submitTodoForm)
+  showItem(cancelUpdateTodo)
 }
 
-//restaura o estado inicial de um formulario de tarefas.
-function resetTodoForm(){
-  todoFormTitle.innerHTML = 'Adicionar Tarefa:';
-  hideItem(cancelUpdateTodo);
-  submitTodoForm.style.display = 'initial';
-  todoForm.name.value = '';
-  todoForm.file.value = '';
+// Restaura o estado inicial do formulário de tarefas
+function resetTodoForm() {
+  todoFormTitle.innerHTML = 'Adicionar tarefa:'
+  hideItem(cancelUpdateTodo)
+  todoForm.submitTodoForm.style.display = 'initial'
+  todoForm.name.value = ''
+  todoForm.file.value = ''
 }
 
+// Confima a atualização de tarefas
 function confirmTodoUpdate() {
   hideItem(cancelUpdateTodo)
   if (todoForm.name.value != '') {
@@ -227,16 +218,9 @@ function confirmTodoUpdate() {
               imgUrl: downloadURL,
               name: todoForm.name.value,
               nameLowerCase: todoForm.name.value.toLowerCase()
-            }
-
-            dbRefUsers.child(firebase.auth().currentUser.uid).child(updateTodoKey).update(data).then(function () {
-              console.log('Tarefa "' + data.name + '" atualizada com sucesso')
-            }).catch(function (error) {
-              showError('Falha ao atualizar tarefa: ', error)
-            })
-
-            removeFile(todoImg.src) // Remove a imagem antiga
-            resetTodoForm() // Restaura o estado inicial do formulário de tarefas
+            }          
+            console.log("Download URL:",downloadURL);
+            completeTodoUpdate(data, todoImg.src) // Completa a atualização de tarefas
           })
         }).catch(function (error) {
           showError('Falha ao atualizar tarefa: ', error)
@@ -250,31 +234,23 @@ function confirmTodoUpdate() {
         nameLowerCase: todoForm.name.value.toLowerCase()
       }
 
-      dbRefUsers.child(firebase.auth().currentUser.uid).child(updateTodoKey).update(data).then(function () {
-        console.log('Tarefa "' + data.name + '" atualizada com sucesso')
-      }).catch(function (error) {
-        showError('Falha ao atualizar tarefa: ', error)
-      })
-
-      resetTodoForm() // Restaura o estado inicial do formulário de tarefas
+      completeTodoUpdate(data) // Completa a atualização de tarefas
     }
   } else {
     alert('O nome da tarefa não pode ser vazio!')
   }
 }
 
-// Atualiza tarefas
-function updateTodo2(key) {
-  var selectedItem = document.getElementById(key)
-  var newTodoName = prompt('Escolha um novo nome para a tarefa \"' + selectedItem.innerHTML + '\".', selectedItem.innerHTML)
-  if (newTodoName != '') {
-    var data = {
-      name: newTodoName,
-      nameLowerCase: newTodoName.toLowerCase()
+ // Completa a atualização de tarefas (persiste as informações no banco de dados)
+function completeTodoUpdate(data, imgUrl) {
+  dbRefUsers.child(firebase.auth().currentUser.uid).child(updateTodoKey).update(data).then(function () {
+    console.log('Tarefa "' + data.name + '" atualizada com sucesso')
+    if (imgUrl) {
+      removeFile(imgUrl) // Remove a imagem antiga
     }
+  }).catch(function (error) {
+    showError('Falha ao atualizar tarefa: ', error)
+  })
 
-    
-  } else {
-    alert('O nome da tarefa não pode ser em branco para atualizar a tarefa')
-  }
+  resetTodoForm() // Restaura o estado inicial do formulário de tarefas
 }
