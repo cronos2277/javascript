@@ -9,6 +9,8 @@
 
 [4. Excluido Registro](#delete)
 
+[5. Permissões no Storage](#permissões-no-storage)
+
 ## Criando no console
 **Inicialmente você vai no menu e clica em `Storage`, e você verá algo assim:**
 
@@ -395,3 +397,125 @@ Para que tudo funcione, você precisa colocar esse script no seu html `<script s
     }).catch(function(error) {
         // Uh-oh, um erro ocorreu!
     });
+
+## Permissões no Storage
+
+![storage](.img/storage_1.png)
+
+**No Storage você pode manipular regras de como que deve ser feito o upload de arquivos, [segue a documentação](https://firebase.google.com/docs/storage/security?hl=pt-br).**
+
+>Saber quem são seus usuários é uma parte importante da criação de um app. Com o Firebase Authentication, você tem uma solução específica no lado do cliente para autenticação, fácil de usar e segura. As regras de segurança do Firebase para Cloud Storage estão vinculadas ao Authentication para definir a segurança baseada no usuário. Quando um usuário é autenticado com o Firebase Authentication, a variável `request.auth` nas regras de segurança do Storage se torna um objeto que contém o ID exclusivo do usuário `(request.auth.uid)` e as demais informações do usuário no token `(request.auth.token)`. Quando o usuário não é autenticado, request.auth é null. Isso permite que você controle o acesso aos dados de maneira segura para cada usuário.
+
+>As regras de segurança do Firebase para Cloud Storage se integram ao Firebase Authentication para fornecer autenticação poderosa com base no usuário para o Cloud Storage. Isso permite o controle de acesso granular com base em declarações de um token do Firebase Authentication. Quando um usuário autenticado realiza uma solicitação no Cloud Storage, a variável request.auth é preenchida com o uid do usuário ( `request.auth.uid` ), bem como as declarações do Firebase Authentication JWT ( `request.auth.token` ). Além disso, ao usar a autenticação personalizada, declarações adicionais são apresentadas no campo `request.auth.token`. Quando um usuário não autenticado executa uma solicitação, a variável `request.auth é null`.
+
+**Usando esses dados, existem várias maneiras comuns de usar a autenticação para proteger arquivos:**
+
+>Público: ignore request.auth
+
+>Privado autenticado: verifique se request.auth não é null
+
+>Usuário privado: verifique se request.auth.uid é igual a um caminho uid
+
+>Grupo privado: verifique as declarações do token personalizado para corresponder a uma declaração escolhida ou leia os metadados do arquivo para ver se existe um campo de metadados
+
+### Público
+>Qualquer regra que não considere o contexto `request.auth` pode ser considerada uma regra `public` , uma vez que não considera o contexto de autenticação do usuário. Essas regras podem ser úteis para revelar dados públicos, como ativos de jogos, arquivos de som ou outro conteúdo estático.
+
+    // Qualquer um para ler uma imagem pública se o arquivo for menor que 100kB
+    // Qualquer pessoa pode fazer upload de um arquivo público que termina em '.txt'
+    match /public/{imageId} {
+        allow read: if resource.size < 100 * 1024;
+        allow write: if imageId.matches(".*\\.txt");
+    }
+
+### Privado autenticado
+>Em certos casos, você pode desejar que os dados possam ser visualizados por todos os usuários autenticados de seu aplicativo, mas não por usuários não autenticados. Como a variável `request.auth` é `null` para todos os usuários não autenticados, tudo o que você precisa fazer é verificar se a variável `request.auth` existe para exigir autenticação:
+
+    // Exigir autenticação em todas as leituras internas de imagens
+    match /internal/{imageId} {
+      allow read: if request.auth != null;
+    }
+
+### Usuário privado
+>De longe, o caso de uso mais comum para `request.auth` será fornecer a usuários individuais permissões granulares em seus arquivos: desde o upload de fotos de perfil até a leitura de documentos privados.
+
+>Como os arquivos no Cloud Storage têm um "caminho" completo para o arquivo, tudo o que é necessário para tornar um arquivo controlado por um usuário é um pedaço de informação única de identificação do usuário no prefixo do nome do arquivo (como o uid do usuário) que pode ser verificado quando a regra é avaliada:
+
+    //Apenas um usuário pode carregar sua foto de perfil, mas qualquer um pode ver
+    match /users/{userId}/profilePicture.png {
+      allow read;
+      allow write: if request.auth.uid == userId;
+    }
+
+### Grupo Privado
+>Outro caso de uso igualmente comum será permitir permissões de grupo em um objeto, como permitir que vários membros da equipe colaborem em um documento compartilhado. Existem várias abordagens para fazer isso:
+
+>**Mint um token personalizado do Firebase Authentication que contém informações adicionais sobre um membro do grupo (como um ID de grupo)**
+
+>**Incluir informações de grupo (como um ID de grupo ou lista de uid s autorizados) nos metadados do arquivo**
+
+>**Depois que esses dados são armazenados no token ou nos metadados do arquivo, eles podem ser referenciados a partir de uma regra:**
+
+    // Permitir leituras se o ID do grupo no seu token corresponde à propriedade do proprietário do 'proprietário do arquivo de metadados
+    // Permitir gravações se o ID do grupo estiver no token personalizado do usuário
+    match /files/{groupId}/{fileName} {
+      allow read: if resource.metadata.owner == request.auth.token.groupId;
+      allow write: if request.auth.token.groupId == groupId;
+    }
+
+### Solicitar Avaliação
+>Uploads, downloads, alterações de metadados e exclusões são avaliados usando a `request` enviada ao Cloud Storage. Além do ID exclusivo do usuário e da carga útil do Firebase Authentication no objeto `request.auth` conforme descrito acima, a variável de `request` contém o caminho do arquivo onde a solicitação está sendo realizada, a hora em que a solicitação é recebida e o novo valor do resource se o pedido é uma escrita. Cabeçalhos HTTP e estado de autenticação também estão incluídos.
+
+>O objeto de request também contém o ID exclusivo do usuário e a carga útil do Firebase Authentication no objeto `request.auth`.
+
+<table border="2px">
+    <thead style="background-color:black;color:white">
+        <th>Propriedade</th>
+        <th>Modelo</th>
+        <th>Descrição</th>
+    </thead>
+    <tbody>
+        <tr>
+            <th>auth</th>
+            <th>map < string,string > </th>
+            <th>Quando um usuário está conectado, fornece uid, a ID exclusiva do usuário, e token, um mapa de declarações JWT do Firebase Authentication. Caso contrário, será null.</th>
+        </tr>
+        <tr>
+            <th>params</th>
+            <th>map < string, string ></th>
+            <th>Mapa contendo os parâmetros de consulta da solicitação.</th>
+        </tr>
+        <tr>
+            <th>path</th>
+            <th>caminho</th>
+            <th>Um path representa o caminho em que a solicitação está sendo executada.</th>
+        </tr>
+        <tr>
+            <th>resource</th>
+            <th>map < string, string ></th>
+            <th>O novo valor do recurso, presente apenas em solicitações de write.</th>
+        </tr>
+        <tr>
+            <th>time</th>
+            <th>carimbo de data / hora</th>
+            <th>Um carimbo de data / hora que representa a hora do servidor em que a solicitação é avaliada.</th>
+        </tr>
+    </tbody>
+</table>
+
+### Exemplo Prático
+
+    rules_version = '2';
+    service firebase.storage {
+        match /b/{bucket}/o {
+            match /todoListFiles/{uid}/{allPaths=**} {
+            allow read: if request.auth.uid == uid;
+            allow write: if request.auth.uid == uid
+                    && request.resource.size <= 1024 * 1024 * 2
+                && request.resource.contentType.matches('image/.*');
+            allow delete: if request.auth.uid == uid;
+            }
+        }
+    }
+
+sendo a rota `match /todoListFiles/{uid}/{allPaths=**}`, que é basicamente aonde está qualquer recurso, na leitura você precisa apenas estar autenticado e o seu `uid` deve bater com o que está na *url* `allow read: if request.auth.uid == uid;`, porém para a escrita `allow write: if request.auth.uid == uid && request.resource.size <= 1024 * 1024 * 2 && request.resource.contentType.matches('image/.*');` você tem mais duas condições, a primeira é que o arquivo seja menor de dois megabyte `request.resource.size <= 1024 * 1024 * 2`, e segundo, precisa ser uma imagem `request.resource.contentType.matches('image/.*');`, e as regras de exclusão se assemelha a leitura, ou seja você precisa estar logado e o conteúdo precisa condizar com `uid`: `allow delete: if request.auth.uid == uid;`.
