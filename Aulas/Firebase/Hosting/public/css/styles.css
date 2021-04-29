@@ -47,10 +47,6 @@ button {
   outline: none;
 }
 
-button#logOut{
-  background-color:black;
-}
-
 button:hover {
   opacity: 0.75;
   cursor: pointer;
@@ -64,27 +60,59 @@ p {
   background-color: #44c;
 }
 
-#loading{
+.danger {
+  background-color: #c44;
+}
+
+#loading {
   position: absolute;
-  top:calc(50% - 100px);
+  top: calc(50% - 100px);
   left: calc(50% - 100px);
   z-index: 1;
 }
 
-#auth img{
+#auth img {
   cursor: pointer;
   margin: 4px;
 }
 
 #auth img:hover {
-  opacity: 0.75;  
+  opacity: 0.75;
 }
 
-#userImg{
+#userImg {
   height: 40px;
   border-radius: 100%;
 }
 
-.danger{
-  background-color: red;
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 8px;
+}
+
+li:hover {
+  background-color: #ddd;
+  border-radius: 8px;
+}
+
+.todoBtn {
+  float: right;
+  margin: 0 0 0 4px;
+  position: relative;
+  bottom: 3px;
+}
+
+.imgTodo{
+  height: 20px;
+  margin-right: 4px;
+  border-radius: 4px;
+}
+
+span{
+  position: relative;
+  bottom: 3px;
 }

@@ -1,90 +1,142 @@
-// Defindo referências para elementos da página
-var authForm = document.getElementById('authForm');
-var authFormTitle = document.getElementById('authFormTitle');
-var register = document.getElementById('register');
-var access = document.getElementById('access');
-var loading = document.getElementById('loading');
-var auth = document.getElementById('auth');
-var userContent = document.getElementById('userContent');
-var userEmail = document.getElementById('userEmail');
-var sendEmailVerificationDiv = document.getElementById('sendEmailVerificationDiv');
-var emailVerified = document.getElementById('emailVerified');
-var passwordReset = document.getElementById('passwordReset');
-var userImg = document.getElementById('userImg');
-var userName = document.getElementById('userName');
+// Definindo referências para elementos da página
+var authForm = document.getElementById('authForm')
+var authFormTitle = document.getElementById('authFormTitle')
+var register = document.getElementById('register')
+var access = document.getElementById('access')
+var loading = document.getElementById('loading')
+var auth = document.getElementById('auth')
+var userContent = document.getElementById('userContent')
+var userEmail = document.getElementById('userEmail')
+var sendEmailVerificationDiv = document.getElementById('sendEmailVerificationDiv')
+var emailVerified = document.getElementById('emailVerified')
+var passwordReset = document.getElementById('passwordReset')
+var userName = document.getElementById('userName')
+var userImg = document.getElementById('userImg')
 
+var todoForm = document.getElementById('todoForm')
+var todoCount = document.getElementById('todoCount')
+var ulTodoList = document.getElementById('ulTodoList')
+
+var search = document.getElementById('search')
+var progressFeedBack = document.getElementById('progressFeedBack')
+var progress = document.getElementById('progress')
+var playPauseBtn = document.getElementById('playPauseBtn')
+var cancelBtn = document.getElementById('cancelBtn')
+
+var cancelUpdateTodo = document.getElementById('cancelUpdateTodo')
+var todoFormTitle = document.getElementById('todoFormTitle')
 
 // Alterar o formulário de autenticação para o cadastro de novas contas
 function toggleToRegister() {
-  authForm.submitAuthForm.innerHTML = 'Cadastrar conta';
-  authFormTitle.innerHTML = 'Insira seus dados para se cadastrar';
-  hideItem(register);
-  hideItem(passwordReset);
-  showItem(access);
+  authForm.submitAuthForm.innerHTML = 'Cadastrar conta'
+  authFormTitle.innerHTML = 'Insira seus dados para se cadastrar'
+  hideItem(register) // Esconder atalho para cadastrar conta
+  hideItem(passwordReset) // Esconder a opção de redefinição de senha
+  showItem(access) // Mostrar atalho para acessar conta
 }
 
 // Alterar o formulário de autenticação para o acesso de contas já existentes
 function toggleToAccess() {
-  authForm.submitAuthForm.innerHTML = 'Acessar';
-  authFormTitle.innerHTML = 'Acesse a sua conta para continuar';
-  hideItem(access);
-  showItem(register);
-  showItem(passwordReset);
+  authForm.submitAuthForm.innerHTML = 'Acessar'
+  authFormTitle.innerHTML = 'Acesse a sua conta para continuar'
+  hideItem(access) // Esconder atalho para acessar conta
+  showItem(passwordReset) // Mostrar a opção de redefinição de senha
+  showItem(register) // Mostrar atalho para cadastrar conta
 }
 
-// Simpplifica a exibição de elementos da página
+// Simplifica a exibição de elementos da página
 function showItem(element) {
-  element.style.display = 'block';
+  element.style.display = 'block'
 }
 
-// Simpplifica a remoção de elementos da página
+// Simplifica a remoção de elementos da página
 function hideItem(element) {
-  element.style.display = 'none';
+  element.style.display = 'none'
 }
 
-//Mostrar elementos para usuários autenticados.
-function showUserContent(user){
-  if(user?.providerData[0]?.providerId != "password"){
-    hideItem(sendEmailVerificationDiv);
-    emailVerified.innerText = "Verificado por provedor confiável!";
-  }else{
-    if(user.emailVerified){
-      hideItem(sendEmailVerificationDiv);
-      emailVerified.innerText = "E-mail Verificado!";
-    }else{
-      emailVerified.innerText = "E-mail não veficado";
-      showItem(sendEmailVerificationDiv);
+// Mostrar conteúdo para usuários autenticados
+function showUserContent(user) {
+  console.log(user)
+  if (user.providerData[0].providerId != 'password') {
+    emailVerified.innerHTML = 'Autenticação por provedor confiável, não é necessário verificar e-mail'
+    hideItem(sendEmailVerificationDiv)
+  } else {
+    if (user.emailVerified) {
+      emailVerified.innerHTML = 'E-mail verificado'
+      hideItem(sendEmailVerificationDiv)
+    } else {
+      emailVerified.innerHTML = 'E-mail não verificado'
+      showItem(sendEmailVerificationDiv)
     }
   }
   
-  userImg.src = user.photoURL ? user.photoURL : 'img/unknownUser.png';
-  userName.innerText = user.displayName;
-  userEmail.innerText = user.email;
-  hideItem(auth);
-  showItem(userContent);
+  userImg.src = user.photoURL ? user.photoURL : 'img/unknownUser.png'
+  userName.innerHTML = user.displayName
+  userEmail.innerHTML = user.email
+  hideItem(auth)
+
+  getDefaultTodoList()
+  search.onkeyup = function() {
+    if (search.value != '') {
+      var searchText = search.value.toLowerCase()
+      dbRefUsers.child(user.uid)
+      .orderByChild('nameLowerCase') // Ordena as tarefas pelo nome da tarefa
+      .startAt(searchText).endAt(searchText + '\uf8ff') // Delimita os resultados de pesquisa
+      .once('value').then(function (dataSnapshot) { // Busca tarefas filtradas somente uma vez (once)
+        fillTodoList(dataSnapshot)
+      })
+    } else {
+      getDefaultTodoList()
+    }
+  }
+
+  showItem(userContent)
 }
 
-//Mostra conteúdos para usuários não autenticados
-function showAuth(){
-  hideItem(userContent);
-  showItem(auth);
+// Busca tarefas em tempo real (listagem padrão usando o on)
+function getDefaultTodoList() {
+  dbRefUsers.child(firebase.auth().currentUser.uid)
+  .orderByChild('nameLowerCase') // Ordena as tarefas pelo nome da tarefa
+  .on('value', function (dataSnapshot) {
+    fillTodoList(dataSnapshot)
+  })
 }
 
-//utils configuração extra para emails
-var actionCodeSettings = {
-  url:"https://todolist-e74af.firebaseapp.com"
+// Mostrar conteúdo para usuários não autenticados
+function showAuth() {
+  authForm.email.value = ''
+  authForm.password.value = ''
+  hideItem(userContent)
+  showItem(auth)
 }
 
-//Centralizar e traduzir erros.
-function showError(prefix,error){
-  console.log(error.code);
-  hideItem(loading);
-  switch(error.code){
-    case "auth/invalid-email":alert(prefix +" "+"E-mail inválido!");break;
-    case "auth/wrong-password":alert(prefix +" "+"Senha inválida!");break;
-    case "auth/weak-password":alert(prefix +" "+"Senha precisa ter pelo menos 6 caracteres!");break;
-    case "auth/email-already-in-use":alert(prefix +" "+"Essa conta já foi cadastrada!");break;
-    case "auth/popup-closed-by-user":alert(prefix +" "+"O popup de autenticação foi fechado antes de concluir a operação!");break;
-    default:alert(prefix +" "+ error.message);
+// centralizar e traduzir erros
+function showError(prefix, error) {
+  console.log(error.code)
+  hideItem(loading)
+
+  switch (error.code) {
+    case 'auth/invalid-email': alert(prefix + ' ' + 'E-mail inválido!')
+    break;
+    case 'auth/wrong-password': alert(prefix + ' ' + 'Senha inválida!')
+    break;
+    case 'auth/weak-password': alert(prefix + ' ' + 'Senha deve ter ao menos 6 caracteres!')
+    break;
+    case 'auth/email-already-in-use': alert(prefix + ' ' + 'E-mail já está em uso por outra conta!')
+    break;
+    case 'auth/popup-closed-by-user': alert(prefix + ' ' + 'O popup de autenticação foi fechado antes da operação ser concluída!')
+    break;   
+    case 'storage/canceled': alert(prefix + ' ' + 'O upload foi cancelado pelo usuário')
+    break;    
+    case 'storage/unauthorizaed': alert('Falha ao acessar o Cloud Storage!');  
+    default: alert(prefix + ' ' + error.message)
   }
 }
+
+// Atributos extras de configuração de e-mail
+var actionCodeSettings = {
+  url: 'https://todolist-e74af.firebaseapp.com'
+}
+
+var database = firebase.database()
+var dbRefUsers = database.ref('users')
