@@ -2,12 +2,18 @@
 >O Cloud Firestore é o novo banco de dados do Firebase. Ele seria uma evolução em relação ao Realtime database, permitindo consultas mais complexas e trazendo melhorias de escalabilidade. Assim como o Realtime Database, ele é um banco de dados NoSQL na nuvem que possibilita a sincronização de dados em tempo real no formato JSON, mas nesse caso, é um NoSQL do tipo documentos e, dessa forma, possibilitando uma estruturação dos dados através de coleções e documentos.
 
 [Documentação](https://firebase.google.com/docs/firestore)
+
+[Acessar dados off-line](https://firebase.google.com/docs/firestore/manage-data/enable-offline?hl=pt-br)
 ## Indices
 [1. Instalação](#setup)
 
 [2. Inserindo dados](#adicionando-dados)
 
-[3. Buscando dados]()
+[3. Buscando dados](#buscando-dados)
+
+[4. Excluindo dados](#excluindo-dados)
+
+[5. Alterando dados](#alterando-dados)
 
 ## Setup
 
@@ -120,7 +126,6 @@ A grande diferença do `add` para o `set`, é que no *set* você deve definir um
 ![col2](.img/colecao_2.png)
 
 [Documentação](https://firebase.google.com/docs/firestore/data-model)
-
 ### doc
 >No Cloud Firestore, a unidade de armazenamento é o documento. Um documento é um registro leve que contém campos, que são mapeados para valores. Cada documento é identificado por um nome. Um documento que representa um usuário alovelace pode ser assim:
 
@@ -182,3 +187,44 @@ Esse método busca uma coleção, você informa o nome da coleção que deseja b
 >Os nomes dos documentos dentro de uma coleção são únicos. Forneça suas próprias chaves, como IDs de usuário, ou permita que o Cloud Firestore crie automaticamente IDs aleatórios para você.
 
 >Não é preciso "criar" ou "excluir" coleções. Depois de criar o primeiro documento em uma coleção, ela passa a existir. Se você excluir todos os documentos em uma coleção, ela deixará de existir.
+
+### onSnapshot
+[Documentação](https://firebase.google.com/docs/firestore/query-data/listen?hl=pt-br)
+
+>É possível detectar um documento com o método onSnapshot(). Uma chamada inicial usando o retorno de chamada fornecido cria imediatamente um snapshot do documento com o conteúdo atual do documento único. Depois, sempre que o conteúdo muda, outra chamada atualiza o snapshot do documento.
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('tarefas').onSnapshot(e => e.forEach(f => console.log(f.data())));
+![col3](./.img/colecao_3.png)
+
+### get
+[Documentação](https://firebase.google.com/docs/firestore/query-data/get-data?hl=pt-br)
+
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('tarefas').doc('43iDslqos0eUOWuColb4').get().then(d => console.log(d.data()))
+
+**Usando o método `get` você consegue pegar um registo no firestore, repare que a estrutura segue igual, porém no caso ele retorna um objeto, ou seja ele retorna o valor armazenado na nuvem em forma de objeto javascript, nesse trecho de código `.get().then(d => console.log(d.data()))`. No caso ele vai resgatar os dados de `43iDslqos0eUOWuColb4`.**
+
+![col4](.img/colecao_4.png)
+
+## Excluindo dados
+[Documentação para exclusão](https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=pt-br)
+###### Exemplo envolvendo exclusão, com base nesse projeto
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('tarefas').doc('6cJmU4k0BZK5hJiwfnib').delete()
+
+O método acima retorna uma promise, ou seja é perfeitamente possível encadear um `then` ou um `catch`, para iniciar a exclusão você acerta o *PATH* e ao final engata um *delete*, o delete não passa um parametro para o `then`, caso de tudo certo e passa um objeto de erro quando ocorre algo para dar um `catch`.
+
+>Quando você exclui um documento, o Cloud Firestore não remove automaticamente os documentos nas subcoleções dele. Ainda é possível acessar os documentos da subcoleção para fins de consulta. Por exemplo, é possível acessar o documento no caminho /mycoll/mydoc/mysubcoll/mysubdoc, mesmo se você excluir o documento ancestral em /mycoll/mydoc.
+
+>Os documentos ancestrais inexistentes são exibidos no console, mas não aparecem nos resultados de consulta e snapshots.
+
+>Se quiser excluir um documento e todos os que estão contidos nas subcoleções dele, você precisará fazer isso manualmente.
+
+## Alterando dados
+[Documentação](https://firebase.google.com/docs/firestore/manage-data/transactions?hl=pt-br)
+###### Exemplo envolvendo atualização com update
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('tarefas').doc('ZjUnI2iD4euAdS8rVY6R').update({name:'look'})
+###### Exemplo envolvendo atualização com set
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('tarefas').doc('pk4ETDz4kmVe1RJxJdbf').set({name1:'look1'})
+### update
+Para se alterar você pode usar o `update`, no caso o `update` faz a atualização **SEM** mudar a estrutura, nesse exemplo acima, se existir um campo *name*, ele simplesmente substitui o valor do campo *name*, caso não exista, é criado um novo campo chamado *name* e com esse valor informado nessa promise.
+
+### set
+O set faz a atualização alterando a estrutura, no caso o objeto armazenado no servidor é **substituido** pelo objeto passado, no caso, independente do valor que tenha em `pk4ETDz4kmVe1RJxJdbf`, uma vez executada essa *promise* a estrutura do dado passa a ser exatamente essa `{name1:'look1'}`, ou seja o `set` vai no sentido de alterar a estrutura do dado também. Pode ser útil tanto para alterar, como para adicionar, conforme [visto aqui](#método-set).
