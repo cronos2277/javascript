@@ -7,6 +7,8 @@
 
 [2. Inserindo dados](#adicionando-dados)
 
+[3. Buscando dados]()
+
 ## Setup
 
 **Para começar você deve clicar na opção `Firestore Database` e depois clicar no botão `Criar banco de dados`, conforme ilustrado abaixo:**
@@ -111,3 +113,72 @@ A grande diferença do `add` para o `set`, é que no *set* você deve definir um
 ![col1](./.img/colecao_1.png)
 
 **Nesse exemplo acima, ao qual a imagem corresponde ao resultado da promise acima, é usado o `.doc` para a definição de id.**
+
+## Buscando dados
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('tarefas').onSnapshot(e => e.forEach(f => console.log(f.data())))
+**Será exibido no console esse path**
+![col2](.img/colecao_2.png)
+
+[Documentação](https://firebase.google.com/docs/firestore/data-model)
+
+### doc
+>No Cloud Firestore, a unidade de armazenamento é o documento. Um documento é um registro leve que contém campos, que são mapeados para valores. Cada documento é identificado por um nome. Um documento que representa um usuário alovelace pode ser assim:
+
+<ul style="border:2px solid #CCC;background-color:#DDD;border-radius:5px;">
+    <li>first : "Ada"</li>
+    <li>last : "Lovelace"</li>
+    <li>born : 1815</li>
+</ul>
+
+<p style="color:purple;font-size:12px"><strong>Observação:</strong> o Cloud Firestore é compatível com vários tipos de dados de valores: booleano, número, string, ponto geográfico, blob binário e carimbo de data/hora. Use arrays ou objetos aninhados, chamados mapas, para estruturar dados em um documento.</p>
+
+>Objetos complexos e aninhados em um documento são chamados de mapas. Por exemplo, é possível estruturar o nome do usuário do exemplo acima com um mapa, como este:
+
+<ul style="border:2px solid #CCC;background-color:#DDD;border-radius:5px;">
+    <li>
+        alovelace
+    </li>
+    <ul>
+        <li>name :</li>
+        <ul>
+            <li>first : "Ada"</li>
+            <li>last : "Lovelace"</li>
+        </ul>
+        <li>born : 1815</li>
+    </ul>
+</ul>
+
+>Observe que os documentos parecem muito com documentos JSON. Na verdade, basicamente eles são. Há algumas diferenças, por exemplo, os documentos são compatíveis com tipos de dados extras e têm o tamanho limitado a 1 MB, no entanto, geralmente eles podem ser tratados como registros JSON leves.
+
+### collection
+Esse método busca uma coleção, você informa o nome da coleção que deseja buscar. [Documentação](https://firebase.google.com/docs/firestore/data-model#collections).
+
+>Os documentos pertencem a coleções, que são simplesmente recipientes para documentos. Por exemplo, é possível ter uma coleção users para conter seus vários usuários, cada um representado por um documento:
+
+<ul style="border:2px solid #CCC;background-color:#DDD;border-radius:5px;">
+    <h3>Usuários</h3>
+    <li>
+        alovelace
+        <ul>
+            <li>first : "Ada"</li>
+            <li>last : "Lovelace"</li>
+            <li>born : 1815</li>
+        </ul>
+    </li>
+    <li>
+        aturing
+        <ul>
+            <li>first : "Alan"</li>
+            <li>last : "Turing"</li>
+            <li>born : 1912</li>
+        </ul>
+    </li>
+</ul>
+
+>O Cloud Firestore não usa esquemas. Portanto, você tem total liberdade sobre quais os campos colocar em cada documento e que tipos de dados armazenar nesses campos. Os documentos dentro da mesma coleção podem conter diferentes campos ou armazenar diferentes tipos de dados nesses campos. No entanto, é recomendável usar os mesmos campos e tipos de dados em vários documentos para que seja possível consultar os documentos com mais facilidade.
+
+>Uma coleção não contém nada além de documentos. Não pode conter diretamente campos brutos com valores e não pode conter outras coleções. (Consulte [Dados hierárquicos](https://firebase.google.com/docs/firestore/data-model#hierarchical-data) para saber mais sobre como estruturar dados complexos no Cloud Firestore.)
+
+>Os nomes dos documentos dentro de uma coleção são únicos. Forneça suas próprias chaves, como IDs de usuário, ou permita que o Cloud Firestore crie automaticamente IDs aleatórios para você.
+
+>Não é preciso "criar" ou "excluir" coleções. Depois de criar o primeiro documento em uma coleção, ela passa a existir. Se você excluir todos os documentos em uma coleção, ela deixará de existir.
