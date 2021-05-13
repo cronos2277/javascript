@@ -81,6 +81,12 @@ Ou seja esse método é útil quando você quer adicionar um novo registro com u
         console.error("Erro ao adicionar documento: ", error);
     });
 
+#### Método add na prática
+    firebase.firestore().collection("users").add({campo:1,campo2:2})
+
+![col0](.img/colecao_0.png)
+
+Nesse caso foi criado com o seguinte *id*:`ResPJDvYlCqFSTXGiuR2`, ou seja diferente do documento com o id de `1`, esse foi criado de maneira dinâmica. 
 ### Método set
 >Ao usar set() para criar um documento, você precisa especificar um ID para ele.
     ...
@@ -98,3 +104,10 @@ Ou seja esse método é útil quando você quer adicionar um novo registro com u
     });
 
 A grande diferença do `add` para o `set`, é que no *set* você deve definir um *uid* manualmente no método doc, conforme visto aqui `.doc("new-city-id")`, ao passo que o `add` gerencia isso sozinho o `set`, exija que você o faça, manualmente, o que pode ser útil caso você queira definir um identificador único de maneira manual, no caso do `set` você usa o `doc` no encadeamento antes do `set`, para que possar ser definido o id de maneira manual.
+
+### Usando .doc
+    firebase.firestore().collection("users").doc('1').set({c:1})
+
+![col1](./.img/colecao_1.png)
+
+**Nesse exemplo acima, ao qual a imagem corresponde ao resultado da promise acima, é usado o `.doc` para a definição de id.**
