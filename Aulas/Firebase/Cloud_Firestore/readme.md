@@ -228,3 +228,23 @@ Para se alterar você pode usar o `update`, no caso o `update` faz a atualizaç�
 
 ### set
 O set faz a atualização alterando a estrutura, no caso o objeto armazenado no servidor é **substituido** pelo objeto passado, no caso, independente do valor que tenha em `pk4ETDz4kmVe1RJxJdbf`, uma vez executada essa *promise* a estrutura do dado passa a ser exatamente essa `{name1:'look1'}`, ou seja o `set` vai no sentido de alterar a estrutura do dado também. Pode ser útil tanto para alterar, como para adicionar, conforme [visto aqui](#método-set).
+
+## Regras de segurança
+
+![security](.img/security.png)
+
+    rules_version = '2';
+    service cloud.firestore {
+        match /databases/{database}/documents {
+            match /users/{uid}/{document=**} {
+            allow read, delete: if request.auth.uid == uid;
+            allow create, update: if request.auth.uid == uid
+                    && request.resource.data.name is string
+                && request.resource.data.name.size() <= 30
+                && request.resource.data.nameLowerCase is string
+                && request.resource.data.nameLowerCase.size() <= 30;
+            }
+        }
+    }
+
+Com relação a regras de segurança, vale o mesmo para os outros serviço do firestore. [Documentação](https://firebase.google.com/docs/rules?authuser=0)
